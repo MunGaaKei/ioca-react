@@ -1,6 +1,6 @@
 {
 	"name": "@ioca/react",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -10,6 +10,9 @@
 		"lib": "tsc && npx rollup -c"
 	},
 	"dependencies": {
+		"@ricons/material": "^0.12.0",
+		"radash": "^12.1.0",
+		"classnames": "^2.5.1",
 		"ahooks": "^3.8.1",
 		"dayjs": "^1.11.13",
 		"pubsub-js": "^1.9.5",
@@ -20,7 +23,6 @@
 		"react-router-dom": "^6.28.0"
 	},
 	"devDependencies": {
-		"@ricons/material": "^0.12.0",
 		"@rollup/plugin-node-resolve": "^15.3.0",
 		"@rollup/plugin-terser": "^0.4.4",
 		"@rollup/plugin-typescript": "^12.1.1",
@@ -30,10 +32,8 @@
 		"@types/react": "18.2.52",
 		"@types/react-dom": "^18.3.1",
 		"@vitejs/plugin-react": "^4.3.3",
-		"classnames": "^2.5.1",
 		"mockjs": "^1.1.0",
 		"path": "^0.12.7",
-		"radash": "^12.1.0",
 		"react-syntax-highlighter": "^15.6.1",
 		"rollup": "^4.28.0",
 		"rollup-plugin-dts": "^6.1.1",
@@ -44,11 +44,12 @@
 		"vite": "^6.0.2",
 		"vite-plugin-dynamic-import": "^1.6.0"
 	},
-	"main": "lib/index.js",
-	"module": "lib/index.js",
-	"types": "lib/index.d.ts",
+	"main": "./lib/index.js",
+	"module": "./lib/index.js",
+	"types": "./lib/index.d.ts",
 	"exports": {
 		".": {
+			"default": "./lib/index.js",
 			"import": "./lib/index.js",
 			"types": "./lib/index.d.ts"
 		},
