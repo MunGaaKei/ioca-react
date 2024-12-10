@@ -1,66 +1,84 @@
 {
-	"name": "@ioca/react",
-	"version": "1.0.1",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
-		"preview": "vite preview",
-		"make": "node templates/index.js",
-		"lib": "tsc && npx rollup -c"
-	},
-	"dependencies": {
-		"ahooks": "^3.8.1",
-		"dayjs": "^1.11.13",
-		"pubsub-js": "^1.9.5",
-		"rc-virtual-list": "^3.15.0",
-		"react": "^18.3.1",
-		"react-custom-scrollbars-2": "^4.5.0",
-		"react-dom": "^18.3.1",
-		"react-router-dom": "^6.28.0"
-	},
-	"devDependencies": {
-		"@ricons/material": "^0.12.0",
-		"@rollup/plugin-node-resolve": "^15.3.0",
-		"@rollup/plugin-terser": "^0.4.4",
-		"@rollup/plugin-typescript": "^12.1.1",
-		"@types/mockjs": "^1.0.10",
-		"@types/node": "^22.10.1",
-		"@types/pubsub-js": "^1.8.5",
-		"@types/react": "18.2.52",
-		"@types/react-dom": "^18.3.1",
-		"@vitejs/plugin-react": "^4.3.3",
-		"classnames": "^2.5.1",
-		"mockjs": "^1.1.0",
-		"path": "^0.12.7",
-		"radash": "^12.1.0",
-		"react-syntax-highlighter": "^15.6.1",
-		"rollup": "^4.28.0",
-		"rollup-plugin-dts": "^6.1.1",
-		"rollup-plugin-peer-deps-external": "^2.2.4",
-		"rollup-plugin-scss": "^4.0.0",
-		"sass": "^1.18.0",
-		"typescript": "^5.7.2",
-		"vite": "^6.0.2",
-		"vite-plugin-dynamic-import": "^1.6.0"
-	},
-	"main": "lib/index.js",
-	"module": "lib/index.js",
-	"types": "lib/index.d.ts",
-	"exports": {
-		".": {
-			"import": "./lib/index.js",
-			"types": "./lib/index.d.ts"
-		},
-		"./index.css": {
-			"import": "./lib/css/index.css"
-		}
-	},
-	"files": [
-		"lib"
-	],
-	"publishConfig": {
-		"access": "public"
-	},
-	"license": "MIT"
+  "name": "@ioca/react",
+  "version": "1.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "make": "node templates/index.js",
+    "lib": "tsc && npx rollup -c"
+  },
+  "dependencies": {
+    "ahooks": "^3.8.1",
+    "dayjs": "^1.11.13",
+    "pubsub-js": "^1.9.5",
+    "rc-virtual-list": "^3.15.0",
+    "react": "^18.3.1",
+    "react-custom-scrollbars-2": "^4.5.0",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@ricons/material": "^0.12.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@types/mockjs": "^1.0.10",
+    "@types/node": "^22.10.1",
+    "@types/pubsub-js": "^1.8.5",
+    "@types/react": "18.2.52",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "classnames": "^2.5.1",
+    "mockjs": "^1.1.0",
+    "path": "^0.12.7",
+    "radash": "^12.1.0",
+    "react-syntax-highlighter": "^15.6.1",
+    "rollup": "^4.28.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-scss": "^4.0.0",
+    "sass": "^1.18.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.2",
+    "vite-plugin-dynamic-import": "^1.6.0"
+  },
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./index.css": {
+      "import": "./lib/css/index.css"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "description": "<p align=\"center\">\r     <a href=\"https://www.npmjs.org/package/@ioca/react\">\r         <img src=\"https://img.shields.io/npm/v/@ioca/react.svg\">\r     </a>\r </p>",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MunGaaKei/ioca-react.git"
+  },
+  "keywords": [
+    "ioca",
+    "react",
+    "ui"
+  ],
+  "author": "iannman",
+  "bugs": {
+    "url": "https://github.com/MunGaaKei/ioca-react/issues"
+  },
+  "homepage": "https://github.com/MunGaaKei/ioca-react#readme"
 }
