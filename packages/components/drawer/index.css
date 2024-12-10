@@ -1,0 +1,71 @@
+.i-backdrop-drawer {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	pointer-events: none;
+	background: var(--color-backdrop);
+	backdrop-filter: blur(8px);
+	transition: var(--transition);
+	opacity: 0;
+	display: flex;
+	&.i-active {
+		opacity: 1;
+		pointer-events: unset;
+	}
+}
+
+.i-drawer {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	max-height: 100%;
+	overflow: auto;
+	box-shadow: var(--shadow);
+	transition: var(--transition);
+	background: var(--background-1);
+	backdrop-filter: var(--blur);
+}
+.i-drawer-left {
+	inset: 0 auto 0 0;
+	transform: translate3d(-100%, 0, 0);
+}
+.i-drawer-top {
+	inset: 0 0 auto;
+	transform: translate3d(0, -100%, 0);
+}
+.i-drawer-right {
+	inset: 0 0 0 auto;
+	transform: translate3d(100%, 0, 0);
+}
+.i-drawer-bottom {
+	inset: auto 0 0;
+	transform: translate3d(0, 100%, 0);
+}
+.i-active > .i-drawer {
+	opacity: 1;
+	transform: none;
+	pointer-events: unset;
+}
+
+.i-drawer-header,
+.i-drawer-footer {
+	display: flex;
+	align-items: center;
+	padding: 12px;
+	&:empty {
+		display: none;
+	}
+}
+
+.i-drawer-content {
+	flex: 1;
+	overflow-x: hidden;
+}
+
+.i-drawer-close {
+	margin: 0 0 0 auto;
+	display: flex;
+	align-self: flex-start;
+	border-radius: var(--radius);
+}

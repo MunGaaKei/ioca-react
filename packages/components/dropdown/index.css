@@ -1,0 +1,9 @@
+.i-dropdown-content {
+	display: flex;
+	flex-direction: column;
+	max-height: 40vh;
+	padding: 8px;
+	gap: 2px;
+	overflow-x: hidden;
+	border-radius: inherit;
+}

@@ -1,0 +1,31 @@
+.i-card {
+	--card-padding: 0.625em;
+	display: flex;
+	flex-direction: column;
+	background: var(--background-opacity-2);
+	backdrop-filter: var(--blur);
+	border-radius: var(--radius);
+}
+.i-card-bordered {
+	border: 1px solid var(--color-8);
+}
+
+.i-card-header {
+	display: flex;
+	align-items: flex-start;
+	padding: var(--card-padding);
+	gap: 0.25em;
+}
+
+.i-card-content {
+	flex: 1;
+	padding: var(--card-padding);
+}
+
+.i-card-footer {
+	margin-top: auto;
+	display: flex;
+	align-items: center;
+	padding: var(--card-padding);
+	gap: 0.25em;
+}

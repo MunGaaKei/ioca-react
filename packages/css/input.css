@@ -1,0 +1,132 @@
+.i-input-label {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	align-content: flex-start;
+	gap: 0.5em;
+	width: 100%;
+	&:has(.i-input-success) {
+		--color: var(--green);
+	}
+	&:has(.i-input-warning) {
+		--color: var(--yellow);
+	}
+	&:has(.i-input-error) {
+		--color: var(--error);
+	}
+}
+.i-input-inline {
+	.i-input-item,
+	.i-radio-options {
+		flex: 1 1 auto;
+	}
+}
+
+.i-input-label-text {
+	flex: 0 0 var(--label-width);
+	border-radius: inherit;
+	font-weight: 500;
+	transition: all 0.12s;
+}
+
+.i-input-item {
+	flex: 1 1 100%;
+	display: flex;
+	align-items: baseline;
+	transition: var(--transition);
+	border-radius: var(--radius);
+	border: 2px solid var(--color-9);
+	max-width: 100%;
+	.i-btn {
+		align-self: stretch;
+	}
+	&:hover,
+	&:focus-within,
+	&.i-input-focus {
+		border-color: var(--color-8);
+	}
+	&.i-input-success {
+		border-color: var(--green-0);
+	}
+	&.i-input-warning {
+		border-color: var(--yellow-0);
+	}
+	&.i-input-error {
+		border-color: var(--error-0);
+	}
+}
+.i-input-borderless {
+	border-color: transparent;
+	background: var(--background-opacity-2);
+}
+
+.i-input {
+	padding: var(--padding);
+	flex: 1;
+	width: 100%;
+	color: inherit;
+	outline: none;
+	transition: var(--transition);
+	background: transparent;
+	border-radius: inherit;
+
+	&[type="number"]::-webkit-inner-spin-button,
+	&[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+	}
+	&[readonly] {
+		caret-color: transparent;
+	}
+	&:disabled {
+		background: var(--background-opacity-1);
+		cursor: not-allowed;
+	}
+}
+
+.i-input-message {
+	flex: 1 1 100%;
+	z-index: 1;
+	font-size: 0.8em;
+	color: var(--color);
+	border-radius: var(--radius);
+	pointer-events: none;
+}
+
+.i-textarea {
+	display: block;
+	transition: var(--transition), width 0s, height 0s;
+	max-width: 100%;
+	min-height: 2.5em;
+}
+
+.i-input-prepend,
+.i-input-append {
+	display: flex;
+	align-self: stretch;
+	place-items: center;
+	.i-btn {
+		border-radius: inherit;
+		height: unset;
+	}
+}
+.i-input-prepend {
+	border-top-left-radius: inherit;
+	border-bottom-left-radius: inherit;
+}
+.i-input-append {
+	border-top-right-radius: inherit;
+	border-bottom-right-radius: inherit;
+}
+
+.i-options-block {
+	& > .i-checkbox-item,
+	& > .i-radio-item {
+		flex: 1 1 100%;
+	}
+}
+
+.i-input-number {
+	text-align: center;
+	padding: var(--padding);
+	padding-inline: 0;
+}

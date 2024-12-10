@@ -1,0 +1,237 @@
+@use "sass:color";
+@use "sass:string";
+@use "sass:list";
+
+$colors: (
+	"white-0": white,
+	"white-1": whitesmoke,
+	"white-2": #ebebeb,
+	"white": white,
+	"black-0": #dbdbdb,
+	"black-1": #212121,
+	"black-2": #313131,
+	"black": black,
+	"red-0": #fcdfe4,
+	"red-1": #dc143c,
+	"red-2": #ee4063,
+	"red": #dc143c,
+	"blue-0": #d6ebff,
+	"blue-1": #007cf4,
+	"blue-2": #47a4ff,
+	"blue": #1e90ff,
+	"green-0": #e7fff2,
+	"green-1": #37a467,
+	"green-2": #53c586,
+	"green": #3cb371,
+	"yellow-0": #fffae5,
+	"yellow-1": #ffb820,
+	"yellow-2": #ffd272,
+	"yellow": #ffc549,
+	"brown-0": #fbece2,
+	"brown-1": #8b3a07,
+	"brown-2": #6d2e07,
+	"brown": #95410c,
+	"grey-0": #f6f6f6,
+	"grey-1": #b1b1b1,
+	"grey-2": #9c9c9c,
+	"grey": #d7d7d7,
+	"pink-0": #ffe3f1,
+	"pink-1": #ff55aa,
+	"pink-2": #ff92c8,
+	"pink": #ff69b4,
+	"purple-0": #eddefb,
+	"purple-1": #751bc9,
+	"purple-2": #a861e9,
+	"purple": #8a2be2,
+	"aqua-0": #e8ffff,
+	"aqua-1": #1efdfd,
+	"aqua-2": #0ae0e0,
+	"aqua": aqua,
+	"orange-0": #fff1e8,
+	"orange-1": #eb7521,
+	"orange-2": #e66a12,
+	"orange": #fb812a,
+	"warning-0": #fff0bf,
+	"warning-1": #e4b415,
+	"warning-2": #d8a707,
+	"warning": #f3c327,
+	"error-0": #ffdbdb,
+	"error-1": #f13636,
+	"error-2": #db1e1e,
+	"error": #ff4545,
+	"success-0": #acf899,
+	"success-1": #2fb10e,
+	"success-2": #2cb809,
+	"success": #38be17,
+);
+
+:root {
+	--background: #fff;
+	--background-1: #f1f1f1;
+	--background-opacity: #ffffffa6;
+	--background-opacity-1: #e9e9e999;
+	--background-opacity-2: #f1f1f1a6;
+
+	--color: #212121;
+	--color-main: #444;
+	--color-main-0: #f1f1f1;
+	--color-main-1: #313131;
+	--color-main-reverse: #fafafa;
+
+	--color-backdrop: rgba(0, 0, 0, 0.25);
+	--dim: rgba(0, 0, 0, 0.15);
+
+	.color-main {
+		color: var(--color-main);
+	}
+	.bg-main {
+		background: var(--color-main);
+		color: var(--color-main-reverse);
+	}
+	@for $i from 1 to 10 {
+		--color-#{$i}: #{color.adjust(#000, $lightness: (10.5% * $i))};
+		.color-#{$i} {
+			--color: var(--color-#{$i});
+			color: var(--color);
+		}
+		.bg-#{$i} {
+			--background: var(--color-#{$i});
+			background: var(--background);
+			@if ($i < 5) {
+				color: var(--white);
+			}
+		}
+		.opacity-#{$i} {
+			opacity: #{calc($i/10)};
+		}
+	}
+
+	@each $name, $value in $colors {
+		$number: string.slice($name, -1);
+		$enhanced: string.index(("012"), $number);
+		$lightColors: ("white", "grey", "yellow", "aqua");
+		$isLightColor: list.index($lightColors, $name);
+
+		--#{$name}: #{$value};
+
+		.bg-#{$name} {
+			--background: var(--#{$name});
+			background: var(--#{$name});
+			color: var(--color);
+
+			@if $isLightColor {
+				--color: var(--black);
+				--color-hover: var(--black);
+			} @else {
+				--color: var(--white);
+				--color-hover: var(--white);
+			}
+
+			@if $number == "0" {
+				$sourceColor: string.slice($name, 0, -3);
+				$hoverColor: string.slice($name, 0, -3);
+				--color: var(--#{$sourceColor});
+				&:hover {
+					--background-hover: var(--#{$hoverColor});
+					@if $number == "0" and $isLightColor == null {
+						--color-hover: var(--white);
+					}
+				}
+			}
+
+			@if $enhanced == null {
+				&:hover {
+					--background-hover: var(--#{$name}-1);
+				}
+			}
+			&.i-btn:hover {
+				background: var(--background-hover);
+				color: var(--color-hover);
+			}
+		}
+	}
+
+	@each $name, $value in $colors {
+		$number: string.slice($name, -1);
+		$enhanced: string.index(("012"), $number);
+
+		.#{$name} {
+			--color: var(--#{$name});
+
+			@if $enhanced == null {
+				--background-hover: var(--#{$name}-0);
+				--color-hover: var(--#{$name});
+			}
+
+			color: var(--color);
+		}
+	}
+}
+
+.bg-slight {
+	background-color: var(--color-9);
+	color: var(--black);
+}
+.slight {
+	color: var(--color-8);
+}
+
+@mixin themeDark() {
+	--background: #313131;
+	--background-1: #3a3a3a;
+	--background-opacity: #313131a6;
+	--background-opacity-1: #313131aa;
+	--background-opacity-2: #2a2a2aca;
+
+	--color: #fff;
+	--color-main: #6cc73b;
+	--color-main-0: #313d2b;
+	--color-main-1: #69d62f;
+	--color-main-2: #53b320;
+	--color-main-reverse: #212121;
+
+	--dim: rgba(0, 0, 0, 0.25);
+	--shadow: 0px 4px 12px var(--dim);
+
+	background: var(--background);
+	color: var(--color);
+
+	@for $i from 1 to 10 {
+		--color-#{$i}: #{color.adjust(#fff, $lightness: (-8.5% * $i))};
+		.color-#{$i} {
+			@if ($i < 5) {
+				color: var(--black);
+			}
+		}
+	}
+
+	.bg-slight {
+		color: var(--white);
+	}
+
+	--white-0: #595959;
+	--black-0: #6d6d6d;
+	--red-0: #4d3232;
+	--yellow-0: #4b421f;
+	--green-0: #114911;
+	--aqua-0: #1e3d3d;
+	--blue-0: #2d4467;
+	--pink-0: #5d2f37;
+	--brown-0: #3b2d2d;
+	--orange-0: #473514;
+	--purple-0: #372337;
+	--grey-0: #414141;
+	--warning-0: #4b3e13;
+	--error-0: #533535;
+	--success-0: #123b08;
+}
+
+.theme-dark {
+	@include themeDark();
+}
+
+@media (prefers-color-scheme: dark) {
+	.theme-auto {
+		@include themeDark();
+	}
+}

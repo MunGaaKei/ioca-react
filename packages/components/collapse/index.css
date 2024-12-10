@@ -1,0 +1,54 @@
+.i-collapse {
+	border-radius: var(--radius);
+}
+.i-collapse-bordered {
+	border: 1px solid var(--color-8);
+
+	.i-collapse-item + .i-collapse-item {
+		border-top: 1px solid var(--color-8);
+	}
+}
+.i-collapse-item {
+	border-radius: var(--radius);
+}
+.i-collapse-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.5em;
+	transition: var(--transition);
+	font-weight: 500;
+	border-radius: var(--radius);
+	&:hover {
+		background-color: var(--background-opacity-1);
+	}
+}
+.i-collapse-toggle {
+	margin: 0;
+	display: flex;
+	user-select: none;
+}
+.i-collapse-content {
+	padding: 0 0.5em;
+	height: 0;
+	overflow: hidden;
+	transition: var(--transition);
+	border-radius: var(--radius);
+}
+.i-collapse-active > .i-collapse-header,
+.i-collapse-header:hover {
+	opacity: 1;
+}
+.i-collapse-active > .i-collapse-content {
+	padding: 0.5em;
+	height: unset;
+}
+.i-collapse-disabled {
+	pointer-events: none;
+	opacity: 0.4;
+	> .i-collapse-content {
+		padding: 0 0.5em;
+		height: 0;
+		overflow: hidden;
+	}
+}

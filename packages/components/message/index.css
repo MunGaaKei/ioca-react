@@ -1,0 +1,28 @@
+.i-messages {
+	position: fixed;
+	inset: 12px;
+	pointer-events: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	z-index: 10000;
+	transition: var(--transition);
+	cursor: default;
+}
+
+.i-message {
+	position: absolute;
+	padding: var(--padding);
+	pointer-events: all;
+	opacity: 0;
+	transition: var(--transition);
+	transform: translate(80px, 0) scale(0.86) skew(-40deg);
+	background: var(--background-opacity);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+	backdrop-filter: var(--blur);
+	&.i-message-active {
+		opacity: 1;
+		transform: translate(0, 0);
+	}
+}

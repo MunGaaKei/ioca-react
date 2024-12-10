@@ -1,0 +1,48 @@
+.i-pagination {
+	display: flex;
+	align-items: center;
+	gap: 0.2em;
+}
+
+.i-page {
+	--background: transparent;
+	--color: var(--color-7);
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 0.32em;
+	height: 2.25em;
+	min-width: 2.25em;
+	border-radius: var(--radius);
+	border: 2px solid transparent;
+	transition: var(--transition);
+	user-select: none;
+	cursor: pointer;
+	white-space: nowrap;
+	outline: none;
+	color: var(--color);
+	background: var(--background);
+	.i-ripple-container {
+		inset: -2px;
+	}
+	.i-loading-container {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background: var(--background-opacity);
+		backdrop-filter: var(--blur);
+	}
+	&:hover {
+		--background: var(--background-opacity-1);
+	}
+	&.i-page-active {
+		--background: var(--color-main-0);
+		--color: var(--color-main);
+		cursor: default;
+	}
+	&.i-page-loading {
+		--background: unset;
+		cursor: default;
+	}
+}

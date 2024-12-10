@@ -1,0 +1,30 @@
+.demo-code {
+	position: relative;
+	border-radius: var(--radius);
+	tab-size: 1em;
+	flex: 1;
+	border: 1px solid var(--color-9);
+	overflow: hidden;
+	font-family: consolas;
+	code {
+		background: unset;
+	}
+}
+.demo-code-collapsed {
+	.demo-code-actions {
+		position: static;
+		justify-content: flex-end;
+		background: var(--color-9);
+	}
+}
+.demo-code-actions {
+	position: absolute;
+	z-index: 10;
+	padding: 4px;
+	right: 0;
+	top: 0;
+	gap: 4px;
+	display: flex;
+	align-items: center;
+	transition: var(--transition);
+}

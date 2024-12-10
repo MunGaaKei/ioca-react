@@ -1,0 +1,52 @@
+.i-progress {
+	flex: 1 1 100%;
+	position: relative;
+	display: flex;
+	background: var(--background-opacity-2);
+	border-radius: var(--radius);
+	cursor: pointer;
+}
+
+.i-progress-bar {
+	position: relative;
+	width: 100%;
+	background: var(--color-main);
+	border-radius: var(--radius);
+	transform-origin: left;
+	transition: var(--transition);
+}
+
+.i-progress-cursor {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	display: flex;
+	min-height: 120%;
+	min-width: 1em;
+	transform: translate(50%, -50%) scale(0);
+	transition: var(--transition);
+	border-radius: inherit;
+	box-shadow: var(--shadow);
+	user-select: none;
+	overflow: hidden;
+}
+
+.i-progress:hover .i-progress-cursor,
+.no-transition > .i-progress-cursor {
+	transform: translate(50%, -50%) scale(1);
+}
+
+.i-progress-circle {
+	position: relative;
+}
+.i-progress-circle-path {
+	transition: var(--transition);
+	border-radius: 50px;
+}
+.i-progress-circle-value {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 1.5em;
+}

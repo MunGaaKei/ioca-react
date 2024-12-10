@@ -1,0 +1,25 @@
+.i-list {
+	overflow: auto;
+}
+
+.i-list-item {
+	display: flex;
+	gap: 0.5em;
+	padding: 0.32em 0.4em;
+	transition: var(--transition);
+	border-radius: var(--radius);
+}
+
+.i-list-option {
+	position: relative;
+	cursor: pointer;
+	user-select: none;
+	white-space: nowrap;
+	&:hover {
+		background-color: var(--background-opacity-1);
+	}
+}
+
+.i-list-item-label {
+	align-self: flex-start;
+}

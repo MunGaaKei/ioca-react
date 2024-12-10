@@ -1,0 +1,6 @@
+.i-empty {
+	margin: auto;
+	width: 3em;
+	height: 3em;
+	color: var(--color-7);
+}

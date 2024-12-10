@@ -1,0 +1,82 @@
+.i-tree {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	color: var(--color-2);
+}
+.i-tree-group-title {
+	position: relative;
+	font-size: 1em;
+	display: flex;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 0.9em;
+	&:after {
+		content: "\20";
+		margin-left: 0.5em;
+		flex: 1;
+		height: 1px;
+		align-self: center;
+		background: var(--color-8);
+	}
+}
+.i-tree-item-header {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 0.25em;
+	padding: 0.4em;
+	user-select: none;
+	border-radius: var(--radius);
+	overflow: hidden;
+	color: var(--color-6);
+	&.i-tree-item-round {
+		border-radius: 100px;
+	}
+	&.i-tree-item-selected,
+	&:hover {
+		background: var(--color-main-0);
+		color: var(--color-main);
+	}
+}
+
+.i-tree-round {
+	--radius: 100px;
+}
+
+.i-tree-item-icon {
+	display: flex;
+}
+.i-tree-checkbox {
+	align-self: center;
+}
+
+.i-tree-toggle {
+	margin-left: auto;
+	transition: var(--transition);
+	border-radius: inherit;
+	color: var(--color-6);
+	&:hover {
+		color: var(--color-3);
+		background: var(--background-opacity);
+	}
+}
+.i-tree-item-content {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+}
+.i-tree-expand {
+	> .i-tree-item-content {
+		transition: max-height 0.25s cubic-bezier(1, 0, 1, 0);
+		max-height: 2000px;
+	}
+	> .i-tree-item-header {
+		color: var(--color-main);
+		opacity: 1;
+
+		> .i-tree-toggle {
+			transform: rotateX(180deg);
+		}
+	}
+}

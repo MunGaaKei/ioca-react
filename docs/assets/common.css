@@ -1,0 +1,19 @@
+@font-face {
+	font-family: "varela";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("./varela.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "jaini";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("./Jaini-Regular.ttf");
+}
+
+html body {
+	font-family: "varela";
+}

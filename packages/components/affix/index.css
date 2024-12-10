@@ -1,0 +1,14 @@
+.i-affix {
+	position: fixed;
+	z-index: 50;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+	transition: var(--transition);
+}
+
+.i-affix-hidden {
+	.i-affix-totop {
+		opacity: 0;
+	}
+}

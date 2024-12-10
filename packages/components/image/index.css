@@ -1,0 +1,28 @@
+.i-image {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	border-radius: var(--radius);
+	overflow: hidden;
+	vertical-align: middle;
+	background: var(--background-opacity);
+	backdrop-filter: var(--blur);
+	.i-loading-container {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background: var(--background-opacity);
+		backdrop-filter: var(--blur);
+	}
+}
+
+.i-image-text {
+	position: absolute;
+	inset: 0;
+	padding: 0.5em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

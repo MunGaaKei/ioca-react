@@ -1,0 +1,19 @@
+.i-helpericon {
+	position: relative;
+	margin: 0.25em;
+	padding: 0.125em;
+	min-height: 1.675em;
+	min-width: 1.675em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	color: var(--color-7);
+	transition: var(--transition);
+	border-radius: var(--radius);
+	font-size: 0.8em;
+	&:hover {
+		color: var(--color-3);
+		background: var(--background-opacity-1);
+	}
+}

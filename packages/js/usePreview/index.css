@@ -1,0 +1,55 @@
+.i-preview {
+	padding: 0;
+	.i-modal {
+		position: static;
+		background: transparent;
+		overflow: unset;
+		transform: none;
+		pointer-events: none;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.i-preview-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.i-preview-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	transition: var(--transition);
+	pointer-events: none;
+	* {
+		pointer-events: all;
+	}
+}
+
+.i-preview-controls {
+	position: fixed;
+	z-index: 10;
+	right: 0.5em;
+	top: 0.5em;
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	gap: 1px;
+	background: var(--background-opacity);
+	border-radius: var(--radius);
+	font-size: 0.9em;
+	pointer-events: all;
+}
+
+.i-preview-unknown {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0.5em 1em;
+	background: var(--background);
+	border-radius: var(--radius);
+}

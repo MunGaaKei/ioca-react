@@ -1,0 +1,119 @@
+.i-input-label-file {
+	display: inline-flex;
+	width: unset;
+	&:has(.i-upload-list:empty) {
+		align-items: center;
+	}
+}
+
+.i-input-file-hidden {
+	display: none;
+}
+
+.i-upload-inner {
+	flex: 1;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+}
+.i-upload-card {
+	&:has(.i-upload-list:not(:empty)) {
+		align-self: flex-start;
+	}
+	.i-upload-list {
+		display: contents;
+	}
+}
+
+.i-upload-list {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	gap: inherit;
+	&:empty {
+		display: none;
+	}
+}
+
+.i-upload-btn {
+	align-self: center;
+}
+.i-upload-card-btn {
+	border-style: dashed;
+	width: var(--upload-card-size);
+	height: var(--upload-card-size);
+	opacity: 0.6;
+	font-size: 1em;
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.i-upload-item {
+	display: inline-flex;
+	align-items: center;
+	gap: inherit;
+	padding: 0.5em;
+	border: 2px solid var(--background-opacity-1);
+	border-radius: var(--radius);
+	background: var(--background-opacity);
+	transition: var(--transition);
+	.i-upload-delete {
+		margin: 0 0 0 auto;
+	}
+	&:hover {
+		background: var(--background-opacity-1);
+		.i-upload-delete {
+			color: var(--error);
+			background: var(--background-opacity);
+		}
+	}
+}
+
+.i-upload-item-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25em;
+	width: var(--upload-card-size);
+	height: var(--upload-card-size);
+	border-radius: var(--radius);
+	overflow: hidden;
+	background: var(--background-opacity-1);
+	.i-image,
+	video {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.i-upload-file-name {
+		max-width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		font-size: 0.8em;
+		padding-inline: 4px;
+	}
+	.i-upload-delete {
+		opacity: 0;
+		margin: 0;
+		position: absolute;
+		right: 4px;
+		top: 4px;
+		background-color: var(--error);
+		color: #fff;
+	}
+	&:hover {
+		.i-upload-delete {
+			opacity: 1;
+		}
+	}
+}
+
+.i-upload-size {
+	font-size: 0.8em;
+	align-self: flex-end;
+	color: var(--color-6);
+}

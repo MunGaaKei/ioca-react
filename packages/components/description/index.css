@@ -1,0 +1,21 @@
+.i-description {
+	display: grid;
+}
+
+.i-description-item {
+	display: flex;
+	gap: 0.5em;
+}
+.i-description-item-vertical {
+	flex-direction: column;
+}
+
+.i-description-label {
+	flex-shrink: 0;
+	width: var(--description-label-width);
+	color: var(--color-5);
+}
+
+.i-description-value {
+	flex: 1;
+}

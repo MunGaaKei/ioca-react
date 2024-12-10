@@ -1,0 +1,20 @@
+.i-ripple-container {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	border-radius: inherit;
+	contain: strict;
+}
+.i-ripple {
+	position: absolute;
+	background: var(--color);
+	opacity: 0.15;
+	transform: translate(-50%, -50%) scale(0.25);
+	transform-origin: 50%;
+	border-radius: 50%;
+}
+.i-ripple-active {
+	opacity: 0;
+	transform: translate(-50%, -50%) scale(1);
+}

@@ -1,0 +1,129 @@
+.i-btn {
+	--background: var(--color-main);
+	--background-hover: var(--color-main-1);
+	--color: var(--color-main-reverse);
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5em;
+	padding: 0 0.6em;
+	height: 2.25em;
+	border-radius: var(--radius);
+	border: 2px solid transparent;
+	transition: var(--transition);
+	user-select: none;
+	cursor: pointer;
+	white-space: nowrap;
+	outline: none;
+	font-weight: 500;
+	font-size: 0.94em;
+	background: var(--background);
+	color: var(--color);
+	line-height: 1;
+	flex-shrink: 0;
+	.i-ripple-container {
+		inset: -2px;
+	}
+}
+.i-btn-toggle {
+	overflow: hidden;
+}
+.i-btn-toggle-content {
+	display: inline-flex;
+	transform: scale(0.4);
+	&.i-btn-toggle-active {
+		transition: var(--transition);
+		transform: none;
+	}
+}
+.i-btn-block {
+	width: 100%;
+}
+.i-btn-large {
+	font-size: 1.25em;
+}
+.i-btn-extreme {
+	font-size: 2em;
+	height: 2em;
+}
+.i-btn-small {
+	height: 2em;
+	line-height: 2;
+	font-size: 0.86em;
+	padding: 0 0.4em;
+}
+.i-btn-square {
+	padding: 0;
+	width: 2.25em;
+	&.i-btn-extreme,
+	&.i-btn-small {
+		width: 2em;
+	}
+}
+.i-btn:hover {
+	--background: var(--background-hover);
+}
+.i-btn:active {
+	--background: var(--color-main);
+}
+.i-btn-secondary {
+	--background-hover: var(--color-8);
+	--background: var(--color-9);
+	--color: var(--color-1);
+}
+.i-btn-flat {
+	--background-hover: var(--color-9);
+	--color-main-reverse: var(--color);
+	--background: transparent;
+	--color: var(--color-1);
+}
+.i-btn-outline {
+	--background-hover: var(--color-main-0);
+	--color: var(--color-main);
+	&.i-btn {
+		--background: transparent;
+		border-color: var(--color);
+	}
+}
+.i-btn.i-btn-outline:hover,
+.i-btn.i-btn-secondary:hover,
+.i-btn.i-btn-flat:hover {
+	--background: var(--background-hover);
+}
+.i-btn-content {
+	display: contents;
+}
+
+.i-btn-loading {
+	opacity: 0.628;
+	cursor: default;
+}
+
+.i-btn-group-horizonal {
+	display: flex;
+	.i-btn {
+		&:not(:first-child) {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+		&:not(:last-child) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+}
+.i-btn-group-vertical {
+	display: flex;
+	flex-direction: column;
+	.i-btn {
+		&:not(:first-child) {
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
+		&:not(:last-child) {
+			border-bottom-right-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+	}
+}

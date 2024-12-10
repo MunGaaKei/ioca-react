@@ -1,0 +1,165 @@
+.i-datagrid-container {
+	border-radius: var(--radius);
+}
+.i-datagrid-loading {
+	overflow: hidden !important;
+	user-select: none;
+
+	.i-datagrid {
+		max-height: 100%;
+		max-width: 100%;
+	}
+	.i-loading-container {
+		position: absolute;
+		inset: 0;
+		z-index: 10;
+		background: var(--background-opacity);
+		backdrop-filter: blur(2px);
+	}
+}
+
+.i-datagrid {
+	display: grid;
+	contain: content;
+	content-visibility: auto;
+	width: fit-content;
+	grid-template-columns: var(--grid-template-columns);
+	grid-template-rows: var(--grid-template-rows);
+	min-width: 100%;
+	.i-empty {
+		margin: 1em auto;
+		grid-column: 1 / -1;
+	}
+}
+
+.i-datagrid-bordered {
+	--datagrid-border-color: var(--color-9);
+	outline: 1px solid var(--datagrid-border-color);
+	.i-datagrid-cell {
+		outline: 1px solid var(--datagrid-border-color);
+	}
+}
+
+.i-datagrid-striped {
+	.i-datagrid-row {
+		--datagrid-border-color: var(--color-8);
+		&:nth-child(odd) {
+			--datagrid-cell-background: var(--color-9);
+		}
+	}
+}
+
+.i-datagrid .i-datagrid-row {
+	--datagrid-cell-background: var(--background);
+
+	display: contents;
+	&:hover {
+		--datagrid-border-color: var(--color-8);
+		--datagrid-cell-background: var(--color-main-0);
+		.i-datagrid-cell {
+			z-index: 1;
+		}
+		[class*=" i-datagrid-cell-fixed"] {
+			z-index: 3;
+		}
+	}
+}
+
+.i-datagrid-cell {
+	position: sticky;
+	display: flex;
+	align-items: center;
+	justify-content: var(--datagrid-justify);
+	gap: 4px;
+	padding: 0.4em 0.5em;
+	background: var(--datagrid-cell-background);
+	transition: background-color 0.12s;
+	overflow: hidden;
+	&:first-child {
+		border-top-left-radius: var(--radius);
+		border-bottom-left-radius: var(--radius);
+	}
+	&:last-child {
+		border-top-right-radius: var(--radius);
+		border-bottom-right-radius: var(--radius);
+	}
+}
+[class*=" i-datagrid-cell-fixed"] {
+	z-index: 2;
+}
+.i-datagrid-cell-fixed-right {
+	box-shadow: -2px 0 4px var(--color-9);
+}
+.i-datagrid-cell-fixed-left {
+	box-shadow: 2px 0 4px var(--color-9);
+}
+.i-datagrid-cell-content {
+	min-width: 0;
+	flex: 1 1 auto;
+	display: inherit;
+	gap: inherit;
+	justify-content: inherit;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.i-datagrid-header {
+	.i-datagrid-cell {
+		--datagrid-cell-background: var(--background-opacity-2);
+		z-index: 3;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		line-height: 1;
+		user-select: none;
+		backdrop-filter: var(--blur);
+	}
+	[class*=" i-datagrid-cell-fixed"] {
+		z-index: 4;
+	}
+}
+
+.i-datagrid-resizor {
+	position: absolute;
+	inset: 0 0 0 auto;
+	width: 4px;
+	transition: 0.12s;
+	cursor: ew-resize;
+	&:hover {
+		background-color: var(--color-5);
+	}
+}
+
+.i-datagrid-has-sorter {
+	cursor: pointer;
+	&:hover {
+		--datagrid-cell-background: var(--color-8);
+	}
+}
+.i-datagrid-sorter {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	width: 0.8em;
+	overflow: hidden;
+	color: var(--color-7);
+}
+.i-datagrid-sorter-caret {
+	&:first-child {
+		margin-bottom: -0.4em;
+		transform: rotate(-90deg);
+	}
+	&:last-child {
+		transform: rotate(90deg);
+	}
+}
+.i-datagrid-sorter-asc {
+	.i-datagrid-sorter-caret:first-child {
+		color: var(--color-main);
+	}
+}
+.i-datagrid-sorter-desc {
+	.i-datagrid-sorter-caret:last-child {
+		color: var(--color-main);
+	}
+}
