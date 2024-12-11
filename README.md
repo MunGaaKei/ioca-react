@@ -10,6 +10,7 @@
 
 ```node
 npm install @ioca/react
+// yarn add @ioca/react
 ```
 
 ### Usage
@@ -18,7 +19,7 @@ npm install @ioca/react
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Button } from "@ioca/react";
-import "@ioca/react/css/index.css";
+import "@ioca/react/index.css";
 
 const App = () => <Button>Click Me</Button>;
 

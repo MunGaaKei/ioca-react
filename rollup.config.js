@@ -14,12 +14,9 @@ export default [
 			{
 				name,
 				dir: "lib",
-				format: "es",
+				format: "esm",
 				exports: "named",
 				sourcemap: true,
-				globals: {
-					react: "React",
-				},
 			},
 		],
 		external: [
@@ -30,25 +27,27 @@ export default [
 			"dayjs",
 			"pubsub-js",
 			"ahooks",
+			"rc-virtual-list",
+			"dayjs/plugin/customParseFormat",
 			/node_modules/,
 		],
 		plugins: [
 			resolve({
-				extensions: [".ts", ".tsx", ".scss", ".js"],
+				extensions: [".ts", ".tsx", ".scss"],
 			}),
-			typescript(),
-			external(),
 			scss({
 				fileName: "css/index.css",
 				sourceMap: true,
 				outputStyle: "compressed",
 			}),
+			typescript(),
+			external(),
 			terser(),
 		],
 	},
 	{
-		input: "./packages/types.ts",
-		output: [{ file: "lib/index.d.ts", format: "es" }],
+		input: "./packages/index.ts",
+		output: [{ file: "lib/types/index.d.ts" }],
 		plugins: [
 			dts(),
 			scss({

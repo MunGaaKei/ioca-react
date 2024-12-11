@@ -1,4 +1,6 @@
-import { HTMLAttributes, ReactNode, CSSProperties, ButtonHTMLAttributes, AnchorHTMLAttributes, ForwardRefExoticComponent, RefAttributes, ChangeEvent, InputHTMLAttributes, MouseEvent, TextareaHTMLAttributes, Ref } from 'react';
+import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
+import { HTMLAttributes, ReactNode, CSSProperties, ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, ChangeEvent, InputHTMLAttributes, MouseEvent, TextareaHTMLAttributes, FC, Ref } from 'react';
 import { LinkProps } from 'react-router-dom';
 import { Dayjs } from 'dayjs';
 import { ListProps } from 'rc-virtual-list';
@@ -13,6 +15,13 @@ interface IAffix extends HTMLAttributes<HTMLElement> {
     getContainer?: () => HTMLElement | null;
 }
 
+declare function ToTop(props: IAffix): react_jsx_runtime.JSX.Element;
+
+declare const Affix: {
+    (props: IAffix): JSX.Element;
+    ToTop: typeof ToTop;
+};
+
 interface IBadge {
     content?: ReactNode;
     contentClass?: string;
@@ -24,6 +33,12 @@ interface IBadge {
     style?: CSSProperties;
     children?: ReactNode;
 }
+
+declare const Badge: (props: IBadge) => JSX.Element;
+
+declare function Group(props: IButtonGroup): react_jsx_runtime.JSX.Element;
+
+declare function Toggle(props: IButtonToggle): react_jsx_runtime.JSX.Element;
 
 interface BaseButtonProps {
     as?: "a" | "button" | ForwardRefExoticComponent<LinkProps & RefAttributes<HTMLAnchorElement>>;
@@ -55,6 +70,12 @@ interface IButtonGroup {
     className?: string;
     style?: CSSProperties;
 }
+interface CompositionButton extends ForwardRefExoticComponent<IButton & RefAttributes<HTMLElement>> {
+    Toggle: typeof Toggle;
+    Group: typeof Group;
+}
+
+declare const Button: CompositionButton;
 
 interface ICard {
     shadow?: boolean;
@@ -63,6 +84,14 @@ interface ICard {
     className?: string;
     children?: ReactNode;
 }
+
+declare const Card: {
+    (props: ICard): JSX.Element;
+    Header: any;
+    Footer: any;
+    Banner: any;
+    Tailer: any;
+};
 
 type TStatus = "normal" | "success" | "warning" | "error";
 type TOption = {
@@ -104,6 +133,13 @@ interface ICheckboxItem extends Omit<InputHTMLAttributes<HTMLElement>, "value" |
     onChange?: (value: boolean, e: ChangeEvent<HTMLInputElement>) => void;
 }
 
+declare function CheckboxItem(props: ICheckboxItem): react_jsx_runtime.JSX.Element;
+
+declare function Checkbox(props: ICheckbox): react_jsx_runtime.JSX.Element;
+declare namespace Checkbox {
+    var Item: typeof CheckboxItem;
+}
+
 type TKey = string | number;
 interface ICollapse extends HTMLAttributes<HTMLDivElement> {
     active?: TKey | TKey[];
@@ -123,6 +159,13 @@ interface ICollapseItem {
     className?: string;
     style?: CSSProperties;
 }
+
+declare function Item$3(props: ICollapseItem): react_jsx_runtime.JSX.Element;
+
+declare const Collapse: {
+    (props: ICollapse): JSX.Element;
+    Item: typeof Item$3;
+};
 
 type IData$1 = Record<string, any>;
 interface IColumn {
@@ -160,6 +203,14 @@ interface IDatagrid {
     onResize?: (column?: IColumn, width?: number) => void;
 }
 
+declare const Datagrid: (props: IDatagrid) => JSX.Element;
+
+declare const Number$2: react.ForwardRefExoticComponent<IInputNumber & react.RefAttributes<HTMLInputElement>>;
+
+declare const Range: (props: IInputRange) => react_jsx_runtime.JSX.Element;
+
+declare const Textarea: react.ForwardRefExoticComponent<ITextarea & react.RefAttributes<HTMLTextAreaElement>>;
+
 interface IInput extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "defaultValue" | "onChange"> {
     prepend?: ReactNode;
     append?: ReactNode;
@@ -192,6 +243,11 @@ interface IInputRange extends Omit<BaseInput, "value" | "onChange">, Omit<InputH
     hideControl?: boolean;
     onChange?: (value: (number | string | undefined)[], e?: ChangeEvent<HTMLInputElement> | MouseEvent<Element>) => void;
 }
+type CompositionInput = ForwardRefExoticComponent<IInput & RefAttributes<HTMLInputElement>> & {
+    Textarea: typeof Textarea;
+    Number: typeof Number$2;
+    Range: typeof Range;
+};
 
 interface IPopup {
     visible?: boolean;
@@ -234,6 +290,8 @@ interface IBaseDates {
     disabledDate?: (date: Dayjs) => boolean;
 }
 
+declare const Datepicker: (props: IDatePicker) => JSX.Element;
+
 type IData = {
     label: ReactNode;
     value: ReactNode;
@@ -256,6 +314,8 @@ interface IDescription {
     className?: string;
 }
 
+declare const Description: (props: IDescription) => JSX.Element;
+
 interface IDrawer extends HTMLAttributes<HTMLDivElement> {
     visible?: boolean;
     position?: "top" | "left" | "right" | "bottom";
@@ -266,6 +326,8 @@ interface IDrawer extends HTMLAttributes<HTMLDivElement> {
     onVisibleChange?: (visible: boolean) => void;
     onClose?: () => void;
 }
+
+declare function Drawer(props: IDrawer): react.ReactPortal;
 
 interface IList extends HTMLAttributes<HTMLUListElement> {
     label?: ReactNode | ((i: number) => ReactNode);
@@ -289,6 +351,11 @@ interface IDropItem extends IListItem {
     moreProps?: IDropdown;
 }
 
+declare const Dropdown: {
+    (props: IDropdown): JSX.Element;
+    Item: (props: IDropItem) => react_jsx_runtime.JSX.Element;
+};
+
 interface IFlex {
     as?: keyof JSX.IntrinsicElements;
     align?: string;
@@ -301,6 +368,8 @@ interface IFlex {
     className?: string;
     children?: ReactNode;
 }
+
+declare const Flex: (props: IFlex) => JSX.Element;
 
 declare class IFormInstance {
     readonly id?: string;
@@ -316,6 +385,7 @@ declare class IFormInstance {
         [key: string]: any;
     }>;
 }
+declare function useForm(form?: IFormInstance): IFormInstance;
 
 type TValidator = (value: any, form: IFormInstance) => boolean;
 type TRule = {
@@ -336,6 +406,14 @@ interface IField {
     required?: boolean;
 }
 
+declare function Field(props: IField): react.ReactNode;
+
+declare const Form: {
+    (props: IForm): JSX.Element;
+    useForm: typeof useForm;
+    Field: typeof Field;
+};
+
 interface IIcon extends HTMLAttributes<HTMLElement> {
     icon: ReactNode;
     size?: string;
@@ -343,6 +421,10 @@ interface IIcon extends HTMLAttributes<HTMLElement> {
     style?: CSSProperties;
     className?: string;
 }
+
+declare const Icon: react.ForwardRefExoticComponent<IIcon & react.RefAttributes<HTMLElement>>;
+
+declare function List$1(props: IImageList): react_jsx_runtime.JSX.Element | "";
 
 interface IImage extends HTMLAttributes<HTMLImageElement> {
     src?: string;
@@ -362,12 +444,27 @@ interface IImageList extends Omit<IImage, "src" | "alt"> {
     wrap?: any;
     direction?: any;
 }
+interface CompositionImage extends FC<IImage> {
+    List: typeof List$1;
+}
+
+declare const _default$2: CompositionImage;
+
+declare const Input: CompositionInput;
+
+declare const List: {
+    (props: IList): JSX.Element;
+    Virtual: (props: IVirtual) => react_jsx_runtime.JSX.Element;
+    Item: react.ForwardRefExoticComponent<IListItem & react.RefAttributes<HTMLLIElement>>;
+};
 
 interface ILoading extends HTMLAttributes<HTMLDivElement> {
     icon?: ReactNode;
     text?: ReactNode;
     size?: number | string;
 }
+
+declare const Loading: (props: ILoading) => JSX.Element;
 
 interface IMessage {
     id?: string;
@@ -385,14 +482,13 @@ interface IMessage {
     onShow?: () => void;
     onHide?: () => void;
 }
-interface IMessageItem {
-    active?: boolean;
-    content?: ReactNode;
-    top?: number;
-    className?: string;
-    style?: CSSProperties;
-    onClick?: (e: MouseEvent<Element>) => void;
-}
+
+declare function message(config: IMessage | ReactNode): () => void;
+
+declare function useModal(): {
+    open: (props: IModal) => void;
+    update: (props: IModal) => void;
+};
 
 interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
     visible?: boolean;
@@ -414,9 +510,11 @@ interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
     onOk?: () => void;
     onClose?: () => void;
 }
-interface RefHookModal {
-    update: (props: IModal) => void;
+interface CompositionModal extends FC<IModal> {
+    useModal: typeof useModal;
 }
+
+declare const _default$1: CompositionModal;
 
 interface IPagination extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
     page?: number;
@@ -433,6 +531,8 @@ interface IPagination extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
     onChange?: (page: number) => Promise<void> | void;
 }
 
+declare const Pagination: (props: IPagination) => JSX.Element;
+
 interface IPopconfirm extends IPopup {
     icon?: ReactNode;
     okButtonProps?: IButton;
@@ -441,6 +541,10 @@ interface IPopconfirm extends IPopup {
     onOk?: () => Promise<void> | void;
     onClose?: () => Promise<void> | void;
 }
+
+declare const Popconfirm: (props: IPopconfirm) => JSX.Element;
+
+declare function Popup(props: IPopup): react_jsx_runtime.JSX.Element;
 
 interface IProgress extends Omit<BaseInput, "value" | "hideClear" | "onChange"> {
     name?: string;
@@ -457,6 +561,8 @@ interface IProgress extends Omit<BaseInput, "value" | "hideClear" | "onChange"> 
     onChange?: (value: number) => void;
 }
 
+declare const Progress: (props: IProgress) => JSX.Element;
+
 interface IRadioItem extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
     type?: "default" | "button";
     onChange?: (value: any, e: ChangeEvent) => void;
@@ -468,6 +574,13 @@ interface IRadio extends IRadioItem {
     labelInline?: boolean;
     status?: TStatus;
     message?: string;
+}
+
+declare function RadioItem(props: IRadioItem): react_jsx_runtime.JSX.Element;
+
+declare function Radio(props: IRadio): react_jsx_runtime.JSX.Element;
+declare namespace Radio {
+    var Item: typeof RadioItem;
 }
 
 interface ISelect extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onSelect" | "onChange">, BaseInput {
@@ -485,11 +598,8 @@ interface ISelect extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | 
     onSelect?: (v: any, option?: TOption) => void;
     onChange?: (v: any) => void;
 }
-interface ISelectOptions extends Pick<ISelect, "multiple" | "empty" | "filter" | "filterPlaceholder" | "onSelect"> {
-    value: any;
-    options: TOption[];
-    onFilter?: (e: ChangeEvent<HTMLInputElement>) => void;
-}
+
+declare const Select: react.ForwardRefExoticComponent<ISelect & react.RefAttributes<HTMLInputElement>>;
 
 interface IStep {
     active?: number;
@@ -505,6 +615,15 @@ interface IStepItem extends IStep {
     index?: number;
     title?: ReactNode;
 }
+
+declare function Item$2(props: IStepItem): react_jsx_runtime.JSX.Element;
+
+declare const Step: {
+    (props: IStep): JSX.Element;
+    Item: typeof Item$2;
+};
+
+declare function Item$1(props: ISwiperItem): react_jsx_runtime.JSX.Element;
 
 interface ISwiper {
     initial?: number;
@@ -546,6 +665,13 @@ interface RefSwiper {
     swipeNext: () => void;
     swipePrev: () => void;
 }
+interface CompositionSwiper extends ForwardRefExoticComponent<ISwiper & RefAttributes<RefSwiper>> {
+    Item: typeof Item$1;
+}
+
+declare const Swiper: CompositionSwiper;
+
+declare const Item: (props: ITabItem) => react_jsx_runtime.JSX.Element;
 
 type TTabKey = string | number;
 interface ITabItem {
@@ -581,6 +707,11 @@ interface RefTabs {
     add: (tab: ITabItem, position?: number) => void;
     navs: Ref<HTMLDivElement>;
 }
+interface CompositionTabs extends ForwardRefExoticComponent<ITabs & RefAttributes<RefTabs>> {
+    Item: typeof Item;
+}
+
+declare const Tabs: CompositionTabs;
 
 interface ITag extends HTMLAttributes<HTMLSpanElement> {
     dot?: boolean;
@@ -591,6 +722,12 @@ interface ITag extends HTMLAttributes<HTMLSpanElement> {
     onClick?: (e: MouseEvent) => void;
     onClose?: (e: MouseEvent) => void;
 }
+
+declare const Tag: (props: ITag) => JSX.Element;
+
+declare function Number$1(props: ITextNumber): react_jsx_runtime.JSX.Element;
+
+declare function Number(props: ITextTime): react_jsx_runtime.JSX.Element;
 
 interface IText {
     as?: keyof JSX.IntrinsicElements;
@@ -615,6 +752,12 @@ interface ITextTime extends IText {
     zero?: boolean;
     units?: string[];
 }
+interface CompositionText extends FC<IText> {
+    Number: typeof Number$1;
+    Time: typeof Number;
+}
+
+declare const _default: CompositionText;
 
 interface ITreeItem {
     as?: "a" | "button" | ForwardRefExoticComponent<LinkProps & RefAttributes<HTMLAnchorElement>>;
@@ -659,6 +802,8 @@ interface RefTree {
     getPartofs: () => [string[], ITreeItem[]];
 }
 
+declare const Tree: react.ForwardRefExoticComponent<ITree & react.RefAttributes<RefTree>>;
+
 interface IUpload extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
     files?: IFile[];
     accept?: string;
@@ -681,13 +826,11 @@ interface IFile extends File {
     src?: string;
     [key: string]: any;
 }
-interface IUploadItem extends Pick<IUpload, "mode"> {
-    file?: IFile;
-    index: number;
-    status?: string;
-    onRemove: (i: number) => void;
-    onPreview?: (i: number) => void;
+interface RefUpload {
+    getFileList: () => IFile[];
 }
+
+declare const Upload: react.ForwardRefExoticComponent<IUpload & react.RefAttributes<RefUpload>>;
 
 interface IVideo extends HTMLAttributes<HTMLVideoElement> {
     src?: string;
@@ -702,6 +845,15 @@ interface IVideo extends HTMLAttributes<HTMLVideoElement> {
     volumeProgressProps?: IProgress;
     onFullScreenChange?: (fullscreen: boolean) => void;
 }
+interface RefVideo {
+    play: () => void;
+    pause: () => void;
+    stop: () => void;
+    fullscreen: (full?: boolean) => void;
+    getVideo: () => HTMLVideoElement | null;
+}
+
+declare const Video: react.ForwardRefExoticComponent<IVideo & react.RefAttributes<RefVideo>>;
 
 type TPreviewItem = {
     src: string;
@@ -738,4 +890,6 @@ interface IPreview {
     onRotate?: (deg: number) => void;
 }
 
-export type { IAffix, IBadge, IButton, IButtonGroup, IButtonToggle, ICard, ICheckbox, ICheckboxItem, ICollapse, ICollapseItem, IDatagrid, IDatePicker, IDescription, IDrawer, IDropItem, IDropdown, IField, IFlex, IForm, IIcon, IImage, IImageList, IInput, IInputNumber, IInputRange, IList, IListItem, ILoading, IMessage, IMessageItem, IModal, IPagination, IPopconfirm, IPopup, IPreview, IProgress, IRadio, IRadioItem, ISelect, ISelectOptions, IStep, IStepItem, ISwiper, ISwiperItem, ITabItem, ITabs, ITag, IText, ITextNumber, ITextTime, ITextarea, ITree, ITreeItem, IUpload, IUploadItem, IVideo, IVirtual, RefHookModal, RefSwiper, RefTabs, RefTree, TPreviewItem };
+declare function usePreview(): (config: IPreview) => void;
+
+export { Affix, Badge, Button, Card, Checkbox, Collapse, Datagrid, Datepicker, Description, Drawer, Dropdown, Flex, Form, Icon, _default$2 as Image, Input, List, Loading, message as Message, _default$1 as Modal, Pagination, Popconfirm, Popup, Progress, Radio, Select, Step, Swiper, Tabs, Tag, _default as Text, Tree, Upload, Video, usePreview };

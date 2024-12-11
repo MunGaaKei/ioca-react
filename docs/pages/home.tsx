@@ -2,7 +2,7 @@ import { Flex, Image, Text } from "@p";
 import { Link } from "react-router-dom";
 import { version } from "../../package.json";
 import "./css/home.css";
-import logo from "/logo.png";
+import logo from "/logo.jpg";
 
 export default function Home() {
 	const gradient = [
