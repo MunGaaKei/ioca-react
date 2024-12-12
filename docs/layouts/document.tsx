@@ -14,7 +14,7 @@ interface DProps {
 const DynamicPage = memo(
 	(props: DProps) => {
 		const { name } = props;
-		const Page = lazy(() => import(`../pages/${name}`));
+		const Page = lazy(() => import(`../pages/${name}/index.tsx`));
 
 		return (
 			<Suspense fallback={<Loading />}>
@@ -44,11 +44,10 @@ export default function Document(): JSX.Element {
 			<Area.Item>
 				<div className='flex flex-1 pr-8'>
 					<div
-						className='px-12 pt-80 mx-auto'
+						className='px-12 pt-60 mx-auto'
 						style={{
 							width: 1000,
 							maxWidth: "calc(100% - 42px)",
-							minWidth: 500,
 						}}
 					>
 						<DynamicPage name={name} />

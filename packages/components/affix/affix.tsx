@@ -28,32 +28,30 @@ const Affix = (props: IAffix): JSX.Element => {
 
 	const [hidden, setHidden] = useState<boolean>(false);
 
-	const hijackChildren = useMemo(
-		() =>
-			Children.map(children, (node: any) => {
-				if (node.type === ToTop) {
-					const { onClick } = node.props;
+	const hijackChildren = useMemo(() => {
+		return Children.map(children, (node: any) => {
+			if (node.type === ToTop) {
+				const { onClick } = node.props;
 
-					return cloneElement(node, {
-						key: node.key,
-						...node.props,
-						onClick: (e: MouseEvent) => {
-							const container = getContainer();
+				return cloneElement(node, {
+					key: node.key,
+					...node.props,
+					onClick: (e: MouseEvent) => {
+						const container = getContainer();
 
-							onClick?.(e);
-							container?.scrollTo({
-								top: 0,
-								left: 0,
-								behavior: "smooth",
-							});
-						},
-					});
-				}
+						onClick?.(e);
+						container?.scrollTo({
+							top: 0,
+							left: 0,
+							behavior: "smooth",
+						});
+					},
+				});
+			}
 
-				return node;
-			}),
-		[children, getContainer]
-	);
+			return node;
+		});
+	}, [children, getContainer]);
 
 	useEffect(() => {
 		const container = getContainer();
@@ -65,6 +63,7 @@ const Affix = (props: IAffix): JSX.Element => {
 			setHidden(top < offset);
 		});
 
+		listener();
 		container.addEventListener("scroll", listener);
 
 		return () => {

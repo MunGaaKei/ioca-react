@@ -25,6 +25,7 @@ function Item(props: IStepItem) {
 		title,
 		vertical,
 		line = <Divider />,
+		asList,
 		style,
 		className,
 		children,
@@ -41,7 +42,9 @@ function Item(props: IStepItem) {
 			style={style}
 			className={classNames(
 				"i-step-item",
-				`i-step-item-${status}`,
+				{
+					[`i-step-item-${status}`]: !asList,
+				},
 				className
 			)}
 			onClick={handleClick}

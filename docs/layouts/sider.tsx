@@ -32,7 +32,7 @@ export default function Sider() {
 			<Button
 				square
 				flat
-				href='https://github.com/MunGaaKei/ioca'
+				href='https://github.com/MunGaaKei/ioca-react'
 				target='_blank'
 			>
 				<Icon

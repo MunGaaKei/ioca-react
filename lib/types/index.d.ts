@@ -190,6 +190,7 @@ interface IDatagrid {
     loading?: boolean;
     empty?: ReactNode;
     cellPadding?: string | number;
+    cellEllipsis?: boolean;
     height?: number | string;
     style?: CSSProperties;
     className?: string;
@@ -462,6 +463,7 @@ interface ILoading extends HTMLAttributes<HTMLDivElement> {
     icon?: ReactNode;
     text?: ReactNode;
     size?: number | string;
+    absolute?: boolean;
 }
 
 declare const Loading: (props: ILoading) => JSX.Element;
@@ -608,6 +610,7 @@ interface IStep {
     className?: string;
     line?: ReactNode;
     children?: ReactNode;
+    asList?: boolean;
     renderIcon?: (i: number, status: string) => ReactNode;
     onClick?: (i: number) => void;
 }

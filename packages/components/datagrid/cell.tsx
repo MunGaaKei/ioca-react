@@ -26,7 +26,15 @@ export function getCellStyle({
 }
 
 export function Cell(props: ICell) {
-	const { column, row, col, data, onCellClick, onCellDoubleClick } = props;
+	const {
+		column,
+		row,
+		col,
+		data,
+		cellEllipsis,
+		onCellClick,
+		onCellDoubleClick,
+	} = props;
 	const { id, fixed, justify, rowSpan, render } = column;
 	const style = getCellStyle({ justify, fixed, col, row, rowSpan });
 
@@ -43,7 +51,13 @@ export function Cell(props: ICell) {
 			}
 		>
 			{render?.(data[id], data, col) ?? (
-				<div className='i-datagrid-cell-content'>{data[id]}</div>
+				<div
+					className={classNames("i-datagrid-cell-content", {
+						"i-datagrid-cell-content-ellipsis": cellEllipsis,
+					})}
+				>
+					{data[id]}
+				</div>
 			)}
 		</div>
 	);

@@ -30,6 +30,7 @@ export interface IDatagrid {
 	loading?: boolean;
 	empty?: ReactNode;
 	cellPadding?: string | number;
+	cellEllipsis?: boolean;
 	height?: number | string;
 	style?: CSSProperties;
 	className?: string;
@@ -58,7 +59,11 @@ export interface IDatagrid {
 export interface IRow
 	extends Pick<
 		IDatagrid,
-		"onCellClick" | "onCellDoubleClick" | "onRowClick" | "onHeaderClick"
+		| "cellEllipsis"
+		| "onCellClick"
+		| "onCellDoubleClick"
+		| "onRowClick"
+		| "onHeaderClick"
 	> {
 	data: IData;
 	columns: IColumn[];
@@ -66,7 +71,10 @@ export interface IRow
 }
 
 export interface ICell
-	extends Pick<IDatagrid, "onCellClick" | "onCellDoubleClick"> {
+	extends Pick<
+		IDatagrid,
+		"cellEllipsis" | "onCellClick" | "onCellDoubleClick"
+	> {
 	column: IColumn;
 	data: IData;
 	row: number;

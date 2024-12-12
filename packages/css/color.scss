@@ -88,7 +88,7 @@ $colors: (
 		background: var(--color-main);
 		color: var(--color-main-reverse);
 	}
-	@for $i from 1 to 10 {
+	@for $i from 0 to 10 {
 		--color-#{$i}: #{color.adjust(#000, $lightness: (10.5% * $i))};
 		.color-#{$i} {
 			--color: var(--color-#{$i});
@@ -196,9 +196,14 @@ $colors: (
 	background: var(--background);
 	color: var(--color);
 
-	@for $i from 1 to 10 {
+	@for $i from 0 to 10 {
 		--color-#{$i}: #{color.adjust(#fff, $lightness: (-8.5% * $i))};
 		.color-#{$i} {
+			color: var(--color-#{$i});
+		}
+		.bg-#{$i} {
+			--background: var(--color-#{$i});
+			background: var(--background);
 			@if ($i < 5) {
 				color: var(--black);
 			}

@@ -25,6 +25,7 @@ const Datagrid = (props: IDatagrid): JSX.Element => {
 		header = true,
 		resizable,
 		cellPadding = ".5em",
+		cellEllipsis,
 		empty = <Empty />,
 		loading,
 		height = "unset",
@@ -152,7 +153,7 @@ const Datagrid = (props: IDatagrid): JSX.Element => {
 	}, [loading]);
 
 	const scrollBarStyle = {
-		"--padding": cellPadding,
+		"--cell-padding": cellPadding,
 		...styles,
 	} as CSSProperties;
 
@@ -182,6 +183,7 @@ const Datagrid = (props: IDatagrid): JSX.Element => {
 						resizable={resizable}
 						sortType={state.sortType}
 						sortBy={state.sortBy}
+						cellEllipsis={cellEllipsis}
 						onWidthChange={handleWidthChange}
 						onHeaderClick={handleHeaderClick}
 					/>
@@ -192,6 +194,7 @@ const Datagrid = (props: IDatagrid): JSX.Element => {
 						key={i}
 						row={i + (header ? 1 : 0)}
 						data={row}
+						cellEllipsis={cellEllipsis}
 						columns={columns}
 						onCellClick={onCellClick}
 						onRowClick={onRowClick}

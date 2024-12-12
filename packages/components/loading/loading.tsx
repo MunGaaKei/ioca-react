@@ -3,11 +3,18 @@ import "./index.css";
 import { ILoading } from "./type";
 
 const Loading = (props: ILoading): JSX.Element => {
-	const { icon, text, size, style, className, ...restProps } = props;
+	const { icon, text, size, absolute, style, className, ...restProps } =
+		props;
 
 	return (
 		<div
-			className={classNames("i-loading-container", className)}
+			className={classNames(
+				"i-loading-container",
+				{
+					absolute,
+				},
+				className
+			)}
 			style={{ fontSize: size, ...style }}
 			{...restProps}
 		>

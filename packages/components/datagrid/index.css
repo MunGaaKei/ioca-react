@@ -71,7 +71,7 @@
 	align-items: center;
 	justify-content: var(--datagrid-justify);
 	gap: 4px;
-	padding: 0.4em 0.5em;
+	padding: var(--cell-padding);
 	background: var(--datagrid-cell-background);
 	transition: background-color 0.12s;
 	overflow: hidden;
@@ -101,7 +101,11 @@
 	justify-content: inherit;
 	white-space: nowrap;
 	overflow: hidden;
+}
+.i-datagrid-cell-content-ellipsis {
+	display: block;
 	text-overflow: ellipsis;
+	text-align: var(--datagrid-justify);
 }
 
 .i-datagrid-header {

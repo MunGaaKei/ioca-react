@@ -103,7 +103,7 @@ const Datepicker = (props: IDatePicker): JSX.Element => {
 		>
 			<Input
 				value={state.value}
-				prepend={
+				append={
 					<Icon
 						icon={<CalendarMonthTwotone />}
 						className='i-datepicker-icon'

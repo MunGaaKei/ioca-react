@@ -34,6 +34,7 @@ import {
 	RemoveRedEyeRound,
 	StyleTwotone,
 	TextFormatRound,
+	TipsAndUpdatesTwotone,
 	UnfoldMoreRound,
 	ViewCarouselTwotone,
 	ViewDayTwotone,
@@ -305,5 +306,11 @@ export default [
 				icon: <Icon icon={<PlayCircleOutlineRound />} />,
 			},
 		],
+	},
+	{
+		title: "Updates",
+		as: Link,
+		icon: <Icon icon={<TipsAndUpdatesTwotone />} />,
+		href: "/docs/updates",
 	},
 ];

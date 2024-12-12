@@ -11,6 +11,7 @@ const Step = (props: IStep): JSX.Element => {
 		renderIcon,
 		line,
 		style,
+		asList,
 		className,
 		children,
 		onClick,
@@ -34,6 +35,7 @@ const Step = (props: IStep): JSX.Element => {
 					...elProps,
 					vertical,
 					active,
+					asList,
 					index: index++,
 				},
 			});

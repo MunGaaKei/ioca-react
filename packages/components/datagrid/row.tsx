@@ -5,8 +5,15 @@ import Sorter from "./sorter";
 import { IHeader, IRow } from "./type";
 
 export default function Row(props: IRow) {
-	const { row, data, columns, onRowClick, onCellClick, onCellDoubleClick } =
-		props;
+	const {
+		row,
+		data,
+		columns,
+		cellEllipsis,
+		onRowClick,
+		onCellClick,
+		onCellDoubleClick,
+	} = props;
 
 	return (
 		<div className='i-datagrid-row' onClick={() => onRowClick?.(data, row)}>
@@ -17,6 +24,7 @@ export default function Row(props: IRow) {
 					col={i}
 					row={row}
 					data={data}
+					cellEllipsis={cellEllipsis}
 					onCellClick={onCellClick}
 					onCellDoubleClick={onCellDoubleClick}
 				/>
@@ -29,6 +37,7 @@ export function Header(props: IHeader) {
 	const {
 		columns,
 		resizable,
+		cellEllipsis,
 		sortBy,
 		sortType,
 		onWidthChange,
@@ -68,7 +77,15 @@ export function Header(props: IHeader) {
 						onClick={(e) => onHeaderClick?.(column, e)}
 					>
 						{renderHeader?.(column, col) ?? (
-							<div className='i-datagrid-cell-content'>
+							<div
+								className={classNames(
+									"i-datagrid-cell-content",
+									{
+										"i-datagrid-cell-content-ellipsis":
+											cellEllipsis,
+									}
+								)}
+							>
 								{title || id}
 							</div>
 						)}

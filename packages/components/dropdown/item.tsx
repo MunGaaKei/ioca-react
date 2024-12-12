@@ -17,6 +17,7 @@ const Item = (props: IDropItem) => {
 			arrow={false}
 			align='start'
 			offset={10}
+			hideDelay={240}
 			{...moreProps}
 			content={
 				<List

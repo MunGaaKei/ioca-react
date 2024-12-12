@@ -7,6 +7,7 @@ export interface IStep {
 	className?: string;
 	line?: ReactNode;
 	children?: ReactNode;
+	asList?: boolean;
 	renderIcon?: (i: number, status: string) => ReactNode;
 	onClick?: (i: number) => void;
 }

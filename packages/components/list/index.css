@@ -15,6 +15,7 @@
 	cursor: pointer;
 	user-select: none;
 	white-space: nowrap;
+	justify-content: space-between;
 	&:hover {
 		background-color: var(--background-opacity-1);
 	}
