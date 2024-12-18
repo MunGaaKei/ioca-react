@@ -4,7 +4,6 @@ import {
 	Children,
 	cloneElement,
 	isValidElement,
-	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
@@ -23,14 +22,11 @@ function Field(props: IField) {
 	const form = useContext(Context);
 	const { id } = form;
 
-	const handleChange = useCallback(
-		(v) => {
-			if (!name) return;
+	const handleChange = (v) => {
+		if (!name) return;
 
-			form.set(name, v);
-		},
-		[name]
-	);
+		form.set(name, v);
+	};
 
 	const hijackChildren = useMemo(() => {
 		return Children.map(children, (node) => {
@@ -68,15 +64,16 @@ function Field(props: IField) {
 			state.update += 1;
 		});
 
-		setTimeout(() => {
-			form.data[name] = form.data[name] ?? undefined;
-		}, 0);
+		Promise.resolve().then(() => {
+			form.set(name, form.cacheData[name] ?? undefined);
+		});
 
 		return () => {
 			PubSub.unsubscribe(`${id}:set:${name}`);
 			PubSub.unsubscribe(`${id}:invalid:${name}`);
+			form.delete(name);
 		};
-	}, [name]);
+	}, [name, children]);
 
 	if (!name) return children;
 

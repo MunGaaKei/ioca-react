@@ -374,17 +374,15 @@ declare const Flex: (props: IFlex) => JSX.Element;
 
 declare class IFormInstance {
     readonly id?: string;
-    data: {
-        [key: string]: any;
-    };
+    data: Record<string, any>;
+    cacheData: Record<string, any>;
     rules?: Pick<IForm, "rules">;
     constructor();
     get(field?: string): any;
     set(field: any, value?: any): void;
+    delete(field: any): void;
     clear(): void;
-    validate(field?: string): Promise<boolean | {
-        [key: string]: any;
-    }>;
+    validate(field?: string): Promise<boolean | Record<string, any>>;
 }
 declare function useForm(form?: IFormInstance): IFormInstance;
 

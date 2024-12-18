@@ -9,28 +9,28 @@ import useForm, { IFormInstance } from "./useForm";
 const Form = (props: IForm): JSX.Element => {
 	const {
 		form = {} as IFormInstance,
-		rules = {},
-		initialValues = {},
+		rules,
+		initialValues,
 		style,
 		className,
 		width,
 		children,
-		...rest
+		...restProps
 	} = props;
 
 	useEffect(() => {
 		Object.assign(form, {
 			data: { ...initialValues },
-			rules: { ...rules },
+			rules,
 		});
-	}, [form, rules]);
+	}, [form]);
 
 	return (
 		<Context.Provider value={form}>
 			<form
 				style={{ ...style, width }}
 				className={classNames("i-form", className)}
-				{...rest}
+				{...restProps}
 			>
 				{children}
 			</form>

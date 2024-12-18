@@ -5,7 +5,8 @@ import { IForm, TRule } from "./type";
 
 export class IFormInstance {
 	readonly id?: string;
-	data: { [key: string]: any } = {};
+	data: Record<string, any> = {};
+	cacheData: Record<string, any> = {};
 	rules?: Pick<IForm, "rules"> = {};
 
 	constructor() {
@@ -23,18 +24,25 @@ export class IFormInstance {
 
 		if (typeof field === "string") {
 			this.data[field] = value;
+			this.cacheData[field] = value;
 			PubSub.publish(`${id}:set:${field}`, value);
 			return;
 		}
 
 		Object.keys(field).map((name) => {
 			this.data[name] = field[name];
+			this.cacheData[name] = field[name];
 			PubSub.publish(`${id}:set:${name}`, field[name]);
 		});
 	}
 
+	delete(field) {
+		delete this.data[field];
+	}
+
 	clear() {
 		if (!this.data) return;
+		this.cacheData = {};
 
 		Object.keys(this.data).map((name) => {
 			PubSub.publish(`${this.id}:set:${name}`, undefined);
