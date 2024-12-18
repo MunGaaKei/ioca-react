@@ -60,4 +60,20 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.1.3",
+		content: (
+			<List>
+				<Item
+					label={
+						<Link to='/docs/form' className='blue'>
+							Form
+						</Link>
+					}
+				>
+					🐞 修复组件状态重置
+				</Item>
+			</List>
+		),
+	},
 ];
