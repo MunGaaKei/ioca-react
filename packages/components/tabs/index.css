@@ -15,7 +15,7 @@
 	.i-tab-navs-bar {
 		background: var(--color-main);
 	}
-	.flex-column > .i-tab-navs {
+	.i-tab-navs-vertical > .i-tab-navs {
 		gap: 0.5em;
 		> .i-tab-nav {
 			padding: 0.25em 1em;
@@ -165,16 +165,16 @@
 	transition: var(--transition);
 	border-radius: 4px;
 }
-.flex-column {
+.i-tab-navs-vertical {
 	> .i-tab-navs {
 		gap: 1px;
-	}
-	.i-tab-navs-bar {
-		width: 0;
-		left: unset;
-		bottom: unset;
-		right: 0;
-		top: 0;
+		> .i-tab-navs-bar {
+			width: 0;
+			left: unset;
+			bottom: unset;
+			right: 0;
+			top: 0;
+		}
 	}
 }
 .i-tab-contents {

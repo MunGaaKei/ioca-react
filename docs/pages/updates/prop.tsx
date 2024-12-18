@@ -43,4 +43,21 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.1.2",
+		content: (
+			<List>
+				<Item
+					label={
+						<Link to='/docs/tabs' className='blue'>
+							Tabs
+						</Link>
+					}
+				>
+					修复外部样式影响
+				</Item>
+				<Item>修正文档错误文案</Item>
+			</List>
+		),
+	},
 ];

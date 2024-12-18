@@ -80,8 +80,11 @@ const Tabs = forwardRef<RefTabs, ITabs>((props, ref) => {
 					props?: any;
 				};
 				const { title, children, content, keepDOM } = nodeProps;
+
 				const cloned = children
-					? pick(children, ["props", "type", "$$typeof", "ref"])
+					? typeof children === "string"
+						? children
+						: pick(children, ["props", "type", "$$typeof", "ref"])
 					: content;
 
 				return {

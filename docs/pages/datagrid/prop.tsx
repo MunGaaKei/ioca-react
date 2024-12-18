@@ -152,7 +152,7 @@ return (
         columns={columns}
         resizable
         border
-		cellEllipsis
+        cellEllipsis
         height={400}
     />
 );
