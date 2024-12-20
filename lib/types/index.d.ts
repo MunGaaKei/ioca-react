@@ -1,6 +1,6 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as react from 'react';
-import { HTMLAttributes, ReactNode, CSSProperties, ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, ChangeEvent, InputHTMLAttributes, MouseEvent, TextareaHTMLAttributes, FC, Ref } from 'react';
+import { HTMLAttributes, ReactNode, CSSProperties, ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, ChangeEvent, KeyboardEvent, InputHTMLAttributes, MouseEvent, TextareaHTMLAttributes, FC, Ref } from 'react';
 import { LinkProps } from 'react-router-dom';
 import { Dayjs } from 'dayjs';
 import { ListProps } from 'rc-virtual-list';
@@ -48,7 +48,7 @@ interface BaseButtonProps {
     flat?: boolean;
     outline?: boolean;
     square?: boolean;
-    size?: "small" | "normal" | "large" | "extreme";
+    size?: "mini" | "small" | "normal" | "large" | "extreme";
     disabled?: boolean;
     block?: boolean;
     round?: boolean;
@@ -113,7 +113,7 @@ interface BaseInput extends TValidate {
     border?: boolean;
     tip?: ReactNode;
     onChange?: (value: any, e?: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    onEnter?: () => void;
+    onEnter?: (e: KeyboardEvent) => void;
 }
 type TPosition = "top" | "right" | "left" | "bottom";
 
@@ -398,6 +398,7 @@ interface IForm extends HTMLAttributes<HTMLFormElement> {
     };
     initialValues?: Record<string, any>;
     width?: string | number;
+    onEnter?: (values: Record<string, any>, form: IFormInstance) => void;
 }
 interface IField {
     name?: string;
@@ -434,6 +435,8 @@ interface IImage extends HTMLAttributes<HTMLImageElement> {
     lazyload?: boolean;
     fallback?: ReactNode;
     fit?: any;
+    cover?: ReactNode;
+    coverClass?: string;
     usePreview?: boolean;
 }
 interface IImageList extends Omit<IImage, "src" | "alt"> {
@@ -484,6 +487,11 @@ interface IMessage {
 }
 
 declare function message(config: IMessage | ReactNode): () => void;
+declare namespace message {
+    var error: (content: ReactNode) => () => void;
+    var success: (content: ReactNode) => () => void;
+    var warning: (content: ReactNode) => () => void;
+}
 
 declare function useModal(): {
     open: (props: IModal) => void;

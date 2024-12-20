@@ -1,9 +1,8 @@
 import { VisibilityOffRound, VisibilityRound } from "@ricons/material";
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useReactive } from "ahooks";
 import classNames from "classnames";
 import {
 	ChangeEvent,
-	KeyboardEvent,
 	forwardRef,
 	useCallback,
 	useEffect,
@@ -51,9 +50,9 @@ const Input = forwardRef<HTMLInputElement, IInput>((props, ref) => {
 		onChange?.(v, e);
 	}, []);
 
-	const handleKeydown = useMemoizedFn((e: KeyboardEvent<HTMLElement>) => {
-		e.code === "Enter" && onEnter?.();
-	});
+	const handleKeydown = (e) => {
+		e.code === "Enter" && onEnter?.(e);
+	};
 
 	const handleHelperClick = () => {
 		if (type === "password" && !hideVisible) {
