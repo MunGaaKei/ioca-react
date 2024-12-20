@@ -95,6 +95,18 @@ export default function Page() {
 					text-align: center;
 				</Item>
 				<Item label={<code>.text-right</code>}>text-align: right;</Item>
+				<Item label={<code>.font-italic</code>}>
+					<span className='font-italick'>font-style: italic;</span>
+				</Item>
+				<Item label={<code>.font-bold</code>}>
+					<span className='font-bold'>font-weight: 600;</span>
+				</Item>
+				<Item label={<code>.font-lg</code>}>
+					<span className='font-lg'>font-size: 1.2em;</span>
+				</Item>
+				<Item label={<code>.font-sm</code>}>
+					<span className='font-sm'>font-size: .8em;</span>
+				</Item>
 				<Item label={<code>.bordered</code>}>
 					<div className='bordered px-4'>带边框</div>
 				</Item>

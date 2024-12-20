@@ -1,0 +1,2 @@
+global search
+calendar

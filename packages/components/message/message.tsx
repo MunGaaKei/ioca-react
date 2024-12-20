@@ -173,7 +173,7 @@ export function setMessageConfig(config: IMessage) {
 	Object.assign(GlobalConfig, config);
 }
 
-export default function message(config: IMessage | ReactNode) {
+function message(config: IMessage | ReactNode) {
 	if (
 		["string", "number"].includes(typeof config) ||
 		isValidElement(config)
@@ -192,10 +192,33 @@ export default function message(config: IMessage | ReactNode) {
 	return handler.close.bind(config);
 }
 
-function createContainer(direction?: string) {
+function createContainer() {
 	const container = document.createElement("div");
 	container.dataset.id = "messages";
 	document.body.append(container);
 
 	return container;
 }
+
+message.error = (content: ReactNode) => {
+	return message({
+		content,
+		className: "bg-error",
+	});
+};
+
+message.success = (content: ReactNode) => {
+	return message({
+		content,
+		className: "bg-success",
+	});
+};
+
+message.warning = (content: ReactNode) => {
+	return message({
+		content,
+		className: "bg-warning",
+	});
+};
+
+export default message;

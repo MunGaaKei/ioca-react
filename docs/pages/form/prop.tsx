@@ -50,7 +50,13 @@ export const DBasic = {
 		};
 
 		return (
-			<Form form={form} rules={rules} width={420} className='gap-12'>
+			<Form
+				form={form}
+				rules={rules}
+				width={420}
+				className='gap-12'
+				onEnter={handleSubmit}
+			>
 				<Field name='name' required>
 					<Input labelInline label='名字' />
 				</Field>
@@ -173,7 +179,13 @@ const handleValidate = async () => {
 };
 
 return (
-	<Form form={form} rules={rules} width={420} className='gap-12'>
+	<Form
+		form={form}
+		rules={rules}
+		width={420}
+		className='gap-12'
+		onEnter={handleSubmit}
+	>
 		<Field name='name' required>
 			<Input labelInline label='名字' />
 		</Field>
@@ -293,6 +305,20 @@ export const PForm = [
 		desc: "表单宽度",
 		type: ["string", "number"],
 	},
+	{
+		name: "onEnter",
+		desc: "回车键按下调用",
+		type: [
+			<>
+				(values: Record&lt;string, any&gt;, form:
+				<a href='#formInstance' className='blue'>
+					FormInstance
+				</a>
+				) =&gt; void
+			</>,
+		],
+		event: true,
+	},
 ];
 
 export const PField = [
@@ -311,6 +337,8 @@ export const PFormInstance = `interface IFormInstance {
 	set: (field: string, value: any) => void | (data: Record<string, any>) => void
 
 	validate: (field?: string) => isValid ? data: false
+
+	delete: (field: string) => void
 
 	clear: () => void
 }

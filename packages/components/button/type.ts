@@ -23,7 +23,7 @@ interface BaseButtonProps {
 	flat?: boolean;
 	outline?: boolean;
 	square?: boolean;
-	size?: "small" | "normal" | "large" | "extreme";
+	size?: "mini" | "small" | "normal" | "large" | "extreme";
 	disabled?: boolean;
 	block?: boolean;
 	round?: boolean;

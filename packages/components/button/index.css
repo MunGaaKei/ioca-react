@@ -53,6 +53,12 @@
 	font-size: 0.86em;
 	padding: 0 0.4em;
 }
+.i-btn-mini {
+	line-height: 1;
+	height: 1.4em;
+	font-size: 0.8em;
+	padding: 0 0.2em;
+}
 .i-btn-square {
 	padding: 0;
 	width: 2.25em;

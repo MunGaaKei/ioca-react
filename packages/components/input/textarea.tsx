@@ -1,13 +1,6 @@
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useReactive } from "ahooks";
 import classNames from "classnames";
-import {
-	ChangeEvent,
-	KeyboardEvent,
-	forwardRef,
-	useCallback,
-	useEffect,
-	useRef,
-} from "react";
+import { ChangeEvent, forwardRef, useCallback, useEffect, useRef } from "react";
 import "../../css/input.css";
 import InputContainer from "./container";
 import type { ITextarea } from "./type";
@@ -16,7 +9,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, ITextarea>((props, ref) => {
 	const {
 		label,
 		name,
-		value = props.initValue ?? "",
+		value = props.initValue,
 		initValue,
 		labelInline,
 		className,
@@ -53,9 +46,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, ITextarea>((props, ref) => {
 		[]
 	);
 
-	const handleKeydown = useMemoizedFn((e: KeyboardEvent<HTMLElement>) => {
-		e.code === "Enter" && onEnter?.();
-	});
+	const handleKeydown = (e) => {
+		if (e.code !== "Enter") return;
+
+		e.stopPropagation();
+		onEnter?.(e);
+	};
 
 	useEffect(() => {
 		state.value = value;

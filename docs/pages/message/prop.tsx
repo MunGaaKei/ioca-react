@@ -61,6 +61,30 @@ return (
 	lang: "javascript",
 };
 
+export const DFast = {
+	demo: () => {
+		const handleClick = () => {
+			Message.error("错误信息");
+		};
+
+		return (
+			<Button className='bg-error' onClick={handleClick}>
+				Click Me
+			</Button>
+		);
+	},
+	code: `const handleClick = () => {
+	Message.error('错误信息')
+};
+
+return (
+	<Button className='bg-error' onClick={handleClick}>
+		Click Me
+	</Button>
+);`,
+	lang: "javascript",
+};
+
 export const PMessage = [
 	{
 		name: "content",

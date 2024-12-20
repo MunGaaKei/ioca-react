@@ -1,20 +1,32 @@
-import { useReactive } from "ahooks";
+import { useLocalStorageState } from "ahooks";
 import { createContext, useEffect } from "react";
 
-export interface IGlobalContext {
-	theme: string;
-	setTheme: (theme: string) => void;
-}
+type TSettings = {
+	theme?: string;
+	update?: (key: string | Record<string, any>, value?) => void;
+};
 
-export const GlobalContext = createContext<IGlobalContext>({
-	theme: "",
-	setTheme: () => null,
-});
+export const GlobalContext = createContext({});
 
 export const useGlobalValues = () => {
-	const state = useReactive({
-		theme: "",
-	});
+	const [settings = {}, setSettings] = useLocalStorageState<TSettings>(
+		"ioca-react-settings",
+		{
+			defaultValue: {
+				theme: "auto",
+			},
+			listenStorageChange: true,
+		}
+	);
+
+	const update = (key, value?) => {
+		if (typeof key === "string") {
+			setSettings({ ...settings, [key]: value });
+			return;
+		}
+
+		setSettings(key);
+	};
 
 	useEffect(() => {
 		const cls = document.body.classList;
@@ -22,15 +34,15 @@ export const useGlobalValues = () => {
 		const pre = cns.find((n) => n.startsWith("theme-"));
 
 		if (pre) {
-			cls.replace(pre, state.theme);
+			cls.replace(pre, settings.theme ?? "theme-auto");
 			return;
 		}
 
-		state.theme && cls.add(state.theme);
-	}, [state.theme]);
+		settings.theme && cls.add(settings.theme);
+	}, [settings?.theme]);
 
 	return {
-		theme: state.theme,
-		setTheme: (theme: string) => (state.theme = theme),
+		...settings,
+		update,
 	};
 };

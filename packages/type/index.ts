@@ -1,4 +1,9 @@
-import { ChangeEvent, InputHTMLAttributes, ReactNode } from "react";
+import {
+	ChangeEvent,
+	InputHTMLAttributes,
+	KeyboardEvent,
+	ReactNode,
+} from "react";
 
 export type TStatus = "normal" | "success" | "warning" | "error";
 
@@ -29,7 +34,7 @@ export interface BaseInput extends TValidate {
 		value: any,
 		e?: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => void;
-	onEnter?: () => void;
+	onEnter?: (e: KeyboardEvent) => void;
 }
 
 export type TTimeout = ReturnType<typeof setTimeout>;

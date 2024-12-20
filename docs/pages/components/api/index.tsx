@@ -44,7 +44,7 @@ export default function Api(props) {
 								})}
 							</Flex>
 						</Flex>
-						<p className='mt-8 color-5'>{desc}</p>
+						<p className='mt-8 color-5 font-sm'>{desc}</p>
 					</div>
 				);
 			})}

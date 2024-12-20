@@ -1,5 +1,4 @@
-import { GlobalContext } from "@d/config/context";
-import { useContext } from "react";
+import { useGlobalValues } from "@d/config/context";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {
 	atomOneDark,
@@ -11,7 +10,7 @@ import "./index.css";
 
 export default function CodeView(props) {
 	const { lang = "Javascript", children } = props;
-	const global = useContext(GlobalContext);
+	const global = useGlobalValues();
 
 	return (
 		<SyntaxHighlighter

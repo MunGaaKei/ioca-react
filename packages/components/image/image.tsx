@@ -23,7 +23,8 @@ const Image = (props: IImage) => {
 		fit,
 		style,
 		className,
-		children,
+		cover,
+		coverClass,
 		usePreview: previewable,
 		onLoad,
 		onError,
@@ -116,7 +117,14 @@ const Image = (props: IImage) => {
 
 					{src && state.status === "loading" && <Loading />}
 
-					{children && <div className='i-image-text'>{children}</div>}
+					{cover && (
+						<div
+							className={classNames("i-image-cover", coverClass)}
+							onClick={handleClick}
+						>
+							{cover}
+						</div>
+					)}
 				</>
 			)}
 		</div>

@@ -25,7 +25,7 @@ export default function Page() {
 							title={<Text as='h4'>{title}</Text>}
 							style={{ fontSize: ".8em" }}
 						>
-							<div className='pb-40 color-6'>{content}</div>
+							<div className='pb-20 color-6'>{content}</div>
 						</Step.Item>
 					);
 				})}

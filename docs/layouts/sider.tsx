@@ -1,11 +1,10 @@
-import { GlobalContext } from "@d/config/context";
+import { useGlobalValues } from "@d/config/context";
 import { Button, Icon, Text } from "@p";
 import { LightModeTwotone, NightlightTwotone } from "@ricons/material";
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 export default function Sider() {
-	const global = useContext(GlobalContext);
+	const global = useGlobalValues();
 
 	return (
 		<div className='sticky-top flex flex-column justify-center items-center pd-4 gap-4 mb-auto'>
@@ -23,7 +22,7 @@ export default function Sider() {
 				after={<Icon icon={<NightlightTwotone />} />}
 				active={global.theme === "theme-dark"}
 				onToggle={(v) =>
-					global.setTheme(v ? "theme-dark" : "theme-none")
+					global.update("theme", v ? "theme-dark" : "theme-none")
 				}
 			>
 				<Icon icon={<LightModeTwotone />} />
@@ -50,6 +49,10 @@ export default function Sider() {
 					}
 				/>
 			</Button>
+
+			{/* <Button square flat>
+				<Icon icon={<SearchRound />} size='1.8em' />
+			</Button> */}
 		</div>
 	);
 }

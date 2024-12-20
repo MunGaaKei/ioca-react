@@ -15,8 +15,15 @@ const Form = (props: IForm): JSX.Element => {
 		className,
 		width,
 		children,
+		onEnter,
 		...restProps
 	} = props;
+
+	const handleEnter = (e) => {
+		if (e.keyCode !== 13) return;
+
+		onEnter?.(form.data, form);
+	};
 
 	useEffect(() => {
 		Object.assign(form, {
@@ -30,6 +37,7 @@ const Form = (props: IForm): JSX.Element => {
 			<form
 				style={{ ...style, width }}
 				className={classNames("i-form", className)}
+				onKeyDown={handleEnter}
 				{...restProps}
 			>
 				{children}

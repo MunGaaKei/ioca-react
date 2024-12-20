@@ -14,6 +14,7 @@ export interface IForm extends HTMLAttributes<HTMLFormElement> {
 	};
 	initialValues?: Record<string, any>;
 	width?: string | number;
+	onEnter?: (values: Record<string, any>, form: IFormInstance) => void;
 }
 
 export interface IField {

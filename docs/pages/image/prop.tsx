@@ -2,12 +2,30 @@ import dimensions from "@d/assets/dimensions.jpg";
 import fantasy from "@d/assets/fantasy.jpg";
 import jay from "@d/assets/jay.jpg";
 import yehuimei from "@d/assets/yehuimei.jpg";
-import { Image } from "@p";
+import { Flex, Image } from "@p";
 import { Link } from "react-router-dom";
 
 export const DBasic = {
-	demo: <Image src={jay} size={80} />,
-	code: `<Image src="jay.jpg" size={80} />`,
+	demo: (
+		<Flex gap={8}>
+			<Image src={jay} size={80} />
+			<Image
+				src={jay}
+				size={80}
+				cover='周杰伦'
+				coverClass='hover-opacity'
+			/>
+		</Flex>
+	),
+	code: `<Flex gap={8}>
+	<Image src={jay} size={80} />
+	<Image
+		src={jay}
+		size={80}
+		cover='周杰伦'
+		coverClass='hover-opacity'
+	/>
+</Flex>`,
 	lang: "xml",
 };
 
@@ -46,6 +64,16 @@ export const PImage = [
 		desc: "图片懒加载",
 		type: ["boolean"],
 		def: "false",
+	},
+	{
+		name: "cover",
+		desc: "图片封面",
+		type: ["ReactNode"],
+	},
+	{
+		name: "coverClass",
+		desc: "图片封面类名",
+		type: ["string"],
 	},
 	{
 		name: "fallback",

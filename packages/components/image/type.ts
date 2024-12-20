@@ -10,6 +10,8 @@ export interface IImage extends HTMLAttributes<HTMLImageElement> {
 	lazyload?: boolean;
 	fallback?: ReactNode;
 	fit?: any;
+	cover?: ReactNode;
+	coverClass?: string;
 	usePreview?: boolean;
 }
 

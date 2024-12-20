@@ -8,7 +8,7 @@ import {
 
 export const DBasic = {
 	demo: (
-		<Flex gap={12}>
+		<Flex gap={8} wrap>
 			<Button>Button</Button>
 			<Button secondary>Secondary</Button>
 			<Button outline>Outline</Button>
@@ -36,7 +36,7 @@ export const DBasic = {
 
 export const DColor = {
 	demo: (
-		<Flex gap={12}>
+		<Flex gap={8}>
 			<Button className='bg-blue'>Blue</Button>
 			<Button className='pink' outline>
 				Outline Pink
@@ -60,7 +60,7 @@ export const DColor = {
 
 export const DToggle = {
 	demo: (
-		<Flex gap={12} direction='column' align='flex-start'>
+		<Flex gap={8} direction='column' align='flex-start'>
 			<Button.Toggle
 				secondary
 				after={<Icon icon={<NightlightTwotone />} />}
@@ -197,7 +197,7 @@ export const PButton = [
 	{
 		name: "size",
 		desc: "按钮尺寸",
-		type: ["small", "normal", "large", "extreme"],
+		type: ["mini", "small", "normal", "large", "extreme"],
 		def: "'normal'",
 	},
 	{
