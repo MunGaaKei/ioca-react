@@ -2,15 +2,7 @@ import { UnfoldMoreRound } from "@ricons/material";
 import { useMemoizedFn, useReactive } from "ahooks";
 import classNames from "classnames";
 import { debounce } from "radash";
-import {
-	ChangeEvent,
-	MouseEvent,
-	forwardRef,
-	useCallback,
-	useEffect,
-	useMemo,
-	useState,
-} from "react";
+import { ChangeEvent, forwardRef, useEffect, useMemo, useState } from "react";
 import "../../css/input.css";
 import { formatOption } from "../../js/utils";
 import { TOption } from "../../type";
@@ -25,7 +17,7 @@ const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 		type = "text",
 		name,
 		label,
-		value,
+		value = "",
 		placeholder,
 		options = [],
 		multiple,
@@ -77,7 +69,7 @@ const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 		onChange?.(v);
 	};
 
-	const handleSelect = useCallback((value: any, option?: TOption) => {
+	const handleSelect = (value: any, option?: TOption) => {
 		onSelect?.(value, option);
 
 		if (multiple) {
@@ -92,7 +84,7 @@ const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 
 		setActive(false);
 		changeValue(value);
-	}, []);
+	};
 
 	const handleVisibleChange = (visible: boolean) => {
 		setActive(visible);
@@ -102,7 +94,7 @@ const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 		state.filterValue = "";
 	};
 
-	const handleHelperClick = (e: MouseEvent) => {
+	const handleHelperClick = () => {
 		if (!active) return;
 
 		changeValue(multiple ? [] : "");
