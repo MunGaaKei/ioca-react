@@ -1,9 +1,10 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as react from 'react';
-import { HTMLAttributes, ReactNode, CSSProperties, ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, ChangeEvent, KeyboardEvent, InputHTMLAttributes, MouseEvent, TextareaHTMLAttributes, FC, Ref } from 'react';
+import { HTMLAttributes, ReactNode, CSSProperties, ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, ChangeEvent, KeyboardEvent, InputHTMLAttributes, MouseEvent, FC, TextareaHTMLAttributes, Ref } from 'react';
 import { LinkProps } from 'react-router-dom';
-import { Dayjs } from 'dayjs';
 import { ListProps } from 'rc-virtual-list';
+import { ColorPickerProps } from '@rc-component/color-picker';
+import { Dayjs } from 'dayjs';
 
 interface IAffix extends HTMLAttributes<HTMLElement> {
     position?: "fixed" | "absolute" | "sticky" | "static";
@@ -206,93 +207,6 @@ interface IDatagrid {
 
 declare const Datagrid: (props: IDatagrid) => JSX.Element;
 
-declare const Number$2: react.ForwardRefExoticComponent<IInputNumber & react.RefAttributes<HTMLInputElement>>;
-
-declare const Range: (props: IInputRange) => react_jsx_runtime.JSX.Element;
-
-declare const Textarea: react.ForwardRefExoticComponent<ITextarea & react.RefAttributes<HTMLTextAreaElement>>;
-
-interface IInput extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "defaultValue" | "onChange"> {
-    prepend?: ReactNode;
-    append?: ReactNode;
-    hideVisible?: boolean;
-}
-interface ITextarea extends BaseInput, Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "defaultValue" | "onChange"> {
-    autoSize?: boolean;
-}
-interface IInputNumber extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "defaultValue"> {
-    value?: string | number;
-    prepend?: ReactNode;
-    append?: ReactNode;
-    step?: number;
-    min?: number;
-    max?: number;
-    thousand?: string;
-    precision?: number;
-    hideControl?: boolean;
-}
-interface IInputRange extends Omit<BaseInput, "value" | "onChange">, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "defaultValue" | "placeholder" | "onChange"> {
-    value?: (number | string | undefined)[];
-    placeholder?: string[];
-    min?: number;
-    max?: number;
-    prepend?: ReactNode;
-    append?: ReactNode;
-    step?: number;
-    thousand?: string;
-    precision?: number;
-    hideControl?: boolean;
-    onChange?: (value: (number | string | undefined)[], e?: ChangeEvent<HTMLInputElement> | MouseEvent<Element>) => void;
-}
-type CompositionInput = ForwardRefExoticComponent<IInput & RefAttributes<HTMLInputElement>> & {
-    Textarea: typeof Textarea;
-    Number: typeof Number$2;
-    Range: typeof Range;
-};
-
-interface IPopup {
-    visible?: boolean;
-    content?: ReactNode;
-    trigger?: "hover" | "click" | "focus" | "none" | "contextmenu";
-    gap?: number;
-    offset?: number;
-    fixed?: boolean;
-    position?: TPosition;
-    arrow?: boolean;
-    align?: "start" | "center" | "end";
-    showDelay?: number;
-    hideDelay?: number;
-    touchable?: boolean;
-    fitSize?: boolean;
-    watchResize?: boolean;
-    clickOutside?: boolean;
-    disabled?: boolean;
-    referToWindow?: boolean;
-    style?: CSSProperties;
-    children?: ReactNode;
-    className?: string;
-    getContainer?: (trigger?: HTMLElement) => HTMLElement;
-    onVisibleChange?: (visible: boolean) => void;
-}
-
-interface IDatePicker extends BaseInput, IInput, Omit<IBaseDates, "value"> {
-    popupProps?: IPopup;
-}
-interface IBaseDates {
-    value?: any;
-    format?: string;
-    weeks?: ReactNode[];
-    unitYear?: ReactNode;
-    unitMonth?: ReactNode;
-    renderDate?: (date: Dayjs) => ReactNode;
-    renderMonth?: (month: number) => ReactNode;
-    renderYear?: (year: number) => ReactNode;
-    onDateClick?: (date: Dayjs) => void;
-    disabledDate?: (date: Dayjs) => boolean;
-}
-
-declare const Datepicker: (props: IDatePicker) => JSX.Element;
-
 type IData = {
     label: ReactNode;
     value: ReactNode;
@@ -342,6 +256,31 @@ interface IListItem extends HTMLAttributes<HTMLLIElement>, Pick<IList, "type"> {
 }
 interface IVirtual extends Omit<ListProps<any>, "children"> {
     renderItem: (item: any, i: number) => ReactNode;
+}
+
+interface IPopup {
+    visible?: boolean;
+    content?: ReactNode;
+    trigger?: "hover" | "click" | "focus" | "none" | "contextmenu";
+    gap?: number;
+    offset?: number;
+    fixed?: boolean;
+    position?: TPosition;
+    arrow?: boolean;
+    align?: "start" | "center" | "end";
+    showDelay?: number;
+    hideDelay?: number;
+    touchable?: boolean;
+    fitSize?: boolean;
+    watchResize?: boolean;
+    clickOutside?: boolean;
+    disabled?: boolean;
+    referToWindow?: boolean;
+    style?: CSSProperties;
+    children?: ReactNode;
+    className?: string;
+    getContainer?: (trigger?: HTMLElement) => HTMLElement;
+    onVisibleChange?: (visible: boolean) => void;
 }
 
 interface IDropdown extends IPopup {
@@ -452,6 +391,50 @@ interface CompositionImage extends FC<IImage> {
 
 declare const _default$2: CompositionImage;
 
+declare const Number$2: react.ForwardRefExoticComponent<IInputNumber & react.RefAttributes<HTMLInputElement>>;
+
+declare const Range: (props: IInputRange) => react_jsx_runtime.JSX.Element;
+
+declare const Textarea: react.ForwardRefExoticComponent<ITextarea & react.RefAttributes<HTMLTextAreaElement>>;
+
+interface IInput extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "defaultValue" | "onChange"> {
+    prepend?: ReactNode;
+    append?: ReactNode;
+    hideVisible?: boolean;
+}
+interface ITextarea extends BaseInput, Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "defaultValue" | "onChange"> {
+    autoSize?: boolean;
+}
+interface IInputNumber extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "defaultValue"> {
+    value?: string | number;
+    prepend?: ReactNode;
+    append?: ReactNode;
+    step?: number;
+    min?: number;
+    max?: number;
+    thousand?: string;
+    precision?: number;
+    hideControl?: boolean;
+}
+interface IInputRange extends Omit<BaseInput, "value" | "onChange">, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "defaultValue" | "placeholder" | "onChange"> {
+    value?: (number | string | undefined)[];
+    placeholder?: string[];
+    min?: number;
+    max?: number;
+    prepend?: ReactNode;
+    append?: ReactNode;
+    step?: number;
+    thousand?: string;
+    precision?: number;
+    hideControl?: boolean;
+    onChange?: (value: (number | string | undefined)[], e?: ChangeEvent<HTMLInputElement> | MouseEvent<Element>) => void;
+}
+type CompositionInput = ForwardRefExoticComponent<IInput & RefAttributes<HTMLInputElement>> & {
+    Textarea: typeof Textarea;
+    Number: typeof Number$2;
+    Range: typeof Range;
+};
+
 declare const Input: CompositionInput;
 
 declare const List: {
@@ -541,6 +524,45 @@ interface IPagination extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
 
 declare const Pagination: (props: IPagination) => JSX.Element;
 
+interface IDatePicker extends BaseInput, IInput, Omit<IBaseDates, "value"> {
+    popupProps?: IPopup;
+}
+interface IBaseDates {
+    value?: any;
+    format?: string;
+    weeks?: ReactNode[];
+    unitYear?: ReactNode;
+    unitMonth?: ReactNode;
+    renderDate?: (date: Dayjs) => ReactNode;
+    renderMonth?: (month: number) => ReactNode;
+    renderYear?: (year: number) => ReactNode;
+    onDateClick?: (date: Dayjs) => void;
+    disabledDate?: (date: Dayjs) => boolean;
+}
+interface ITimePicker extends BaseInput, IInput {
+    value?: any;
+    format?: string;
+    periods?: string[];
+    renderItem?: (number: number, active: boolean, unit: "hour" | "minute" | "second") => ReactNode;
+    popupProps?: IPopup;
+}
+interface IColorPicker extends ColorPickerProps {
+    value?: any;
+    type?: "HEX" | "RGB" | "HSB";
+    children?: ReactNode;
+    popupProps?: IPopup;
+    usePanel?: boolean;
+    handle?: "text" | "square" | "both";
+    placeholder?: ReactNode;
+    onChange?: (value: any) => void;
+}
+
+declare function ColorPicker(props: IColorPicker): react_jsx_runtime.JSX.Element;
+
+declare function Timepicker(props: ITimePicker): react_jsx_runtime.JSX.Element;
+
+declare const Datepicker: (props: IDatePicker) => JSX.Element;
+
 interface IPopconfirm extends IPopup {
     icon?: ReactNode;
     okButtonProps?: IButton;
@@ -591,12 +613,31 @@ declare namespace Radio {
     var Item: typeof RadioItem;
 }
 
+interface IResizable {
+    other?: ReactNode;
+    children?: ReactNode;
+    style?: CSSProperties;
+    className?: string;
+    asPercent?: boolean;
+    vertical?: boolean;
+    line?: ReactNode;
+    height?: string | number;
+    size?: string | number;
+    minSize?: string | number;
+    maxSize?: string | number;
+    onResize?: (size: string | number) => void;
+    onResizeComplete?: (size: string | number) => void;
+}
+
+declare const Resizable: (props: IResizable) => JSX.Element;
+
 interface ISelect extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onSelect" | "onChange">, BaseInput {
     options: TOptions;
     multiple?: boolean;
     prepend?: ReactNode;
     append?: ReactNode;
     hideClear?: boolean;
+    hideArrow?: boolean;
     max?: number;
     maxDisplay?: number;
     filter?: boolean | (() => boolean);
@@ -901,4 +942,4 @@ interface IPreview {
 
 declare function usePreview(): (config: IPreview) => void;
 
-export { Affix, Badge, Button, Card, Checkbox, Collapse, Datagrid, Datepicker, Description, Drawer, Dropdown, Flex, Form, Icon, _default$2 as Image, Input, List, Loading, message as Message, _default$1 as Modal, Pagination, Popconfirm, Popup, Progress, Radio, Select, Step, Swiper, Tabs, Tag, _default as Text, Tree, Upload, Video, usePreview };
+export { Affix, Badge, Button, Card, Checkbox, Collapse, ColorPicker, Datagrid, Datepicker as DatePicker, Description, Drawer, Dropdown, Flex, Form, Icon, _default$2 as Image, Input, List, Loading, message as Message, _default$1 as Modal, Pagination, Popconfirm, Popup, Progress, Radio, Resizable, Select, Step, Swiper, Tabs, Tag, _default as Text, Timepicker as TimePicker, Tree, Upload, Video, usePreview };

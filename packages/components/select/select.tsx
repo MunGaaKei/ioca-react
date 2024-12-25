@@ -19,12 +19,13 @@ import Helpericon from "../utils/helpericon";
 import "./index.css";
 import { Options, displayValue } from "./options";
 import { ISelect } from "./type";
+
 const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 	const {
 		type = "text",
 		name,
 		label,
-		value = "",
+		value,
 		placeholder,
 		options = [],
 		multiple,
@@ -36,6 +37,7 @@ const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 		message,
 		status = "normal",
 		hideClear,
+		hideArrow,
 		maxDisplay,
 		border,
 		filter,
@@ -208,7 +210,7 @@ const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 					)}
 
 					<Helpericon
-						active
+						active={!hideArrow}
 						icon={clearable ? undefined : <UnfoldMoreRound />}
 						onClick={handleHelperClick}
 					/>

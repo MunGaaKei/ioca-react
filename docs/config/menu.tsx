@@ -7,7 +7,6 @@ import {
 	AssignmentOutlined,
 	BlurOnFilled,
 	BuildCircleTwotone,
-	CalendarMonthTwotone,
 	ChatBubbleOutlineRound,
 	CheckBoxOutlined,
 	CloudUploadTwotone,
@@ -24,7 +23,9 @@ import {
 	LineWeightRound,
 	LinearScaleRound,
 	LooksOneOutlined,
+	MarginOutlined,
 	MoveToInboxTwotone,
+	MultipleStopRound,
 	NoiseControlOffRound,
 	PaddingTwotone,
 	PlayCircleOutlineRound,
@@ -160,16 +161,16 @@ export default [
 						icon: <Icon icon={<CheckBoxOutlined />} />,
 					},
 					{
-						title: "DatePicker",
-						href: "/docs/datepicker",
-						as: Link,
-						icon: <Icon icon={<CalendarMonthTwotone />} />,
-					},
-					{
 						title: "Input",
 						href: "/docs/input",
 						as: Link,
 						icon: <Icon icon={<PowerInputRound />} />,
+					},
+					{
+						title: "Pickers",
+						href: "/docs/pickers",
+						as: Link,
+						icon: <Icon icon={<MarginOutlined />} />,
 					},
 					{
 						title: "Progress",
@@ -262,6 +263,12 @@ export default [
 				href: "/docs/preview",
 				as: Link,
 				icon: <Icon icon={<RemoveRedEyeRound />} />,
+			},
+			{
+				title: "Resizable",
+				href: "/docs/resizable",
+				as: Link,
+				icon: <Icon icon={<MultipleStopRound />} />,
 			},
 			{
 				title: "Step",

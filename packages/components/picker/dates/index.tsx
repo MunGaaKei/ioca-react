@@ -3,23 +3,25 @@ import { useReactive } from "ahooks";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useEffect, useMemo, useState } from "react";
-import Icon from "../icon";
-import Input from "../input";
-import Popup from "../popup";
+import Icon from "../../icon";
+import Input from "../../input";
+import Popup from "../../popup";
+import { IDatePicker } from "../type";
 import "./index.css";
 import Panel from "./panel";
-import { IDatePicker } from "./type";
 
 dayjs.extend(customParseFormat);
 
 const FORMATTYPES = ["YYYY-MM-DD", "YYYY-M-D", "YYYY/MM/DD", "YYYY/M/D"];
+const FORMAT = "YYYY-MM-DD";
 
 const Datepicker = (props: IDatePicker): JSX.Element => {
 	const {
 		name,
 		value,
 		weeks,
-		format = "YYYY-MM-DD",
+		format = FORMAT,
+		placeholder = props.format ?? FORMAT,
 		renderDate,
 		renderMonth,
 		renderYear,
@@ -71,8 +73,12 @@ const Datepicker = (props: IDatePicker): JSX.Element => {
 
 	const handleBlur = (e) => {
 		onBlur?.(e);
-
 		handleSetDate();
+	};
+
+	const handleVisibleChange = (v) => {
+		popupProps?.onVisibleChange?.(v);
+		setActive(v);
 	};
 
 	useEffect(() => {
@@ -86,6 +92,8 @@ const Datepicker = (props: IDatePicker): JSX.Element => {
 			position='bottom'
 			arrow={false}
 			align='start'
+			onVisibleChange={handleVisibleChange}
+			watchResize
 			content={
 				<Panel
 					value={dayJsValue}
@@ -98,18 +106,17 @@ const Datepicker = (props: IDatePicker): JSX.Element => {
 				/>
 			}
 			{...popupProps}
-			watchResize
-			onVisibleChange={setActive}
 		>
 			<Input
 				value={state.value}
 				append={
 					<Icon
 						icon={<CalendarMonthTwotone />}
-						className='i-datepicker-icon'
+						className='i-picker-dates-icon'
 						size='1em'
 					/>
 				}
+				placeholder={placeholder}
 				onChange={handleChange}
 				onBlur={handleBlur}
 				onEnter={handleSetDate}

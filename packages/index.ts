@@ -7,7 +7,6 @@ import Card from "./components/card";
 import Checkbox from "./components/checkbox";
 import Collapse from "./components/collapse";
 import Datagrid from "./components/datagrid";
-import Datepicker from "./components/datepicker";
 import Description from "./components/description";
 import Drawer from "./components/drawer";
 import Dropdown from "./components/dropdown";
@@ -21,10 +20,12 @@ import Loading from "./components/loading";
 import Message from "./components/message";
 import Modal from "./components/modal";
 import Pagination from "./components/pagination";
+import { ColorPicker, DatePicker, TimePicker } from "./components/picker";
 import Popconfirm from "./components/popconfirm";
 import Popup from "./components/popup";
 import Progress from "./components/progress";
 import Radio from "./components/radio";
+import Resizable from "./components/resizable";
 import Select from "./components/select";
 import Step from "./components/step";
 import Swiper from "./components/swiper";
@@ -43,8 +44,9 @@ export {
 	Card,
 	Checkbox,
 	Collapse,
+	ColorPicker,
 	Datagrid,
-	Datepicker,
+	DatePicker,
 	Description,
 	Drawer,
 	Dropdown,
@@ -62,14 +64,16 @@ export {
 	Popup,
 	Progress,
 	Radio,
+	Resizable,
 	Select,
 	Step,
 	Swiper,
 	Tabs,
 	Tag,
 	Text,
+	TimePicker,
 	Tree,
 	Upload,
-	Video,
 	usePreview,
+	Video,
 };

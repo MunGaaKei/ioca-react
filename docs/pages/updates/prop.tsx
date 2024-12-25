@@ -5,7 +5,7 @@ const { Item } = List;
 export const updates = [
 	{
 		title: "1.1.0",
-		content: "Hello World",
+		content: <h5>Hello World</h5>,
 	},
 	{
 		title: "1.1.1 ~ 1.1.3",
@@ -57,7 +57,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					🐞 修复组件状态重置
+					修复组件状态重置
 				</Item>
 			</List>
 		),
@@ -115,6 +115,35 @@ export const updates = [
 				>
 					添加了属性 <code>onEnter</code>
 				</Item>
+			</List>
+		),
+	},
+	{
+		title: "1.1.5",
+		content: (
+			<List>
+				<Item>
+					新增组件
+					<Link to='/docs/pickers' className='blue'>
+						TimePicker、ColorPicker
+					</Link>
+				</Item>
+				<Item>
+					新增组件
+					<Link to='/docs/resizable' className='blue'>
+						Resizable
+					</Link>
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/select' className='blue'>
+							Select
+						</Link>
+					}
+				>
+					添加了属性 <code>hideArrow</code>
+				</Item>
+				<Item>修复小部分事件绑定</Item>
 			</List>
 		),
 	},

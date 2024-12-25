@@ -1,11 +1,11 @@
 import {
 	Button,
 	Checkbox,
-	Datepicker,
 	Flex,
 	Form,
 	Input,
 	Message,
+	Picker,
 	Radio,
 	Select,
 } from "@p";
@@ -93,7 +93,7 @@ export const DBasic = {
 					/>
 				</Field>
 				<Field name='birth'>
-					<Datepicker label='生日' labelInline />
+					<Picker.Dates label='生日' labelInline />
 				</Field>
 				<Field name='interest'>
 					<Checkbox

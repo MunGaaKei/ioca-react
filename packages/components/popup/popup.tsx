@@ -266,13 +266,22 @@ export default function Popup(props: IPopup) {
 
 				if (typeof type === "function") return child;
 
-				const { className, ...rest } = props;
+				const { className, ...restProps } = props;
+				Object.keys(eventMaps[trigger]).map((evt) => {
+					if (!restProps[evt]) return;
+					const fn = eventMaps[trigger][evt];
+
+					eventMaps[trigger][evt] = (e) => {
+						fn();
+						restProps[evt](e);
+					};
+				});
 
 				return cloneElement(child, {
 					ref: triggerRef,
 					className,
+					...restProps,
 					...eventMaps[trigger],
-					...rest,
 				});
 			})}
 

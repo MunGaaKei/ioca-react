@@ -1,6 +1,5 @@
 import { useMouseMove, useMouseUp } from "@p/js/hooks";
-import { useMemoizedFn, useReactive } from "ahooks";
-import { MouseEvent } from "react";
+import { useReactive } from "ahooks";
 
 export default function Resize(props) {
 	const { index, onWidthChange } = props;
@@ -10,7 +9,7 @@ export default function Resize(props) {
 		width: 0,
 	});
 
-	const handleMouseDown = useMemoizedFn((e: MouseEvent) => {
+	const handleMouseDown = (e) => {
 		const tar = e.target as HTMLElement;
 		const width = (tar.offsetParent as HTMLElement).offsetWidth;
 
@@ -19,9 +18,9 @@ export default function Resize(props) {
 			resizing: true,
 			width,
 		});
-	});
+	};
 
-	const handleMouseMove = useMemoizedFn((e: any) => {
+	const handleMouseMove = (e) => {
 		if (!state.resizing) return;
 
 		e.preventDefault();
@@ -30,7 +29,7 @@ export default function Resize(props) {
 		if (after <= 24) return;
 
 		onWidthChange(index, after);
-	});
+	};
 
 	const handleMouseUp = () => {
 		if (!state.resizing) return;

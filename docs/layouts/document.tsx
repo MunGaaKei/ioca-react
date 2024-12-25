@@ -44,7 +44,7 @@ export default function Document(): JSX.Element {
 			<Area.Item>
 				<div className='flex flex-1 pr-8'>
 					<div
-						className='px-12 pt-60 mx-auto'
+						className='px-12 pt-60 mx-auto g-content'
 						style={{
 							width: 1000,
 							maxWidth: "calc(100% - 42px)",

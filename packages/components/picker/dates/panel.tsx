@@ -7,10 +7,10 @@ import classNames from "classnames";
 import dayjs, { Dayjs } from "dayjs";
 import { throttle } from "radash";
 import { ReactNode, useCallback, useEffect, useRef } from "react";
-import Icon from "../icon";
-import Helpericon from "../utils/helpericon";
+import Icon from "../../icon";
+import Helpericon from "../../utils/helpericon";
+import { IBaseDates } from "../type";
 import Dates from "./dates";
-import { IBaseDates } from "./type";
 
 const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -138,7 +138,10 @@ const Panel = (props: IBaseDates) => {
 				<Helpericon
 					active
 					className='i-datepicker-close'
-					onClick={() => (state.selectable = false)}
+					onClick={(e) => {
+						e.stopPropagation();
+						state.selectable = false;
+					}}
 				/>
 
 				<div

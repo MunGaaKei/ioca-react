@@ -13,6 +13,7 @@ export interface ISelect
 	prepend?: ReactNode;
 	append?: ReactNode;
 	hideClear?: boolean;
+	hideArrow?: boolean;
 	max?: number;
 	maxDisplay?: number;
 	filter?: boolean | (() => boolean);

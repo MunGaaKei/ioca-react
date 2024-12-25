@@ -2,7 +2,7 @@ import { useMemoizedFn } from "ahooks";
 import classNames from "classnames";
 import dayjs, { Dayjs } from "dayjs";
 import { ReactNode, useMemo } from "react";
-import { IBaseDates } from "./type";
+import { IBaseDates } from "../type";
 
 const Dates = (
 	props: IBaseDates & {
