@@ -6,7 +6,7 @@ import {
 	ReactNode,
 	RefAttributes,
 } from "react";
-import { LinkProps } from "react-router-dom";
+import { LinkProps } from "react-router";
 import Group from "./group";
 import Toggle from "./toggle";
 

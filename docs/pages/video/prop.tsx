@@ -1,6 +1,6 @@
 import demo from "@d/assets/video.mp4";
 import { Video } from "@p";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const DBasic = {
 	demo: () => {

@@ -3,7 +3,7 @@ import fantasy from "@d/assets/fantasy.jpg";
 import jay from "@d/assets/jay.jpg";
 import yehuimei from "@d/assets/yehuimei.jpg";
 import { Flex, Image } from "@p";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const DBasic = {
 	demo: (

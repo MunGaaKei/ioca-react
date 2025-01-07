@@ -1,6 +1,6 @@
 import { version } from "@/package.json";
 import { Flex, Image, Text } from "@p";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import "./index.css";
 import logo from "/logo.jpg";
 

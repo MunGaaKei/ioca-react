@@ -6,6 +6,7 @@
 	gap: 0.5em;
 	font-size: inherit;
 	transform: translateZ(0);
+	border-radius: inherit;
 }
 
 .i-loading-icon {

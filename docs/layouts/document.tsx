@@ -1,31 +1,11 @@
 import menu from "@d/config/menu";
-import { Loading, Tree } from "@p";
+import { Tree } from "@p";
 import Area from "@p/components/area";
-import { Suspense, lazy, memo } from "react";
-import { useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router";
 import Footer from "./footer";
-import "./global.css";
 import Sider from "./sider";
 
-interface DProps {
-	name?: string;
-}
-
-const DynamicPage = memo(
-	(props: DProps) => {
-		const { name } = props;
-		const Page = lazy(() => import(`../pages/${name}/index.tsx`));
-
-		return (
-			<Suspense fallback={<Loading />}>
-				<Page />
-			</Suspense>
-		);
-	},
-	(p, n) => p.name === n.name
-);
-
-export default function Document(): JSX.Element {
+export default function Document() {
 	const { name } = useParams<{ [key: string]: string }>();
 
 	return (
@@ -50,7 +30,7 @@ export default function Document(): JSX.Element {
 							maxWidth: "calc(100% - 42px)",
 						}}
 					>
-						<DynamicPage name={name} />
+						<Outlet />
 
 						<Footer />
 					</div>

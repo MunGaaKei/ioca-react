@@ -15,7 +15,10 @@ const Loading = (props: ILoading): JSX.Element => {
 				},
 				className
 			)}
-			style={{ fontSize: size, ...style }}
+			style={{
+				...style,
+				inset: absolute ? 0 : "unset",
+			}}
 			{...restProps}
 		>
 			{icon ?? (
@@ -26,6 +29,9 @@ const Loading = (props: ILoading): JSX.Element => {
 					viewBox='0 0 24 24'
 					xmlns='http://www.w3.org/2000/svg'
 					className='i-loading-icon'
+					style={{
+						fontSize: size,
+					}}
 				>
 					<circle
 						cx='12'

@@ -12,7 +12,7 @@ import "./index.css";
 import ToTop from "./totop";
 import { IAffix } from "./type";
 
-const Affix = (props: IAffix): JSX.Element => {
+const Affix = (props: IAffix) => {
 	const {
 		position = "fixed",
 		left,

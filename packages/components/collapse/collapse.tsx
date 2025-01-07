@@ -59,8 +59,9 @@ const Collapse = (props: ICollapse): JSX.Element => {
 		handleToggle(item);
 	};
 
-	const handleToggle = (item: ICollapseItem) => {
+	const handleToggle = (item: ICollapseItem, e?) => {
 		const { key, disabled } = item;
+		e?.stopPropagation();
 		if (disabled) return;
 
 		if (!multiple) {
@@ -124,7 +125,7 @@ const Collapse = (props: ICollapse): JSX.Element => {
 								active
 								className='i-collapse-toggle'
 								icon={renderToggle(isActive)}
-								onClick={() => handleToggle(item)}
+								onClick={(e) => handleToggle(item, e)}
 							/>
 						</div>
 

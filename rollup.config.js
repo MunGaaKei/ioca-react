@@ -29,6 +29,7 @@ export default [
 			"ahooks",
 			"rc-virtual-list",
 			"dayjs/plugin/customParseFormat",
+			"@rc-component/color-picker",
 			/node_modules/,
 		],
 		plugins: [

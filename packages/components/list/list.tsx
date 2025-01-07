@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Children, cloneElement } from "react";
+import { Children, cloneElement, Fragment } from "react";
 import "./index.css";
 import Item from "./item";
 import { IList } from "./type";
@@ -13,6 +13,8 @@ const List = (props: IList): JSX.Element => {
 			{Children.map(children, (node: any, i) => {
 				const renderLabel =
 					typeof label === "function" ? label(i) : label;
+
+				if (node.type === Fragment) return node;
 
 				return cloneElement(node, {
 					label: renderLabel,

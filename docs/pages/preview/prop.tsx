@@ -2,7 +2,7 @@ import fantasy from "@d/assets/fantasy.jpg";
 import jay from "@d/assets/jay.jpg";
 import videoDemo from "@d/assets/video.mp4";
 import { Button, usePreview } from "@p";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const DBasic = {
 	demo: () => {

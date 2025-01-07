@@ -1,6 +1,6 @@
 import { Button, Modal } from "@p";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const DBasic = {
 	demo: () => {
@@ -67,10 +67,10 @@ export const DCustom = {
 				>
 					<div
 						style={{
-							width: 500,
-							height: 500,
+							width: 250,
+							height: 250,
 							backgroundImage:
-								"linear-gradient(-225deg, rgb(119, 255, 210) 0%, rgb(98, 151, 219) 48%, rgb(30, 236, 255) 100%)",
+								"linear-gradient(-225deg, #2f72e7 0%, #a167f9 48%, #ff3bc1 100%)",
 						}}
 					></div>
 				</Modal>
@@ -84,19 +84,19 @@ return (
         <Button onClick={() => setVisible(true)}>打开</Button>
 
         <Modal
-            visible={visible}
-            customized
-            onClose={() => setVisible(false)}
-        >
-            <div
-                style={{
-                    width: 500,
-                    height: 500,
-                    backgroundImage:
-                        "linear-gradient(-225deg, rgb(119, 255, 210) 0%, rgb(98, 151, 219) 48%, rgb(30, 236, 255) 100%)",
-                }}
-            ></div>
-        </Modal>
+			visible={visible}
+			customized
+			onClose={() => setVisible(false)}
+		>
+			<div
+				style={{
+					width: 250,
+					height: 250,
+					backgroundImage:
+						"linear-gradient(-225deg, #2f72e7 0%, #a167f9 48%, #ff3bc1 100%)",
+				}}
+			></div>
+		</Modal>
     </>
 );`,
 	lang: "javascript",

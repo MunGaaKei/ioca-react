@@ -1,5 +1,5 @@
 import { useMouseMove, useMouseUp } from "@p/js/hooks";
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { MouseEvent, useEffect, useMemo, useRef } from "react";
 import "../../css/input.css";
@@ -41,7 +41,7 @@ const Progress = (props: IProgress): JSX.Element => {
 		return value;
 	}, [state.value, precision]);
 
-	const handleMouseDown = useMemoizedFn((e: MouseEvent) => {
+	const handleMouseDown = (e: MouseEvent) => {
 		if (!ref.current || !draggable) return;
 
 		const rect = ref.current.getBoundingClientRect();
@@ -53,9 +53,9 @@ const Progress = (props: IProgress): JSX.Element => {
 			start: rect.left,
 			dragging: true,
 		});
-	});
+	};
 
-	const handleMouseMove = useMemoizedFn((e: any) => {
+	const handleMouseMove = (e: any) => {
 		if (!state.dragging || !draggable) return;
 		e.preventDefault();
 		const { start, width } = state;
@@ -64,14 +64,14 @@ const Progress = (props: IProgress): JSX.Element => {
 		if (offset < 0 || offset > width) return;
 
 		state.value = ((e.pageX - start) * 100) / width;
-	});
+	};
 
-	const handleMouseUp = useMemoizedFn(() => {
+	const handleMouseUp = () => {
 		if (!state.dragging || !draggable) return;
 
 		onChange?.(toFixedValue);
 		state.dragging = false;
-	});
+	};
 
 	useMouseMove(handleMouseMove);
 	useMouseUp(handleMouseUp);

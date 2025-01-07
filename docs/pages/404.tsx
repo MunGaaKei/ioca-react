@@ -1,5 +1,5 @@
 import { Button } from "@p";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function page404() {
 	const navigator = useNavigate();

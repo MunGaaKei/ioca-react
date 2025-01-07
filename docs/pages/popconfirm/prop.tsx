@@ -1,6 +1,6 @@
 import { Button, Input, Message, Popconfirm } from "@p";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const DBasic = {
 	demo: () => {
@@ -8,6 +8,7 @@ export const DBasic = {
 
 		return (
 			<Popconfirm
+				position='bottom'
 				content={
 					<>
 						<h5>警告</h5>
@@ -16,9 +17,13 @@ export const DBasic = {
 					</>
 				}
 				onOk={async () => {
+					if (!value) {
+						Message.error("你啥也没输入啊 😧");
+						return Promise.reject();
+					}
 					return new Promise((resolve, reject) => {
 						setTimeout(() => {
-							Message(`你输入了【${value}】`);
+							Message(`你输入了：${value}`);
 							resolve();
 						}, 1000);
 					});
@@ -33,6 +38,7 @@ export const DBasic = {
 
 return (
 	<Popconfirm
+		position="bottom"
 		content={
 			<>
 				<h5>警告</h5>
@@ -45,9 +51,13 @@ return (
 			</>
 		}
 		onOk={async () => {
+			if (!value) {
+				Message.error("你啥也没输入啊 😧");
+				return Promise.reject();
+			}
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
-					Message(\`你输入了【\${value}】\`);
+					Message(\`你输入了：\${value}\`);
 					resolve();
 				}, 1000);
 			});

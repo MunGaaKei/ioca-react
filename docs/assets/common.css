@@ -17,3 +17,9 @@
 html body {
 	font-family: "varela";
 }
+
+.apis {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5em;
+}

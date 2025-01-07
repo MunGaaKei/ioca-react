@@ -56,9 +56,14 @@ const Popconfirm = (props: IPopconfirm): JSX.Element => {
 	const handleOk = async (e: MouseEvent<HTMLElement>) => {
 		state.loading = true;
 		ok.onClick?.(e);
-		await onOk?.();
-		state.loading = false;
-		state.visible = false;
+
+		onOk?.()
+			?.then(() => {
+				state.visible = false;
+			})
+			.finally(() => {
+				state.loading = false;
+			});
 	};
 
 	const handleCancel = async (e: MouseEvent<HTMLElement>) => {

@@ -1,7 +1,7 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as react from 'react';
 import { HTMLAttributes, ReactNode, CSSProperties, ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, ChangeEvent, KeyboardEvent, InputHTMLAttributes, MouseEvent, FC, TextareaHTMLAttributes, Ref } from 'react';
-import { LinkProps } from 'react-router-dom';
+import { LinkProps } from 'react-router';
 import { ListProps } from 'rc-virtual-list';
 import { ColorPickerProps } from '@rc-component/color-picker';
 import { Dayjs } from 'dayjs';
@@ -19,7 +19,7 @@ interface IAffix extends HTMLAttributes<HTMLElement> {
 declare function ToTop(props: IAffix): react_jsx_runtime.JSX.Element;
 
 declare const Affix: {
-    (props: IAffix): JSX.Element;
+    (props: IAffix): react_jsx_runtime.JSX.Element;
     ToTop: typeof ToTop;
 };
 
@@ -87,7 +87,7 @@ interface ICard {
 }
 
 declare const Card: {
-    (props: ICard): JSX.Element;
+    (props: ICard): react_jsx_runtime.JSX.Element;
     Header: any;
     Footer: any;
     Banner: any;
@@ -242,7 +242,7 @@ interface IDrawer extends HTMLAttributes<HTMLDivElement> {
     onClose?: () => void;
 }
 
-declare function Drawer(props: IDrawer): react.ReactPortal;
+declare function Drawer(props: IDrawer): any;
 
 interface IList extends HTMLAttributes<HTMLUListElement> {
     label?: ReactNode | ((i: number) => ReactNode);

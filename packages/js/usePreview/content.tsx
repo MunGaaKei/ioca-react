@@ -11,8 +11,10 @@ import {
 	RotateRightRound,
 } from "@ricons/material";
 import { useReactive } from "ahooks";
+import classNames from "classnames";
 import { throttle } from "radash";
 import { useMemo, useRef } from "react";
+import { useMouseMove, useMouseUp } from "../hooks";
 import { getFileType, getSuffixByUrl } from "../utils";
 import DefaultRenderFile from "./renderFile";
 import { IPreview, TFileType, TPreviewItem } from "./type";
@@ -31,9 +33,12 @@ export default function Content(props: IPreview) {
 		current: initial,
 		rotate: 0,
 		scale: 1,
-		translate: `0, 0`,
+		translate: [0, 0],
+		start: [0, 0],
+		dragging: false,
 	});
 	const box = useRef<HTMLDivElement>(null);
+	const translate = useRef<number[]>([0, 0]);
 
 	const files = useMemo(() => {
 		return items.map((item) => {
@@ -84,6 +89,7 @@ export default function Content(props: IPreview) {
 			onZoom?.(1);
 		}
 		onRotate?.(state.rotate);
+		state.translate = translate.current = [0, 0];
 	};
 
 	const handleRotate = (deg: number) => {
@@ -102,15 +108,50 @@ export default function Content(props: IPreview) {
 		state.scale = after;
 	});
 
+	const handleMouseDown = (e) => {
+		if (!isImage) return;
+		e.preventDefault();
+		state.dragging = true;
+		state.start = [e.pageX, e.pageY];
+	};
+
+	const handleMouseMove = (e) => {
+		if (!state.dragging) return;
+		e.preventDefault();
+
+		const [x, y] = translate.current;
+		const [ox, oy] = state.start;
+		const offsetX = e.pageX - ox;
+		const offsetY = e.pageY - oy;
+
+		state.translate = [x + offsetX, y + offsetY];
+	};
+
+	const handleMouseUp = () => {
+		if (!state.dragging) return;
+		state.dragging = false;
+		translate.current = state.translate;
+	};
+
+	useMouseMove(handleMouseMove);
+	useMouseUp(handleMouseUp);
+
 	return (
 		<>
 			<div
 				ref={box}
-				className='i-preview-content'
+				className={classNames("i-preview-content", {
+					"no-transition": state.dragging,
+				})}
 				style={{
-					transform: `rotate(${state.rotate}deg) scale(${state.scale})`,
+					transform: `translate(${state.translate
+						.map((n) => `${n}px`)
+						.join(",")}) rotate(${state.rotate}deg) scale(${
+						state.scale
+					})`,
 				}}
 				onWheel={handleMouseWheel}
+				onMouseDown={handleMouseDown}
 				onClick={(e) => e.stopPropagation()}
 			>
 				{content}
@@ -128,7 +169,7 @@ export default function Content(props: IPreview) {
 				{state.scale !== 1 && (
 					<Button flat onClick={() => (state.scale = 1)}>
 						<Icon icon={<AspectRatioRound />} />
-						<span className='mt-4'>
+						<span className='mt-2'>
 							{(state.scale * 100).toFixed(0)}%
 						</span>
 					</Button>

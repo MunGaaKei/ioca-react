@@ -92,7 +92,7 @@ const Range = (props: IInputRange) => {
 	const handleSwitch = useMemoizedFn((e: MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		const range = state.value ?? [];
+		const range = state.value ? state.value : [];
 		const v = range[0];
 		range[0] = range[1];
 		range[1] = v;

@@ -1,5 +1,5 @@
 import { List } from "@/packages";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 const { Item } = List;
 
 export const updates = [
@@ -144,6 +144,67 @@ export const updates = [
 					添加了属性 <code>hideArrow</code>
 				</Item>
 				<Item>修复小部分事件绑定</Item>
+			</List>
+		),
+	},
+	{
+		title: "1.1.6",
+		content: (
+			<List>
+				<Item
+					label={
+						<Link to='/docs/preview' className='blue'>
+							Preview
+						</Link>
+					}
+				>
+					新增图片拖移功能
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/datagrid' className='blue'>
+							Datagrid
+						</Link>
+					}
+				>
+					修正单元格初始宽度适应
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/collapse' className='blue'>
+							Collapse
+						</Link>
+					}
+				>
+					修正headerClickable冲突
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/loading' className='blue'>
+							Loading
+						</Link>
+					}
+				>
+					优化<code>absolute</code>时的样式
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/popconfirm' className='blue'>
+							Popconfirm
+						</Link>
+					}
+				>
+					优化了<code>onOk</code>回调
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/video' className='blue'>
+							Video
+						</Link>
+					}
+				>
+					优化控制栏显示
+				</Item>
 			</List>
 		),
 	},

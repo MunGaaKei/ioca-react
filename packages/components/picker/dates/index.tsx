@@ -112,7 +112,7 @@ const Datepicker = (props: IDatePicker): JSX.Element => {
 				append={
 					<Icon
 						icon={<CalendarMonthTwotone />}
-						className='i-picker-dates-icon'
+						className='i-datepicker-icon'
 						size='1em'
 					/>
 				}

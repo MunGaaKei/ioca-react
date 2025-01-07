@@ -2,7 +2,7 @@ import { Collapse } from "@p";
 
 export const DBasic = {
 	demo: (
-		<Collapse>
+		<Collapse headerClickable>
 			<Collapse.Item title={<>窗外的麻雀</>} className='a'>
 				Lorem, ipsum dolor sit amet consectetur adipisicing elit.
 				Ducimus doloremque, nulla eos et sapiente consequuntur aliquam
@@ -23,7 +23,7 @@ export const DBasic = {
 			</Collapse.Item>
 		</Collapse>
 	),
-	code: `<Collapse>
+	code: `<Collapse headerClickable>
     <Collapse.Item title={<>窗外的麻雀</>}>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit.
         Ducimus doloremque, nulla eos et sapiente consequuntur aliquam

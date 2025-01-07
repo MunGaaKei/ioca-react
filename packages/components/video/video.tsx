@@ -10,6 +10,7 @@ import {
 } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
+import { throttle } from "radash";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import Button from "../button";
 import Icon from "../icon";
@@ -46,8 +47,10 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 		current: 0,
 		duration: 0,
 		isFullscreen: false,
+		controlHidden: true,
 	});
-	const $v = useRef<HTMLVideoElement>(null);
+	const videoRef = useRef<HTMLVideoElement>(null);
+	const hiddenTO = useRef<any>(null);
 
 	const timeUpdateListener = (e) => {
 		const tar = e.target;
@@ -63,7 +66,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 	};
 
 	const fsChangeListener = () => {
-		const tar = $v.current?.parentElement;
+		const tar = videoRef.current?.parentElement;
 		if (!tar) return;
 
 		state.isFullscreen = document.fullscreenElement === tar;
@@ -78,7 +81,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 	};
 
 	const handlePlay = () => {
-		const v = $v.current;
+		const v = videoRef.current;
 		if (!v) return;
 
 		v.paused ? v.play() : v.pause();
@@ -94,7 +97,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 	};
 
 	const handleMuted = () => {
-		const v = $v.current;
+		const v = videoRef.current;
 		if (!v) return;
 
 		if (v.volume > 0) {
@@ -106,7 +109,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 	};
 
 	const handleStop = () => {
-		const v = $v.current;
+		const v = videoRef.current;
 		if (!v) return;
 
 		v.currentTime = 0;
@@ -114,7 +117,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 	};
 
 	const handleFullscreen = () => {
-		const tar = $v.current?.parentElement;
+		const tar = videoRef.current?.parentElement;
 		if (!tar) return;
 
 		state.isFullscreen ? exitFullScreen() : fullScreen(tar);
@@ -122,39 +125,59 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 	};
 
 	const handleUpdateTime = (t) => {
-		const v = $v.current;
+		const v = videoRef.current;
 		if (!v) return;
 
 		v.currentTime = (state.duration * t) / 100;
 	};
 
 	const handleUpdateVolume = (t) => {
-		const v = $v.current;
+		const v = videoRef.current;
 		if (!v) return;
 
 		v.volume = t / 100;
 	};
 
+	const showControls = !hideControls && !useOriginControls;
+
+	const clearHiddenTO = () => {
+		if (!hiddenTO.current) return;
+		clearTimeout(hiddenTO.current);
+		hiddenTO.current = null;
+	};
+
+	const setHiddenFalse = () => {
+		if (!showControls) return;
+		state.controlHidden = false;
+
+		clearHiddenTO();
+		hiddenTO.current = setTimeout(() => {
+			state.controlHidden = true;
+		}, 1000);
+	};
+
+	const handleMouseMove = throttle({ interval: 300 }, setHiddenFalse);
+
 	useImperativeHandle(ref, () => ({
 		play: () => {
-			const v = $v.current;
+			const v = videoRef.current;
 			if (!v) return;
 
 			v.play();
 		},
 		pause: () => {
-			const v = $v.current;
+			const v = videoRef.current;
 			if (!v) return;
 
 			v.pause();
 		},
 		stop: handleStop,
 		fullscreen: handleFullscreen,
-		getVideo: () => $v.current,
+		getVideo: () => videoRef.current,
 	}));
 
 	useEffect(() => {
-		const v = $v.current;
+		const v = videoRef.current;
 		if (!v) return;
 
 		v.addEventListener("timeupdate", timeUpdateListener);
@@ -164,6 +187,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 		document.addEventListener("fullscreenchange", fsChangeListener);
 
 		return () => {
+			clearHiddenTO();
 			v.removeEventListener("timeupdate", timeUpdateListener);
 			v.removeEventListener("play", playChangeListener);
 			v.removeEventListener("pause", playChangeListener);
@@ -178,17 +202,20 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 			style={{ height, width, ...style }}
 			onClick={handlePlay}
 			onDoubleClick={() => handleFullscreen()}
+			onMouseMove={handleMouseMove}
 		>
 			<video
-				ref={$v}
+				ref={videoRef}
 				onCanPlay={handleReady}
 				{...restProps}
 				controls={useOriginControls}
 			/>
 
-			{!hideControls && !useOriginControls && (
+			{showControls && (
 				<div
-					className='i-video-controls'
+					className={classNames("i-video-controls", {
+						"i-video-controls-hidden": state.controlHidden,
+					})}
 					onClick={(e) => e.stopPropagation()}
 				>
 					<div className='i-video-control flex-1'>
@@ -210,7 +237,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 						>
 							<Icon icon={<StopRound />} />
 						</Button>
-						<span className='i-video-times'>
+						<span className='i-video-times font-sm'>
 							<Text.Time seconds={state.current} /> /
 							<Text.Time seconds={state.duration} />
 						</span>
@@ -221,6 +248,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 							onChange={handleUpdateTime}
 						/>
 					</div>
+
 					<div className='i-video-control'>
 						<Button.Toggle
 							className='i-video-btn'
@@ -233,6 +261,7 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 							<Icon icon={<FullscreenRound />} />
 						</Button.Toggle>
 					</div>
+
 					<div className='i-video-control'>
 						<Button.Toggle
 							className='i-video-btn'

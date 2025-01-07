@@ -4,7 +4,7 @@ import { Banner, Footer, Header, Tailer } from "./area";
 import "./index.css";
 import { ICard } from "./type";
 
-const Card = (props: ICard): JSX.Element => {
+const Card = (props: ICard) => {
 	const { shadow = true, border, style, className, children } = props;
 
 	const slots: any = useMemo(() => {

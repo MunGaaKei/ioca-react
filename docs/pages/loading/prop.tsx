@@ -7,6 +7,11 @@ export const DBasic = {
 				<Loading size={40} />
 
 				<Loading text='加载中' className='color-3 pd-8 round-0' />
+
+				<div className='relative pd-20 round-0'>
+					<div className='pd-12 opacity-5'>内容</div>
+					<Loading absolute size={32} />
+				</div>
 			</Flex>
 		);
 	},
@@ -14,6 +19,11 @@ export const DBasic = {
     <Loading size={40} />
 
     <Loading text='加载中' className='color-3 pd-8 round-0' />
+
+	<div className='relative pd-20 round-0'>
+		<div className='pd-12 opacity-5'>内容</div>
+		<Loading absolute size={32} />
+	</div>
 </Flex>`,
 	lang: "xml",
 };

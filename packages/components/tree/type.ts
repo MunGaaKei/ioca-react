@@ -5,7 +5,7 @@ import {
 	ReactNode,
 	RefAttributes,
 } from "react";
-import { LinkProps } from "react-router-dom";
+import { LinkProps } from "react-router";
 
 export interface ITreeHeader extends Pick<ITreeItem, "as" | "href"> {
 	selected?: boolean;

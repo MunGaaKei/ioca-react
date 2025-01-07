@@ -1,7 +1,7 @@
 import { useGlobalValues } from "@d/config/context";
 import { Button, Icon, Text } from "@p";
 import { LightModeTwotone, NightlightTwotone } from "@ricons/material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function Sider() {
 	const global = useGlobalValues();

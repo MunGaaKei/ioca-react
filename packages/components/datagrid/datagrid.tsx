@@ -44,7 +44,7 @@ const Datagrid = (props: IDatagrid): JSX.Element => {
 	const scrollbar = useRef<Scrollbars>(null);
 	const state = useReactive<TDatagridState>({
 		rows: data,
-		widths: columns.map((col) => col.width ?? "auto"),
+		widths: columns.map((col) => col.width ?? "min-content"),
 		sortBy: "",
 		sortType: "",
 	});
@@ -144,7 +144,6 @@ const Datagrid = (props: IDatagrid): JSX.Element => {
 		const { current: div } = container;
 		const tds = div.querySelector(".i-datagrid-row")?.children;
 		if (!tds?.length) return;
-
 		state.widths = Array.from(tds).map((node: any) => node.offsetWidth);
 	}, [columns, resizable]);
 

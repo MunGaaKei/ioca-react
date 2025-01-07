@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import Api from "../components/api";
 import Demo from "../components/demo";
 import { DBasic, DColors, PTag } from "./prop";
