@@ -27,7 +27,9 @@ export default function Home() {
 					<Text gradient={gradient}>IOCA</Text>{" "}
 					<Text gradient={gradient}>REACT</Text>
 				</h1>
-				<p>version {version}</p>
+				<p>
+					<span className='opacity-5'>ver.</span> {version}
+				</p>
 				<h2 className='mt-40 hover-text-shadow'>
 					<Link to='/docs/install'>开始</Link>
 				</h2>

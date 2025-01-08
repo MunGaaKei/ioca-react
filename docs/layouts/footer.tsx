@@ -17,9 +17,21 @@ export default function Footer() {
 				>
 					IOCA
 				</Text>
-				<Text size='.7em'>version {version}</Text>
+				<Text size='.7em'>
+					<i className='opacity-5'>ver.</i> {version}
+				</Text>
 			</Flex>
-			<p>Designed & Codes By Iann</p>
+			<p>
+				Design & Codes By{" "}
+				<a
+					href='https://mungaakei.github.io/iann/'
+					target='_blank'
+					className='color-2'
+					style={{ fontFamily: "jaini", fontSize: 18 }}
+				>
+					Iann
+				</a>
+			</p>
 		</footer>
 	);
 }
