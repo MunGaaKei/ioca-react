@@ -208,4 +208,52 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.1.7",
+		content: (
+			<List>
+				<Item
+					label={
+						<Link to='/docs/drawer' className='blue'>
+							Drawer
+						</Link>
+					}
+				>
+					新增<code>keepDOM</code>属性
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/image' className='blue'>
+							Image
+						</Link>
+					}
+				>
+					修复初始时<code>loading</code>状态问题
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/popup' className='blue'>
+							Popup
+						</Link>
+					}
+				>
+					优化显示位置控制
+				</Item>
+				<Item>
+					<Link to='/docs/progress' className='blue'>
+						Progress
+					</Link>
+					<Link to='/docs/resizable' className='blue'>
+						Resizable
+					</Link>
+					<Link to='/docs/swiper' className='blue'>
+						Swiper
+					</Link>{" "}
+					优化移动端交互
+				</Item>
+				<Item>优化部分样式</Item>
+				<Item>适应 React 19 部分功能</Item>
+			</List>
+		),
+	},
 ];

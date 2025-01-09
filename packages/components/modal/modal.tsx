@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Button from "../button";
 import Helpericon from "../utils/helpericon";
@@ -92,7 +92,7 @@ function Modal(props: IModal) {
 	const [bounced, setBounced] = useState(false);
 	const toggable = useRef(true);
 
-	const handleShow = useCallback(() => {
+	const handleShow = () => {
 		if (!toggable.current) return;
 
 		setShow(true);
@@ -102,9 +102,9 @@ function Modal(props: IModal) {
 			onVisibleChange?.(true);
 			toggable.current = true;
 		}, 24);
-	}, []);
+	};
 
-	const handleHide = useCallback(() => {
+	const handleHide = () => {
 		if (!toggable.current) return;
 		toggable.current = false;
 
@@ -124,14 +124,11 @@ function Modal(props: IModal) {
 			onVisibleChange?.(false);
 			onClose?.();
 		}, 240);
-	}, [closable]);
+	};
 
-	const handleBackdropClick = useCallback(
-		function () {
-			backdropClosable && handleHide();
-		},
-		[closable, backdropClosable]
-	);
+	const handleBackdropClick = function () {
+		backdropClosable && handleHide();
+	};
 
 	useEffect(() => {
 		visible ? handleShow() : handleHide();

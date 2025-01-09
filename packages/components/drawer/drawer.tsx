@@ -1,5 +1,6 @@
+import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Helpericon from "../utils/helpericon";
 import "./index.css";
@@ -13,54 +14,61 @@ function Drawer(props: IDrawer) {
 		footer,
 		backdropClosable = true,
 		hideCloseButton,
+		keepDOM,
 		className,
 		children,
 		onVisibleChange,
 		onClose,
 		...restProps
 	} = props;
-	const [show, setShow] = useState(visible);
-	const [active, setActive] = useState(visible);
 	const toggable = useRef(true);
+	const state = useReactive({
+		show: visible,
+		active: visible,
+		init: false,
+	});
 
 	useEffect(() => {
 		visible ? handleShow() : handleHide();
 	}, [visible]);
 
-	const handleShow = useCallback(() => {
+	const handleShow = () => {
 		if (!toggable.current) return;
 
-		setShow(true);
+		state.show = true;
 		onVisibleChange?.(true);
 		toggable.current = false;
 		setTimeout(() => {
-			setActive(true);
+			state.active = true;
 			toggable.current = true;
+			state.init = true;
 		}, 24);
-	}, []);
+	};
 
-	const handleHide = useCallback(() => {
+	const handleHide = () => {
 		if (!toggable.current) return;
 		toggable.current = false;
 
-		setActive(false);
+		state.active = false;
 		setTimeout(() => {
-			setShow(false);
+			if (!keepDOM) {
+				state.show = false;
+			}
 			onVisibleChange?.(false);
 			toggable.current = true;
 			onClose?.();
 		}, 240);
-	}, []);
+	};
 
-	const handleBackdropClick = useCallback(function () {
+	const handleBackdropClick = function () {
 		backdropClosable && handleHide();
-	}, []);
+	};
 
 	return createPortal(
-		show && (
+		state.show && (
 			<div
 				className={classNames("i-backdrop-drawer", className, {
-					"i-active": active,
+					"i-active": state.active,
 				})}
 				onClick={handleBackdropClick}
 				{...restProps}

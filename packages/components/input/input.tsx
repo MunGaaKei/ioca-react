@@ -1,13 +1,7 @@
 import { VisibilityOffRound, VisibilityRound } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import {
-	ChangeEvent,
-	forwardRef,
-	useCallback,
-	useEffect,
-	useMemo,
-} from "react";
+import { ChangeEvent, forwardRef, useEffect, useMemo } from "react";
 import "../../css/input.css";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
@@ -43,12 +37,12 @@ const Input = forwardRef<HTMLInputElement, IInput>((props, ref) => {
 		visible: false,
 	});
 
-	const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const v = e.target.value;
 
 		state.value = v;
 		onChange?.(v, e);
-	}, []);
+	};
 
 	const handleKeydown = (e) => {
 		e.code === "Enter" && onEnter?.(e);

@@ -1,6 +1,6 @@
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { MouseEvent, useCallback, useEffect } from "react";
+import { MouseEvent, useEffect } from "react";
 import Button from "./button";
 import { IButtonToggle } from "./type";
 
@@ -22,7 +22,7 @@ export default function Toggle(props: IButtonToggle) {
 		done: true,
 	});
 
-	const toggle = useCallback(() => {
+	const toggle = () => {
 		const hasAfter = after !== undefined;
 		const nextActive = !state.active;
 
@@ -36,7 +36,7 @@ export default function Toggle(props: IButtonToggle) {
 			setTimeout(() => {
 				state.done = true;
 			}, 16);
-	}, [after]);
+	};
 
 	const handleClick = (e: MouseEvent<HTMLElement>) => {
 		onClick?.(e);

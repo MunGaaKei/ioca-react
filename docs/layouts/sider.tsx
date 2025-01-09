@@ -1,13 +1,28 @@
 import { useGlobalValues } from "@d/config/context";
-import { Button, Icon, Text } from "@p";
-import { LightModeTwotone, NightlightTwotone } from "@ricons/material";
+import { Button, Drawer, Icon, Text } from "@p";
+import {
+	LightModeTwotone,
+	MenuRound,
+	NightlightTwotone,
+} from "@ricons/material";
+import { useReactive } from "ahooks";
 import { Link } from "react-router";
 
-export default function Sider() {
+export default function Sider(props) {
+	const { useDrawer, menus } = props;
 	const global = useGlobalValues();
+	const state = useReactive({
+		menuVisible: false,
+	});
 
 	return (
-		<div className='sticky-top flex flex-column justify-center items-center pd-4 gap-4 mb-auto'>
+		<div
+			className='sticky-top flex flex-column justify-center items-center pd-4 gap-4 mb-auto mr-8 bg-blur round-0'
+			style={{
+				position: useDrawer ? "fixed" : undefined,
+				right: useDrawer ? 0 : undefined,
+			}}
+		>
 			<Text
 				gradient={["30deg", "var(--color-1)", "var(--color-7)"]}
 				as='h2'
@@ -49,6 +64,29 @@ export default function Sider() {
 					}
 				/>
 			</Button>
+
+			{useDrawer && (
+				<>
+					<Button
+						square
+						flat
+						onClick={() => {
+							state.menuVisible = true;
+						}}
+					>
+						<Icon icon={<MenuRound />} />
+					</Button>
+
+					<Drawer
+						visible={state.menuVisible}
+						hideCloseButton
+						keepDOM
+						onClose={() => (state.menuVisible = false)}
+					>
+						{menus}
+					</Drawer>
+				</>
+			)}
 
 			{/* <Button square flat>
 				<Icon icon={<SearchRound />} size='1.8em' />

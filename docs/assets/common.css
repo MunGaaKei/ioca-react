@@ -23,3 +23,9 @@ html body {
 	flex-direction: column;
 	gap: 1.5em;
 }
+
+.i-drawer {
+	.i-tree {
+		min-width: 240px;
+	}
+}

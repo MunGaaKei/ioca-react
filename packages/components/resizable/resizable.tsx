@@ -51,6 +51,11 @@ const Resizable = (props: IResizable): JSX.Element => {
 		if (!state.resizing) return;
 
 		e.preventDefault();
+
+		if (e.touches) {
+			e = e.touches[0];
+		}
+
 		const d = e[vertical ? "pageY" : "pageX"];
 		const offset = d - state.start;
 
@@ -92,6 +97,8 @@ const Resizable = (props: IResizable): JSX.Element => {
 					[`i-resizable-resizing`]: state.resizing,
 				})}
 				onMouseDown={handleMouseDown}
+				onTouchStart={handleMouseDown}
+				onContextMenu={(e) => e.preventDefault()}
 			>
 				<div className='i-resizable-line-node'>{line}</div>
 			</div>

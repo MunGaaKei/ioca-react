@@ -1,8 +1,8 @@
 import { clamp, formatNumber } from "@p/js/utils";
 import { MinusRound, PlusRound } from "@ricons/material";
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { ChangeEvent, forwardRef, useCallback, useEffect } from "react";
+import { ChangeEvent, forwardRef, useEffect } from "react";
 import "../../css/input.css";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
@@ -41,42 +41,34 @@ const Number = forwardRef<HTMLInputElement, IInputNumber>((props, ref) => {
 		value,
 	});
 
-	const getRangeNumber = useCallback(
-		(v: number) => clamp(v, min, max),
-		[min, max]
-	);
+	const getRangeNumber = (v: number) => clamp(v, min, max);
 
-	const getFormatNumber = useCallback(
-		(v: number) => formatNumber(v, { precision, thousand }),
-		[precision, thousand]
-	);
+	const getFormatNumber = (v: number) =>
+		formatNumber(v, { precision, thousand });
 
-	const formatInputValue = useCallback(
-		(v?: string | number) => {
-			if (!v) return "";
-			if (typeof v === "number" || !thousand) return v;
+	const formatInputValue = (v?: string | number) => {
+		if (!v) return "";
+		if (typeof v === "number" || !thousand) return v;
 
-			return v.replaceAll(thousand, "");
-		},
-		[thousand]
-	);
+		return v.replaceAll(thousand, "");
+	};
 
-	const handleChange = useMemoizedFn((e: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
 		const v = formatInputValue(value.replace(/[^\d\.-]/g, ""));
 
 		state.value = v;
 		onChange?.(+v, e);
-	});
+	};
 
-	const handleOperate = useMemoizedFn((param: number) => {
+	const handleOperate = (param: number) => {
 		const value = formatInputValue(state.value) ?? 0;
 		const result = getRangeNumber(+value + param);
 
 		state.value = getFormatNumber(result);
 
 		onChange?.(result);
-	});
+	};
 
 	useEffect(() => {
 		state.value = value;

@@ -7,10 +7,18 @@ const Line = forwardRef<
 	Pick<IProgress, "value" | "size" | "barClass" | "renderCursor"> & {
 		dragging: boolean;
 		onMouseDown: (e: MouseEvent) => void;
+		onTouchStart: (e) => void;
 	}
 >((props, ref) => {
-	const { value, size, barClass, dragging, renderCursor, onMouseDown } =
-		props;
+	const {
+		value,
+		size,
+		barClass,
+		dragging,
+		renderCursor,
+		onMouseDown,
+		onTouchStart,
+	} = props;
 
 	return (
 		<div
@@ -18,6 +26,7 @@ const Line = forwardRef<
 			className='i-progress'
 			style={{ height: size }}
 			onMouseDown={onMouseDown}
+			onTouchStart={onTouchStart}
 		>
 			<div
 				className={classNames("i-progress-bar", barClass, {

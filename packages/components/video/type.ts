@@ -10,6 +10,7 @@ export interface IVideo extends HTMLAttributes<HTMLVideoElement> {
 	height?: number | string;
 	width?: number | string;
 	useOriginControls?: boolean;
+	poster?: string;
 	timeProgressProps?: IProgress;
 	volumeProgressProps?: IProgress;
 	onFullScreenChange?: (fullscreen: boolean) => void;

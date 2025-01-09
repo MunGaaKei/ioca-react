@@ -238,6 +238,7 @@ interface IDrawer extends HTMLAttributes<HTMLDivElement> {
     footer?: ReactNode;
     hideCloseButton?: boolean;
     backdropClosable?: boolean;
+    keepDOM?: boolean;
     onVisibleChange?: (visible: boolean) => void;
     onClose?: () => void;
 }
@@ -891,6 +892,7 @@ interface IVideo extends HTMLAttributes<HTMLVideoElement> {
     height?: number | string;
     width?: number | string;
     useOriginControls?: boolean;
+    poster?: string;
     timeProgressProps?: IProgress;
     volumeProgressProps?: IProgress;
     onFullScreenChange?: (fullscreen: boolean) => void;

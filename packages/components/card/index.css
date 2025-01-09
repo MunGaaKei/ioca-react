@@ -1,5 +1,5 @@
 .i-card {
-	--card-padding: 0.625em;
+	--card-padding: 8px 12px;
 	display: flex;
 	flex-direction: column;
 	background: var(--background-opacity-2);
@@ -19,7 +19,6 @@
 
 .i-card-content {
 	flex: 1;
-	padding: var(--card-padding);
 }
 
 .i-card-footer {

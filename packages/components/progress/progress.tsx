@@ -1,7 +1,7 @@
 import { useMouseMove, useMouseUp } from "@p/js/hooks";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { MouseEvent, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import "../../css/input.css";
 import Circle from "./circle";
 import "./index.css";
@@ -41,8 +41,12 @@ const Progress = (props: IProgress): JSX.Element => {
 		return value;
 	}, [state.value, precision]);
 
-	const handleMouseDown = (e: MouseEvent) => {
+	const handleMouseDown = (e) => {
 		if (!ref.current || !draggable) return;
+
+		if (e.touches) {
+			e = e.touches[0];
+		}
 
 		const rect = ref.current.getBoundingClientRect();
 		const value = ((e.pageX - rect.left) * 100) / rect.width;
@@ -55,9 +59,14 @@ const Progress = (props: IProgress): JSX.Element => {
 		});
 	};
 
-	const handleMouseMove = (e: any) => {
+	const handleMouseMove = (e) => {
 		if (!state.dragging || !draggable) return;
 		e.preventDefault();
+
+		if (e.touches) {
+			e = e.touches[0];
+		}
+
 		const { start, width } = state;
 		const offset = e.pageX - start;
 
@@ -108,6 +117,7 @@ const Progress = (props: IProgress): JSX.Element => {
 					value={state.value}
 					renderCursor={renderCursor}
 					onMouseDown={handleMouseDown}
+					onTouchStart={handleMouseDown}
 				/>
 			)}
 

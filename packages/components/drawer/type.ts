@@ -7,6 +7,7 @@ export interface IDrawer extends HTMLAttributes<HTMLDivElement> {
 	footer?: ReactNode;
 	hideCloseButton?: boolean;
 	backdropClosable?: boolean;
+	keepDOM?: boolean;
 	onVisibleChange?: (visible: boolean) => void;
 	onClose?: () => void;
 }

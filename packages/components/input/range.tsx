@@ -1,8 +1,8 @@
 import { clamp, formatNumber } from "@p/js/utils";
 import { MinusRound, PlusRound, SyncAltRound } from "@ricons/material";
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { ChangeEvent, MouseEvent, useCallback, useEffect } from "react";
+import { ChangeEvent, MouseEvent, useEffect } from "react";
 import "../../css/input.css";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
@@ -40,56 +40,48 @@ const Range = (props: IInputRange) => {
 		value,
 	});
 
-	const getRangeNumber = useCallback(
-		(v: number) => clamp(v, min, max),
-		[min, max]
-	);
+	const getRangeNumber = (v: number) => clamp(v, min, max);
 
-	const getFormatNumber = useCallback(
-		(v: number) => formatNumber(v, { precision, thousand }),
-		[precision, thousand]
-	);
+	const getFormatNumber = (v: number) =>
+		formatNumber(v, { precision, thousand });
 
-	const formatInputValue = useCallback(
-		(v?: string | number) => {
-			if (!v) return "";
-			if (typeof v === "number" || !thousand) return v;
+	const formatInputValue = (v?: string | number) => {
+		if (!v) return "";
+		if (typeof v === "number" || !thousand) return v;
 
-			return v.replaceAll(thousand, "");
-		},
-		[thousand]
-	);
+		return v.replaceAll(thousand, "");
+	};
 
-	const handleChange = useMemoizedFn(
-		(e: ChangeEvent<HTMLInputElement>, i: number) => {
-			const { value } = e.target;
-			const v = formatInputValue(value.replace(/[^\d\.-]/g, ""));
+	const handleChange = (e: ChangeEvent<HTMLInputElement>, i: number) => {
+		const { value } = e.target;
+		const v = formatInputValue(value.replace(/[^\d\.-]/g, ""));
 
-			const range = Array.isArray(state.value) ? state.value : [];
-			range[i] = +v;
+		const range = Array.isArray(state.value) ? state.value : [];
+		range[i] = +v;
 
-			state.value = range;
-			onChange?.(range, e);
-		}
-	);
+		state.value = range;
+		onChange?.(range, e);
+	};
 
-	const handleOperate = useMemoizedFn(
-		(e: MouseEvent<Element>, param: number, i: number) => {
-			e.preventDefault();
-			e.stopPropagation();
+	const handleOperate = (
+		e: MouseEvent<Element>,
+		param: number,
+		i: number
+	) => {
+		e.preventDefault();
+		e.stopPropagation();
 
-			const range = Array.isArray(state.value) ? state.value : [];
-			const value = formatInputValue(range[i]) ?? 0;
-			const result = getRangeNumber(+value + param);
+		const range = Array.isArray(state.value) ? state.value : [];
+		const value = formatInputValue(range[i]) ?? 0;
+		const result = getRangeNumber(+value + param);
 
-			range[i] = getFormatNumber(result);
+		range[i] = getFormatNumber(result);
 
-			state.value = range;
-			onChange?.(range, e);
-		}
-	);
+		state.value = range;
+		onChange?.(range, e);
+	};
 
-	const handleSwitch = useMemoizedFn((e: MouseEvent) => {
+	const handleSwitch = (e: MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 		const range = state.value ? state.value : [];
@@ -99,7 +91,7 @@ const Range = (props: IInputRange) => {
 
 		state.value = range;
 		onChange?.(range);
-	});
+	};
 
 	useEffect(() => {
 		state.value = value;

@@ -8,9 +8,7 @@ import { useReactive } from "ahooks";
 import classNames from "classnames";
 import {
 	Children,
-	MouseEvent,
 	forwardRef,
-	useCallback,
 	useEffect,
 	useImperativeHandle,
 	useMemo,
@@ -123,68 +121,64 @@ const Swiper = forwardRef<RefSwiper, ISwiper>((props, ref): JSX.Element => {
 		timerRef.current = null;
 	};
 
-	const swipeTo = useCallback(
-		(i: number) => {
-			if (!state.swipable || i === state.current) return;
-			state.swipable = false;
-			onBeforeSwipe?.(state.current);
+	const swipeTo = (i: number) => {
+		if (!state.swipable || i === state.current) return;
+		state.swipable = false;
+		onBeforeSwipe?.(state.current);
 
-			let reset = false;
-			let next = i;
-			const lastDisplay = size - display;
+		let reset = false;
+		let next = i;
+		const lastDisplay = size - display;
 
-			if (loop) {
-				if (i > lastDisplay) {
-					reset = true;
-					i = size;
-					next = 0;
-				} else if (i < 0) {
-					reset = true;
-					i = -display;
-					next = lastDisplay;
-				}
-			} else {
-				next = clamp(next, 0, lastDisplay);
-				i = next;
+		if (loop) {
+			if (i > lastDisplay) {
+				reset = true;
+				i = size;
+				next = 0;
+			} else if (i < 0) {
+				reset = true;
+				i = -display;
+				next = lastDisplay;
 			}
+		} else {
+			next = clamp(next, 0, lastDisplay);
+			i = next;
+		}
 
+		setTimeout(() => {
+			state.swipable = true;
+		}, duration + 32);
+
+		if (type === "fade") {
+			state.current = next;
+			onAfterSwipe?.(next);
+			return;
+		}
+
+		state.current = i;
+
+		if (!reset) {
+			if (autoplay) {
+				timerRef.current = setTimeout(swipeNext, interval);
+			}
 			setTimeout(() => {
-				state.swipable = true;
-			}, duration + 32);
-
-			if (type === "fade") {
-				state.current = next;
 				onAfterSwipe?.(next);
-				return;
+			}, duration + 12);
+			return;
+		}
+
+		setTimeout(() => {
+			state.transition = "none";
+			state.current = next;
+			onAfterSwipe?.(next);
+			if (autoplay) {
+				timerRef.current = setTimeout(swipeNext, interval);
 			}
-
-			state.current = i;
-
-			if (!reset) {
-				if (autoplay) {
-					timerRef.current = setTimeout(swipeNext, interval);
-				}
-				setTimeout(() => {
-					onAfterSwipe?.(next);
-				}, duration + 12);
-				return;
-			}
-
 			setTimeout(() => {
-				state.transition = "none";
-				state.current = next;
-				onAfterSwipe?.(next);
-				if (autoplay) {
-					timerRef.current = setTimeout(swipeNext, interval);
-				}
-				setTimeout(() => {
-					state.transition = transition;
-				}, 60);
-			}, duration + 20);
-		},
-		[duration, autoplay]
-	);
-
+				state.transition = transition;
+			}, 60);
+		}, duration + 20);
+	};
 	const swipeNext = () => {
 		swipeTo(reverse ? state.current - scroll : state.current + scroll);
 	};
@@ -193,68 +187,70 @@ const Swiper = forwardRef<RefSwiper, ISwiper>((props, ref): JSX.Element => {
 		swipeTo(reverse ? state.current + scroll : state.current - scroll);
 	};
 
-	const handleMouseDown = useCallback(
-		(e: MouseEvent) => {
-			if (!draggable || !state.swipable || type === "fade") return;
-			e.stopPropagation();
+	const handleMouseDown = (e) => {
+		if (!draggable || !state.swipable || type === "fade") return;
+		e.stopPropagation();
 
-			Object.assign(state, {
-				dragStart: vertical ? e.clientY : e.clientX,
-				dragging: true,
-				transition: "none",
-			});
-		},
-		[draggable, vertical]
-	);
+		if (e.touches) {
+			e = e.touches[0];
+		}
 
-	const handleMouseMove = useCallback(
-		(e: any) => {
-			if (!state.dragging || !listRef.current) return;
-			e.preventDefault();
+		Object.assign(state, {
+			dragStart: vertical ? e.clientY : e.clientX,
+			dragging: true,
+			transition: "none",
+		});
+	};
 
-			const dragEnd = vertical ? e.clientY : e.clientX;
-			const offset =
-				((dragEnd - state.dragStart) * 61.8) /
-					listRef.current[vertical ? "offsetHeight" : "offsetWidth"] +
-				offsetPercent;
+	const handleMouseMove = (e) => {
+		if (!state.dragging || !listRef.current) return;
+		e.preventDefault();
 
-			listRef.current.style.transform = `translate3d(${
-				vertical ? `0, ${offset}%` : `${offset}%, 0`
-			}, 0)`;
-		},
-		[vertical, listRef.current, offsetPercent]
-	);
+		if (e.touches) {
+			e = e.touches[0];
+		}
 
-	const handleMouseUp = useCallback(
-		(e: any) => {
-			if (!state.dragging || !listRef.current) return;
+		const dragEnd = vertical ? e.clientY : e.clientX;
+		const offset =
+			((dragEnd - state.dragStart) * 61.8) /
+				listRef.current[vertical ? "offsetHeight" : "offsetWidth"] +
+			offsetPercent;
 
-			const dragEnd = vertical ? e.clientY : e.clientX;
-			const part =
-				listRef.current[vertical ? "offsetHeight" : "offsetWidth"] /
-				total;
-			const offset = (dragEnd - state.dragStart) * 0.618;
-			const absOffset = Math.abs(offset);
+		listRef.current.style.transform = `translate3d(${
+			vertical ? `0, ${offset}%` : `${offset}%, 0`
+		}, 0)`;
+	};
 
-			if (absOffset > dragOffset) {
-				const base = Math.floor(absOffset / part);
-				const mod = (absOffset % part) - dragOffset > 0 ? 1 : 0;
-				const p = base + mod;
+	const handleMouseUp = (e) => {
+		if (!state.dragging || !listRef.current) return;
 
-				let to = state.current + (offset > 0 ? -p : p);
+		if (e.changedTouches) {
+			e = e.changedTouches[0];
+		}
 
-				swipeTo(to);
-			}
+		const dragEnd = vertical ? e.clientY : e.clientX;
+		const part =
+			listRef.current[vertical ? "offsetHeight" : "offsetWidth"] / total;
+		const offset = (dragEnd - state.dragStart) * 0.618;
+		const absOffset = Math.abs(offset);
 
-			listRef.current.style.transform = position || "";
+		if (absOffset > dragOffset) {
+			const base = Math.floor(absOffset / part);
+			const mod = (absOffset % part) - dragOffset > 0 ? 1 : 0;
+			const p = base + mod;
 
-			Object.assign(state, {
-				dragging: false,
-				transition,
-			});
-		},
-		[vertical, listRef.current, offsetPercent]
-	);
+			let to = state.current + (offset > 0 ? -p : p);
+
+			swipeTo(to);
+		}
+
+		listRef.current.style.transform = position || "";
+
+		Object.assign(state, {
+			dragging: false,
+			transition,
+		});
+	};
 
 	const handleMouseOver = () => {
 		if (!pauseOnHover) return;
@@ -315,6 +311,7 @@ const Swiper = forwardRef<RefSwiper, ISwiper>((props, ref): JSX.Element => {
 						transition: state.transition,
 					}}
 					onMouseDown={handleMouseDown}
+					onTouchStart={handleMouseDown}
 				>
 					{displayItems.map((item, i) => {
 						const { props: itemProps } = item;

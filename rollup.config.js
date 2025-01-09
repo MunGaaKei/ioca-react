@@ -6,6 +6,19 @@ import external from "rollup-plugin-peer-deps-external";
 import scss from "rollup-plugin-scss";
 
 const name = "@ioca/react";
+const externals = [
+	"react",
+	"react-dom",
+	"react/jsx-runtime",
+	"radash",
+	"dayjs",
+	"pubsub-js",
+	"ahooks",
+	"rc-virtual-list",
+	"dayjs/plugin/customParseFormat",
+	"@rc-component/color-picker",
+	/node_modules/,
+];
 
 export default [
 	{
@@ -19,19 +32,7 @@ export default [
 				sourcemap: true,
 			},
 		],
-		external: [
-			"react",
-			"react-dom",
-			"react/jsx-runtime",
-			"radash",
-			"dayjs",
-			"pubsub-js",
-			"ahooks",
-			"rc-virtual-list",
-			"dayjs/plugin/customParseFormat",
-			"@rc-component/color-picker",
-			/node_modules/,
-		],
+		external: externals,
 		plugins: [
 			resolve({
 				extensions: [".ts", ".tsx", ".scss"],
@@ -50,7 +51,7 @@ export default [
 		input: "./packages/index.ts",
 		output: [{ file: "lib/types/index.d.ts" }],
 		plugins: [
-			dts(),
+			dts({}),
 			scss({
 				output: false,
 			}),

@@ -4,14 +4,23 @@ type TMouseEvent = (e: MouseEvent) => void;
 
 const MouseMoveEvents = new Set<TMouseEvent>();
 const MouseUpEvents = new Set<TMouseEvent>();
+const touchable = "ontouchend" in document;
+const EVENTS: any = {
+	MOVE: touchable ? "touchmove" : "mousemove",
+	UP: touchable ? "touchend" : "mouseup",
+};
 
-document.addEventListener("mousemove", (e: MouseEvent) => {
-	for (const listener of MouseMoveEvents.values()) {
-		listener(e);
-	}
-});
+document.addEventListener(
+	EVENTS.MOVE,
+	(e: MouseEvent) => {
+		for (const listener of MouseMoveEvents.values()) {
+			listener(e);
+		}
+	},
+	{ passive: false }
+);
 
-document.addEventListener("mouseup", (e) => {
+document.addEventListener(EVENTS.UP, (e) => {
 	for (const listener of MouseUpEvents.values()) {
 		listener(e);
 	}

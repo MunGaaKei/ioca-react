@@ -15,7 +15,7 @@ export const DBasic = {
 					onVisibleChange={setVisible}
 				>
 					<div className='px-12'>
-						恶夜燃烛光 天破息战乱 殇歌传千里 家乡平饥荒
+						恶夜燃烛光 天破息战乱 <br /> 殇歌传千里 家乡平饥荒
 					</div>
 				</Drawer>
 			</>
@@ -33,7 +33,7 @@ return (
 			onVisibleChange={setVisible}
 		>
 			<div className='px-12'>
-				恶夜燃烛光 天破息战乱 殇歌传千里 家乡平饥荒
+				恶夜燃烛光 天破息战乱 <br /> 殇歌传千里 家乡平饥荒
 			</div>
 		</Drawer>
 	</>
@@ -63,6 +63,12 @@ export const PDrawer = [
 		name: "footer",
 		desc: "底部内容",
 		type: ["ReactNode"],
+	},
+	{
+		name: "keepDOM",
+		desc: "初次打开后，关闭时不会移除页面DOM",
+		type: ["boolean"],
+		def: "false",
 	},
 	{
 		name: "hideCloseButton",

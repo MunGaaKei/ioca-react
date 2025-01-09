@@ -69,7 +69,9 @@ const Image = (props: IImage) => {
 	useEffect(() => {
 		if (!src) return;
 
-		state.status = "loading";
+		if (!ref.current?.complete) {
+			state.status = "loading";
+		}
 
 		if (!lazyload || !ref.current) return;
 
@@ -115,7 +117,7 @@ const Image = (props: IImage) => {
 						/>
 					)}
 
-					{src && state.status === "loading" && <Loading />}
+					{src && state.status === "loading" && <Loading absolute />}
 
 					{cover && (
 						<div

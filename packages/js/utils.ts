@@ -88,14 +88,17 @@ export function getPosition(
 
 			const xl = tl - offset - cw;
 			const xr = tr + offset + cw;
+
 			if (position === "left") {
-				x = xl < 0 ? tr + offset : xl;
-				arrowX = xl < 0 ? 0 : cw;
-				arrowPos = xl < 0 ? "left" : "right";
+				const R = xl < 0 && xr <= w;
+				x = R ? tr + offset : xl;
+				arrowX = R ? 0 : cw;
+				arrowPos = R ? "left" : "right";
 			} else {
-				x = w > xr ? tr + offset : xl;
-				arrowX = w > xr ? 0 : cw;
-				arrowPos = w > xr ? "left" : "right";
+				const R = w > xr || xl < 0;
+				x = R ? tr + offset : xl;
+				arrowX = R ? 0 : cw;
+				arrowPos = R ? "left" : "right";
 			}
 
 			break;
@@ -117,13 +120,15 @@ export function getPosition(
 			const yt = tt - offset - ch;
 			const yb = tb + offset + ch;
 			if (position === "top") {
-				y = yt < 0 ? tb + offset : yt;
-				arrowY = yt < 0 ? 0 : ch;
-				arrowPos = yt < 0 ? "top" : "bottom";
+				const T = yt < 0 && yb <= h;
+				y = T ? tb + offset : yt;
+				arrowY = T ? 0 : ch;
+				arrowPos = T ? "top" : "bottom";
 			} else {
-				y = h > yb ? tb + offset : yt;
-				arrowY = h > yb ? 0 : ch;
-				arrowPos = h > yb ? "top" : "bottom";
+				const B = h > yb || yt < 0;
+				y = B ? tb + offset : yt;
+				arrowY = B ? 0 : ch;
+				arrowPos = B ? "top" : "bottom";
 			}
 			break;
 		default:

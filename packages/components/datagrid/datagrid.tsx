@@ -1,14 +1,7 @@
 import { getNextSorter } from "@p/js/utils";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import {
-	CSSProperties,
-	MouseEvent,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-} from "react";
+import { CSSProperties, MouseEvent, useEffect, useMemo, useRef } from "react";
 import ScrollContainer, { Scrollbars } from "react-custom-scrollbars-2";
 import Loading from "../loading";
 import Empty from "../utils/empty";
@@ -88,39 +81,33 @@ const Datagrid = (props: IDatagrid): JSX.Element => {
 		return o;
 	}, [state.widths, resizable]);
 
-	const handleWidthChange = useCallback(
-		(i: number, w: number) => {
-			if (!resizable) return;
+	const handleWidthChange = (i: number, w: number) => {
+		if (!resizable) return;
 
-			const [...ws] = state.widths;
-			ws[i] = w;
-			state.widths = ws;
-			onResize?.(columns[i], w);
-		},
-		[resizable]
-	);
+		const [...ws] = state.widths;
+		ws[i] = w;
+		state.widths = ws;
+		onResize?.(columns[i], w);
+	};
 
-	const handleHeaderClick = useCallback(
-		(column?: IColumn, e?: MouseEvent) => {
-			if (column?.sorter) {
-				const [sortBy, sortType] = getNextSorter(
-					state.sortBy,
-					state.sortType,
-					column.id
-				);
+	const handleHeaderClick = (column?: IColumn, e?: MouseEvent) => {
+		if (column?.sorter) {
+			const [sortBy, sortType] = getNextSorter(
+				state.sortBy,
+				state.sortType,
+				column.id
+			);
 
-				Object.assign(state, {
-					sortBy,
-					sortType,
-				});
+			Object.assign(state, {
+				sortBy,
+				sortType,
+			});
 
-				onSort?.(sortBy, sortType);
-			}
+			onSort?.(sortBy, sortType);
+		}
 
-			onHeaderClick?.(column, e);
-		},
-		[]
-	);
+		onHeaderClick?.(column, e);
+	};
 
 	const rows = useMemo(() => {
 		const { sortBy, sortType } = state;

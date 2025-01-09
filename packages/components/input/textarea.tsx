@@ -1,6 +1,6 @@
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { ChangeEvent, forwardRef, useCallback, useEffect, useRef } from "react";
+import { ChangeEvent, forwardRef, useEffect, useRef } from "react";
 import "../../css/input.css";
 import InputContainer from "./container";
 import type { ITextarea } from "./type";
@@ -29,22 +29,21 @@ const Textarea = forwardRef<HTMLTextAreaElement, ITextarea>((props, ref) => {
 	});
 	const refTextarea = useRef<HTMLDivElement>(null);
 
-	const handleChange = useCallback(
-		(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-			const v = e.target.value;
+	const handleChange = (
+		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		const v = e.target.value;
 
-			state.value = v;
+		state.value = v;
 
-			const ta = refTextarea.current?.firstChild as HTMLElement;
-			if (autoSize && ta) {
-				// ta.style.height = "inherit";
-				ta.style.height = `${ta.scrollHeight}px`;
-			}
+		const ta = refTextarea.current?.firstChild as HTMLElement;
+		if (autoSize && ta) {
+			// ta.style.height = "inherit";
+			ta.style.height = `${ta.scrollHeight}px`;
+		}
 
-			onChange?.(v, e);
-		},
-		[]
-	);
+		onChange?.(v, e);
+	};
 
 	const handleKeydown = (e) => {
 		if (e.code !== "Enter") return;

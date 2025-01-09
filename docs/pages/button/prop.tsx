@@ -36,7 +36,7 @@ export const DBasic = {
 
 export const DColor = {
 	demo: (
-		<Flex gap={8}>
+		<Flex gap={8} wrap>
 			<Button className='bg-blue'>Blue</Button>
 			<Button className='pink' outline>
 				Outline Pink

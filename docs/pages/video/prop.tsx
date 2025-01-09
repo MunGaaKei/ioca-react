@@ -1,12 +1,13 @@
+import poster from "@d/assets/video-poster.jpg";
 import demo from "@d/assets/video.mp4";
 import { Video } from "@p";
 import { Link } from "react-router";
 
 export const DBasic = {
 	demo: () => {
-		return <Video src={demo} />;
+		return <Video src={demo} poster={poster} />;
 	},
-	code: `<Video src='your-video-src.mp4' />`,
+	code: `<Video src='your-video-src.mp4' poster={poster} />`,
 	lang: "xml",
 };
 

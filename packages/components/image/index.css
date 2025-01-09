@@ -10,10 +10,7 @@
 	background: var(--background-opacity);
 	backdrop-filter: var(--blur);
 	.i-loading-container {
-		position: absolute;
-		inset: 0;
 		z-index: 1;
-		background: var(--background-opacity);
 		backdrop-filter: var(--blur);
 	}
 }

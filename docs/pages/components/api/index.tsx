@@ -12,7 +12,7 @@ export default function Api(props) {
 
 				return (
 					<div key={name}>
-						<Flex align='baseline' gap={20}>
+						<Flex align='baseline' gap={20} wrap>
 							<h5
 								className={classNames({
 									green: event,
@@ -27,7 +27,7 @@ export default function Api(props) {
 								<code className='bg-pink-0'>{def}</code>
 							)}
 
-							<Flex gap={4}>
+							<Flex gap={4} wrap>
 								{type.map((t: ReactNode, i: number) => {
 									return (
 										<Fragment key={i}>

@@ -24,7 +24,7 @@ export default function Page() {
 			<Api apis={PTime} />
 
 			<h4 className='blue mt-40 mb-12'>
-				<Flex gap={12}>
+				<Flex gap={12} wrap>
 					<span className='blue'>ColorPicker</span>
 
 					<span className='color-5'>extends</span>

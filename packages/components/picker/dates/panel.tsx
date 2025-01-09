@@ -6,7 +6,7 @@ import { useReactive } from "ahooks";
 import classNames from "classnames";
 import dayjs, { Dayjs } from "dayjs";
 import { throttle } from "radash";
-import { ReactNode, useCallback, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import Icon from "../../icon";
 import Helpericon from "../../utils/helpericon";
 import { IBaseDates } from "../type";
@@ -60,9 +60,9 @@ const Panel = (props: IBaseDates) => {
 
 	const $years = useRef<HTMLDivElement>(null);
 
-	const handleOperateMonth = useCallback((next: boolean) => {
+	const handleOperateMonth = (next: boolean) => {
 		state.month = state.month[next ? "add" : "subtract"](1, "month");
-	}, []);
+	};
 
 	const handleChangeDate = (date: Dayjs) => {
 		if (date.isSame(state.today, "day")) return;

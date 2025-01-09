@@ -5,7 +5,7 @@ export const DBasic = {
 		return (
 			<Popup
 				content={
-					<div className='pd-20' style={{ width: 400 }}>
+					<div className='pd-20' style={{ width: 360 }}>
 						<h4>Lorem</h4>
 						<p className='mt-12'>
 							Lorem ipsum dolor sit amet consectetur adipisicing
@@ -23,7 +23,7 @@ export const DBasic = {
 	},
 	code: `<Popup
 	content={
-		<div className='pd-20' style={{ width: 400 }}>
+		<div className='pd-20' style={{ width: 360 }}>
 			<h4>Lorem</h4>
 			<p className='mt-12'>
 				Lorem ipsum dolor sit amet consectetur adipisicing
@@ -123,7 +123,7 @@ export const PPopup = [
 	},
 	{
 		name: "position",
-		desc: "展开位置偏好，设置后优先在该方向上显示。如果没有足够的空间，则从该反方向上显示。",
+		desc: "展开位置偏好，设置后优先在该方向上显示。如果没有足够的空间，则从该反方向上显示（如果反方向仍然没有足够的空间，则遵循原方向上显示）。",
 		type: ["'left'", "'top'", "'right'", "'bottom'"],
 		def: "'top'",
 	},
