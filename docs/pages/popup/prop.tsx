@@ -1,4 +1,4 @@
-import { Button, Popup } from "@p";
+import { Button, Flex, Popup } from "@p";
 
 export const DBasic = {
 	demo: () => {
@@ -43,56 +43,81 @@ export const DBasic = {
 export const DVariant = {
 	demo: () => {
 		return (
-			<Popup
-				className='bg-blue'
-				trigger='click'
-				position='right'
-				offset={8}
-				watchResize
-				content={
-					<div className='pd-20' style={{ width: 400 }}>
-						<h4>Lorem</h4>
-						<p className='mt-12'>
-							Lorem ipsum dolor sit amet consectetur adipisicing
-							elit. Eveniet, dolorum praesentium. Iste praesentium
-							unde ea facilis eos et sint. Vero, neque corrupti
-							reprehenderit cum explicabo libero autem mollitia
-							doloremque culpa?
-						</p>
+			<Flex gap={20}>
+				<Popup
+					className='bg-blue'
+					trigger='click'
+					position='right'
+					offset={8}
+					watchResize
+					content={
+						<div className='pd-20' style={{ width: 400 }}>
+							<h4>Lorem</h4>
+							<p className='mt-12'>
+								Lorem ipsum dolor sit amet consectetur
+								adipisicing elit. Eveniet, dolorum praesentium.
+								Iste praesentium unde ea facilis eos et sint.
+								Vero, neque corrupti reprehenderit cum explicabo
+								libero autem mollitia doloremque culpa?
+							</p>
+						</div>
+					}
+				>
+					<Button>Click Me</Button>
+				</Popup>
+
+				<Popup
+					content='content'
+					trigger='contextmenu'
+					className='pd-12'
+				>
+					<div className='pd-40 ml-40 bg-grey round-0'>
+						contextmenu
 					</div>
-				}
-			>
-				<Button>Click Me</Button>
-			</Popup>
+				</Popup>
+			</Flex>
 		);
 	},
-	code: `<Popup
-	className='bg-blue'
-	trigger='click'
-	position="right"
-	offset={8}
-	content={
-		<div className='pd-20' style={{ width: 400 }}>
-			<h4>Lorem</h4>
-			<p className='mt-12'>
-				Lorem ipsum dolor sit amet consectetur adipisicing
-				elit. Eveniet, dolorum praesentium. Iste praesentium
-				unde ea facilis eos et sint. Vero, neque corrupti
-				reprehenderit cum explicabo libero autem mollitia
-				doloremque culpa?
-			</p>
+	code: `<Flex gap={20}>
+	<Popup
+		className='bg-blue'
+		trigger='click'
+		position='right'
+		offset={8}
+		watchResize
+		content={
+			<div className='pd-20' style={{ width: 400 }}>
+				<h4>Lorem</h4>
+				<p className='mt-12'>
+					Lorem ipsum dolor sit amet consectetur
+					adipisicing elit. Eveniet, dolorum praesentium.
+					Iste praesentium unde ea facilis eos et sint.
+					Vero, neque corrupti reprehenderit cum explicabo
+					libero autem mollitia doloremque culpa?
+				</p>
+			</div>
+		}
+	>
+		<Button>Click Me</Button>
+	</Popup>
+
+	<Popup
+		content='content'
+		trigger='contextmenu'
+		className='pd-12'
+	>
+		<div className='pd-40 ml-40 bg-grey round-0'>
+			contextmenu
 		</div>
-	}
->
-	<Button>Click Me</Button>
-</Popup>`,
+	</Popup>
+</Flex>`,
 	lang: "xml",
 };
 
 export const PPopup = [
 	{
 		name: "children",
-		desc: "触发目标元素，需确保能获取真实的DOM元素。如果是自定义组件，应确认使用 forwardRef 包裹，并且 ref 指向一个真实 DOM。",
+		desc: "触发目标元素，需确保能获取真实的DOM元素。如果是自定义组件，应确认使用组件 ref 指向一个真实 DOM。",
 		type: ["ReactNode"],
 	},
 	{
@@ -199,9 +224,8 @@ export const PPopup = [
 	},
 	{
 		name: "getContainer",
-		desc: "内容区域渲染位置",
+		desc: "内容区域渲染位置，默认目标元素的相对父节点",
 		type: ["() => HTMLElement"],
-		def: "() => document.body",
 	},
 	{
 		name: "onVisibleChange",

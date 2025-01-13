@@ -1,7 +1,7 @@
 import {
 	Button,
 	Checkbox,
-	DatePicker,
+	ColorPicker,
 	Flex,
 	Form,
 	Input,
@@ -25,6 +25,13 @@ export const DBasic = {
 				message: "不能小于17岁",
 			},
 			gender: true,
+			birth: {
+				validator: (v) => {
+					console.log(v);
+					return false;
+				},
+				message: "sdasfsadf",
+			},
 		};
 
 		const handleSubmit = () => {
@@ -92,10 +99,13 @@ export const DBasic = {
 						labelInline
 					/>
 				</Field>
-				<Field name='birth'>
+				{/* <Field name='birth'>
 					<DatePicker label='生日' labelInline />
+				</Field> */}
+				<Field name='birth'>
+					<ColorPicker />
 				</Field>
-				<Field name='interest'>
+				<Field name='hobby'>
 					<Checkbox
 						label='兴趣'
 						options={["足球", "篮球", "棒球", "排球", "橄榄球"]}

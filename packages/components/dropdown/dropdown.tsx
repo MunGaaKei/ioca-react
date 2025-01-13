@@ -4,7 +4,7 @@ import "./index.css";
 import Item from "./item";
 import { IDropdown } from "./type";
 
-const Dropdown = (props: IDropdown): JSX.Element => {
+const Dropdown = (props: IDropdown) => {
 	const { width, content, children, ...restProps } = props;
 
 	return (

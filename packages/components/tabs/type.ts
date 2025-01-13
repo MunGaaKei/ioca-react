@@ -3,7 +3,7 @@ import {
 	ForwardRefExoticComponent,
 	ReactNode,
 	Ref,
-	RefAttributes,
+	RefObject,
 } from "react";
 import TabItem from "./item";
 
@@ -21,6 +21,7 @@ export interface ITabItem {
 }
 
 export interface ITabs {
+	ref?: RefObject<RefTabs | null>;
 	active?: TTabKey;
 	tabs?: ITabItem[] | TTabKey[];
 	type?: "default" | "line" | "pane";
@@ -45,7 +46,6 @@ export interface RefTabs {
 	navs: Ref<HTMLDivElement>;
 }
 
-export interface CompositionTabs
-	extends ForwardRefExoticComponent<ITabs & RefAttributes<RefTabs>> {
+export interface CompositionTabs extends ForwardRefExoticComponent<ITabs> {
 	Item: typeof TabItem;
 }

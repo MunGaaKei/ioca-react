@@ -1,4 +1,3 @@
-import { useMemoizedFn } from "ahooks";
 import classNames from "classnames";
 import dayjs, { Dayjs } from "dayjs";
 import { ReactNode, useMemo } from "react";
@@ -52,11 +51,11 @@ const Dates = (
 		return dates;
 	}, [month]);
 
-	const handleDateClick = useMemoizedFn((date: Dayjs) => {
+	const handleDateClick = (date: Dayjs) => {
 		if (disabledDate?.(date)) return;
 
 		onDateClick?.(date);
-	});
+	};
 
 	return (
 		<>

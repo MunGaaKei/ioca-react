@@ -1,5 +1,4 @@
 import { KeyboardArrowDownRound } from "@ricons/material";
-import { useMemoizedFn } from "ahooks";
 import classNames from "classnames";
 import { MouseEvent, useState } from "react";
 import Checkbox from "../checkbox";
@@ -122,20 +121,18 @@ export const TreeItem = (props: PropsTreeItem) => {
 
 	const [expand, setExpand] = useState(expanded);
 
-	const handleExpand = useMemoizedFn(
-		(e: MouseEvent<HTMLElement>, fromToggle?: boolean) => {
-			if (fromToggle) {
-				e.preventDefault();
-				e.stopPropagation();
-			}
-
-			if (disabled || !children?.length) return;
-
-			setExpand((v) => !v);
+	const handleExpand = (e: MouseEvent<HTMLElement>, fromToggle?: boolean) => {
+		if (fromToggle) {
+			e.preventDefault();
+			e.stopPropagation();
 		}
-	);
 
-	const handleItemClick = useMemoizedFn((e: MouseEvent<HTMLElement>) => {
+		if (disabled || !children?.length) return;
+
+		setExpand((v) => !v);
+	};
+
+	const handleItemClick = (e: MouseEvent<HTMLElement>) => {
 		if (disabled) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -145,7 +142,7 @@ export const TreeItem = (props: PropsTreeItem) => {
 		handleExpand(e);
 		onItemClick?.(item, e);
 		onItemSelect?.(key, item);
-	});
+	};
 
 	const handleItemCheck = (checked) => onItemCheck?.(item, checked, []);
 	const itemChecked = checked.includes(key);

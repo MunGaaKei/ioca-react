@@ -1,5 +1,5 @@
 import { useGlobalValues } from "@d/config/context";
-import { Button, Drawer, Icon, Text } from "@p";
+import { Button, Drawer, Icon, Popup, Text } from "@p";
 import {
 	LightModeTwotone,
 	MenuRound,
@@ -31,17 +31,19 @@ export default function Sider(props) {
 				<Link to='/'>I/R</Link>
 			</Text>
 
-			<Button.Toggle
-				square
-				flat
-				after={<Icon icon={<NightlightTwotone />} />}
-				active={global.theme === "theme-dark"}
-				onToggle={(v) =>
-					global.update("theme", v ? "theme-dark" : "theme-none")
-				}
-			>
-				<Icon icon={<LightModeTwotone />} />
-			</Button.Toggle>
+			<Popup className='pd-8 bg-0' content='主题' position='left'>
+				<Button.Toggle
+					square
+					flat
+					after={<Icon icon={<NightlightTwotone />} />}
+					active={global.theme === "theme-dark"}
+					onToggle={(v) =>
+						global.update("theme", v ? "theme-dark" : "theme-none")
+					}
+				>
+					<Icon icon={<LightModeTwotone />} />
+				</Button.Toggle>
+			</Popup>
 
 			<Button
 				square

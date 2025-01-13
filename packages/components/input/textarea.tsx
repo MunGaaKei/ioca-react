@@ -1,12 +1,13 @@
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { ChangeEvent, forwardRef, useEffect, useRef } from "react";
+import { ChangeEvent, useEffect, useRef } from "react";
 import "../../css/input.css";
 import InputContainer from "./container";
 import type { ITextarea } from "./type";
 
-const Textarea = forwardRef<HTMLTextAreaElement, ITextarea>((props, ref) => {
+const Textarea = (props: ITextarea) => {
 	const {
+		ref,
 		label,
 		name,
 		value = props.initValue,
@@ -38,7 +39,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, ITextarea>((props, ref) => {
 
 		const ta = refTextarea.current?.firstChild as HTMLElement;
 		if (autoSize && ta) {
-			// ta.style.height = "inherit";
 			ta.style.height = `${ta.scrollHeight}px`;
 		}
 
@@ -86,6 +86,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, ITextarea>((props, ref) => {
 			</div>
 		</InputContainer>
 	);
-});
+};
 
 export default Textarea;

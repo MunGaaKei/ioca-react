@@ -2,14 +2,15 @@ import { clamp, formatNumber } from "@p/js/utils";
 import { MinusRound, PlusRound } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { ChangeEvent, forwardRef, useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 import "../../css/input.css";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
 import type { IInputNumber } from "./type";
 
-const Number = forwardRef<HTMLInputElement, IInputNumber>((props, ref) => {
+const Number = (props: IInputNumber) => {
 	const {
+		ref,
 		label,
 		name,
 		value = props.initValue ?? "",
@@ -122,6 +123,6 @@ const Number = forwardRef<HTMLInputElement, IInputNumber>((props, ref) => {
 			</div>
 		</InputContainer>
 	);
-});
+};
 
 export default Number;

@@ -1,6 +1,6 @@
 import useRipple from "@p/js/useRipple";
 import classnames from "classnames";
-import { MouseEvent, createElement, forwardRef, useEffect } from "react";
+import { MouseEvent, createElement, useEffect } from "react";
 import Loading from "../loading";
 import "./index.css";
 import { CompositionButton, IButton } from "./type";
@@ -29,9 +29,10 @@ const formatClass = ({
 		disabled,
 	});
 
-const Button = forwardRef<HTMLElement, IButton>((props, ref) => {
+const Button = (props: IButton) => {
 	const {
 		as: As = "a",
+		ref,
 		children,
 		className,
 		loading,
@@ -99,6 +100,6 @@ const Button = forwardRef<HTMLElement, IButton>((props, ref) => {
 		},
 		childNodes
 	);
-}) as CompositionButton;
+};
 
-export default Button;
+export default Button as CompositionButton;

@@ -1,8 +1,8 @@
-import { useMemoizedFn, useReactive } from "ahooks";
-import { forwardRef, useEffect, useImperativeHandle } from "react";
+import { useReactive } from "ahooks";
+import { useEffect, useImperativeHandle } from "react";
 import "./index.css";
 import { TreeList } from "./item";
-import { ITree, ITreeItem, RefTree } from "./type";
+import { ITree, ITreeItem } from "./type";
 
 const defaultNodeProps = {
 	key: "key",
@@ -10,9 +10,10 @@ const defaultNodeProps = {
 	children: "children",
 };
 
-const Tree = forwardRef<RefTree, ITree>((props, ref) => {
+const Tree = (props: ITree) => {
 	const {
 		data = [],
+		ref,
 		selected,
 		checked = [],
 		disabledRelated,
@@ -31,64 +32,39 @@ const Tree = forwardRef<RefTree, ITree>((props, ref) => {
 
 	const isChecked = (key?: string) => state.checked.includes(key || "");
 
-	const checkItem = useMemoizedFn(
-		(item: ITreeItem, checked: boolean, direction?: "root" | "leaf") => {
-			const { key = "", parent, children } = item;
-			const shouldChanged = { [key]: checked };
-			const partofs = { [key]: false };
+	const checkItem = (
+		item: ITreeItem,
+		checked: boolean,
+		direction?: "root" | "leaf"
+	) => {
+		const { key = "", parent, children } = item;
+		const shouldChanged = { [key]: checked };
+		const partofs = { [key]: false };
 
-			if (disabledRelated) return [shouldChanged];
+		if (disabledRelated) return [shouldChanged];
 
-			if (checked) {
-				if (parent && direction !== "leaf") {
-					const hasUnchecked = parent.children?.some(
-						(o) => o.key !== key && !isChecked(o.key)
-					);
-
-					const [changes, parts] = checkItem(parent, true, "root");
-
-					if (!hasUnchecked) {
-						Object.assign(shouldChanged, changes);
-					}
-
-					Object.assign(partofs, hasUnchecked ? parts : {}, {
-						[parent.key as string]: true,
-					});
-				}
-
-				if (children?.length && direction !== "root") {
-					children.map((o) => {
-						if (isChecked(o.key)) return;
-
-						const [changes] = checkItem(o, true, "leaf");
-
-						Object.assign(shouldChanged, changes);
-						partofs[o.key as string] = false;
-					});
-				}
-
-				return [shouldChanged, partofs];
-			}
-
+		if (checked) {
 			if (parent && direction !== "leaf") {
-				const [changes, parts] = checkItem(parent, false, "root");
-
-				Object.assign(shouldChanged, changes);
-
-				const hasChecked = parent.children?.some(
-					(o) => isChecked(o.key) && o.key !== key
+				const hasUnchecked = parent.children?.some(
+					(o) => o.key !== key && !isChecked(o.key)
 				);
 
-				Object.assign(partofs, hasChecked ? {} : parts, {
-					[parent.key as string]: hasChecked,
-					[key]: false,
+				const [changes, parts] = checkItem(parent, true, "root");
+
+				if (!hasUnchecked) {
+					Object.assign(shouldChanged, changes);
+				}
+
+				Object.assign(partofs, hasUnchecked ? parts : {}, {
+					[parent.key as string]: true,
 				});
 			}
+
 			if (children?.length && direction !== "root") {
 				children.map((o) => {
-					const [changes] = checkItem(o, false, "leaf");
+					if (isChecked(o.key)) return;
 
-					if (!isChecked(o.key)) return;
+					const [changes] = checkItem(o, true, "leaf");
 
 					Object.assign(shouldChanged, changes);
 					partofs[o.key as string] = false;
@@ -97,7 +73,34 @@ const Tree = forwardRef<RefTree, ITree>((props, ref) => {
 
 			return [shouldChanged, partofs];
 		}
-	);
+
+		if (parent && direction !== "leaf") {
+			const [changes, parts] = checkItem(parent, false, "root");
+
+			Object.assign(shouldChanged, changes);
+
+			const hasChecked = parent.children?.some(
+				(o) => isChecked(o.key) && o.key !== key
+			);
+
+			Object.assign(partofs, hasChecked ? {} : parts, {
+				[parent.key as string]: hasChecked,
+				[key]: false,
+			});
+		}
+		if (children?.length && direction !== "root") {
+			children.map((o) => {
+				const [changes] = checkItem(o, false, "leaf");
+
+				if (!isChecked(o.key)) return;
+
+				Object.assign(shouldChanged, changes);
+				partofs[o.key as string] = false;
+			});
+		}
+
+		return [shouldChanged, partofs];
+	};
 
 	const handleCheck = (item: ITreeItem, checked: boolean) => {
 		const [shouldChanged, partofs] = checkItem(item, checked);
@@ -184,6 +187,6 @@ const Tree = forwardRef<RefTree, ITree>((props, ref) => {
 			{...restProps}
 		/>
 	);
-});
+};
 
 export default Tree;

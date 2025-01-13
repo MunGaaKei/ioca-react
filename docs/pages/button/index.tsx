@@ -12,7 +12,7 @@ import {
 	PButtonToggle,
 } from "./prop";
 
-export default function button(): JSX.Element {
+export default function button() {
 	return (
 		<>
 			<h2 className='mb-40'>Button</h2>

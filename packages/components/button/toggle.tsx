@@ -6,6 +6,7 @@ import { IButtonToggle } from "./type";
 
 export default function Toggle(props: IButtonToggle) {
 	const {
+		ref,
 		active,
 		activeClass,
 		after,
@@ -50,6 +51,7 @@ export default function Toggle(props: IButtonToggle) {
 
 	return (
 		<Button
+			ref={ref}
 			className={classNames(
 				className,
 				{ [activeClass || ""]: state.active },

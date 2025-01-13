@@ -4,6 +4,7 @@ import {
 	MouseEvent,
 	ReactNode,
 	RefAttributes,
+	RefObject,
 } from "react";
 import { LinkProps } from "react-router";
 
@@ -47,6 +48,7 @@ export interface PropsTreeItem extends Omit<ITree, "data" | "nodeProps"> {
 export interface ITree {
 	data: ITreeItem[];
 	parent?: ITreeItem;
+	ref?: RefObject<RefTree | null>;
 	depth?: number;
 	nodeProps?: {
 		key?: string;

@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import { forwardRef } from "react";
 import { IListItem } from "./type";
 
-const Item = forwardRef<HTMLLIElement, IListItem>((props, ref) => {
+const Item = (props: IListItem) => {
 	const {
+		ref,
 		active,
 		type,
 		align,
@@ -32,6 +32,6 @@ const Item = forwardRef<HTMLLIElement, IListItem>((props, ref) => {
 			{children}
 		</li>
 	);
-});
+};
 
 export default Item;

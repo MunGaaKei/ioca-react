@@ -1,9 +1,12 @@
 import { useReactive } from "ahooks";
-import { forwardRef, useImperativeHandle } from "react";
+import { RefObject, useImperativeHandle } from "react";
 import Modal from "./modal";
 import { IModal, RefHookModal } from "./type";
 
-const HookModal = forwardRef<RefHookModal, IModal>((props, ref) => {
+const HookModal = (
+	props: IModal & { ref?: RefObject<RefHookModal | null> }
+) => {
+	const { ref } = props;
 	const state = useReactive<IModal>({});
 
 	useImperativeHandle(ref, () => ({
@@ -13,6 +16,6 @@ const HookModal = forwardRef<RefHookModal, IModal>((props, ref) => {
 	}));
 
 	return <Modal {...props} {...state} />;
-});
+};
 
 export default HookModal;

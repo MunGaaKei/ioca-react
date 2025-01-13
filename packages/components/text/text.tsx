@@ -10,6 +10,7 @@ const Text = (props: IText) => {
 		weight,
 		decoration,
 		gradient,
+		wave,
 		style,
 		className,
 		children,
@@ -19,7 +20,7 @@ const Text = (props: IText) => {
 		if (!gradient || !Array.isArray(gradient)) return {};
 
 		return {
-			background: `-webkit-linear-gradient(${gradient.join(",")})`,
+			backgroundImage: `-webkit-linear-gradient(${gradient.join(",")})`,
 			backgroundClip: "text",
 		};
 	}, [gradient]);
@@ -35,6 +36,7 @@ const Text = (props: IText) => {
 			}}
 			className={classNames(className, {
 				"i-text-gradient": gradient,
+				"i-text-gradient-wave": wave,
 			})}
 		>
 			{children}

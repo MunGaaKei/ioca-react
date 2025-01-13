@@ -1,14 +1,15 @@
 import { VisibilityOffRound, VisibilityRound } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { ChangeEvent, forwardRef, useEffect, useMemo } from "react";
+import { ChangeEvent, useEffect, useMemo } from "react";
 import "../../css/input.css";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
 import type { CompositionInput, IInput } from "./type";
 
-const Input = forwardRef<HTMLInputElement, IInput>((props, ref) => {
+const Input = ((props: IInput) => {
 	const {
+		ref,
 		type = "text",
 		label,
 		name,

@@ -9,7 +9,7 @@ import "./index.css";
 import Row, { Header } from "./row";
 import type { IColumn, IData, IDatagrid, TDatagridState } from "./type";
 
-const Datagrid = (props: IDatagrid): JSX.Element => {
+const Datagrid = (props: IDatagrid) => {
 	const {
 		data = [],
 		columns = [],

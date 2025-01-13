@@ -1,5 +1,5 @@
 import { ListProps } from "rc-virtual-list";
-import { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode, RefObject } from "react";
 
 export interface IList extends HTMLAttributes<HTMLUListElement> {
 	label?: ReactNode | ((i: number) => ReactNode);
@@ -9,6 +9,7 @@ export interface IList extends HTMLAttributes<HTMLUListElement> {
 export interface IListItem
 	extends HTMLAttributes<HTMLLIElement>,
 		Pick<IList, "type"> {
+	ref?: RefObject<HTMLLIElement | null>;
 	active?: boolean;
 	align?: string;
 	disabled?: boolean;

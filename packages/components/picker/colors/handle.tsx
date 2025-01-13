@@ -1,8 +1,7 @@
 import classNames from "classnames";
-import { forwardRef } from "react";
 
-const Handle = forwardRef<HTMLDivElement, any>((props, ref) => {
-	const { color, handle, placeholder, className, ...restProps } = props;
+const Handle = (props) => {
+	const { ref, color, handle, placeholder, className, ...restProps } = props;
 
 	return (
 		<div
@@ -24,6 +23,6 @@ const Handle = forwardRef<HTMLDivElement, any>((props, ref) => {
 			)}
 		</div>
 	);
-});
+};
 
 export default Handle;

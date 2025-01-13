@@ -1,5 +1,5 @@
 import { formatOption } from "@p/js/utils";
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { useEffect, useMemo } from "react";
 import "../../css/input.css";
@@ -30,10 +30,10 @@ function Radio(props: IRadio) {
 
 	const formattedOptions = useMemo(() => formatOption(options), [options]);
 
-	const handleChange = useMemoizedFn((value, e) => {
+	const handleChange = (value, e) => {
 		state.value = value;
 		onChange?.(value, e);
-	});
+	};
 
 	useEffect(() => {
 		state.value = value;

@@ -3,6 +3,7 @@ import {
 	InputHTMLAttributes,
 	KeyboardEvent,
 	ReactNode,
+	RefObject,
 } from "react";
 
 export type TStatus = "normal" | "success" | "warning" | "error";
@@ -24,6 +25,7 @@ export type TValidate = {
 
 export interface BaseInput extends TValidate {
 	label?: ReactNode;
+	ref?: RefObject<HTMLInputElement | null>;
 	value?: any;
 	initValue?: any;
 	labelInline?: boolean;

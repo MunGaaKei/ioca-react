@@ -5,7 +5,7 @@ import Item from "./item";
 import { IList } from "./type";
 import Virtual from "./virtual";
 
-const List = (props: IList): JSX.Element => {
+const List = (props: IList) => {
 	const { label, type, className, children, ...restProps } = props;
 
 	return (

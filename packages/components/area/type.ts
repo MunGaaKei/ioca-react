@@ -3,7 +3,7 @@ import {
 	HTMLAttributes,
 	RefAttributes,
 } from "react";
-import { ScrollbarProps } from "react-custom-scrollbars-2";
+import Scrollbars, { ScrollbarProps } from "react-custom-scrollbars-2";
 import Item from "./item";
 
 export interface IArea extends ScrollbarProps {
@@ -12,6 +12,7 @@ export interface IArea extends ScrollbarProps {
 
 export interface IAreaItem extends HTMLAttributes<HTMLElement> {
 	name?: string;
+	ref?: React.Ref<Scrollbars>;
 }
 
 export interface CompositionArea

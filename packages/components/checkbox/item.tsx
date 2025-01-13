@@ -1,4 +1,4 @@
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { ChangeEvent, useEffect } from "react";
 import { ICheckboxItem } from "./type";
@@ -25,7 +25,7 @@ export default function CheckboxItem(props: ICheckboxItem) {
 		message,
 	});
 
-	const handleChange = useMemoizedFn((e: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const checked = e.target.checked;
 
 		Object.assign(state, {
@@ -35,7 +35,7 @@ export default function CheckboxItem(props: ICheckboxItem) {
 		});
 
 		onChange?.(checked, e);
-	});
+	};
 
 	useEffect(() => {
 		state.value = value;

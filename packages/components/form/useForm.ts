@@ -129,7 +129,7 @@ export class IFormInstance {
 }
 
 export default function useForm(form?: IFormInstance) {
-	const formRef = useRef<IFormInstance>();
+	const formRef = useRef<IFormInstance>(null);
 
 	if (!formRef.current) {
 		formRef.current = form ?? new IFormInstance();

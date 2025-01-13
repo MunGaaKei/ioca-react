@@ -18,6 +18,7 @@ export const PIcon = [
 		name: "size",
 		desc: "实际是改变宽高度",
 		type: ["string"],
+		def: "'1.425em'",
 	},
 	{
 		name: "rotate",

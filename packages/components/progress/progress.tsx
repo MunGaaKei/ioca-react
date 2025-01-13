@@ -8,7 +8,7 @@ import "./index.css";
 import Line from "./line";
 import { IProgress } from "./type";
 
-const Progress = (props: IProgress): JSX.Element => {
+const Progress = (props: IProgress) => {
 	const {
 		value = 0,
 		size = 8,

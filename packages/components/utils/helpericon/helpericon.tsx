@@ -6,7 +6,7 @@ import Icon from "../../icon";
 import "./index.css";
 import { IHelperIcon } from "./type";
 
-const Helpericon = (props: IHelperIcon): JSX.Element => {
+const Helpericon = (props: IHelperIcon) => {
 	const {
 		as = "a",
 		active,

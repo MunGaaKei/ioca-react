@@ -18,7 +18,7 @@ const defaultCancel = {
 	secondary: true,
 };
 
-const Popconfirm = (props: IPopconfirm): JSX.Element => {
+const Popconfirm = (props: IPopconfirm) => {
 	const {
 		trigger = "click",
 		visible,

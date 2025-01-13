@@ -1,13 +1,7 @@
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { uid } from "radash";
-import {
-	ReactNode,
-	forwardRef,
-	isValidElement,
-	useEffect,
-	useRef,
-} from "react";
+import { ReactNode, isValidElement, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import type { IMessage, IMessageItem, THeights, TMessageQueue } from "./type";
@@ -50,10 +44,15 @@ const heights: THeights = {
 
 createRoot(container).render(<Messages />);
 
-const MessageItem = forwardRef<HTMLDivElement, IMessageItem>(function (
-	{ active, content, top, className, style, onClick },
-	ref
-) {
+const MessageItem = function ({
+	ref,
+	active,
+	content,
+	top,
+	className,
+	style,
+	onClick,
+}: IMessageItem) {
 	return (
 		<div
 			ref={ref}
@@ -69,7 +68,7 @@ const MessageItem = forwardRef<HTMLDivElement, IMessageItem>(function (
 			{content}
 		</div>
 	);
-});
+};
 
 function Messages() {
 	const ref = useRef<HTMLDivElement>(null);

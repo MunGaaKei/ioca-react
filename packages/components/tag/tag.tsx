@@ -3,7 +3,7 @@ import Helpericon from "../utils/helpericon";
 import "./index.css";
 import { ITag } from "./type";
 
-const Tag = (props: ITag): JSX.Element => {
+const Tag = (props: ITag) => {
 	const {
 		dot,
 		dotClass,

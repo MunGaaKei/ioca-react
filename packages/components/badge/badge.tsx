@@ -2,7 +2,7 @@ import classNames from "classnames";
 import "./index.css";
 import type { IBadge } from "./type";
 
-const Badge = (props: IBadge): JSX.Element => {
+const Badge = (props: IBadge) => {
 	const {
 		content,
 		contentClass,

@@ -5,6 +5,7 @@ import {
 	ForwardRefExoticComponent,
 	ReactNode,
 	RefAttributes,
+	RefObject,
 } from "react";
 import { LinkProps } from "react-router";
 import Group from "./group";
@@ -17,6 +18,7 @@ interface BaseButtonProps {
 		| ForwardRefExoticComponent<
 				LinkProps & RefAttributes<HTMLAnchorElement>
 		  >;
+	ref?: RefObject<HTMLElement | null>;
 	children?: ReactNode | string;
 	className?: string;
 	loading?: boolean;
@@ -33,8 +35,8 @@ interface BaseButtonProps {
 
 export interface IButton
 	extends BaseButtonProps,
-		Omit<ButtonHTMLAttributes<HTMLElement>, "type">,
-		AnchorHTMLAttributes<HTMLElement> {}
+		Omit<ButtonHTMLAttributes<HTMLElement>, "type" | "onToggle">,
+		Omit<AnchorHTMLAttributes<HTMLElement>, "onToggle"> {}
 
 export interface IButtonToggle extends IButton {
 	active?: boolean;

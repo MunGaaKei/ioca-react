@@ -147,12 +147,33 @@ export function getPosition(
 }
 
 export function getPointPosition(e: MouseEvent, content: HTMLElement) {
-	const { pageX: x, pageY: y } = e;
 	const { width: w, height: h } = content.getBoundingClientRect();
-	const { innerHeight: wh, innerWidth: ww } = window;
+	const parent = content.offsetParent;
+	let pw,
+		ph,
+		pl = 0,
+		pt = 0;
 
-	const left = x + w >= ww ? (x - w > 0 ? x - w : x) : x;
-	const top = y + h >= wh ? (y - h > 0 ? y - h : y) : y;
+	if (parent) {
+		const {
+			width: ow,
+			height: oh,
+			left: ol,
+			top: ot,
+		} = parent.getBoundingClientRect();
+		pw = ow;
+		ph = oh;
+		pt = ot;
+		pl = ol;
+	} else {
+		pw = window.innerWidth;
+		ph = window.innerHeight;
+	}
+	const x = e.pageX - pl;
+	const y = e.pageY - pt;
+
+	const left = x + w >= pw ? (x - w > 0 ? x - w : x) : x;
+	const top = y + h >= ph ? (y - h > 0 ? y - h : y) : y;
 
 	return [left, top];
 }
@@ -170,7 +191,7 @@ function computePosition({
 	switch (align) {
 		case "start":
 			return targetOffset + contentSize > containerSize
-				? targetOffset + targetSize
+				? containerSize - contentSize - gap
 				: targetOffset;
 		case "center":
 			if (targetSize >= contentSize) {

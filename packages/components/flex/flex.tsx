@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import "./index.css";
 import { IFlex } from "./type";
 
-const Flex = (props: IFlex): JSX.Element => {
+const Flex = (props: IFlex) => {
 	const {
 		as: Component = "div",
 		align,

@@ -2,11 +2,12 @@ import {
 	CSSProperties,
 	ForwardRefExoticComponent,
 	ReactNode,
-	RefAttributes,
+	RefObject,
 } from "react";
 import Item from "./item";
 
 export interface ISwiper {
+	ref?: RefObject<RefSwiper | null>;
 	initial?: number;
 	type?: "normal" | "fade" | "flow";
 	display?: number;
@@ -50,7 +51,6 @@ export interface RefSwiper {
 	swipePrev: () => void;
 }
 
-export interface CompositionSwiper
-	extends ForwardRefExoticComponent<ISwiper & RefAttributes<RefSwiper>> {
+export interface CompositionSwiper extends ForwardRefExoticComponent<ISwiper> {
 	Item: typeof Item;
 }

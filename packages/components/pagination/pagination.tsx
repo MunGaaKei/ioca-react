@@ -10,7 +10,7 @@ import "./index.css";
 import Page from "./page";
 import { IPagination } from "./type";
 
-const Pagination = (props: IPagination): JSX.Element => {
+const Pagination = (props: IPagination) => {
 	const {
 		page: defaultPage = 1,
 		size = 10,

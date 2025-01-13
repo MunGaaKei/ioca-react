@@ -2,6 +2,7 @@ import menu from "@d/config/menu";
 import { Tree } from "@p";
 import Area from "@p/components/area";
 import { configResponsive, useResponsive } from "ahooks";
+import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router";
 import Footer from "./footer";
 import Sider from "./sider";
@@ -23,6 +24,11 @@ export default function Document() {
 			className='pd-8'
 		/>
 	);
+	const contentRef = useRef(null);
+
+	useEffect(() => {
+		// console.log(name, contentRef.current);
+	}, [name]);
 
 	return (
 		<Area>
@@ -32,7 +38,7 @@ export default function Document() {
 				</Area.Item>
 			)}
 
-			<Area.Item>
+			<Area.Item ref={contentRef}>
 				<div className='flex flex-1'>
 					<div
 						className='px-12 pt-60 mx-auto g-content'

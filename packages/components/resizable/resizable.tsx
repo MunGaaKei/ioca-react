@@ -5,7 +5,7 @@ import { useRef } from "react";
 import "./index.css";
 import { IResizable } from "./type";
 
-const Resizable = (props: IResizable): JSX.Element => {
+const Resizable = (props: IResizable) => {
 	const {
 		other,
 		children,

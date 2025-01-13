@@ -47,7 +47,7 @@ import { Link } from "react-router";
 
 export default [
 	{
-		title: "Install",
+		title: "Get Start",
 		as: Link,
 		icon: <Icon icon={<MoveToInboxTwotone />} />,
 		href: "/docs/install",

@@ -1,10 +1,11 @@
 import classNames from "classnames";
-import { cloneElement, forwardRef, isValidElement } from "react";
+import { cloneElement, isValidElement } from "react";
 import "./index.css";
 import { IIcon } from "./type";
 
-const Icon = forwardRef<HTMLElement, IIcon>((props, ref) => {
+const Icon = (props: IIcon) => {
 	const {
+		ref,
 		icon,
 		size = "1.425em",
 		rotate,
@@ -28,6 +29,6 @@ const Icon = forwardRef<HTMLElement, IIcon>((props, ref) => {
 	};
 
 	return cloneElement(icon, elProps);
-});
+};
 
 export default Icon;

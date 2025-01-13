@@ -5,7 +5,7 @@ import {
 	InputHTMLAttributes,
 	MouseEvent,
 	ReactNode,
-	RefAttributes,
+	RefObject,
 	TextareaHTMLAttributes,
 } from "react";
 import { BaseInput, TStatus } from "../../type";
@@ -35,11 +35,12 @@ export interface IInput
 }
 
 export interface ITextarea
-	extends BaseInput,
+	extends Omit<BaseInput, "ref">,
 		Omit<
 			TextareaHTMLAttributes<HTMLTextAreaElement>,
 			"value" | "defaultValue" | "onChange"
 		> {
+	ref?: RefObject<HTMLTextAreaElement | null>;
 	autoSize?: boolean;
 }
 
@@ -82,9 +83,7 @@ export interface IInputRange
 	) => void;
 }
 
-export type CompositionInput = ForwardRefExoticComponent<
-	IInput & RefAttributes<HTMLInputElement>
-> & {
+export type CompositionInput = ForwardRefExoticComponent<IInput> & {
 	Textarea: typeof Textarea;
 	Number: typeof Number;
 	Range: typeof Range;

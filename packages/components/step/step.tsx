@@ -4,7 +4,7 @@ import "./index.css";
 import Item from "./item";
 import { IStep } from "./type";
 
-const Step = (props: IStep): JSX.Element => {
+const Step = (props: IStep) => {
 	const {
 		active = 0,
 		vertical,

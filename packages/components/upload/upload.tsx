@@ -8,7 +8,6 @@ import {
 	CSSProperties,
 	ChangeEvent,
 	Fragment,
-	forwardRef,
 	useEffect,
 	useImperativeHandle,
 	useMemo,
@@ -19,10 +18,11 @@ import Icon from "../icon";
 import InputContainer from "../input/container";
 import "./index.css";
 import renderFile from "./renderFile";
-import { IFile, IUpload, RefUpload } from "./type";
+import { IFile, IUpload } from "./type";
 
-const Upload = forwardRef<RefUpload, IUpload>((props, ref): JSX.Element => {
+const Upload = (props: IUpload) => {
 	const {
+		ref,
 		label,
 		labelInline,
 		value,
@@ -221,6 +221,6 @@ const Upload = forwardRef<RefUpload, IUpload>((props, ref): JSX.Element => {
 			</div>
 		</InputContainer>
 	);
-});
+};
 
 export default Upload;

@@ -1,7 +1,8 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, RefObject } from "react";
 import { IProgress } from "../progress/type";
 
 export interface IVideo extends HTMLAttributes<HTMLVideoElement> {
+	ref?: RefObject<RefVideo | null>;
 	src?: string;
 	hideControls?: boolean;
 	autoplay?: boolean;

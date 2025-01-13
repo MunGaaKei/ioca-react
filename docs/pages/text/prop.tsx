@@ -3,22 +3,58 @@ import { Text } from "@p";
 export const DBasic = {
 	demo: () => {
 		return (
-			<Text weight={600} gradient={["45deg", "blue", "aqua"]}>
+			<Text
+				weight={600}
+				gradient={["45deg", "blue", "aqua", "blue", "aqua", "blue"]}
+				wave
+			>
 				GRADIENT TEXT
 			</Text>
 		);
 	},
-	code: `<Text weight={600} gradient={["45deg", "blue", "aqua"]}>
-    GRADIENT TEXT
+	code: `<Text
+	weight={600}
+	gradient={["45deg", "blue", "aqua", "blue", "aqua", "blue"]}
+	wave
+>
+	GRADIENT TEXT
 </Text>`,
 	lang: "xml",
 };
 
 export const DHighLight = {
 	demo: () => {
-		return <></>;
+		return (
+			<Text.HighLight
+				text='众里寻她千百度，蓦然回首，那人却在，灯火阑珊处'
+				keyword={["千百度", "，"]}
+				renderWord={(w) => {
+					switch (w) {
+						case "千百度":
+							return <mark>{w}</mark>;
+						case "，":
+							return "/";
+						default:
+							return w;
+					}
+				}}
+			/>
+		);
 	},
-	code: ``,
+	code: `<Text.HighLight
+	text='众里寻她千百度，蓦然回首，那人却在，灯火阑珊处'
+	keyword={["千百度", "，"]}
+	renderWord={(w) => {
+		switch (w) {
+			case "千百度":
+				return <mark>{w}</mark>;
+			case "，":
+				return "/";
+			default:
+				return w;
+		}
+	}}
+/>`,
 	lang: "xml",
 };
 
@@ -81,6 +117,12 @@ export const PText = [
 		desc: "文字渐变，即 linear-gradient，第一个可为角度，后面依次为颜色",
 		type: ["string[]"],
 	},
+	{
+		name: "wave",
+		desc: "文字渐变时动画，用着玩",
+		type: ["boolean"],
+		def: "false",
+	},
 ];
 
 export const PTextNumber = [
@@ -136,5 +178,38 @@ export const PTextTime = [
 		desc: "时分秒单位后缀",
 		type: ["string[]"],
 		def: '["", ":", ":"]',
+	},
+];
+
+export const PTextHighLight = [
+	{
+		name: "text",
+		desc: "源文本",
+		type: ["string"],
+		required: true,
+	},
+	{
+		name: "keywords",
+		desc: "搜索字符",
+		type: ["string", "string[]"],
+		required: true,
+	},
+	{
+		name: "caseSensitive",
+		desc: "大小写敏感",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
+		name: "escape",
+		desc: "转义特殊正则表达式字符",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
+		name: "renderWord",
+		desc: "渲染匹配文本",
+		type: ["(word: string) => ReactNode"],
+		def: "(word: string) => <mark>{word}</mark>",
 	},
 ];

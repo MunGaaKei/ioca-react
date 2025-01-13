@@ -1,10 +1,10 @@
-import { ChangeEvent, InputHTMLAttributes, ReactNode } from "react";
+import { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from "react";
 import { BaseInput } from "../../type";
 
 export interface IUpload
-	extends BaseInput,
+	extends Omit<BaseInput, "ref">,
 		Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
-	// action?: string;
+	ref?: RefObject<RefUpload | null>;
 	files?: IFile[];
 	accept?: string;
 	multiple?: boolean;

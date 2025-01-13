@@ -1,8 +1,8 @@
 import { UnfoldMoreRound } from "@ricons/material";
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { debounce } from "radash";
-import { ChangeEvent, forwardRef, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import "../../css/input.css";
 import { formatOption } from "../../js/utils";
 import { TOption } from "../../type";
@@ -12,8 +12,9 @@ import "./index.css";
 import { Options, displayValue } from "./options";
 import { ISelect } from "./type";
 
-const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
+const Select = (props: ISelect) => {
 	const {
+		ref,
 		type = "text",
 		name,
 		label,
@@ -100,11 +101,12 @@ const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 		changeValue(multiple ? [] : "");
 	};
 
-	const handleFilterChange = useMemoizedFn(
-		debounce({ delay: 400 }, (e: ChangeEvent<HTMLInputElement>) => {
+	const handleFilterChange = debounce(
+		{ delay: 400 },
+		(e: ChangeEvent<HTMLInputElement>) => {
 			const v = e.target.value;
 			state.filterValue = v;
-		})
+		}
 	);
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -214,6 +216,6 @@ const Select = forwardRef<HTMLInputElement, ISelect>((props, ref) => {
 			{text && <span className='i-input-message'>{text}</span>}
 		</label>
 	);
-});
+};
 
 export default Select;

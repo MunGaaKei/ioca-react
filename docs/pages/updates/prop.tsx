@@ -252,7 +252,44 @@ export const updates = [
 					优化移动端交互
 				</Item>
 				<Item>优化部分样式</Item>
-				<Item>适应 React 19 部分功能</Item>
+			</List>
+		),
+	},
+	{
+		title: "1.1.8",
+		content: (
+			<List>
+				<Item
+					label={
+						<Link to='/docs/text' className='blue'>
+							Text
+						</Link>
+					}
+				>
+					新增<code>wave</code>属性和
+					<Link to='/docs/text#text-highlight' className='blue'>
+						HighLight
+					</Link>
+					子组件
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/card' className='blue'>
+							Card
+						</Link>
+					}
+				>
+					修改插槽
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/popup' className='blue'>
+							Popup
+						</Link>
+					}
+				>
+					修复<code>contextmenu</code>时弹出位置计算错误
+				</Item>
 			</List>
 		),
 	},

@@ -6,7 +6,7 @@ import "./index.css";
 import { IForm } from "./type";
 import useForm, { IFormInstance } from "./useForm";
 
-const Form = (props: IForm): JSX.Element => {
+const Form = (props: IForm) => {
 	const {
 		form = {} as IFormInstance,
 		rules,

@@ -15,7 +15,7 @@ dayjs.extend(customParseFormat);
 const FORMATTYPES = ["YYYY-MM-DD", "YYYY-M-D", "YYYY/MM/DD", "YYYY/M/D"];
 const FORMAT = "YYYY-MM-DD";
 
-const Datepicker = (props: IDatePicker): JSX.Element => {
+const Datepicker = (props: IDatePicker) => {
 	const {
 		name,
 		value,

@@ -1,4 +1,5 @@
-import { CSSProperties, FC, ReactNode } from "react";
+import { CSSProperties, FC, JSX, ReactNode } from "react";
+import HighLight from "./highlight";
 import Number from "./number";
 import Time from "./time";
 
@@ -8,6 +9,7 @@ export interface IText {
 	decoration?: string;
 	weight?: string | number;
 	gradient?: string[];
+	wave?: boolean;
 	style?: CSSProperties;
 	className?: string;
 	children?: ReactNode;
@@ -28,7 +30,16 @@ export interface ITextTime extends IText {
 	units?: string[];
 }
 
+export interface ITextHighLight extends IText {
+	keyword: string | string[];
+	text: string;
+	caseSensitive?: boolean;
+	escape?: boolean;
+	renderWord?: (word: string) => ReactNode;
+}
+
 export interface CompositionText extends FC<IText> {
 	Number: typeof Number;
 	Time: typeof Time;
+	HighLight: typeof HighLight;
 }

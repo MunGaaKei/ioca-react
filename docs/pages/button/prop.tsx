@@ -5,6 +5,7 @@ import {
 	LightModeTwotone,
 	NightlightTwotone,
 } from "@ricons/material";
+import { useRef } from "react";
 
 export const DBasic = {
 	demo: (
@@ -59,25 +60,30 @@ export const DColor = {
 };
 
 export const DToggle = {
-	demo: (
-		<Flex gap={8} direction='column' align='flex-start'>
-			<Button.Toggle
-				secondary
-				after={<Icon icon={<NightlightTwotone />} />}
-			>
-				<Icon icon={<LightModeTwotone />} />
-			</Button.Toggle>
-			<Button.Toggle
-				after='Active'
-				activeClass='bg-blue'
-				onToggle={(v) => {
-					console.log(v);
-				}}
-			>
-				Deactive
-			</Button.Toggle>
-		</Flex>
-	),
+	demo: () => {
+		const ref = useRef<HTMLElement>(null);
+
+		return (
+			<Flex gap={8} direction='column' align='flex-start'>
+				<Button.Toggle
+					ref={ref}
+					secondary
+					after={<Icon icon={<NightlightTwotone />} />}
+				>
+					<Icon icon={<LightModeTwotone />} />
+				</Button.Toggle>
+				<Button.Toggle
+					after='Active'
+					activeClass='bg-blue'
+					onToggle={(v) => {
+						console.log(v);
+					}}
+				>
+					Deactive
+				</Button.Toggle>
+			</Flex>
+		);
+	},
 	code: `<Flex gap={12} direction='column' align='flex-start'>
 	<Button.Toggle
 		secondary

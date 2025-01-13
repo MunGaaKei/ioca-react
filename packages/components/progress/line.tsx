@@ -1,16 +1,17 @@
 import classNames from "classnames";
-import { MouseEvent, forwardRef } from "react";
+import { MouseEvent, RefObject } from "react";
 import { IProgress } from "./type";
 
-const Line = forwardRef<
-	HTMLDivElement,
-	Pick<IProgress, "value" | "size" | "barClass" | "renderCursor"> & {
+const Line = (
+	props: Pick<IProgress, "value" | "size" | "barClass" | "renderCursor"> & {
+		ref: RefObject<HTMLDivElement | null>;
 		dragging: boolean;
 		onMouseDown: (e: MouseEvent) => void;
 		onTouchStart: (e) => void;
 	}
->((props, ref) => {
+) => {
 	const {
+		ref,
 		value,
 		size,
 		barClass,
@@ -42,6 +43,6 @@ const Line = forwardRef<
 			</div>
 		</div>
 	);
-});
+};
 
 export default Line;

@@ -9,7 +9,7 @@ import Panel from "./panel";
 
 const FORMAT = "hh:mm:ss";
 
-export default function Timepicker(props: ITimePicker) {
+export default function TimePicker(props: ITimePicker) {
 	const {
 		name,
 		value,

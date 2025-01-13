@@ -10,14 +10,7 @@ export default function Page() {
 			<Demo source={DBasic} />
 
 			<h3 className='mt-80 mb-20'>Api 参考</h3>
-			<h4 className='mb-20 blue'>Card</h4>
 			<Api apis={PCard} />
-
-			<h3 className='mt-80 mb-12'>Slots</h3>
-			<h4 className='mb-20 blue'>
-				<span className='opacity-5'>Card.</span>[Banner, Title, Footer,
-				Tailer]
-			</h4>
 		</>
 	);
 }

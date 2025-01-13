@@ -7,7 +7,7 @@ import "./index.css";
 import Item from "./item";
 import { ICollapse, ICollapseItem, TKey } from "./type";
 
-const Collapse = (props: ICollapse): JSX.Element => {
+const Collapse = (props: ICollapse) => {
 	const {
 		active,
 		items,

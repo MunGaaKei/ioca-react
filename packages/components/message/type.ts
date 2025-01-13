@@ -1,4 +1,4 @@
-import { CSSProperties, MouseEvent, ReactNode } from "react";
+import { CSSProperties, MouseEvent, ReactNode, RefObject } from "react";
 
 export interface IMessage {
 	id?: string;
@@ -18,6 +18,7 @@ export interface IMessage {
 }
 
 export interface IMessageItem {
+	ref?: RefObject<HTMLDivElement | null>;
 	active?: boolean;
 	content?: ReactNode;
 	top?: number;

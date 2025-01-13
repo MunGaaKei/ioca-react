@@ -12,7 +12,7 @@
 
 .i-card-header {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
 	padding: var(--card-padding);
 	gap: 0.25em;
 }

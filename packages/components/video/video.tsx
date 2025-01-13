@@ -11,16 +11,17 @@ import {
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { throttle } from "radash";
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { useEffect, useImperativeHandle, useRef } from "react";
 import Button from "../button";
 import Icon from "../icon";
 import Progress from "../progress";
 import Text from "../text";
 import "./index.css";
-import { IVideo, RefVideo } from "./type";
+import { IVideo } from "./type";
 
-const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
+const Video = (props: IVideo) => {
 	const {
+		ref,
 		style,
 		hideControls,
 		autoplay,
@@ -287,6 +288,6 @@ const Video = forwardRef<RefVideo, IVideo>((props, ref): JSX.Element => {
 			)}
 		</div>
 	);
-});
+};
 
 export default Video;

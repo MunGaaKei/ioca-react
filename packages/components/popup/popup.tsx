@@ -157,6 +157,7 @@ export default function Popup(props: IPopup) {
 							e,
 							contentRef.current as HTMLElement
 						);
+
 						state.style = {
 							...state.style,
 							left,
@@ -262,11 +263,7 @@ export default function Popup(props: IPopup) {
 			{Children.map(children, (child) => {
 				if (!isValidElement(child)) return;
 
-				const { type, props } = child;
-
-				if (typeof type === "function") return child;
-
-				const { className, ...restProps } = props;
+				const { className, ...restProps } = child.props as any;
 				Object.keys(eventMaps[trigger]).map((evt) => {
 					if (!restProps[evt]) return;
 					const fn = eventMaps[trigger][evt];

@@ -1,10 +1,11 @@
 import classNames from "classnames";
-import { forwardRef, useMemo } from "react";
+import { useMemo } from "react";
 import { createPortal } from "react-dom";
 import { IPopupContent } from "./type";
 
-const Content = forwardRef<HTMLDivElement, IPopupContent>((props, ref) => {
+const Content = (props: IPopupContent) => {
 	const {
+		ref,
 		getContainer = (trigger) => trigger?.offsetParent ?? document.body,
 		trigger,
 		arrow,
@@ -67,6 +68,6 @@ const Content = forwardRef<HTMLDivElement, IPopupContent>((props, ref) => {
 	);
 
 	return createPortal(content, getContainer(trigger));
-});
+};
 
 export default Content;

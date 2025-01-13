@@ -3,7 +3,7 @@ import { CSSProperties, Fragment } from "react";
 import "./index.css";
 import { IDescription } from "./type";
 
-const Description = (props: IDescription): JSX.Element => {
+const Description = (props: IDescription) => {
 	const {
 		data,
 		colon,

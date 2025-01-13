@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, RefObject } from "react";
 import { TPosition } from "../../type";
 export interface IPopup {
 	visible?: boolean;
@@ -30,6 +30,7 @@ export interface IPopupContent
 		IPopup,
 		"getContainer" | "arrow" | "className" | "style" | "children"
 	> {
+	ref?: RefObject<HTMLDivElement | null>;
 	trigger?: HTMLElement;
 	arrowProps?: Record<string, any>;
 }

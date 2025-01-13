@@ -6,7 +6,6 @@ import { pick } from "radash";
 import {
 	CSSProperties,
 	Children,
-	forwardRef,
 	useEffect,
 	useImperativeHandle,
 	useRef,
@@ -17,7 +16,7 @@ import Popup from "../popup";
 import Helpericon from "../utils/helpericon";
 import "./index.css";
 import TabItem from "./item";
-import { CompositionTabs, ITabItem, ITabs, RefTabs, TTabKey } from "./type";
+import { CompositionTabs, ITabItem, ITabs, TTabKey } from "./type";
 
 type TState = {
 	active?: TTabKey;
@@ -29,8 +28,9 @@ type TState = {
 	tabs: ITabItem[];
 };
 
-const Tabs = forwardRef<RefTabs, ITabs>((props, ref) => {
+const Tabs = ((props: ITabs) => {
 	const {
+		ref,
 		active,
 		tabs: items,
 		type = "default",
@@ -269,10 +269,7 @@ const Tabs = forwardRef<RefTabs, ITabs>((props, ref) => {
 						return (
 							<a
 								key={key}
-								ref={(ref) =>
-									(navRefs.current[i] =
-										ref as HTMLAnchorElement)
-								}
+								ref={(ref) => (navRefs.current[i] = ref as any)}
 								className={classNames("i-tab-nav", {
 									"i-tab-active": state.active === key,
 								})}

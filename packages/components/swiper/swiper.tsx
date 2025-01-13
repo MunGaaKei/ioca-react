@@ -8,7 +8,6 @@ import { useReactive } from "ahooks";
 import classNames from "classnames";
 import {
 	Children,
-	forwardRef,
 	useEffect,
 	useImperativeHandle,
 	useMemo,
@@ -17,10 +16,11 @@ import {
 import Icon from "../icon";
 import "./index.css";
 import Item from "./item";
-import { CompositionSwiper, ISwiper, RefSwiper } from "./type";
+import { CompositionSwiper, ISwiper } from "./type";
 
-const Swiper = forwardRef<RefSwiper, ISwiper>((props, ref): JSX.Element => {
+const Swiper = ((props: ISwiper) => {
 	const {
+		ref,
 		type = "normal",
 		initial = 0,
 		display = 1,

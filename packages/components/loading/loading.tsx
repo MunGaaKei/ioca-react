@@ -2,7 +2,7 @@ import classNames from "classnames";
 import "./index.css";
 import { ILoading } from "./type";
 
-const Loading = (props: ILoading): JSX.Element => {
+const Loading = (props: ILoading) => {
 	const { icon, text, size, absolute, style, className, ...restProps } =
 		props;
 
