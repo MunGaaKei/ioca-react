@@ -24,10 +24,10 @@ export default function Document() {
 			className='pd-8'
 		/>
 	);
-	const contentRef = useRef(null);
+	const contentRef = useRef<any>(null);
 
 	useEffect(() => {
-		// console.log(name, contentRef.current);
+		contentRef.current?.scrollTop(0);
 	}, [name]);
 
 	return (

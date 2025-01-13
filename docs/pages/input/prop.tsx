@@ -41,9 +41,19 @@ export const DRange = {
 
 export const DTextarea = {
 	demo: () => {
-		return <Input.Textarea style={{ width: 400 }} autoSize />;
+		return (
+			<Input.Textarea
+				style={{ width: 400 }}
+				autoSize
+				placeholder='TextArea'
+			/>
+		);
 	},
-	code: `<Input.Textarea  />`,
+	code: `<Input.Textarea
+	style={{ width: 400 }}
+	autoSize
+	placeholder='TextArea'
+/>`,
 	lang: "xml",
 };
 
