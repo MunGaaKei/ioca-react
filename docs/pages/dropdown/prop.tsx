@@ -60,7 +60,7 @@ export const DBasic = {
 				<Dropdown.Item
 					type='option'
 					more={SubMenu}
-					moreProps={{ position: "left" }}
+					moreProps={{ position: "right" }}
 				>
 					<span>更多</span>
 					<Icon icon={<MoreHorizRound />} size='1.125em' />
