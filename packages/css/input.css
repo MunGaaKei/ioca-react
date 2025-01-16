@@ -31,12 +31,14 @@
 }
 
 .i-input-item {
+	--input-border-width: 2px;
+	--invert-input-border-width: calc(var(--input-border-width) * -1);
 	flex: 1 1 100%;
 	display: flex;
 	align-items: baseline;
 	transition: var(--transition);
 	border-radius: var(--radius);
-	border: 2px solid var(--color-9);
+	border: var(--input-border-width) solid var(--color-9);
 	max-width: 100%;
 	.i-btn {
 		align-self: stretch;
@@ -85,12 +87,22 @@
 }
 
 .i-input-message {
+	--color: var(--color-5);
 	flex: 1 1 100%;
 	z-index: 1;
 	font-size: 0.8em;
 	color: var(--color);
 	border-radius: var(--radius);
 	pointer-events: none;
+}
+.i-input-success {
+	--color: var(--green);
+}
+.i-input-warning {
+	--color: var(--yellow);
+}
+.i-input-error {
+	--color: var(--error);
 }
 
 .i-textarea {
@@ -102,6 +114,7 @@
 
 .i-input-prepend,
 .i-input-append {
+	margin: var(--invert-input-border-width);
 	display: flex;
 	align-self: stretch;
 	place-items: center;
@@ -111,10 +124,12 @@
 	}
 }
 .i-input-prepend {
+	margin-right: 0;
 	border-top-left-radius: inherit;
 	border-bottom-left-radius: inherit;
 }
 .i-input-append {
+	margin-left: 0;
 	border-top-right-radius: inherit;
 	border-bottom-right-radius: inherit;
 }

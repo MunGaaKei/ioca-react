@@ -14,6 +14,13 @@ export const DBasic = {
 					visible={visible}
 					title='标题'
 					width={400}
+					okButtonProps={{
+						children: "修改",
+						onClick: () => console.log("click"),
+					}}
+					onOk={() => {
+						console.log("ok");
+					}}
 					onClose={() => setVisible(false)}
 				>
 					<div className='px-12'>

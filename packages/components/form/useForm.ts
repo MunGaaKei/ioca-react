@@ -124,7 +124,7 @@ export class IFormInstance {
 			}
 		});
 
-		return isAllValid ? data : false;
+		return isAllValid ? Promise.resolve(data) : false;
 	}
 }
 

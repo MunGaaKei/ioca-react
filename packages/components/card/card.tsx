@@ -3,16 +3,23 @@ import "./index.css";
 import { ICard } from "./type";
 
 const Card = (props: ICard) => {
-	const { hideShadow, border, style, className, children, header, footer } =
-		props;
+	const {
+		hideShadow,
+		border,
+		className,
+		children,
+		header,
+		footer,
+		...restProps
+	} = props;
 
 	return (
 		<div
-			style={style}
 			className={classNames("i-card", className, {
 				shadow: !hideShadow,
 				"i-card-bordered": border,
 			})}
+			{...restProps}
 		>
 			{header && <div className='i-card-header'>{header}</div>}
 

@@ -1,7 +1,7 @@
 import {
 	Button,
 	Checkbox,
-	ColorPicker,
+	DatePicker,
 	Flex,
 	Form,
 	Input,
@@ -25,13 +25,6 @@ export const DBasic = {
 				message: "不能小于17岁",
 			},
 			gender: true,
-			birth: {
-				validator: (v) => {
-					console.log(v);
-					return false;
-				},
-				message: "sdasfsadf",
-			},
 		};
 
 		const handleSubmit = () => {
@@ -57,13 +50,7 @@ export const DBasic = {
 		};
 
 		return (
-			<Form
-				form={form}
-				rules={rules}
-				width={420}
-				className='gap-12'
-				onEnter={handleSubmit}
-			>
+			<Form form={form} rules={rules} width={420} onEnter={handleSubmit}>
 				<Field name='name' required>
 					<Input labelInline label='名字' />
 				</Field>
@@ -99,11 +86,8 @@ export const DBasic = {
 						labelInline
 					/>
 				</Field>
-				{/* <Field name='birth'>
-					<DatePicker label='生日' labelInline />
-				</Field> */}
 				<Field name='birth'>
-					<ColorPicker />
+					<DatePicker label='生日' labelInline />
 				</Field>
 				<Field name='hobby'>
 					<Checkbox
@@ -189,13 +173,7 @@ const handleValidate = async () => {
 };
 
 return (
-	<Form
-		form={form}
-		rules={rules}
-		width={420}
-		className='gap-12'
-		onEnter={handleSubmit}
-	>
+	<Form form={form} rules={rules} width={420} onEnter={handleSubmit}>
 		<Field name='name' required>
 			<Input labelInline label='名字' />
 		</Field>
@@ -314,6 +292,12 @@ export const PForm = [
 		name: "width",
 		desc: "表单宽度",
 		type: ["string", "number"],
+	},
+	{
+		name: "gap",
+		desc: "控件间隔",
+		type: ["string", "number"],
+		def: "'1em'",
 	},
 	{
 		name: "onEnter",

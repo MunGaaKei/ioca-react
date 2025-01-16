@@ -159,6 +159,12 @@ export const PTabs = [
 		type: ["string"],
 	},
 	{
+		name: "navsJustify",
+		desc: "标签对齐方式",
+		type: ["'start'", "'center'", "'end'"],
+		def: "'start'",
+	},
+	{
 		name: "toggable",
 		desc: "点击当前项时可以隐藏",
 		type: ["boolean"],

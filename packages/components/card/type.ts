@@ -1,6 +1,6 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, HTMLAttributes, ReactNode } from "react";
 
-export interface ICard {
+export interface ICard extends HTMLAttributes<HTMLDivElement> {
 	hideShadow?: boolean;
 	border?: boolean;
 	style?: CSSProperties;

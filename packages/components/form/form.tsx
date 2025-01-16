@@ -14,6 +14,7 @@ const Form = (props: IForm) => {
 		style,
 		className,
 		width,
+		gap = "1em",
 		children,
 		onEnter,
 		...restProps
@@ -35,7 +36,7 @@ const Form = (props: IForm) => {
 	return (
 		<Context.Provider value={form}>
 			<form
-				style={{ ...style, width }}
+				style={{ ...style, width, gap }}
 				className={classNames("i-form", className)}
 				onKeyDown={handleEnter}
 				{...restProps}

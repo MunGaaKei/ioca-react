@@ -31,7 +31,7 @@ export default function Sider(props) {
 				<Link to='/'>I/R</Link>
 			</Text>
 
-			<Popup className='pd-8 bg-0' content='主题' position='left'>
+			<Popup className='pd-8 bg-0' content='切换主题' position='left'>
 				<Button.Toggle
 					square
 					flat

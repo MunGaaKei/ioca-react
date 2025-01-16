@@ -119,6 +119,7 @@ export default function Page() {
 				<Item label={<code>.round</code>}>
 					圆角, <div className='bg-blue round pd-10'></div>
 				</Item>
+				<Item label={<code>.roundless</code>}>无圆角</Item>
 				<Item label={<code>.round-0</code>}>
 					略微的圆角，<div className='bg-blue round-0 pd-10'></div>
 				</Item>
@@ -137,6 +138,7 @@ export default function Page() {
 						鼠标移入时显示阴影
 					</div>
 				</Item>
+				<Item label={<code>.bg-transparent</code>}>背景透明</Item>
 				<Item label={<code>.no-transition</code>}>
 					transition: none;
 				</Item>

@@ -40,6 +40,7 @@ const Tabs = ((props: ITabs) => {
 		className,
 		vertical,
 		toggable,
+		navsJustify = "start",
 		bar = true,
 		hideMore,
 		barClass,
@@ -262,7 +263,13 @@ const Tabs = ((props: ITabs) => {
 			>
 				{prepend}
 
-				<div ref={navsRef} className='i-tab-navs'>
+				<div
+					ref={navsRef}
+					className={classNames(
+						"i-tab-navs",
+						`justify-${navsJustify}`
+					)}
+				>
 					{state.tabs.map((tab, i) => {
 						const { title, key = i, closable } = tab;
 

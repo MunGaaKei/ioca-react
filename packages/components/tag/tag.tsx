@@ -10,6 +10,7 @@ const Tag = (props: ITag) => {
 		outline,
 		round,
 		size = "normal",
+		hoverShowClose,
 		className,
 		children,
 		onClose,
@@ -37,7 +38,13 @@ const Tag = (props: ITag) => {
 			{children}
 
 			{onClose && (
-				<Helpericon active className='i-tag-close' onClick={onClose} />
+				<Helpericon
+					active
+					className={classNames("i-tag-close", {
+						"i-tag-hover-close": hoverShowClose,
+					})}
+					onClick={onClose}
+				/>
 			)}
 		</span>
 	);

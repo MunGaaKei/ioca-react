@@ -79,7 +79,7 @@ interface CompositionButton extends ForwardRefExoticComponent<IButton & RefAttri
 
 declare const _default$3: CompositionButton;
 
-interface ICard {
+interface ICard extends HTMLAttributes<HTMLDivElement> {
     hideShadow?: boolean;
     border?: boolean;
     style?: CSSProperties;
@@ -337,6 +337,7 @@ interface IForm extends HTMLAttributes<HTMLFormElement> {
     };
     initialValues?: Record<string, any>;
     width?: string | number;
+    gap?: string | number;
     onEnter?: (values: Record<string, any>, form: IFormInstance) => void;
 }
 interface IField {
@@ -749,6 +750,7 @@ interface ITabs {
     bar?: boolean;
     barClass?: string;
     toggable?: boolean;
+    navsJustify?: "start" | "center" | "end";
     className?: string;
     children?: ReactNode;
     style?: CSSProperties;
@@ -773,6 +775,7 @@ interface ITag extends HTMLAttributes<HTMLSpanElement> {
     outline?: boolean;
     round?: boolean;
     size?: "small" | "normal" | "large" | "extreme";
+    hoverShowClose?: boolean;
     onClick?: (e: MouseEvent) => void;
     onClose?: (e: MouseEvent) => void;
 }

@@ -1,5 +1,4 @@
 .i-form {
-	display: flex;
-	flex-direction: column;
+	display: grid;
 	max-width: 100%;
 }

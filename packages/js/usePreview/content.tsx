@@ -36,9 +36,11 @@ export default function Content(props: IPreview) {
 		translate: [0, 0],
 		start: [0, 0],
 		dragging: false,
+		controlHidden: true,
 	});
 	const box = useRef<HTMLDivElement>(null);
 	const translate = useRef<number[]>([0, 0]);
+	const hiddenTO = useRef<any>(null);
 
 	const files = useMemo(() => {
 		return items.map((item) => {
@@ -115,7 +117,25 @@ export default function Content(props: IPreview) {
 		state.start = [e.pageX, e.pageY];
 	};
 
+	const clearHiddenTO = () => {
+		if (!hiddenTO.current) return;
+		clearTimeout(hiddenTO.current);
+		hiddenTO.current = null;
+	};
+
+	const setHiddenFalse = () => {
+		state.controlHidden = false;
+
+		clearHiddenTO();
+		hiddenTO.current = setTimeout(() => {
+			state.controlHidden = true;
+		}, 1000);
+	};
+
+	const throttleMouseMove = throttle({ interval: 300 }, setHiddenFalse);
+
 	const handleMouseMove = (e) => {
+		throttleMouseMove();
 		if (!state.dragging) return;
 		e.preventDefault();
 
@@ -157,7 +177,11 @@ export default function Content(props: IPreview) {
 				{content}
 			</div>
 
-			<div className='i-preview-controls'>
+			<div
+				className={classNames("i-preview-controls", {
+					"i-preview-controls-hidden": state.controlHidden,
+				})}
+			>
 				<Button square flat onClick={onClose}>
 					<Icon icon={<CloseRound />} />
 				</Button>

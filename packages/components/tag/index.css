@@ -1,6 +1,7 @@
 .i-tag {
 	--background: var(--color-9);
 	--color: var(--color-1);
+	position: relative;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -14,6 +15,12 @@
 	transition: var(--transition);
 	font-size: 0.81em;
 	line-height: 1;
+	&:hover {
+		.i-tag-hover-close {
+			opacity: 1;
+			transform: translate(50%, -50%) scale(1);
+		}
+	}
 }
 .i-tag-large {
 	font-size: 1em;
@@ -44,7 +51,24 @@
 }
 
 .i-tag-close {
-	margin: 0 -0.5em;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 1;
+	margin: 0;
+	background: var(--error);
+	color: var(--white);
+	transform: translate(50%, -50%);
+	font-size: 0.81em;
+	transition: all 0.16s;
+	&:hover {
+		background: var(--error-1);
+		color: var(--white);
+	}
+}
+.i-tag-hover-close {
+	transform: translate(50%, -50%) scale(0);
+	opacity: 0;
 }
 .i-tag-clickable {
 	cursor: pointer;

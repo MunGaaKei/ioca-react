@@ -32,6 +32,7 @@ export interface ITabs {
 	bar?: boolean;
 	barClass?: string;
 	toggable?: boolean;
+	navsJustify?: "start" | "center" | "end";
 	className?: string;
 	children?: ReactNode;
 	style?: CSSProperties;

@@ -43,6 +43,13 @@
 	border-radius: var(--radius);
 	font-size: 0.9em;
 	pointer-events: all;
+	transition: all 0.24s ease-out;
+	&:hover {
+		opacity: 1;
+	}
+}
+.i-preview-controls-hidden {
+	opacity: 0;
 }
 
 .i-preview-unknown {

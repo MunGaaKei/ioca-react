@@ -46,8 +46,13 @@ export const DColors = {
 					<Tag className='brown' outline onClick={() => null}>
 						tag
 					</Tag>
-					<Tag className='bg-aqua' onClick={() => null}>
-						tag
+					<Tag
+						className='bg-aqua'
+						hoverShowClose
+						onClose={() => null}
+						onClick={() => null}
+					>
+						hover me
 					</Tag>
 					<Tag className='orange'>tag</Tag>
 					<Tag className='bg-black'>tag</Tag>

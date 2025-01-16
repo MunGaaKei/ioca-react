@@ -293,4 +293,67 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.1.9",
+		content: (
+			<List>
+				<Item
+					label={
+						<Link to='/docs/form' className='blue'>
+							Form
+						</Link>
+					}
+				>
+					添加属性<code>gap</code>，以及验证失败时反馈
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/tabs' className='blue'>
+							Tabs
+						</Link>
+					}
+				>
+					添加属性<code>navsJustify</code>
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/preview' className='blue'>
+							Preview
+						</Link>
+					}
+				>
+					优化控制栏显示
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/helper' className='blue'>
+							Helper ClassName
+						</Link>
+					}
+				>
+					添加了<code>roundless</code>
+					<code>bg-transparent</code>
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/card' className='blue'>
+							Card
+						</Link>
+					}
+				>
+					添加了属性<code>as</code>，继承了<code>HTMLDivElement</code>
+					属性
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/tag' className='blue'>
+							Tag
+						</Link>
+					}
+				>
+					优化关闭样式，新增属性<code>hoverShowClose</code>
+				</Item>
+			</List>
+		),
+	},
 ];

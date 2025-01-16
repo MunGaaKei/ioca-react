@@ -11,18 +11,6 @@
 		padding: 0 0.5em;
 		line-height: 1.425em;
 		background: var(--color-8);
-		&:hover {
-			.i-tag-close {
-				opacity: 1;
-				color: var(--error);
-			}
-		}
-	}
-	.i-tag-close {
-		position: absolute;
-		right: 4px;
-		background: inherit;
-		opacity: 0;
 	}
 }
 

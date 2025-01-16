@@ -141,6 +141,9 @@
 		background: var(--background-opacity);
 		backdrop-filter: var(--blur);
 	}
+	.roundless {
+		border-radius: 0;
+	}
 	.round {
 		border-radius: 50vw;
 	}
@@ -178,6 +181,9 @@
 		&:hover {
 			opacity: 1;
 		}
+	}
+	.bg-transparent {
+		background: transparent;
 	}
 	.font-italic {
 		font-style: italic;
