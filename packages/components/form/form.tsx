@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Context from "./context";
 import Field from "./field";
 import "./index.css";
@@ -14,6 +14,7 @@ const Form = (props: IForm) => {
 		style,
 		className,
 		width,
+		columns = 1,
 		gap = "1em",
 		children,
 		onEnter,
@@ -26,6 +27,15 @@ const Form = (props: IForm) => {
 		onEnter?.(form.data, form);
 	};
 
+	const gridColumns = useMemo(() => {
+		if (!columns) return;
+
+		if (typeof columns === "number")
+			return `minmax(0, 1fr) `.repeat(columns);
+
+		return columns;
+	}, [columns]);
+
 	useEffect(() => {
 		Object.assign(form, {
 			data: { ...initialValues },
@@ -34,16 +44,21 @@ const Form = (props: IForm) => {
 	}, [form]);
 
 	return (
-		<Context.Provider value={form}>
+		<Context value={form}>
 			<form
-				style={{ ...style, width, gap }}
+				style={{
+					...style,
+					width,
+					gap,
+					gridTemplateColumns: gridColumns as any,
+				}}
 				className={classNames("i-form", className)}
 				onKeyDown={handleEnter}
 				{...restProps}
 			>
 				{children}
 			</form>
-		</Context.Provider>
+		</Context>
 	);
 };
 

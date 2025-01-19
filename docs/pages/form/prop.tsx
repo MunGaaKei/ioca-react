@@ -300,6 +300,13 @@ export const PForm = [
 		def: "'1em'",
 	},
 	{
+		name: "columns",
+		desc: "表单分列",
+		type: ["string", "number"],
+		def: "1",
+		exp: true,
+	},
+	{
 		name: "onEnter",
 		desc: "回车键按下调用",
 		type: [

@@ -55,7 +55,6 @@ export default [
 	},
 	{
 		title: "Style & Colors",
-		as: Link,
 		icon: <Icon icon={<StyleTwotone />} />,
 		children: [
 			{

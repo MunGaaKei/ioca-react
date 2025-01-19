@@ -33,24 +33,27 @@ export const DBasic = {
 	code: `const [visible, setVisible] = useState(false);
 
 return (
-    <>
-        <Button onClick={() => setVisible(true)}>打开</Button>
+	<>
+		<Button onClick={() => setVisible(true)}>打开</Button>
 
-        <Modal
-            visible={visible}
-            title='标题'
-            width={400}
-            onClose={() => setVisible(false)}
-        >
-            <div className='px-12'>
-                Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Accusamus harum facilis deserunt. Ut molestiae
-                nulla laborum doloribus ratione est perferendis
-                laboriosam omnis nesciunt fuga sequi odio suscipit
-                alias, modi ipsum.
-            </div>
-        </Modal>
-    </>
+		<Modal
+			visible={visible}
+			title='标题'
+			width={400}
+			okButtonProps={{
+				children: "知道了",
+			}}
+			onClose={() => setVisible(false)}
+		>
+			<div className='px-12'>
+				Lorem ipsum dolor sit amet, consectetur adipisicing
+				elit. Accusamus harum facilis deserunt. Ut molestiae
+				nulla laborum doloribus ratione est perferendis
+				laboriosam omnis nesciunt fuga sequi odio suscipit
+				alias, modi ipsum.
+			</div>
+		</Modal>
+	</>
 );`,
 	lang: "javascript",
 };
@@ -173,6 +176,16 @@ export const PModal = [
 		desc: "点击背景层可以关闭对话框",
 		type: ["boolean"],
 		def: "true",
+	},
+	{
+		name: "disableEsc",
+		desc: (
+			<>
+				按下<kbd>Esc</kbd>可以关闭对话框
+			</>
+		),
+		type: ["boolean"],
+		def: "false",
 	},
 	{
 		name: "width",

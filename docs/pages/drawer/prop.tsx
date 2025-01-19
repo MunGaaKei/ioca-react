@@ -147,6 +147,16 @@ export const PDrawer = [
 		def: "true",
 	},
 	{
+		name: "disableEsc",
+		desc: (
+			<>
+				按下<kbd>Esc</kbd>可以关闭抽屉
+			</>
+		),
+		type: ["boolean"],
+		def: "false",
+	},
+	{
 		name: "onVisibleChange",
 		desc: "打开关闭时触发",
 		type: ["(visible: boolean) => void"],

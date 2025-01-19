@@ -1,3 +1,4 @@
+import { useKeydown } from "@/packages/js/hooks";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { useEffect, useRef } from "react";
@@ -16,6 +17,7 @@ function Drawer(props: IDrawer) {
 		hideCloseButton,
 		keepDOM,
 		className,
+		disabledEsc,
 		children,
 		onVisibleChange,
 		onClose,
@@ -63,6 +65,16 @@ function Drawer(props: IDrawer) {
 	const handleBackdropClick = function () {
 		backdropClosable && handleHide();
 	};
+
+	useKeydown(
+		(e) => {
+			if (e.code !== "Escape" || !visible) return;
+			handleHide();
+		},
+		{
+			disabled: disabledEsc,
+		}
+	);
 
 	return createPortal(
 		state.show && (

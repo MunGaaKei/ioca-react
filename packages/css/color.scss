@@ -109,7 +109,7 @@ $colors: (
 	@each $name, $value in $colors {
 		$number: string.slice($name, -1);
 		$enhanced: string.index(("012"), $number);
-		$lightColors: ("white", "grey", "yellow", "aqua");
+		$lightColors: ("white", "grey", "yellow", "aqua", "warning");
 		$isLightColor: list.index($lightColors, $name);
 
 		--#{$name}: #{$value};
@@ -212,6 +212,14 @@ $colors: (
 
 	.bg-slight {
 		color: var(--white);
+	}
+	kbd,
+	.kbd {
+		background-color: var(--black-1);
+		color: var(--white);
+		border-right: 2px solid var(--color-8);
+		border-bottom: 3px solid var(--color-8);
+		box-shadow: -1px -1px 1px var(--black-2);
 	}
 
 	--white-0: #595959;

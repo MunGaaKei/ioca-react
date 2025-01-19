@@ -16,7 +16,7 @@ const Icon = (props: IIcon) => {
 
 	if (!isValidElement(icon)) return icon;
 
-	const elProps = {
+	const iconProps = {
 		ref,
 		style: {
 			transform: rotate ? `rotate(${rotate}deg)` : undefined,
@@ -28,7 +28,7 @@ const Icon = (props: IIcon) => {
 		...restProps,
 	};
 
-	return cloneElement(icon, elProps);
+	return cloneElement(icon, iconProps);
 };
 
 export default Icon;

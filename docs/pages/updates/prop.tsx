@@ -363,7 +363,7 @@ export const updates = [
 		),
 	},
 	{
-		title: "1.2.0",
+		title: "1.2.0 ~ 1.2.1",
 		content: (
 			<List>
 				<Item>
@@ -429,6 +429,23 @@ export const updates = [
 						List.Virtual
 					</b>
 				</Item>
+			</List>
+		),
+	},
+	{
+		title: "1.2.2",
+		content: (
+			<List>
+				<Item>
+					<Link to='/docs/modal' className='blue'>
+						Modal
+					</Link>
+					<Link to='/docs/drawer' className='blue'>
+						Drawer
+					</Link>{" "}
+					{addAttr} <code>disableEsc</code>
+				</Item>
+				<Item>优化部分样式显示</Item>
 			</List>
 		),
 	},

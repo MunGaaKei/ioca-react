@@ -1,13 +1,20 @@
 import { useEffect } from "react";
 
 type TMouseEvent = (e: MouseEvent) => void;
+type TKeyboardEvent = (e: KeyboardEvent) => void;
+type TEventOption = {
+	disabled?: boolean;
+};
 
 const MouseMoveEvents = new Set<TMouseEvent>();
 const MouseUpEvents = new Set<TMouseEvent>();
+const KeydownEvents = new Set<TKeyboardEvent>();
+
 const touchable = "ontouchend" in document;
 const EVENTS: any = {
 	MOVE: touchable ? "touchmove" : "mousemove",
 	UP: touchable ? "touchend" : "mouseup",
+	KEYDOWN: "keydown",
 };
 
 document.addEventListener(
@@ -26,8 +33,16 @@ document.addEventListener(EVENTS.UP, (e) => {
 	}
 });
 
-export function useMouseMove(listener: TMouseEvent) {
+document.addEventListener(EVENTS.KEYDOWN, (e) => {
+	for (const listener of KeydownEvents.values()) {
+		listener(e);
+	}
+});
+
+export function useMouseMove(listener: TMouseEvent, options?: TEventOption) {
 	useEffect(() => {
+		if (options?.disabled) return;
+
 		MouseMoveEvents.add(listener);
 		return () => {
 			MouseMoveEvents.delete(listener);
@@ -35,11 +50,24 @@ export function useMouseMove(listener: TMouseEvent) {
 	}, [listener]);
 }
 
-export function useMouseUp(listener: TMouseEvent) {
+export function useMouseUp(listener: TMouseEvent, options?: TEventOption) {
 	useEffect(() => {
+		if (options?.disabled) return;
+
 		MouseUpEvents.add(listener);
 		return () => {
 			MouseUpEvents.delete(listener);
+		};
+	}, [listener]);
+}
+
+export function useKeydown(listener: TKeyboardEvent, options?: TEventOption) {
+	useEffect(() => {
+		if (options?.disabled) return;
+
+		KeydownEvents.add(listener);
+		return () => {
+			KeydownEvents.delete(listener);
 		};
 	}, [listener]);
 }

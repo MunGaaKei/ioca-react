@@ -1,3 +1,4 @@
+import { useKeydown } from "@/packages/js/hooks";
 import classNames from "classnames";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -88,6 +89,7 @@ function Modal(props: IModal) {
 		hideBackdrop,
 		backdropClosable = true,
 		hideCloseButton,
+		disableEsc,
 		width,
 		height,
 		customized,
@@ -144,6 +146,14 @@ function Modal(props: IModal) {
 	const handleBackdropClick = function () {
 		backdropClosable && handleHide();
 	};
+
+	useKeydown(
+		(e) => {
+			if (e.code !== "Escape" || !visible) return;
+			handleHide();
+		},
+		{ disabled: disableEsc }
+	);
 
 	useEffect(() => {
 		visible ? handleShow() : handleHide();

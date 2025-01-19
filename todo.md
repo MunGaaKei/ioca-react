@@ -5,5 +5,4 @@ skeleton
 grid infinite
 scrollbar
 input maxlength
-esc keydown
 form span columns

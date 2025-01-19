@@ -18,6 +18,7 @@ export interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
 	okButtonProps?: IButton;
 	cancelButtonProps?: IButton;
 	footerLeft?: ReactNode;
+	disableEsc?: boolean;
 	onVisibleChange?: (visible: boolean) => void;
 	onOk?: () => void | Promise<any>;
 	onClose?: () => void;

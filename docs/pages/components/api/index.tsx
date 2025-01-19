@@ -1,4 +1,4 @@
-import { Flex } from "@p";
+import { Flex, Popup } from "@p";
 import classNames from "classnames";
 import { Fragment, ReactNode } from "react";
 
@@ -8,18 +8,29 @@ export default function Api(props) {
 	return (
 		<div className={classNames("apis", className)}>
 			{apis.map((o) => {
-				const { name, type, def, desc, required, event } = o;
+				const { name, type, def, desc, required, event, exp } = o;
 
 				return (
 					<div key={name}>
 						<Flex align='baseline' gap={8} wrap>
-							<h5
-								className={classNames({
-									green: event,
-								})}
+							<Popup
+								disabled={!exp}
+								className='bg-warning'
+								content={
+									<div className='pd-8'>
+										实验性功能，暂不推荐使用
+									</div>
+								}
 							>
-								{name}
-							</h5>
+								<h5
+									className={classNames({
+										green: event,
+										warning: exp,
+									})}
+								>
+									{name}
+								</h5>
+							</Popup>
 
 							{required && <span className='red'>⁕</span>}
 

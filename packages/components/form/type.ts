@@ -12,6 +12,7 @@ export interface IForm extends HTMLAttributes<HTMLFormElement> {
 	rules?: {
 		[key: string]: boolean | TValidator | TRule;
 	};
+	columns?: number | string;
 	initialValues?: Record<string, any>;
 	width?: string | number;
 	gap?: string | number;

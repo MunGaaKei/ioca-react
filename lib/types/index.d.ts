@@ -237,6 +237,7 @@ interface IDrawer extends HTMLAttributes<HTMLDivElement> {
     hideCloseButton?: boolean;
     backdropClosable?: boolean;
     keepDOM?: boolean;
+    disabledEsc?: boolean;
     onVisibleChange?: (visible: boolean) => void;
     onClose?: () => void;
 }
@@ -347,6 +348,7 @@ interface IForm extends HTMLAttributes<HTMLFormElement> {
     rules?: {
         [key: string]: boolean | TValidator | TRule;
     };
+    columns?: number | string;
     initialValues?: Record<string, any>;
     width?: string | number;
     gap?: string | number;
@@ -511,6 +513,7 @@ interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
     okButtonProps?: IButton;
     cancelButtonProps?: IButton;
     footerLeft?: ReactNode;
+    disableEsc?: boolean;
     onVisibleChange?: (visible: boolean) => void;
     onOk?: () => void | Promise<any>;
     onClose?: () => void;

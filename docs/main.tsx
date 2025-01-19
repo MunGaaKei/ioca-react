@@ -12,9 +12,9 @@ const App = () => {
 
 	return (
 		<React.StrictMode>
-			<GlobalContext.Provider value={global}>
+			<GlobalContext value={global}>
 				<RouterProvider router={Router} />
-			</GlobalContext.Provider>
+			</GlobalContext>
 		</React.StrictMode>
 	);
 };

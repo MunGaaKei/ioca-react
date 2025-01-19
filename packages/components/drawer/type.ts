@@ -8,6 +8,7 @@ export interface IDrawer extends HTMLAttributes<HTMLDivElement> {
 	hideCloseButton?: boolean;
 	backdropClosable?: boolean;
 	keepDOM?: boolean;
+	disabledEsc?: boolean;
 	onVisibleChange?: (visible: boolean) => void;
 	onClose?: () => void;
 }
