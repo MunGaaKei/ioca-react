@@ -24,6 +24,7 @@ export const ListContainer = (props) => {
 	}
 	return (
 		<SortableContainer
+			draggedItemClassName='i-upload-item-dragged'
 			onSortEnd={onSortEnd}
 			{...customProps}
 			{...restProps}

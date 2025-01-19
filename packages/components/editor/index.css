@@ -1,6 +1,12 @@
 .i-editor {
 	display: flex;
 	flex-direction: column;
+	&:focus-within,
+	&:hover {
+		.i-editor-controls {
+			border-color: var(--color-8);
+		}
+	}
 }
 
 .i-editor-controls {
@@ -10,6 +16,7 @@
 	border-bottom: 0;
 	padding: 2px;
 	border-radius: var(--radius) var(--radius) 0 0;
+	transition: var(--transition);
 	.i-btn {
 		--color: var(--color-5);
 		&:hover {
@@ -30,7 +37,8 @@
 	word-wrap: break-word;
 	word-break: break-all;
 	tab-size: 1em;
-	&:hover {
+	&:hover,
+	&:focus {
 		border-color: var(--color-8);
 	}
 	a {

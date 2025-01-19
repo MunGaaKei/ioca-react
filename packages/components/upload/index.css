@@ -46,10 +46,6 @@
 	background-color: var(--error);
 	color: #fff;
 	box-shadow: var(--shadow);
-	&:hover {
-		background-color: var(--error);
-		color: #fff;
-	}
 }
 
 .i-upload-btn {
@@ -80,7 +76,10 @@
 	&:hover {
 		background-color: var(--background-opacity-1);
 		.i-upload-delete {
+			position: absolute;
 			opacity: 1;
+			background-color: var(--error);
+			color: #fff;
 		}
 	}
 }
@@ -124,4 +123,8 @@
 .i-upload-size {
 	font-size: 0.8em;
 	color: var(--color-6);
+}
+
+.i-upload-item-dragged {
+	z-index: 1000;
 }
