@@ -49,6 +49,7 @@ export interface IButtonToggle extends IButton {
 export interface IButtonGroup {
 	children?: ReactNode;
 	vertical?: boolean;
+	buttonProps?: IButton;
 	className?: string;
 	style?: CSSProperties;
 }

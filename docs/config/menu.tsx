@@ -20,6 +20,7 @@ import {
 	GridOnRound,
 	ImageTwotone,
 	LabelTwotone,
+	LineStyleRound,
 	LineWeightRound,
 	LinearScaleRound,
 	LooksOneOutlined,
@@ -135,6 +136,12 @@ export default [
 						style={{ marginInline: ".15em" }}
 					/>
 				),
+			},
+			{
+				title: "Editor",
+				href: "/docs/editor",
+				as: Link,
+				icon: <Icon icon={<LineStyleRound />} />,
 			},
 			{
 				title: "Flex",

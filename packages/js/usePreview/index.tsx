@@ -23,7 +23,7 @@ export default function usePreview() {
 				visible
 				className='i-preview'
 				customized
-				shadow={false}
+				hideShadow
 				{...modalProps}
 				children={
 					<Content

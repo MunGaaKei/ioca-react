@@ -25,11 +25,11 @@ export default function Demo(props: IDemo) {
 
 	const handleCopy = async (e) => {
 		e.stopPropagation();
-		await navigator.clipboard.writeText(code);
 		Message({
 			content: "复制成功 👌",
 			className: "bg-blue",
 		});
+		await navigator.clipboard.writeText(code);
 	};
 
 	return (

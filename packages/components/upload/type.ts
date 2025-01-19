@@ -6,13 +6,16 @@ export interface IUpload
 		Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
 	ref?: RefObject<RefUpload | null>;
 	files?: IFile[];
+	initialFiles?: IFile[] | File[];
 	accept?: string;
 	multiple?: boolean;
 	directory?: boolean;
 	limit?: number;
+	sortable?: boolean;
 	mode?: "default" | "card";
 	droppable?: boolean;
 	cardSize?: string;
+	defaultText?: ReactNode;
 	shouldUpload?: (file: IFile) => boolean;
 	uploader?: (file: IFile) => Promise<IFile>;
 	renderItem?: (file: IFile, i: number) => ReactNode;
@@ -26,13 +29,13 @@ export interface IUpload
 }
 
 export interface IFile extends File {
-	uid?: string;
+	id: string;
 	instance?: File;
 	src?: string;
 	[key: string]: any;
 }
 
-export interface IUploadItem extends Pick<IUpload, "mode"> {
+export interface IUploadItem extends Pick<IUpload, "mode" | "renderItem"> {
 	file?: IFile;
 	index: number;
 	status?: string;
@@ -42,4 +45,6 @@ export interface IUploadItem extends Pick<IUpload, "mode"> {
 
 export interface RefUpload {
 	getFileList: () => IFile[];
+
+	setFileList: (files?: IFile[] | File[]) => void;
 }

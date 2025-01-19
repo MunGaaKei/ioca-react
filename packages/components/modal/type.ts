@@ -14,12 +14,12 @@ export interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
 	height?: string | number;
 	customized?: boolean;
 	fixed?: boolean;
-	shadow?: boolean;
+	hideShadow?: boolean;
 	okButtonProps?: IButton;
 	cancelButtonProps?: IButton;
 	footerLeft?: ReactNode;
 	onVisibleChange?: (visible: boolean) => void;
-	onOk?: () => void;
+	onOk?: () => void | Promise<any>;
 	onClose?: () => void;
 }
 

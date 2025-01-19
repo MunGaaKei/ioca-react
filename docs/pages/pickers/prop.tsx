@@ -1,4 +1,5 @@
 import { ColorPicker, DatePicker, Flex, TimePicker } from "@p";
+import { useState } from "react";
 
 export const DDates = {
 	demo: () => {
@@ -26,10 +27,14 @@ export const DTime = {
 
 export const DColors = {
 	demo: () => {
-		return <ColorPicker />;
+		const [color, setColor] = useState();
+
+		return <ColorPicker value={color} onChange={setColor} />;
 	},
-	code: `<ColorPicker />`,
-	lang: "xml",
+	code: `const [color, setColor] = useState();
+
+return <ColorPicker value={color} onChange={setColor} />;`,
+	lang: "javascript",
 };
 
 export const PDates = [

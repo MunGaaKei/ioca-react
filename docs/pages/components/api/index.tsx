@@ -12,7 +12,7 @@ export default function Api(props) {
 
 				return (
 					<div key={name}>
-						<Flex align='baseline' gap={20} wrap>
+						<Flex align='baseline' gap={8} wrap>
 							<h5
 								className={classNames({
 									green: event,

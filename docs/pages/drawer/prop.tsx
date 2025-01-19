@@ -11,11 +11,53 @@ export const DBasic = {
 				<Drawer
 					visible={visible}
 					header={<h5>止战之殇</h5>}
-					footer={<Button className='bg-red mx-auto'>播放</Button>}
 					onVisibleChange={setVisible}
 				>
-					<div className='px-12'>
-						恶夜燃烛光 天破息战乱 <br /> 殇歌传千里 家乡平饥荒
+					<div
+						className='px-12'
+						style={{ width: 400, whiteSpace: "pre-wrap" }}
+					>
+						这故事一开始的镜头灰尘就已经遮蔽了阳光
+						<br />
+						ㄅㄧㄤˋ
+						<br />
+						恐惧刻在孩子们脸上
+						<br />
+						麦田已倒向战车经过的方向
+						<br />
+						蒲公英的形状 在飘散
+						<br />
+						它绝望 的飞翔
+						<br />
+						她只唱 只想
+						<br />
+						这首止战 之殇
+						<br />
+						恶夜燃烛光 天破息战乱
+						<br />
+						殇歌传千里 家乡平饥荒
+						<br />
+						天真在这条路上
+						<br />
+						跌跌撞撞
+						<br />
+						她被芒草割伤
+						<br />
+						孩子们眼中的希望 是什么形状
+						<br />
+						是否醒来有面包当早餐 再喝碗热汤
+						<br />
+						农夫被烧毁土地跟村庄 终于拿起枪
+						<br />
+						她却慢慢习惯放弃了抵抗
+						<br />
+						孩子们眼中的希望 是什么形状
+						<br />
+						是否院子有秋千可以荡 口袋里有糖
+						<br />
+						刺刀的光被仇恨所擦亮 在远方野蛮
+						<br />
+						而她却微笑着不知道慌张
 					</div>
 				</Drawer>
 			</>
@@ -29,11 +71,33 @@ return (
 		<Drawer
 			visible={visible}
 			header={<h5>止战之殇</h5>}
-			footer={<Button className='bg-red mx-auto'>播放</Button>}
 			onVisibleChange={setVisible}
 		>
-			<div className='px-12'>
-				恶夜燃烛光 天破息战乱 <br /> 殇歌传千里 家乡平饥荒
+			<div
+				className='px-12'
+				style={{ width: 400, whiteSpace: "pre-line" }}
+			>
+				这故事一开始的镜头灰尘就已经遮蔽了阳光
+				ㄅㄧㄤˋ
+				恐惧刻在孩子们脸上
+				麦田已倒向战车经过的方向
+				蒲公英的形状 在飘散
+				它绝望 的飞翔
+				她只唱 只想
+				这首止战 之殇
+				恶夜燃烛光 天破息战乱
+				殇歌传千里 家乡平饥荒
+				天真在这条路上
+				跌跌撞撞
+				她被芒草割伤
+				孩子们眼中的希望 是什么形状
+				是否醒来有面包当早餐 再喝碗热汤
+				农夫被烧毁土地跟村庄 终于拿起枪
+				她却慢慢习惯放弃了抵抗
+				孩子们眼中的希望 是什么形状
+				是否院子有秋千可以荡 口袋里有糖
+				刺刀的光被仇恨所擦亮 在远方野蛮
+				而她却微笑着不知道慌张
 			</div>
 		</Drawer>
 	</>

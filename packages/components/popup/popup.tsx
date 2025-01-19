@@ -1,6 +1,7 @@
 import { useResizeObserver } from "@p/js/hooks";
 import { getPointPosition, getPosition } from "@p/js/utils";
 import { useClickAway, useCreation, useReactive } from "ahooks";
+import { debounce } from "radash";
 import {
 	CSSProperties,
 	Children,
@@ -109,7 +110,7 @@ export default function Popup(props: IPopup) {
 		}, showDelay);
 	};
 
-	const handleHide = () => {
+	const handleHide = debounce({ delay: 60 }, () => {
 		if (!state.show) return;
 		state.toggling = setTimeout(() => {
 			state.style = {
@@ -124,7 +125,7 @@ export default function Popup(props: IPopup) {
 				onVisibleChange?.(false);
 			}, 160);
 		}, hideDelay);
-	};
+	});
 
 	const handleToggle = (action?: boolean) => {
 		if (action !== undefined) {

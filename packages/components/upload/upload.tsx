@@ -1,23 +1,24 @@
+import { arrayMove } from "@/packages/js/utils";
 import usePreview from "@p/js/usePreview";
 import { TPreviewItem } from "@p/js/usePreview/type";
-import { CloudUploadTwotone, PlusSharp } from "@ricons/material";
+import { PlusSharp } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { uid } from "radash";
 import {
-	CSSProperties,
 	ChangeEvent,
-	Fragment,
+	CSSProperties,
 	useEffect,
 	useImperativeHandle,
 	useMemo,
 	useRef,
 } from "react";
+import { SortableItem } from "react-easy-sort";
 import Button from "../button";
 import Icon from "../icon";
 import InputContainer from "../input/container";
 import "./index.css";
-import renderFile from "./renderFile";
+import FileListItem, { ListContainer } from "./renderFile";
 import { IFile, IUpload } from "./type";
 
 const Upload = (props: IUpload) => {
@@ -27,18 +28,21 @@ const Upload = (props: IUpload) => {
 		labelInline,
 		value,
 		files = [],
+		initialFiles,
 		placeholder,
 		status = "normal",
 		message,
 		className,
 		style,
 		children,
+		defaultText = "Upload",
 		mode = "default",
 		cardSize = "4em",
 		disabled,
+		sortable,
 		limit = props.multiple ? Infinity : 1,
 		multiple,
-		renderItem = renderFile,
+		renderItem,
 		shouldUpload = () => true,
 		uploader,
 		onChange,
@@ -52,7 +56,6 @@ const Upload = (props: IUpload) => {
 		value,
 		status,
 		message,
-		update: 0,
 	});
 	const inputRef = useRef<HTMLInputElement>(null);
 	const preview = usePreview();
@@ -76,7 +79,7 @@ const Upload = (props: IUpload) => {
 			default:
 				return (
 					<Button className='i-upload-btn' disabled={disabled}>
-						<Icon icon={<CloudUploadTwotone />} /> Upload
+						{defaultText}
 					</Button>
 				);
 		}
@@ -88,18 +91,16 @@ const Upload = (props: IUpload) => {
 		const changed: IFile[] = [];
 
 		files.map((f) => {
-			const { name, size, type } = f;
+			const { id, name, size, type } = f;
 			const same = before.find((pf) => {
 				const { name: n, size: s, type: t } = pf;
 				return n === name && s === size && t === type;
 			});
-
 			const src = URL.createObjectURL(f);
 			f.src = src;
-			state.update += 1;
 
 			Object.assign(f, {
-				uid: uid(7),
+				id: id ?? uid(7),
 				src: f.src || f.name,
 			});
 			!same && changed.push(f);
@@ -140,7 +141,7 @@ const Upload = (props: IUpload) => {
 			if (!shouldUpload(file)) return;
 
 			const result = await uploader(file);
-			const i = state.files.findIndex((f) => f.uid === result.uid);
+			const i = state.files.findIndex((f) => f.id === result.id);
 			i > -1 && (state.files[i] = result);
 
 			result?.status === "completed" && onUpload?.(result);
@@ -151,6 +152,21 @@ const Upload = (props: IUpload) => {
 		preview({ items: state.files as TPreviewItem[], initial: i });
 	};
 
+	const setFileList = (files?: IFile[] | File[]) => {
+		if (!files) return;
+
+		state.files = files.map((f) => {
+			return { ...f, id: f.id ?? uid(7) };
+		});
+	};
+
+	const handleSortEnd = (before, after) => {
+		const [...files] = state.files;
+
+		state.files = arrayMove(files, before, after);
+		onChange?.(state.files);
+	};
+
 	useEffect(() => {
 		Object.assign(state, {
 			status,
@@ -159,65 +175,71 @@ const Upload = (props: IUpload) => {
 	}, [status, message]);
 
 	useEffect(() => {
-		state.value = value;
-	}, [value]);
+		setFileList(initialFiles);
+	}, []);
 
 	useImperativeHandle(
 		ref,
 		() => ({
 			getFileList: () => state.files,
+
+			setFileList,
 		}),
 		[]
 	);
 
-	const { message: msg, files: currentFiles } = state;
-
 	return (
 		<InputContainer
+			as='div'
 			label={label}
 			labelInline={labelInline}
 			className={classNames("i-input-label-file", className)}
 			style={style}
 		>
-			<input
-				{...restProps}
-				disabled={disabled}
-				ref={inputRef}
-				type='file'
-				className='i-input-file-hidden'
-				multiple={multiple}
-				onChange={handleChange}
-			/>
-
 			<div
 				className={classNames("i-upload-inner", {
 					[`i-upload-${mode}`]: mode !== "default",
 				})}
 				style={{ ["--upload-card-size"]: cardSize } as CSSProperties}
 			>
-				<div
-					className='i-upload-list'
-					onClick={(e) => {
-						e.stopPropagation();
-						e.preventDefault();
-					}}
-				>
-					{currentFiles?.map((file: File, i: number) => (
-						<Fragment key={i}>
-							{renderFile({
-								index: i,
-								file,
-								mode,
-								onRemove: handleRemove,
-								onPreview: handlePreview,
-							})}
-						</Fragment>
-					))}
-				</div>
+				<ListContainer sortable={sortable} onSortEnd={handleSortEnd}>
+					{state.files.map((file: IFile, i: number) => {
+						const node = (
+							<FileListItem
+								key={i}
+								index={i}
+								file={file}
+								mode={mode}
+								renderItem={renderItem}
+								onRemove={handleRemove}
+								onPreview={handlePreview}
+							/>
+						);
 
-				{msg && <span className='i-upload-message'>{msg}</span>}
+						if (!sortable) return node;
 
-				{currentFiles.length < limit && trigger}
+						return <SortableItem key={i}>{node}</SortableItem>;
+					})}
+				</ListContainer>
+
+				{state.message && (
+					<span className='i-upload-message'>{state.message}</span>
+				)}
+
+				{state.files.length < limit && (
+					<label>
+						<input
+							{...restProps}
+							disabled={disabled}
+							ref={inputRef}
+							type='file'
+							className='i-input-file-hidden'
+							multiple={multiple}
+							onChange={handleChange}
+						/>
+						{trigger}
+					</label>
+				)}
 			</div>
 		</InputContainer>
 	);

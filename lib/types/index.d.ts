@@ -1,8 +1,7 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as react from 'react';
-import { HTMLAttributes, ReactNode, CSSProperties, ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, RefObject, ChangeEvent, KeyboardEvent, InputHTMLAttributes, MouseEvent, JSX, FC, TextareaHTMLAttributes, Ref } from 'react';
+import { HTMLAttributes, ReactNode, CSSProperties, ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, RefObject, ChangeEvent, KeyboardEvent, InputHTMLAttributes, MouseEvent, FormEvent, JSX, FC, TextareaHTMLAttributes, Ref } from 'react';
 import { LinkProps } from 'react-router';
-import { ListProps } from 'rc-virtual-list';
 import { ColorPickerProps } from '@rc-component/color-picker';
 import { Dayjs } from 'dayjs';
 
@@ -69,6 +68,7 @@ interface IButtonToggle extends IButton {
 interface IButtonGroup {
     children?: ReactNode;
     vertical?: boolean;
+    buttonProps?: IButton;
     className?: string;
     style?: CSSProperties;
 }
@@ -254,9 +254,6 @@ interface IListItem extends HTMLAttributes<HTMLLIElement>, Pick<IList, "type"> {
     disabled?: boolean;
     label?: ReactNode;
 }
-interface IVirtual extends Omit<ListProps<any>, "children"> {
-    renderItem: (item: any, i: number) => ReactNode;
-}
 
 interface IPopup {
     visible?: boolean;
@@ -295,6 +292,21 @@ declare const Dropdown: {
     (props: IDropdown): react_jsx_runtime.JSX.Element;
     Item: (props: IDropItem) => react_jsx_runtime.JSX.Element;
 };
+
+interface IEditor {
+    ref?: RefObject<RefEditor | null>;
+    placeholder?: string;
+    width?: string | number;
+    height?: string | number;
+    controls?: string[] | "simple" | "all";
+    onInput?: (html: string, e: FormEvent<HTMLDivElement>) => void;
+}
+interface RefEditor {
+    getSafeValue: () => string;
+    setValue: (html: string) => void;
+}
+
+declare const Editor: (props: IEditor) => react_jsx_runtime.JSX.Element;
 
 interface IFlex {
     as?: keyof JSX.IntrinsicElements;
@@ -442,7 +454,6 @@ declare const Input: CompositionInput;
 
 declare const List: {
     (props: IList): react_jsx_runtime.JSX.Element;
-    Virtual: (props: IVirtual) => react_jsx_runtime.JSX.Element;
     Item: (props: IListItem) => react_jsx_runtime.JSX.Element;
 };
 
@@ -496,12 +507,12 @@ interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
     height?: string | number;
     customized?: boolean;
     fixed?: boolean;
-    shadow?: boolean;
+    hideShadow?: boolean;
     okButtonProps?: IButton;
     cancelButtonProps?: IButton;
     footerLeft?: ReactNode;
     onVisibleChange?: (visible: boolean) => void;
-    onOk?: () => void;
+    onOk?: () => void | Promise<any>;
     onClose?: () => void;
 }
 interface CompositionModal extends FC<IModal> {
@@ -876,13 +887,16 @@ declare const Tree: (props: ITree) => react_jsx_runtime.JSX.Element;
 interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
     ref?: RefObject<RefUpload | null>;
     files?: IFile[];
+    initialFiles?: IFile[] | File[];
     accept?: string;
     multiple?: boolean;
     directory?: boolean;
     limit?: number;
+    sortable?: boolean;
     mode?: "default" | "card";
     droppable?: boolean;
     cardSize?: string;
+    defaultText?: ReactNode;
     shouldUpload?: (file: IFile) => boolean;
     uploader?: (file: IFile) => Promise<IFile>;
     renderItem?: (file: IFile, i: number) => ReactNode;
@@ -891,13 +905,14 @@ interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLI
     onUpload?: (file: IFile) => void;
 }
 interface IFile extends File {
-    uid?: string;
+    id: string;
     instance?: File;
     src?: string;
     [key: string]: any;
 }
 interface RefUpload {
     getFileList: () => IFile[];
+    setFileList: (files?: IFile[] | File[]) => void;
 }
 
 declare const Upload: (props: IUpload) => react_jsx_runtime.JSX.Element;
@@ -964,4 +979,4 @@ interface IPreview {
 
 declare function usePreview(): (config: IPreview) => void;
 
-export { Affix, Badge, _default$3 as Button, Card, Checkbox, Collapse, ColorPicker, Datagrid, Datepicker as DatePicker, Description, Drawer, Dropdown, Flex, Form, Icon, _default$2 as Image, Input, List, Loading, message as Message, _default$1 as Modal, Pagination, Popconfirm, Popup, Progress, Radio, Resizable, Select, Step, Swiper, Tabs, Tag, _default as Text, TimePicker, Tree, Upload, Video, usePreview };
+export { Affix, Badge, _default$3 as Button, Card, Checkbox, Collapse, ColorPicker, Datagrid, Datepicker as DatePicker, Description, Drawer, Dropdown, Editor, Flex, Form, Icon, _default$2 as Image, Input, List, Loading, message as Message, _default$1 as Modal, Pagination, Popconfirm, Popup, Progress, Radio, Resizable, Select, Step, Swiper, Tabs, Tag, _default as Text, TimePicker, Tree, Upload, Video, usePreview };

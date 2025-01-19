@@ -10,6 +10,7 @@ import Datagrid from "./components/datagrid";
 import Description from "./components/description";
 import Drawer from "./components/drawer";
 import Dropdown from "./components/dropdown";
+import Editor from "./components/editor";
 import Flex from "./components/flex";
 import Form from "./components/form";
 import Icon from "./components/icon";
@@ -50,6 +51,7 @@ export {
 	Description,
 	Drawer,
 	Dropdown,
+	Editor,
 	Flex,
 	Form,
 	Icon,

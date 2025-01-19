@@ -40,7 +40,6 @@ export default function ColorPicker(props: IColorPicker) {
 		}
 
 		state.value = target[method]?.();
-		onChange?.(state.value);
 	};
 
 	const handleVisibleChange = (v: boolean) => {
@@ -58,7 +57,11 @@ export default function ColorPicker(props: IColorPicker) {
 	const handleValueChange = (v) => {
 		state.value = v;
 		state.syncValue = v;
-		onChange?.(v);
+	};
+
+	const handleOk = () => {
+		onChange?.(state.value);
+		state.visible = false;
 	};
 
 	useEffect(() => {
@@ -90,6 +93,7 @@ export default function ColorPicker(props: IColorPicker) {
 									type={state.type}
 									onTypeChange={handleTypeChange}
 									onChange={handleValueChange}
+									onOk={handleOk}
 								/>
 							</>
 						);
@@ -102,7 +106,7 @@ export default function ColorPicker(props: IColorPicker) {
 		>
 			{children ?? (
 				<Handle
-					color={state.value}
+					color={value}
 					handle={handle}
 					placeholder={placeholder}
 				/>

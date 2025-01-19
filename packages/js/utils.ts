@@ -161,9 +161,11 @@ export function getPointPosition(e: MouseEvent, content: HTMLElement) {
 			left: ol,
 			top: ot,
 		} = parent.getBoundingClientRect();
+		const st = parent.scrollTop ?? 0;
+
 		pw = ow;
 		ph = oh;
-		pt = ot;
+		pt = ot - st;
 		pl = ol;
 	} else {
 		pw = window.innerWidth;
@@ -373,3 +375,14 @@ export function formatBytes(bytes: number, decimals = 2) {
 export function clamp(value: number, min: number, max: number) {
 	return value < min ? min : value > max ? max : value;
 }
+
+export const arrayMove = (array, fromIndex: number, toIndex: number) => {
+	if (toIndex >= array.length) {
+		let k = toIndex - array.length + 1;
+		while (k--) {
+			array.push(undefined);
+		}
+	}
+	array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
+	return array;
+};

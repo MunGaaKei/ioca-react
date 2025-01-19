@@ -30,8 +30,25 @@
 	flex-wrap: wrap;
 	width: 100%;
 	gap: inherit;
+	user-select: none;
 	&:empty {
 		display: none;
+	}
+}
+
+.i-upload-delete {
+	opacity: 0;
+	margin: 0;
+	position: absolute;
+	z-index: 1;
+	right: -0.825em;
+	top: -0.825em;
+	background-color: var(--error);
+	color: #fff;
+	box-shadow: var(--shadow);
+	&:hover {
+		background-color: var(--error);
+		color: #fff;
 	}
 }
 
@@ -50,22 +67,20 @@
 }
 
 .i-upload-item {
+	position: relative;
 	display: inline-flex;
 	align-items: center;
-	gap: inherit;
-	padding: 0.5em;
+	gap: 0.25em;
+	padding: 0.25em 0.4em;
 	border: 2px solid var(--background-opacity-1);
 	border-radius: var(--radius);
 	background: var(--background-opacity);
 	transition: var(--transition);
-	.i-upload-delete {
-		margin: 0 0 0 auto;
-	}
+	font-size: 0.8em;
 	&:hover {
-		background: var(--background-opacity-1);
+		background-color: var(--background-opacity-1);
 		.i-upload-delete {
-			color: var(--error);
-			background: var(--background-opacity);
+			opacity: 1;
 		}
 	}
 }
@@ -80,8 +95,8 @@
 	width: var(--upload-card-size);
 	height: var(--upload-card-size);
 	border-radius: var(--radius);
-	overflow: hidden;
 	background: var(--background-opacity-1);
+	cursor: pointer;
 	.i-image,
 	video {
 		width: 100%;
@@ -97,13 +112,7 @@
 		padding-inline: 4px;
 	}
 	.i-upload-delete {
-		opacity: 0;
-		margin: 0;
-		position: absolute;
-		right: 4px;
-		top: 4px;
-		background-color: var(--error);
-		color: #fff;
+		font-size: 0.72em;
 	}
 	&:hover {
 		.i-upload-delete {
@@ -114,6 +123,5 @@
 
 .i-upload-size {
 	font-size: 0.8em;
-	align-self: flex-end;
 	color: var(--color-6);
 }

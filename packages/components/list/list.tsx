@@ -3,7 +3,6 @@ import { Children, cloneElement, Fragment } from "react";
 import "./index.css";
 import Item from "./item";
 import { IList } from "./type";
-import Virtual from "./virtual";
 
 const List = (props: IList) => {
 	const { label, type, className, children, ...restProps } = props;
@@ -26,7 +25,6 @@ const List = (props: IList) => {
 	);
 };
 
-List.Virtual = Virtual;
 List.Item = Item;
 
 export default List;

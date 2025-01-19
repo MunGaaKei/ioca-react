@@ -65,9 +65,11 @@
 	overflow-x: hidden;
 }
 
-.i-modal-close {
-	margin: 0 0 0 auto;
-	display: flex;
-	align-self: flex-start;
-	border-radius: var(--radius);
+.i-modal {
+	.i-modal-close {
+		margin: 0 0 0 auto;
+		display: flex;
+		align-self: flex-start;
+		border-radius: var(--radius);
+	}
 }

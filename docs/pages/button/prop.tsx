@@ -263,4 +263,13 @@ export const PButtonGroup = [
 		type: ["boolean"],
 		def: "false",
 	},
+	{
+		name: "buttonProps",
+		desc: "子按钮公用属性",
+		type: [
+			<a className='blue' href='#button'>
+				IButton
+			</a>,
+		],
+	},
 ];

@@ -1,7 +1,5 @@
 import { Flex, List } from "@p";
 import { AudiotrackOutlined } from "@ricons/material";
-import { draw } from "radash";
-import { useState } from "react";
 
 export const DBasic = {
 	demo: () => {
@@ -35,84 +33,6 @@ export const DBasic = {
 	lang: "xml",
 };
 
-export const DVirtual = {
-	demo: () => {
-		const [list, setList] = useState(
-			Array.from({ length: 50 }).map((item, i) => `${i + 1}`)
-		);
-		const colors = [
-			"blue",
-			"red",
-			"orange",
-			"green",
-			"yellow",
-			"pink",
-			"black",
-		];
-
-		return (
-			<List.Virtual
-				data={list}
-				height={200}
-				itemHeight={40}
-				itemKey={(item) => item}
-				renderItem={(i) => {
-					return (
-						<List.Item
-							key={i}
-							style={{
-								height: 40,
-								alignItems: "center",
-								border: "1px solid #fff",
-							}}
-							className={`bg-${draw(colors)}-0`}
-						>
-							{i}
-						</List.Item>
-					);
-				}}
-			/>
-		);
-	},
-	code: `const [list, setList] = useState(
-	Array.from({ length: 50 }).map((item, i) => \`\${i + 1}\`)
-);
-const colors = [
-	"blue",
-	"red",
-	"orange",
-	"green",
-	"yellow",
-	"pink",
-	"black",
-];
-
-return (
-	<List.Virtual
-		data={list}
-		height={200}
-		itemHeight={40}
-		itemKey={(item) => item}
-		renderItem={(i) => {
-			return (
-				<List.Item
-					key={i}
-					style={{
-						height: 40,
-						alignItems: "center",
-						borderBlock: "1px solid #fff",
-					}}
-					className={\`bg-\${draw(colors)}-0\`}
-				>
-					{i}
-				</List.Item>
-			);
-		}}
-	/>
-);`,
-	lang: "javascript",
-};
-
 export const PList = [
 	{
 		name: "label",
@@ -124,14 +44,6 @@ export const PList = [
 		desc: "类型",
 		type: ["'default'", "'option'"],
 		def: "'default'",
-	},
-];
-
-export const PListVirtual = [
-	{
-		name: "renderItem",
-		desc: "子项渲染方式",
-		type: ["(item: any, i: number) => ReactNode"],
 	},
 ];
 

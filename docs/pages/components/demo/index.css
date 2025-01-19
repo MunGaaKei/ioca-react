@@ -5,7 +5,6 @@
 	flex: 1;
 	border: 1px solid var(--color-9);
 	overflow: hidden;
-	font-family: consolas;
 	code {
 		background: unset;
 	}

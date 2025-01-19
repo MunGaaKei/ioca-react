@@ -1,9 +1,17 @@
 @font-face {
-	font-family: "varela";
+	font-family: "NunitoSans_10pt";
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
-	src: url("./varela.woff2") format("woff2");
+	src: url("./NunitoSans_10pt-Regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "NunitoSans_10pt";
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url("./NunitoSans_10pt-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
@@ -15,7 +23,7 @@
 }
 
 html body {
-	font-family: "varela";
+	font-family: "NunitoSans_10pt";
 }
 
 .apis {

@@ -7,13 +7,13 @@ export const DBasic = {
 };
 
 export const DUploadCard = {
-	demo: <Upload mode='card' max={3} multiple />,
-	code: `<Upload mode='card' max={3} multiple />`,
+	demo: <Upload mode='card' limit={3} multiple sortable />,
+	code: `<Upload mode='card' limit={3} multiple sortable />`,
 	lang: "xml",
 };
 
 export const PFile = `interface IFile extends File {
-	uid?: string;
+	id: string;
 
 	instance?: File;
 
@@ -25,6 +25,8 @@ export const PFile = `interface IFile extends File {
 
 export const PRefFile = `interface RefUpload {
 	getFileList: () => IFile[];
+
+	setFileList: (files?: IFile[] | File[]) => void;
 }
 `;
 
@@ -67,6 +69,11 @@ export const PUpload = [
 		def: "'default'",
 	},
 	{
+		name: "sortable",
+		desc: "上传子项支持排序",
+		type: ["boolean"],
+	},
+	{
 		name: "droppable",
 		desc: "可以通过拖动上传",
 		type: ["boolean"],
@@ -89,7 +96,7 @@ export const PUpload = [
 	},
 	{
 		name: "renderItem",
-		desc: "渲染文件列表项",
+		desc: "渲染文件列表项，如果使用了 sortable 属性，请保证返回的元素有 ref 属性",
 		type: ["(file: IFile, index: number) => ReactNode"],
 	},
 	{

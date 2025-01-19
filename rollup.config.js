@@ -17,6 +17,7 @@ const externals = [
 	"rc-virtual-list",
 	"dayjs/plugin/customParseFormat",
 	"@rc-component/color-picker",
+	"@rc-component/color-picker/assets/index.css",
 	/node_modules/,
 ];
 

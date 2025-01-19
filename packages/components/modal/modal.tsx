@@ -12,25 +12,40 @@ function DefaultContent(props: IModalContent) {
 		footer,
 		hideCloseButton,
 		footerLeft,
-		okButtonProps = {
-			children: "确定",
-			onClick: props.onOk,
-		},
-		cancelButtonProps = {
-			secondary: true,
-			children: "关闭",
-			onClick: props.onClose,
-		},
+		okButtonProps,
+		cancelButtonProps,
 		children,
+		onOk,
 		onClose,
 	} = props;
 	const showHeader = title || !hideCloseButton;
 
+	const handleOk = async () => {
+		const ret = await onOk?.();
+
+		if (ret) return;
+
+		onClose?.();
+	};
+
 	const renderFooter = useMemo(() => {
 		if (footer || footer === null) return footer;
 
-		const propsOk = Object.assign({}, okButtonProps);
-		const propsCancel = Object.assign({}, cancelButtonProps);
+		const propsOk = Object.assign(
+			{
+				children: "确定",
+				onClick: handleOk,
+			},
+			okButtonProps
+		);
+		const propsCancel = Object.assign(
+			{
+				secondary: true,
+				children: "关闭",
+				onClick: onClose,
+			},
+			cancelButtonProps
+		);
 
 		return (
 			<>
@@ -77,7 +92,7 @@ function Modal(props: IModal) {
 		height,
 		customized,
 		fixed,
-		shadow = true,
+		hideShadow,
 		children,
 		style,
 		className,
@@ -154,7 +169,7 @@ function Modal(props: IModal) {
 			<div
 				className={classNames("i-modal", {
 					bounced,
-					shadow,
+					shadow: !hideShadow,
 				})}
 				style={{
 					width,

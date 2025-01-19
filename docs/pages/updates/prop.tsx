@@ -2,6 +2,10 @@ import { List } from "@/packages";
 import { Link } from "react-router";
 const { Item } = List;
 
+const create = <b className='color-2'>新增</b>;
+const addAttr = <span className='color-4'>添加属性</span>;
+const remove = <b className='error-1'>移除</b>;
+
 export const updates = [
 	{
 		title: "1.1.0",
@@ -18,7 +22,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加属性 <code>asList</code>
+					{addAttr} <code>asList</code>
 				</Item>
 				<Item
 					label={
@@ -27,7 +31,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加属性 <code>absolute</code>
+					{addAttr} <code>absolute</code>
 				</Item>
 				<Item
 					label={
@@ -36,7 +40,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加属性 <code>cellEllipsis</code>
+					{addAttr} <code>cellEllipsis</code>
 				</Item>
 				<Item>修复了颜色样式显示错误</Item>
 				<Item>调整了部分样式</Item>
@@ -123,13 +127,13 @@ export const updates = [
 		content: (
 			<List>
 				<Item>
-					新增组件
+					{create}组件
 					<Link to='/docs/pickers' className='blue'>
 						TimePicker、ColorPicker
 					</Link>
 				</Item>
 				<Item>
-					新增组件
+					{create}组件
 					<Link to='/docs/resizable' className='blue'>
 						Resizable
 					</Link>
@@ -141,7 +145,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加了属性 <code>hideArrow</code>
+					{addAttr} <code>hideArrow</code>
 				</Item>
 				<Item>修复小部分事件绑定</Item>
 			</List>
@@ -304,7 +308,8 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加属性<code>gap</code>，以及验证失败时反馈
+					{addAttr}
+					<code>gap</code>，以及验证失败时反馈
 				</Item>
 				<Item
 					label={
@@ -313,7 +318,8 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加属性<code>navsJustify</code>
+					{addAttr}
+					<code>navsJustify</code>
 				</Item>
 				<Item
 					label={
@@ -352,6 +358,76 @@ export const updates = [
 					}
 				>
 					优化关闭样式，新增属性<code>hoverShowClose</code>
+				</Item>
+			</List>
+		),
+	},
+	{
+		title: "1.2.0",
+		content: (
+			<List>
+				<Item>
+					{create}组件{" "}
+					<Link to='/docs/editor' className='blue'>
+						Editor
+					</Link>
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/button' className='blue'>
+							Button.Toggle
+						</Link>
+					}
+				>
+					修正样式
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/button' className='blue'>
+							Button.Group
+						</Link>
+					}
+				>
+					新增属性<code>buttonProps</code>
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/modal' className='blue'>
+							Modal
+						</Link>
+					}
+				>
+					修正层级关系
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/pickers' className='blue'>
+							ColorPicker
+						</Link>
+					}
+				>
+					现在需要确认才会出发<code>onChange</code>
+				</Item>
+				<Item
+					label={
+						<Link to='/docs/popup' className='blue'>
+							Popup
+						</Link>
+					}
+				>
+					优化隐藏逻辑
+				</Item>
+				<Item>
+					<Link to='/docs/modal' className='blue'>
+						Modal
+					</Link>
+					优化<code>onOk</code>逻辑
+				</Item>
+				<Item>
+					{remove}组件
+					<b style={{ textDecoration: "line-through" }}>
+						List.Virtual
+					</b>
 				</Item>
 			</List>
 		),

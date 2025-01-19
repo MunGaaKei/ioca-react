@@ -15,11 +15,7 @@ export const DBasic = {
 					title='标题'
 					width={400}
 					okButtonProps={{
-						children: "修改",
-						onClick: () => console.log("click"),
-					}}
-					onOk={() => {
-						console.log("ok");
+						children: "知道了",
 					}}
 					onClose={() => setVisible(false)}
 				>
@@ -190,10 +186,10 @@ export const PModal = [
 		type: ["string", "number"],
 	},
 	{
-		name: "shadow",
-		desc: "对话框阴影",
+		name: "hideShadow",
+		desc: "隐藏对话框阴影",
 		type: ["boolean"],
-		def: "true",
+		def: "false",
 	},
 	{
 		name: "customized",
@@ -204,7 +200,7 @@ export const PModal = [
 	{
 		name: "onOk",
 		desc: "点击确定按钮回调",
-		type: ["() => void"],
+		type: ["() => Promise<void> | void"],
 		event: true,
 	},
 	{

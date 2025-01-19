@@ -3,6 +3,7 @@ import {
 	ChangeEvent,
 	ForwardRefExoticComponent,
 	InputHTMLAttributes,
+	JSX,
 	MouseEvent,
 	ReactNode,
 	RefObject,
@@ -13,6 +14,7 @@ import Number from "./number";
 import Range from "./range";
 import Textarea from "./textarea";
 export interface IInputContainer {
+	as?: keyof JSX.IntrinsicElements;
 	label?: ReactNode;
 	className?: string;
 	labelInline?: boolean;

@@ -1,4 +1,3 @@
-import { ListProps } from "rc-virtual-list";
 import { HTMLAttributes, ReactNode, RefObject } from "react";
 
 export interface IList extends HTMLAttributes<HTMLUListElement> {
@@ -14,8 +13,4 @@ export interface IListItem
 	align?: string;
 	disabled?: boolean;
 	label?: ReactNode;
-}
-
-export interface IVirtual extends Omit<ListProps<any>, "children"> {
-	renderItem: (item: any, i: number) => ReactNode;
 }

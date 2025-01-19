@@ -1,0 +1,46 @@
+.i-editor {
+	display: flex;
+	flex-direction: column;
+}
+
+.i-editor-controls {
+	display: flex;
+	gap: 2px;
+	border: 2px solid var(--color-9);
+	border-bottom: 0;
+	padding: 2px;
+	border-radius: var(--radius) var(--radius) 0 0;
+	.i-btn {
+		--color: var(--color-5);
+		&:hover {
+			--color: var(--color);
+		}
+	}
+}
+
+.i-editor-content {
+	flex: 1;
+	outline: none;
+	padding: var(--padding);
+	border: 2px solid var(--color-9);
+	border-radius: 0 0 var(--radius) var(--radius);
+	transition: var(--transition);
+	overflow: auto;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	word-break: break-all;
+	tab-size: 1em;
+	&:hover {
+		border-color: var(--color-8);
+	}
+	a {
+		color: var(--blue);
+	}
+	img {
+		margin: 0;
+	}
+	&:empty:before {
+		content: attr(data-placeholder);
+		color: var(--color-5);
+	}
+}

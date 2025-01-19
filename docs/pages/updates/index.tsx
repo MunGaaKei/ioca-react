@@ -1,19 +1,21 @@
 import { Icon, Step, Text } from "@/packages";
-import { AutoAwesomeRound, AutoAwesomeTwotone } from "@ricons/material";
+import { AutoAwesomeRound, TipsAndUpdatesOutlined } from "@ricons/material";
 import { updates } from "./prop";
 
 export default function Page() {
 	return (
 		<>
 			<h2 className='mb-40'>
-				<Icon icon={<AutoAwesomeRound />} size='1em' /> Updates
+				<Icon icon={<TipsAndUpdatesOutlined />} size='1em' /> Updates
 			</h2>
 
 			<Step
 				vertical
 				asList
 				renderIcon={(i) => {
-					return <Icon icon={<AutoAwesomeTwotone />} />;
+					return (
+						<Icon icon={<AutoAwesomeRound />} className='pink' />
+					);
 				}}
 			>
 				{updates.toReversed().map((o) => {

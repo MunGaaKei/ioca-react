@@ -31,6 +31,8 @@
 }
 .i-btn-toggle-content {
 	display: inline-flex;
+	gap: 0.5em;
+	align-items: center;
 	transform: scale(0.4);
 	&.i-btn-toggle-active {
 		transition: var(--transition);

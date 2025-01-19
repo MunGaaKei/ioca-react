@@ -3,6 +3,7 @@ import { IInputContainer } from "./type";
 
 export default function InputContainer(props: IInputContainer) {
 	const {
+		as: As = "label",
 		label,
 		className,
 		labelInline,
@@ -14,7 +15,7 @@ export default function InputContainer(props: IInputContainer) {
 	} = props;
 
 	return (
-		<label
+		<As
 			className={classNames("i-input-label", className, {
 				"i-input-inline": labelInline,
 			})}
@@ -38,6 +39,6 @@ export default function InputContainer(props: IInputContainer) {
 					{tip}
 				</span>
 			)}
-		</label>
+		</As>
 	);
 }
