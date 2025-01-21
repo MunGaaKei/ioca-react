@@ -85,9 +85,15 @@ export const PUpload = [
 		type: ["string"],
 	},
 	{
+		name: "renderItem",
+		desc: "渲染文件列表项，如果使用了 sortable 属性，请保证返回的元素有 ref 属性",
+		type: ["(file: IFile, index: number) => ReactNode"],
+	},
+	{
 		name: "shouldUpload",
 		desc: "判断文件是否可以上传",
 		type: ["(file: IFile) => boolean"],
+		def: "() => true",
 	},
 	{
 		name: "uploader",
@@ -95,9 +101,10 @@ export const PUpload = [
 		type: ["(file: IFile) => Promise<IFile>"],
 	},
 	{
-		name: "renderItem",
-		desc: "渲染文件列表项，如果使用了 sortable 属性，请保证返回的元素有 ref 属性",
-		type: ["(file: IFile, index: number) => ReactNode"],
+		name: "onUpload",
+		desc: "上传文件时触发",
+		type: ["(result: any[]) => void | Promise<any>"],
+		event: true,
 	},
 	{
 		name: "onFilesChange",
@@ -110,12 +117,6 @@ export const PUpload = [
 	{
 		name: "onRemove",
 		desc: "删除文件时触发",
-		type: ["(file: IFile) => void"],
-		event: true,
-	},
-	{
-		name: "onUpload",
-		desc: "上传文件时触发",
 		type: ["(file: IFile) => void"],
 		event: true,
 	},

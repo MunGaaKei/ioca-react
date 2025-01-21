@@ -1,4 +1,4 @@
-import { Button, Modal } from "@p";
+import { Button, Dropdown, Modal, Popup } from "@p";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -26,6 +26,12 @@ export const DBasic = {
 						laboriosam omnis nesciunt fuga sequi odio suscipit
 						alias, modi ipsum.
 					</div>
+					<Popup content='sdfsad' trigger='click'>
+						<Button>popup</Button>
+					</Popup>
+					<Dropdown content={"sdfsf"}>
+						<Button>123</Button>
+					</Dropdown>
 				</Modal>
 			</>
 		);
@@ -105,6 +111,48 @@ return (
 		</Modal>
     </>
 );`,
+	lang: "javascript",
+};
+
+export const DUseModal = {
+	demo: () => {
+		const { open, close } = Modal.useModal();
+
+		const handleOpen = () => {
+			open({
+				title: "useModal",
+				footer: null,
+				children: (
+					<div className='px-12'>
+						通过<b>hook</b>方式打开对话框
+						<div className='my-8'>
+							<Button onClick={close}>关闭</Button>
+						</div>
+					</div>
+				),
+			});
+		};
+
+		return <Button onClick={handleOpen}>Open</Button>;
+	},
+	code: `const { open, close } = Modal.useModal();
+
+const handleOpen = () => {
+	open({
+		title: "useModal",
+		footer: null,
+		children: (
+			<div className='px-12'>
+				通过<b>hook</b>方式打开对话框
+				<div className='my-8'>
+					<Button onClick={close}>关闭</Button>
+				</div>
+			</div>
+		),
+	});
+};
+
+return <Button onClick={handleOpen}>Open</Button>;`,
 	lang: "javascript",
 };
 
@@ -211,6 +259,12 @@ export const PModal = [
 		def: "false",
 	},
 	{
+		name: "keepDOM",
+		desc: "初次关闭后，DOM节点保留",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
 		name: "onOk",
 		desc: "点击确定按钮回调",
 		type: ["() => Promise<void> | void"],
@@ -229,3 +283,13 @@ export const PModal = [
 		event: true,
 	},
 ];
+
+export const PRefHookModal = `interface RefHookModal {
+
+	update: (props: IModal) => void;
+
+	close: () => void;
+
+}
+
+`;

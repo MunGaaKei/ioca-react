@@ -4,6 +4,8 @@ const { Item } = List;
 
 const create = <b className='color-2'>新增</b>;
 const addAttr = <span className='color-4'>添加属性</span>;
+const fix = <span>修复</span>;
+const update = <span className='green'>更新</span>;
 const remove = <b className='error-1'>移除</b>;
 
 export const updates = [
@@ -442,10 +444,74 @@ export const updates = [
 					</Link>
 					<Link to='/docs/drawer' className='blue'>
 						Drawer
-					</Link>{" "}
+					</Link>
 					{addAttr} <code>disableEsc</code>
 				</Item>
 				<Item>优化部分样式显示</Item>
+			</List>
+		),
+	},
+	{
+		title: "1.2.3",
+		content: (
+			<List>
+				<Item>
+					<Link to='/docs/modal' className='blue'>
+						Modal
+					</Link>
+					{addAttr} <code>keepDOM</code>
+					<br />
+					{fix}
+					<code>useModal</code>与<code>closable</code>冲突问题
+					<br />
+					{fix}与
+					<Link to='/docs/popup' className='blue'>
+						Popup
+					</Link>
+					冲突问题
+				</Item>
+				<Item>
+					<Link to='/docs/editor' className='blue'>
+						Editor
+					</Link>
+					{addAttr}
+					<code>autosize</code>
+				</Item>
+				<Item>
+					<Link to='/docs/upload' className='blue'>
+						Upload
+					</Link>
+					优化上传行为
+				</Item>
+				<Item>
+					<Link to='/docs/popup' className='blue'>
+						Popup
+					</Link>
+					{fix}
+					<code>touchable</code>问题
+				</Item>
+				<Item>
+					<Link to='/docs/progress' className='blue'>
+						Progress
+					</Link>
+					{addAttr}
+					<code>vertical</code>
+					<code>onDraggingChange</code>
+					<code>lineWidth</code>
+					<code>circleSize</code>，{remove}属性
+					<code style={{ textDecoration: "line-through" }}>
+						height
+					</code>
+					、
+					<code style={{ textDecoration: "line-through" }}>size</code>
+				</Item>
+				<Item>
+					优化
+					<Link to='/docs/video' className='blue'>
+						Video
+					</Link>
+					样式
+				</Item>
 			</List>
 		),
 	},

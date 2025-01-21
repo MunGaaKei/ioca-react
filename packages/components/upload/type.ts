@@ -25,7 +25,7 @@ export interface IUpload
 		e?: ChangeEvent<HTMLInputElement>
 	) => void;
 	onRemove?: (file: IFile) => void;
-	onUpload?: (file: IFile) => void;
+	onUpload?: (result: any) => void | Promise<any>;
 }
 
 export interface IFile extends File {

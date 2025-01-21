@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Children, cloneElement, Fragment } from "react";
+import { Children, cloneElement } from "react";
 import "./index.css";
 import Item from "./item";
 import { IList } from "./type";
@@ -13,13 +13,17 @@ const List = (props: IList) => {
 				const renderLabel =
 					typeof label === "function" ? label(i) : label;
 
-				if (node.type === Fragment) return node;
+				const { type, props: nodeProps } = node;
 
-				return cloneElement(node, {
-					label: renderLabel,
-					...node.props,
-					type,
-				});
+				if (type === Item) {
+					return cloneElement(node, {
+						label: renderLabel,
+						...nodeProps,
+						type,
+					});
+				}
+
+				return node;
 			})}
 		</ul>
 	);

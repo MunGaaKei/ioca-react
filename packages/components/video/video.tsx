@@ -31,10 +31,10 @@ const Video = (props: IVideo) => {
 		width,
 		useOriginControls,
 		timeProgressProps = {
-			barClass: "bg-2",
+			barClass: "bg-blue",
 		},
 		volumeProgressProps = {
-			barClass: "bg-1",
+			barClass: "bg-blue",
 		},
 		className,
 		onFullScreenChange,
@@ -49,13 +49,14 @@ const Video = (props: IVideo) => {
 		duration: 0,
 		isFullscreen: false,
 		controlHidden: true,
+		draggingProgress: false,
 	});
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const hiddenTO = useRef<any>(null);
 
 	const timeUpdateListener = (e) => {
 		const tar = e.target;
-		if (tar.paused) return;
+		if (tar.paused || state.draggingProgress) return;
 
 		Object.assign(state, {
 			current: tar.currentTime,
@@ -157,7 +158,11 @@ const Video = (props: IVideo) => {
 		}, 1000);
 	};
 
-	const handleMouseMove = throttle({ interval: 300 }, setHiddenFalse);
+	const handleDraggingProgress = (dragging) => {
+		state.draggingProgress = dragging;
+	};
+
+	const handleMouseMove = throttle({ interval: 900 }, setHiddenFalse);
 
 	useImperativeHandle(ref, () => ({
 		play: () => {
@@ -197,6 +202,8 @@ const Video = (props: IVideo) => {
 		};
 	}, []);
 
+	const currentValue = (state.current / state.duration) * 100;
+
 	return (
 		<div
 			className={classNames("i-video", className)}
@@ -219,71 +226,73 @@ const Video = (props: IVideo) => {
 					})}
 					onClick={(e) => e.stopPropagation()}
 				>
-					<div className='i-video-control flex-1'>
-						<Button.Toggle
-							className='i-video-btn'
-							flat
-							square
-							after={<Icon icon={<PauseRound />} />}
-							active={state.playing}
-							onClick={handlePlay}
-						>
-							<Icon icon={<PlayArrowRound />} />
-						</Button.Toggle>
-						<Button
-							className='i-video-btn'
-							flat
-							square
-							onClick={handleStop}
-						>
-							<Icon icon={<StopRound />} />
-						</Button>
-						<span className='i-video-times font-sm'>
-							<Text.Time seconds={state.current} /> /
-							<Text.Time seconds={state.duration} />
-						</span>
-						<Progress
-							className='mr-8'
-							{...timeProgressProps}
-							value={(state.current / state.duration) * 100}
-							onChange={handleUpdateTime}
-						/>
-					</div>
+					<Button.Toggle
+						className='i-video-btn'
+						flat
+						square
+						after={<Icon icon={<PauseRound />} />}
+						active={state.playing}
+						onClick={handlePlay}
+					>
+						<Icon icon={<PlayArrowRound />} />
+					</Button.Toggle>
+					<Button
+						className='i-video-btn'
+						flat
+						square
+						onClick={handleStop}
+					>
+						<Icon icon={<StopRound />} />
+					</Button>
+					<span className='i-video-times font-sm'>
+						<Text.Time seconds={state.current} /> /
+						<Text.Time seconds={state.duration} />
+					</span>
+					<Progress
+						{...timeProgressProps}
+						value={currentValue}
+						onChange={handleUpdateTime}
+						onDraggingChange={handleDraggingProgress}
+					/>
 
-					<div className='i-video-control'>
-						<Button.Toggle
-							className='i-video-btn'
-							flat
-							square
-							after={<Icon icon={<FullscreenExitRound />} />}
-							active={state.isFullscreen}
-							onClick={() => handleFullscreen()}
-						>
-							<Icon icon={<FullscreenRound />} />
-						</Button.Toggle>
-					</div>
-
-					<div className='i-video-control'>
+					<div className='i-video-control-volume'>
 						<Button.Toggle
 							className='i-video-btn'
 							flat
 							square
 							active={state.volume <= 0}
 							after={
-								<Icon icon={<VolumeOffRound />} size='1.2em' />
+								<Icon
+									icon={<VolumeOffRound />}
+									style={{ padding: ".125em" }}
+								/>
 							}
 							onClick={handleMuted}
 						>
 							<Icon icon={<VolumeDownRound />} />
 						</Button.Toggle>
-						<Progress
-							style={{ width: 100 }}
-							className='mr-8'
-							{...volumeProgressProps}
-							value={state.volume}
-							onChange={handleUpdateVolume}
-						/>
+
+						<div className='i-video-volume'>
+							<Progress
+								style={{ height: 100 }}
+								vertical
+								{...volumeProgressProps}
+								value={state.volume}
+								onChange={handleUpdateVolume}
+							/>
+						</div>
 					</div>
+
+					<Button.Toggle
+						className='i-video-btn'
+						flat
+						square
+						after={<Icon icon={<FullscreenExitRound />} />}
+						active={state.isFullscreen}
+						onClick={() => handleFullscreen()}
+					>
+						<Icon icon={<FullscreenRound />} />
+					</Button.Toggle>
 				</div>
 			)}
 		</div>

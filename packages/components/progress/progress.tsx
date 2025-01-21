@@ -11,27 +11,33 @@ import { IProgress } from "./type";
 const Progress = (props: IProgress) => {
 	const {
 		value = 0,
-		size = 8,
-		height = 40,
+		lineWidth = 8,
+		circleSize = 40,
 		precision = 0,
 		style,
 		draggable = true,
 		type = "line",
 		barClass,
+		vertical,
 		label,
 		labelInline,
 		className,
 		renderCursor,
 		onChange,
+		onDraggingChange,
 	} = props;
 
 	const ref = useRef<HTMLDivElement>(null);
 	const state = useReactive({
 		value,
 		dragging: false,
-		width: 0,
+		size: 0,
 		start: 0,
 	});
+
+	const pageXY = vertical ? "pageY" : "pageX";
+	const rectTL = vertical ? "top" : "left";
+	const rectWH = vertical ? "height" : "width";
 
 	const toFixedValue = useMemo(() => {
 		let value = +state.value.toFixed(precision);
@@ -49,14 +55,15 @@ const Progress = (props: IProgress) => {
 		}
 
 		const rect = ref.current.getBoundingClientRect();
-		const value = ((e.pageX - rect.left) * 100) / rect.width;
+		const value = ((e[pageXY] - rect[rectTL]) * 100) / rect[rectWH];
 
 		Object.assign(state, {
-			value,
-			width: rect.width,
-			start: rect.left,
+			value: vertical ? 100 - value : value,
+			size: rect[rectWH],
+			start: rect[rectTL],
 			dragging: true,
 		});
+		onDraggingChange?.(true);
 	};
 
 	const handleMouseMove = (e) => {
@@ -67,12 +74,13 @@ const Progress = (props: IProgress) => {
 			e = e.touches[0];
 		}
 
-		const { start, width } = state;
-		const offset = e.pageX - start;
+		const { start, size } = state;
+		const offset = e[pageXY] - start;
 
-		if (offset < 0 || offset > width) return;
+		if (offset < 0 || offset > size) return;
 
-		state.value = ((e.pageX - start) * 100) / width;
+		const value = ((e[pageXY] - start) * 100) / size;
+		state.value = vertical ? 100 - value : value;
 	};
 
 	const handleMouseUp = () => {
@@ -80,6 +88,7 @@ const Progress = (props: IProgress) => {
 
 		onChange?.(toFixedValue);
 		state.dragging = false;
+		onDraggingChange?.(false);
 	};
 
 	useMouseMove(handleMouseMove);
@@ -111,7 +120,8 @@ const Progress = (props: IProgress) => {
 			{type === "line" && (
 				<Line
 					ref={ref}
-					size={size}
+					vertical={vertical}
+					lineWidth={lineWidth}
 					barClass={barClass}
 					dragging={state.dragging}
 					value={state.value}
@@ -122,7 +132,11 @@ const Progress = (props: IProgress) => {
 			)}
 
 			{type === "circle" && (
-				<Circle value={state.value} height={height} size={size} />
+				<Circle
+					value={state.value}
+					circleSize={circleSize}
+					lineWidth={lineWidth}
+				/>
 			)}
 		</div>
 	);

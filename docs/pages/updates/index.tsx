@@ -1,5 +1,6 @@
 import { Icon, Step, Text } from "@/packages";
 import { AutoAwesomeRound, TipsAndUpdatesOutlined } from "@ricons/material";
+import "./index.css";
 import { updates } from "./prop";
 
 export default function Page() {
@@ -12,6 +13,7 @@ export default function Page() {
 			<Step
 				vertical
 				asList
+				className='update-items'
 				renderIcon={(i) => {
 					return (
 						<Icon icon={<AutoAwesomeRound />} className='pink' />

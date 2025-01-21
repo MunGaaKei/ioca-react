@@ -11,6 +11,7 @@ const Editor = (props: IEditor) => {
 		width,
 		height = "10em",
 		placeholder,
+		autosize,
 		controls = "simple",
 		onInput,
 	} = props;
@@ -38,11 +39,15 @@ const Editor = (props: IEditor) => {
 				exec("insertLineBreak");
 
 				if (!editorRef.current) return;
-				editorRef.current?.scrollBy({
+				editorRef.current.scrollBy({
 					top: 20,
 					left: -1000,
 					behavior: "smooth",
 				});
+
+				if (!autosize) return;
+				editorRef.current.style.height = `${editorRef.current.scrollHeight}px`;
+
 				break;
 			default:
 				break;
@@ -77,7 +82,10 @@ const Editor = (props: IEditor) => {
 	};
 
 	return (
-		<div className='i-editor' style={{ height, width }}>
+		<div
+			className='i-editor'
+			style={{ [autosize ? "minHeight" : "height"]: height, width }}
+		>
 			<div className='i-editor-controls'>
 				{getControls(controls, {
 					controlBtnProps,

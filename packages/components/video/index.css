@@ -11,21 +11,28 @@
 
 .i-video-controls {
 	position: absolute;
-	left: 4px;
-	bottom: 4px;
-	right: 4px;
+	left: 0;
+	bottom: 0;
+	right: 0;
 	display: flex;
 	align-items: center;
+	padding: 4px;
 	gap: 4px;
 	font-size: 0.9em;
 	white-space: nowrap;
 	user-select: none;
 	transition: var(--transition);
+	background: var(--background-opacity);
+	backdrop-filter: var(--blur);
 	.i-btn {
 		flex-shrink: 0;
 	}
 	.i-icon {
 		font-size: 1.2em;
+	}
+	&:hover {
+		opacity: 1;
+		pointer-events: unset;
 	}
 }
 .i-video-controls-hidden {
@@ -36,12 +43,6 @@
 .i-video-control {
 	display: flex;
 	align-items: center;
-	gap: 2px;
-	padding: 4px;
-	background: var(--background-opacity);
-	border-radius: var(--radius);
-	box-shadow: var(--shadow);
-	backdrop-filter: blur(4px);
 }
 
 .i-video-times {
@@ -49,4 +50,28 @@
 	display: flex;
 	align-items: center;
 	gap: 4px;
+}
+
+.i-video-volume {
+	position: absolute;
+	z-index: 1;
+	bottom: 100%;
+	left: 50%;
+	transform: translate(-50%, 4px);
+	padding: 8px;
+	opacity: 0;
+	pointer-events: none;
+	border-radius: var(--radius);
+	transition: var(--transition);
+	backdrop-filter: var(--blur);
+	background: var(--background-opacity);
+}
+.i-video-control-volume {
+	position: relative;
+	&:hover {
+		& .i-video-volume {
+			opacity: 1;
+			pointer-events: unset;
+		}
+	}
 }

@@ -2,9 +2,16 @@
 	flex: 1 1 100%;
 	position: relative;
 	display: flex;
-	background: var(--background-opacity-2);
+	background: var(--background-opacity);
 	border-radius: var(--radius);
 	cursor: pointer;
+}
+.i-progress-vertical {
+	height: 100%;
+	& > .i-progress-bar {
+		height: 100%;
+		align-self: flex-end;
+	}
 }
 
 .i-progress-bar {

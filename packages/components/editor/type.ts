@@ -5,6 +5,7 @@ export interface IEditor {
 	placeholder?: string;
 	width?: string | number;
 	height?: string | number;
+	autosize?: boolean;
 	controls?: string[] | "simple" | "all";
 	onInput?: (html: string, e: FormEvent<HTMLDivElement>) => void;
 }

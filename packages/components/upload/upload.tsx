@@ -137,15 +137,11 @@ const Upload = (props: IUpload) => {
 	const handleUpload = async (files: IFile[]) => {
 		if (!uploader) return;
 
-		files.forEach(async (file) => {
-			if (!shouldUpload(file)) return;
+		const shouldUploadFiles = files.filter(shouldUpload);
 
-			const result = await uploader(file);
-			const i = state.files.findIndex((f) => f.id === result.id);
-			i > -1 && (state.files[i] = result);
+		const result = Promise.all(shouldUploadFiles.map(uploader));
 
-			result?.status === "completed" && onUpload?.(result);
-		});
+		return onUpload?.(result);
 	};
 
 	const handlePreview = (i: number) => {

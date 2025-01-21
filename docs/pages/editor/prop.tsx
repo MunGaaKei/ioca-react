@@ -78,6 +78,12 @@ export const PEditor = [
 		type: ["string"],
 	},
 	{
+		name: "autosize",
+		desc: "高度由内容自动撑开",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
 		name: "controls",
 		desc: "操作栏提供的功能，目前支持的有：bold, italic, underline, strike, redo, undo, clear",
 		type: ["string[]", "'simple'", "'all'"],

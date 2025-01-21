@@ -2,28 +2,28 @@ import Text from "../text";
 import { IProgress } from "./type";
 
 export default function Circle(
-	props: Pick<IProgress, "value" | "height" | "size">
+	props: Pick<IProgress, "value" | "circleSize" | "lineWidth">
 ) {
-	const { value, height = 40, size = 8 } = props;
+	const { value, circleSize = 40, lineWidth = 8 } = props;
 
 	return (
 		<div className='i-progress-circle'>
-			<svg width={height} height={height}>
+			<svg width={circleSize} height={circleSize}>
 				<circle
-					cx={height / 2}
-					cy={height / 2}
-					r={height / 2 - size / 2}
+					cx={circleSize / 2}
+					cy={circleSize / 2}
+					r={circleSize / 2 - lineWidth / 2}
 					fill='none'
 					stroke='var(--background-opacity-2)'
-					strokeWidth={size}
+					strokeWidth={lineWidth}
 				/>
 				<circle
-					cx={height / 2}
-					cy={height / 2}
-					r={height / 2 - size / 2}
+					cx={circleSize / 2}
+					cy={circleSize / 2}
+					r={circleSize / 2 - lineWidth / 2}
 					fill='none'
 					stroke='var(--color-main)'
-					strokeWidth={size}
+					strokeWidth={lineWidth}
 					strokeDasharray={100}
 					pathLength={100}
 					className='i-progress-circle-path'

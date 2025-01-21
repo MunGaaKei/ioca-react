@@ -68,7 +68,7 @@ export const DCircle = {
 
 		return (
 			<>
-				<Progress type='circle' height={120} value={val} />
+				<Progress type='circle' circleSize={120} value={val} />
 
 				<Input.Number
 					value={val}
@@ -86,7 +86,7 @@ export const DCircle = {
 
 return (
     <>
-        <Progress type='circle' height={120} value={val} />
+        <Progress type='circle' circleSize={120} value={val} />
 
         <Input.Number
             value={val}
@@ -115,7 +115,7 @@ export const PProgress = [
 		def: "0",
 	},
 	{
-		name: "size",
+		name: "lineWidth",
 		desc: "进度条宽度，单位px",
 		type: ["number"],
 		def: "8",
@@ -127,7 +127,7 @@ export const PProgress = [
 		def: "'line'",
 	},
 	{
-		name: "height",
+		name: "circleSize",
 		desc: "当 type 为 circle 时生效，表现为环形高度，单位px",
 		type: ["number"],
 		def: "40",
@@ -135,6 +135,12 @@ export const PProgress = [
 	{
 		name: "draggable",
 		desc: "是否可以拖拽改变值，目前仅对 type 为 line 时生效",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
+		name: "vertical",
+		desc: "垂直显示，当 type 为 line 时生效",
 		type: ["boolean"],
 		def: "false",
 	},
@@ -147,6 +153,12 @@ export const PProgress = [
 		name: "renderCursor",
 		desc: "渲染拖拽图标",
 		type: ["(value: number) => ReactNode"],
+	},
+	{
+		name: "onDraggingChange",
+		desc: "拖拽行为发生改变时触发",
+		type: ["(dragging: boolean) => void"],
+		event: true,
 	},
 	{
 		name: "onChange",

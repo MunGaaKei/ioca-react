@@ -57,16 +57,19 @@ export default function Popup(props: IPopup) {
 		arrowProps: {},
 	});
 
-	useClickAway((e: Event) => {
-		if (!clickOutside) return;
+	useClickAway(
+		(e: Event) => {
+			if (!clickOutside) return;
 
-		const tar = e.target as HTMLElement;
-		const isContain = triggerRef.current?.contains(tar);
+			const tar = e.target as HTMLElement;
+			const isContain = triggerRef.current?.contains(tar);
 
-		if (!state.show) return;
+			if (!state.show) return;
 
-		(!isContain || trigger === "contextmenu") && handleToggle(false);
-	}, contentRef);
+			(!isContain || trigger === "contextmenu") && handleToggle(false);
+		},
+		[contentRef, triggerRef]
+	);
 
 	const handleShow = () => {
 		if (disabled) return;
@@ -110,8 +113,9 @@ export default function Popup(props: IPopup) {
 		}, showDelay);
 	};
 
-	const handleHide = debounce({ delay: 60 }, () => {
+	const handleHide = debounce({ delay: 16 }, () => {
 		if (!state.show) return;
+
 		state.toggling = setTimeout(() => {
 			state.style = {
 				...state.style,

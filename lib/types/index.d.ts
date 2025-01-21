@@ -299,6 +299,7 @@ interface IEditor {
     placeholder?: string;
     width?: string | number;
     height?: string | number;
+    autosize?: boolean;
     controls?: string[] | "simple" | "all";
     onInput?: (html: string, e: FormEvent<HTMLDivElement>) => void;
 }
@@ -495,6 +496,7 @@ declare namespace message {
 declare function useModal(): {
     open: (props: IModal) => void;
     update: (props: IModal) => void;
+    close: () => void;
 };
 
 interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
@@ -513,6 +515,7 @@ interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
     okButtonProps?: IButton;
     cancelButtonProps?: IButton;
     footerLeft?: ReactNode;
+    keepDOM?: boolean;
     disableEsc?: boolean;
     onVisibleChange?: (visible: boolean) => void;
     onOk?: () => void | Promise<any>;
@@ -598,13 +601,17 @@ interface IProgress extends Omit<BaseInput, "value" | "hideClear" | "onChange"> 
     value?: number;
     precision?: number;
     height?: number;
+    circleSize?: number;
+    lineWidth?: number;
     size?: number;
     barClass?: string;
     draggable?: boolean;
+    vertical?: boolean;
     type?: "line" | "circle";
     className?: string;
     style?: CSSProperties;
     renderCursor?: (value: number) => ReactNode;
+    onDraggingChange?: (dragging: boolean) => void;
     onChange?: (value: number) => void;
 }
 
@@ -905,7 +912,7 @@ interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLI
     renderItem?: (file: IFile, i: number) => ReactNode;
     onFilesChange?: (files: IFile[], changed: IFile[], e?: ChangeEvent<HTMLInputElement>) => void;
     onRemove?: (file: IFile) => void;
-    onUpload?: (file: IFile) => void;
+    onUpload?: (result: any) => void | Promise<any>;
 }
 interface IFile extends File {
     id: string;

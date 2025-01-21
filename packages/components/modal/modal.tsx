@@ -98,7 +98,9 @@ function Modal(props: IModal) {
 		children,
 		style,
 		className,
+		keepDOM,
 		footerLeft,
+		onClick,
 		onVisibleChange,
 		onClose,
 		onOk,
@@ -112,7 +114,7 @@ function Modal(props: IModal) {
 	const handleShow = () => {
 		if (!toggable.current) return;
 
-		setShow(true);
+		(!keepDOM || !show) && setShow(true);
 		toggable.current = false;
 		setTimeout(() => {
 			setActive(true);
@@ -136,7 +138,7 @@ function Modal(props: IModal) {
 
 		setActive(false);
 		setTimeout(() => {
-			setShow(false);
+			!keepDOM && setShow(false);
 			toggable.current = true;
 			onVisibleChange?.(false);
 			onClose?.();
@@ -185,7 +187,11 @@ function Modal(props: IModal) {
 					width,
 					height,
 				}}
-				onClick={(e) => e.stopPropagation()}
+				onClick={(e) => {
+					e.stopPropagation();
+					document.documentElement.click();
+					onClick?.(e);
+				}}
 				{...restProps}
 			>
 				{customized && children}

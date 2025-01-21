@@ -6,12 +6,16 @@ export interface IProgress
 	value?: number;
 	precision?: number;
 	height?: number;
+	circleSize?: number;
+	lineWidth?: number;
 	size?: number;
 	barClass?: string;
 	draggable?: boolean;
+	vertical?: boolean;
 	type?: "line" | "circle";
 	className?: string;
 	style?: CSSProperties;
 	renderCursor?: (value: number) => ReactNode;
+	onDraggingChange?: (dragging: boolean) => void;
 	onChange?: (value: number) => void;
 }

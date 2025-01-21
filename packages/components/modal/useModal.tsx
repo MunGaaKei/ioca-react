@@ -27,8 +27,16 @@ export default function useModal() {
 		update(props);
 	};
 
+	const handleClose = () => {
+		if (!ref.current) return;
+
+		const { close } = ref.current;
+		close();
+	};
+
 	return {
 		open: handleOpen,
 		update: handleUpdate,
+		close: handleClose,
 	};
 }

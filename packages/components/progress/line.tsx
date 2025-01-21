@@ -3,7 +3,10 @@ import { MouseEvent, RefObject } from "react";
 import { IProgress } from "./type";
 
 const Line = (
-	props: Pick<IProgress, "value" | "size" | "barClass" | "renderCursor"> & {
+	props: Pick<
+		IProgress,
+		"value" | "vertical" | "lineWidth" | "barClass" | "renderCursor"
+	> & {
 		ref: RefObject<HTMLDivElement | null>;
 		dragging: boolean;
 		onMouseDown: (e: MouseEvent) => void;
@@ -13,7 +16,8 @@ const Line = (
 	const {
 		ref,
 		value,
-		size,
+		lineWidth,
+		vertical,
 		barClass,
 		dragging,
 		renderCursor,
@@ -24,8 +28,10 @@ const Line = (
 	return (
 		<div
 			ref={ref}
-			className='i-progress'
-			style={{ height: size }}
+			className={classNames("i-progress", {
+				"i-progress-vertical": vertical,
+			})}
+			style={{ [vertical ? "width" : "height"]: lineWidth }}
 			onMouseDown={onMouseDown}
 			onTouchStart={onTouchStart}
 		>
@@ -33,7 +39,7 @@ const Line = (
 				className={classNames("i-progress-bar", barClass, {
 					"no-transition": dragging,
 				})}
-				style={{ width: `${value}%` }}
+				style={{ [vertical ? "height" : "width"]: `${value}%` }}
 			>
 				{renderCursor && (
 					<a className='i-progress-cursor'>
