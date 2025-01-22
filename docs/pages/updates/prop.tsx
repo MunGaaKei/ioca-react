@@ -7,6 +7,7 @@ const addAttr = <span className='color-4'>添加属性</span>;
 const fix = <span>修复</span>;
 const update = <span className='green'>更新</span>;
 const remove = <b className='error-1'>移除</b>;
+const perf = <b className='success'>优化</b>;
 
 export const updates = [
 	{
@@ -512,6 +513,14 @@ export const updates = [
 					</Link>
 					样式
 				</Item>
+			</List>
+		),
+	},
+	{
+		title: "1.2.4",
+		content: (
+			<List>
+				<Item>{perf}部分组件渲染</Item>
 			</List>
 		),
 	},

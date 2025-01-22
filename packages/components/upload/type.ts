@@ -32,6 +32,7 @@ export interface IFile extends File {
 	id: string;
 	instance?: File;
 	src?: string;
+	url?: string;
 	[key: string]: any;
 }
 

@@ -149,7 +149,7 @@ const Video = (props: IVideo) => {
 	};
 
 	const setHiddenFalse = () => {
-		if (!showControls) return;
+		if (!showControls || !state.controlHidden) return;
 		state.controlHidden = false;
 
 		clearHiddenTO();

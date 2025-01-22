@@ -1,4 +1,37 @@
 .home-title {
 	font-family: "jaini";
 	font-size: 4em;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.theme-dark {
+	.home-logo {
+		background: var(--color-1);
+		border-radius: 24px;
+	}
+}
+
+.home-start {
+	position: relative;
+	white-space: nowrap;
+	&:before {
+		content: "\20";
+		position: absolute;
+		z-index: -1;
+		left: -0.25em;
+		bottom: 4px;
+		right: -0.25em;
+		height: 1em;
+		border-radius: 4px;
+		background-color: var(--color-8);
+		transition: inherit;
+		transform: rotate(-4deg);
+		opacity: 0;
+	}
+	&:hover:before {
+		opacity: 1;
+		transform: rotate(-12deg);
+	}
 }

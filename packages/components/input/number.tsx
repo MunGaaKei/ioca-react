@@ -35,7 +35,7 @@ const Number = (props: IInputNumber) => {
 		onEnter,
 		onInput,
 		onBlur,
-		...rest
+		...restProps
 	} = props;
 
 	const state = useReactive({
@@ -81,7 +81,7 @@ const Number = (props: IInputNumber) => {
 		value: state.value,
 		className: "i-input i-input-number",
 		onChange: handleChange,
-		...rest,
+		...restProps,
 	};
 
 	return (

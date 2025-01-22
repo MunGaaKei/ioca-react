@@ -194,7 +194,7 @@ const Tabs = ((props: ITabs) => {
 
 		const index = state.tabs.findIndex((tab) => tab.key === state.active);
 
-		setTimeout(() => {
+		Promise.resolve().then(() => {
 			const nav = navRefs.current[index];
 
 			if (!nav) return;
@@ -212,7 +212,7 @@ const Tabs = ((props: ITabs) => {
 				width: vertical && isLine ? ".25em" : offsetWidth,
 				transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
 			};
-		}, 16);
+		});
 	}, [state.active, bar]);
 
 	useEffect(() => {

@@ -118,12 +118,13 @@ export default function Content(props: IPreview) {
 	};
 
 	const clearHiddenTO = () => {
-		if (!hiddenTO.current) return;
+		if (!hiddenTO.current || state.controlHidden) return;
 		clearTimeout(hiddenTO.current);
 		hiddenTO.current = null;
 	};
 
 	const setHiddenFalse = () => {
+		if (!state.controlHidden) return;
 		state.controlHidden = false;
 
 		clearHiddenTO();

@@ -1,4 +1,4 @@
-import { Button, Dropdown, Modal, Popup } from "@p";
+import { Button, Modal } from "@p";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -26,12 +26,6 @@ export const DBasic = {
 						laboriosam omnis nesciunt fuga sequi odio suscipit
 						alias, modi ipsum.
 					</div>
-					<Popup content='sdfsad' trigger='click'>
-						<Button>popup</Button>
-					</Popup>
-					<Dropdown content={"sdfsf"}>
-						<Button>123</Button>
-					</Dropdown>
 				</Modal>
 			</>
 		);

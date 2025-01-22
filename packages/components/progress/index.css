@@ -2,7 +2,7 @@
 	flex: 1 1 100%;
 	position: relative;
 	display: flex;
-	background: var(--background-opacity);
+	background: var(--background-1);
 	border-radius: var(--radius);
 	cursor: pointer;
 }

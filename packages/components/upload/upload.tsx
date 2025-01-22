@@ -97,11 +97,11 @@ const Upload = (props: IUpload) => {
 				return n === name && s === size && t === type;
 			});
 			const src = URL.createObjectURL(f);
-			f.src = src;
 
 			Object.assign(f, {
 				id: id ?? uid(7),
-				src: f.src || f.name,
+				src: src ?? f.name,
+				url: src ?? f.name,
 			});
 			!same && changed.push(f);
 		});
@@ -169,6 +169,10 @@ const Upload = (props: IUpload) => {
 			message,
 		});
 	}, [status, message]);
+
+	useEffect(() => {
+		state.files = value?.filter?.((file) => !!file.id) ?? [];
+	}, [value]);
 
 	useEffect(() => {
 		setFileList(initialFiles);

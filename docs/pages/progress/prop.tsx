@@ -11,7 +11,7 @@ export const DBasic = {
 				<Progress
 					value={val}
 					onChange={setVal}
-					barClass='bg-blue-0'
+					barClass='bg-blue'
 					renderCursor={() => (
 						<Icon
 							icon={<DiscordRound />}
@@ -39,7 +39,7 @@ return (
         <Progress
             value={val}
             onChange={setVal} 
-            barClass='bg-blue-0'
+            barClass='bg-blue'
             renderCursor={() => (
                 <Icon
                     icon={<DiscordRound />}
