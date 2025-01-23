@@ -1,6 +1,7 @@
 import {
 	CSSProperties,
 	ForwardRefExoticComponent,
+	MouseEvent,
 	ReactNode,
 	RefObject,
 } from "react";
@@ -30,15 +31,20 @@ export interface ISwiper {
 	style?: CSSProperties;
 	className?: string;
 	children?: ReactNode;
-	renderIndicator?: (i: number) => ReactNode;
+	renderIndicator?: (index: number) => ReactNode;
 	onBeforeSwipe?: (before: number) => void;
 	onAfterSwipe?: (after: number) => void;
+	onItemClick?: (index: number, e: MouseEvent) => void;
 }
 
 export interface ISwiperItem
-	extends Pick<ISwiper, "gap" | "itemHeight" | "vertical" | "type"> {
+	extends Pick<
+		ISwiper,
+		"gap" | "itemHeight" | "vertical" | "type" | "onItemClick"
+	> {
 	active?: boolean;
 	index?: number;
+	itemIndex?: number;
 	transition?: string;
 	style?: CSSProperties;
 	className?: string;
@@ -46,7 +52,7 @@ export interface ISwiperItem
 }
 
 export interface RefSwiper {
-	swipeTo: (i: number) => void;
+	swipeTo: (index: number) => void;
 	swipeNext: () => void;
 	swipePrev: () => void;
 }

@@ -46,6 +46,7 @@ const Swiper = ((props: ISwiper) => {
 		renderIndicator,
 		onBeforeSwipe,
 		onAfterSwipe,
+		onItemClick,
 	} = props;
 
 	const listRef = useRef<HTMLDivElement>(null);
@@ -190,6 +191,7 @@ const Swiper = ((props: ISwiper) => {
 	const handleMouseDown = (e) => {
 		if (!draggable || !state.swipable || type === "fade") return;
 		e.stopPropagation();
+		e.preventDefault();
 
 		if (e.touches) {
 			e = e.touches[0];
@@ -320,12 +322,14 @@ const Swiper = ((props: ISwiper) => {
 							<Item
 								key={i}
 								index={i}
+								itemIndex={(i - extra + size) % size}
 								active={i - extra === state.current}
 								type={type}
 								gap={gap}
 								transition={transition}
 								itemHeight={itemHeight}
 								vertical={vertical}
+								onItemClick={onItemClick}
 								{...itemProps}
 							/>
 						);

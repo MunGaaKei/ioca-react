@@ -8,6 +8,7 @@ import {
 	Message,
 	Radio,
 	Select,
+	Upload,
 } from "@p";
 
 export const DBasic = {
@@ -96,6 +97,9 @@ export const DBasic = {
 						type='switch'
 						labelInline
 					/>
+				</Field>
+				<Field name='files'>
+					<Upload label='文件' mode='card' multiple />
 				</Field>
 				<Field name='country'>
 					<Select
@@ -219,6 +223,9 @@ return (
 				type='switch'
 				labelInline
 			/>
+		</Field>
+		<Field name='files'>
+			<Upload label='文件' mode='card' multiple />
 		</Field>
 		<Field name='country'>
 			<Select

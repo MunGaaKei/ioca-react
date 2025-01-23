@@ -95,7 +95,9 @@ const Select = (props: ISelect) => {
 		state.filterValue = "";
 	};
 
-	const handleHelperClick = () => {
+	const handleHelperClick = (e) => {
+		e.stopPropagation();
+		setActive(true);
 		if (!active) return;
 
 		changeValue(multiple ? [] : "");

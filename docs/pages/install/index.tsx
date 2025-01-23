@@ -13,7 +13,7 @@ export default function Page() {
 					target='_blank'
 					style={{ color: "#58c4dc" }}
 				>
-					React 19
+					React / <b>19</b>
 				</a>{" "}
 				开发
 			</p>

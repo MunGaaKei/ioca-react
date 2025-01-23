@@ -4,7 +4,7 @@
 	user-select: none;
 	&:hover {
 		.i-swiper-arrow {
-			opacity: 0.4;
+			opacity: 0.72;
 		}
 	}
 	.i-swiper-arrow:hover {
@@ -95,6 +95,9 @@
 	flex-shrink: 0;
 	background: var(--color-5);
 	opacity: 0.1;
+	&:hover {
+		opacity: 0.6;
+	}
 	&.i-indicator-active {
 		opacity: 1;
 	}

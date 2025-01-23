@@ -17,7 +17,9 @@
 	}
 }
 .i-input-inline {
+	flex-wrap: nowrap;
 	.i-input-item,
+	.i-upload-inner,
 	.i-radio-options {
 		flex: 1 1 auto;
 	}

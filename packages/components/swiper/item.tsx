@@ -5,6 +5,7 @@ import { ISwiperItem } from "./type";
 function Item(props: ISwiperItem) {
 	const {
 		index = 0,
+		itemIndex = 0,
 		active,
 		type,
 		transition,
@@ -14,6 +15,7 @@ function Item(props: ISwiperItem) {
 		style,
 		className,
 		children,
+		onItemClick,
 	} = props;
 
 	const selfStyle = useMemo(() => {
@@ -36,7 +38,8 @@ function Item(props: ISwiperItem) {
 			className={classNames("i-swiper-item", className, {
 				"i-swiper-active": active,
 			})}
-			data-index={index}
+			data-index={itemIndex}
+			onClick={(e) => onItemClick?.(itemIndex, e)}
 		>
 			{children}
 		</div>

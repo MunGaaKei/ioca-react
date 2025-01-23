@@ -723,20 +723,22 @@ interface ISwiper {
     style?: CSSProperties;
     className?: string;
     children?: ReactNode;
-    renderIndicator?: (i: number) => ReactNode;
+    renderIndicator?: (index: number) => ReactNode;
     onBeforeSwipe?: (before: number) => void;
     onAfterSwipe?: (after: number) => void;
+    onItemClick?: (index: number, e: MouseEvent) => void;
 }
-interface ISwiperItem extends Pick<ISwiper, "gap" | "itemHeight" | "vertical" | "type"> {
+interface ISwiperItem extends Pick<ISwiper, "gap" | "itemHeight" | "vertical" | "type" | "onItemClick"> {
     active?: boolean;
     index?: number;
+    itemIndex?: number;
     transition?: string;
     style?: CSSProperties;
     className?: string;
     children?: ReactNode;
 }
 interface RefSwiper {
-    swipeTo: (i: number) => void;
+    swipeTo: (index: number) => void;
     swipeNext: () => void;
     swipePrev: () => void;
 }

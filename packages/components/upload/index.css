@@ -11,7 +11,7 @@
 }
 
 .i-upload-inner {
-	flex: 1;
+	flex: 1 1 100%;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5em;

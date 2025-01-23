@@ -5,8 +5,16 @@ import { IDropItem } from "./type";
 const { Item: ListItem } = List;
 
 const Item = (props: IDropItem) => {
-	const { more, moreProps, ...restProps } = props;
-	const Li = <ListItem {...restProps} />;
+	const { more, moreProps, onClick, ...restProps } = props;
+	const Li = (
+		<ListItem
+			onClick={(e) => {
+				e.stopPropagation();
+				onClick?.(e);
+			}}
+			{...restProps}
+		/>
+	);
 
 	if (!more) return Li;
 

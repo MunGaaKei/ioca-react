@@ -3,7 +3,7 @@ import { Link } from "react-router";
 const { Item } = List;
 
 const create = <b className='color-2'>新增</b>;
-const addAttr = <span className='color-4'>添加属性</span>;
+const addAttr = <span className='brown'>添加属性</span>;
 const fix = <span>修复</span>;
 const update = <span className='green'>更新</span>;
 const remove = <b className='error-1'>移除</b>;
@@ -101,7 +101,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加了属性 <code>cover</code>
+					{addAttr} <code>cover</code>
 					<code>coverClass</code>
 				</Item>
 				<Item
@@ -120,7 +120,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加了属性 <code>onEnter</code>
+					{addAttr} <code>onEnter</code>
 				</Item>
 			</List>
 		),
@@ -210,7 +210,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					优化控制栏显示
+					{perf}控制栏显示
 				</Item>
 			</List>
 		),
@@ -226,7 +226,8 @@ export const updates = [
 						</Link>
 					}
 				>
-					新增<code>keepDOM</code>属性
+					{addAttr}
+					<code>keepDOM</code>
 				</Item>
 				<Item
 					label={
@@ -244,7 +245,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					优化显示位置控制
+					{perf}显示位置控制
 				</Item>
 				<Item>
 					<Link to='/docs/progress' className='blue'>
@@ -256,9 +257,9 @@ export const updates = [
 					<Link to='/docs/swiper' className='blue'>
 						Swiper
 					</Link>{" "}
-					优化移动端交互
+					{perf}移动端交互
 				</Item>
-				<Item>优化部分样式</Item>
+				<Item>{perf}部分样式</Item>
 			</List>
 		),
 	},
@@ -273,7 +274,8 @@ export const updates = [
 						</Link>
 					}
 				>
-					新增<code>wave</code>属性和
+					{addAttr}
+					<code>wave</code>和
 					<Link to='/docs/text#text-highlight' className='blue'>
 						HighLight
 					</Link>
@@ -331,7 +333,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					优化控制栏显示
+					{perf}控制栏显示
 				</Item>
 				<Item
 					label={
@@ -350,7 +352,8 @@ export const updates = [
 						</Link>
 					}
 				>
-					添加了属性<code>as</code>，继承了<code>HTMLDivElement</code>
+					{addAttr}
+					<code>as</code>，继承了<code>HTMLDivElement</code>
 					属性
 				</Item>
 				<Item
@@ -360,7 +363,8 @@ export const updates = [
 						</Link>
 					}
 				>
-					优化关闭样式，新增属性<code>hoverShowClose</code>
+					{perf}关闭样式，{addAttr}
+					<code>hoverShowClose</code>
 				</Item>
 			</List>
 		),
@@ -391,7 +395,8 @@ export const updates = [
 						</Link>
 					}
 				>
-					新增属性<code>buttonProps</code>
+					{addAttr}
+					<code>buttonProps</code>
 				</Item>
 				<Item
 					label={
@@ -418,7 +423,7 @@ export const updates = [
 						</Link>
 					}
 				>
-					优化隐藏逻辑
+					{perf}隐藏逻辑
 				</Item>
 				<Item>
 					<Link to='/docs/modal' className='blue'>
@@ -448,7 +453,7 @@ export const updates = [
 					</Link>
 					{addAttr} <code>disableEsc</code>
 				</Item>
-				<Item>优化部分样式显示</Item>
+				<Item>{perf}部分样式显示</Item>
 			</List>
 		),
 	},
@@ -482,7 +487,7 @@ export const updates = [
 					<Link to='/docs/upload' className='blue'>
 						Upload
 					</Link>
-					优化上传行为
+					{perf}上传行为
 				</Item>
 				<Item>
 					<Link to='/docs/popup' className='blue'>
@@ -507,7 +512,7 @@ export const updates = [
 					<code style={{ textDecoration: "line-through" }}>size</code>
 				</Item>
 				<Item>
-					优化
+					{perf}
 					<Link to='/docs/video' className='blue'>
 						Video
 					</Link>
@@ -521,6 +526,21 @@ export const updates = [
 		content: (
 			<List>
 				<Item>{perf}部分组件渲染</Item>
+			</List>
+		),
+	},
+	{
+		title: "1.2.5",
+		content: (
+			<List>
+				<Item>
+					<Link to='/docs/swiper' className='blue'>
+						Swiper
+					</Link>
+					{addAttr}
+					<code>onItemClick</code>
+				</Item>
+				<Item>{perf}部分样式</Item>
 			</List>
 		),
 	},

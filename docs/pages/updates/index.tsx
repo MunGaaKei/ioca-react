@@ -1,5 +1,5 @@
 import { Icon, Step, Text } from "@/packages";
-import { AutoAwesomeRound, TipsAndUpdatesOutlined } from "@ricons/material";
+import { AutoAwesomeRound, TipsAndUpdatesTwotone } from "@ricons/material";
 import "./index.css";
 import { updates } from "./prop";
 
@@ -7,7 +7,25 @@ export default function Page() {
 	return (
 		<>
 			<h2 className='mb-40'>
-				<Icon icon={<TipsAndUpdatesOutlined />} size='1em' /> Updates
+				<Icon
+					icon={<TipsAndUpdatesTwotone />}
+					size='1em'
+					className='purple mr-8'
+				/>
+				<Text
+					gradient={[
+						"135deg",
+						"pink",
+						"purple",
+						"pink",
+						"purple",
+						"pink",
+						"purple",
+					]}
+					wave
+				>
+					Updates
+				</Text>
 			</h2>
 
 			<Step
