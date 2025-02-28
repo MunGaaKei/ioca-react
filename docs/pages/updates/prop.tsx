@@ -544,4 +544,33 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.2.6",
+		content: (
+			<List>
+				<Item>
+					<Link to='/docs/button' className='blue'>
+						Button.Toggle
+					</Link>
+					{addAttr}
+					<code>toggable</code>
+				</Item>
+				<Item>
+					{perf}
+					<Link to='/docs/popup' className='blue'>
+						Popup
+					</Link>
+					位置计算
+				</Item>
+				<Item>
+					<Link to='/docs/swiper' className='blue'>
+						Swiper
+					</Link>
+					{addAttr}
+					<code>fixedIndicator</code>
+				</Item>
+				<Item>{perf}部分样式</Item>
+			</List>
+		),
+	},
 ];

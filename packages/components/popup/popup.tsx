@@ -1,6 +1,6 @@
-import { useResizeObserver } from "@p/js/hooks";
+import { useMouseUp, useResizeObserver } from "@p/js/hooks";
 import { getPointPosition, getPosition } from "@p/js/utils";
-import { useClickAway, useCreation, useReactive } from "ahooks";
+import { useCreation, useReactive } from "ahooks";
 import { debounce } from "radash";
 import {
 	CSSProperties,
@@ -57,19 +57,18 @@ export default function Popup(props: IPopup) {
 		arrowProps: {},
 	});
 
-	useClickAway(
-		(e: Event) => {
-			if (!clickOutside) return;
+	useMouseUp((e) => {
+		if (!triggerRef.current || !contentRef.current || !clickOutside) return;
 
-			const tar = e.target as HTMLElement;
-			const isContain = triggerRef.current?.contains(tar);
+		const tar = e.target as HTMLElement;
+		const isContain =
+			triggerRef.current.contains(tar) ||
+			contentRef.current.contains(tar);
 
-			if (!state.show) return;
+		if (!state.show || isContain) return;
 
-			(!isContain || trigger === "contextmenu") && handleToggle(false);
-		},
-		[contentRef, triggerRef]
-	);
+		handleToggle(false);
+	});
 
 	const handleShow = () => {
 		if (disabled) return;

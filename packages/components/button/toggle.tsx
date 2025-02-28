@@ -13,6 +13,7 @@ export default function Toggle(props: IButtonToggle) {
 		disabled,
 		children,
 		className,
+		toggable,
 		onClick,
 		onToggle,
 		...restProps
@@ -23,9 +24,12 @@ export default function Toggle(props: IButtonToggle) {
 		done: true,
 	});
 
-	const toggle = () => {
+	const toggle = async () => {
 		const hasAfter = after !== undefined;
 		const nextActive = !state.active;
+
+		const canToggle = toggable ? await toggable() : true;
+		if (!canToggle) return;
 
 		Object.assign(state, {
 			active: nextActive,

@@ -88,15 +88,21 @@
 	justify-content: center;
 	gap: 0.5em;
 }
+.i-swiper-indicators-fixed {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
 .i-swiper-indicator {
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
 	flex-shrink: 0;
-	background: var(--color-5);
+	background: var(--color);
 	opacity: 0.1;
 	&:hover {
-		opacity: 0.6;
+		opacity: 0.8;
 	}
 	&.i-indicator-active {
 		opacity: 1;

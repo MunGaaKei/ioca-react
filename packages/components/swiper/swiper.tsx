@@ -40,6 +40,7 @@ const Swiper = ((props: ISwiper) => {
 		gap = 0,
 		itemHeight,
 		indicator,
+		fixedIndicator,
 		style,
 		className,
 		children,
@@ -338,24 +339,32 @@ const Swiper = ((props: ISwiper) => {
 
 				{arrow && (
 					<>
-						<a
-							className='i-swiper-arrow i-swiper-prev'
-							onClick={swipePrev}
-						>
-							{prev}
-						</a>
-						<a
-							className='i-swiper-arrow i-swiper-next'
-							onClick={swipeNext}
-						>
-							{next}
-						</a>
+						{(loop || state.current !== 0) && (
+							<a
+								className='i-swiper-arrow i-swiper-prev'
+								onClick={swipePrev}
+							>
+								{prev}
+							</a>
+						)}
+						{(loop || state.current < size - display) && (
+							<a
+								className='i-swiper-arrow i-swiper-next'
+								onClick={swipeNext}
+							>
+								{next}
+							</a>
+						)}
 					</>
 				)}
 			</div>
 			{indicator && (
-				<div className='i-swiper-indicators'>
-					{indicatorsLoop.map((whatever, i) => {
+				<div
+					className={classNames("i-swiper-indicators", {
+						"i-swiper-indicators-fixed": fixedIndicator,
+					})}
+				>
+					{indicatorsLoop.map((_, i) => {
 						return (
 							<a
 								key={i}

@@ -63,6 +63,7 @@ interface IButtonToggle extends IButton {
     activeClass?: string;
     after?: ReactNode;
     disabled?: boolean;
+    toggable?: () => boolean | Promise<boolean>;
     onToggle?: (active: boolean) => void;
 }
 interface IButtonGroup {
@@ -715,6 +716,7 @@ interface ISwiper {
     autoplay?: boolean;
     pauseOnHover?: boolean;
     indicator?: boolean;
+    fixedIndicator?: boolean;
     itemHeight?: number;
     vertical?: boolean;
     prev?: ReactNode;

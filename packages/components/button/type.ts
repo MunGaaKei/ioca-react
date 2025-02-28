@@ -43,6 +43,7 @@ export interface IButtonToggle extends IButton {
 	activeClass?: string;
 	after?: ReactNode;
 	disabled?: boolean;
+	toggable?: () => boolean | Promise<boolean>;
 	onToggle?: (active: boolean) => void;
 }
 

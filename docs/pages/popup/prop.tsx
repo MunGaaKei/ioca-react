@@ -228,6 +228,12 @@ export const PPopup = [
 		type: ["() => HTMLElement"],
 	},
 	{
+		name: "referToWindow",
+		desc: "计算位置时根据窗口视窗计算，某些情况下你可能需要用到它，比如在弹出层中使用。",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
 		name: "onVisibleChange",
 		desc: "内容区显示隐藏时触发",
 		type: ["(visible: boolean) => void"],

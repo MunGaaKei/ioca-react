@@ -23,6 +23,7 @@ export interface ISwiper {
 	autoplay?: boolean;
 	pauseOnHover?: boolean;
 	indicator?: boolean;
+	fixedIndicator?: boolean;
 	itemHeight?: number;
 	vertical?: boolean;
 	prev?: ReactNode;

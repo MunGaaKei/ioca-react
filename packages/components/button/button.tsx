@@ -70,7 +70,8 @@ const Button = (props: IButton) => {
 
 	const attrs = {
 		className: formatClass(props),
-		["data-ripple"]: ripple,
+		["data-ripple"]:
+			ripple && !loading && !restProps.disabled ? "" : undefined,
 		onClick: handleClick,
 	};
 

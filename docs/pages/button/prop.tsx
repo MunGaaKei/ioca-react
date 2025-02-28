@@ -81,6 +81,21 @@ export const DToggle = {
 				>
 					Deactive
 				</Button.Toggle>
+				<Button.Toggle
+					className='red'
+					flat
+					activeClass='blue'
+					after='Blue'
+					toggable={() =>
+						new Promise((resolve) => {
+							setTimeout(() => {
+								resolve(true);
+							}, 1000);
+						})
+					}
+				>
+					Red
+				</Button.Toggle>
 			</Flex>
 		);
 	},
@@ -99,6 +114,21 @@ export const DToggle = {
 		}}
 	>
 		Deactive
+	</Button.Toggle>
+	<Button.Toggle
+		className='red'
+		flat
+		activeClass='blue'
+		after='Blue'
+		toggable={() =>
+			new Promise((resolve) => {
+				setTimeout(() => {
+					resolve(true);
+				}, 1000);
+			})
+		}
+	>
+		Red
 	</Button.Toggle>
 </Flex>`,
 	lang: "xml",
@@ -242,6 +272,11 @@ export const PButtonToggle = [
 		desc: "禁用状态",
 		type: ["boolean"],
 		def: "false",
+	},
+	{
+		name: "toggable",
+		desc: "是否可切换",
+		type: ["() => boolean | Promise<boolean>"],
 	},
 	{
 		name: "onToggle",

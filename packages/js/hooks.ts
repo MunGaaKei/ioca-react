@@ -6,6 +6,7 @@ type TEventOption = {
 	disabled?: boolean;
 };
 
+const ClickEvents = new Set<TMouseEvent>();
 const MouseMoveEvents = new Set<TMouseEvent>();
 const MouseUpEvents = new Set<TMouseEvent>();
 const KeydownEvents = new Set<TKeyboardEvent>();
