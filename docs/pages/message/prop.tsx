@@ -85,6 +85,15 @@ return (
 	lang: "javascript",
 };
 
+export const PMessageInstance = `message.success(config: IMessage);
+
+message.error(config: IMessage);
+
+message.warning(config: IMessage);
+
+message.one(config: IMessage);
+`;
+
 export const PMessage = [
 	{
 		name: "content",

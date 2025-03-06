@@ -25,7 +25,7 @@ export default function Toggle(props: IButtonToggle) {
 	});
 
 	const toggle = async () => {
-		const hasAfter = after !== undefined;
+		const hasAfter = !!after;
 		const nextActive = !state.active;
 
 		const canToggle = toggable ? await toggable() : true;
@@ -37,10 +37,11 @@ export default function Toggle(props: IButtonToggle) {
 		});
 		onToggle?.(nextActive);
 
-		hasAfter &&
-			setTimeout(() => {
-				state.done = true;
-			}, 16);
+		if (!hasAfter) return;
+
+		setTimeout(() => {
+			state.done = true;
+		}, 16);
 	};
 
 	const handleClick = (e: MouseEvent<HTMLElement>) => {
@@ -50,7 +51,10 @@ export default function Toggle(props: IButtonToggle) {
 	};
 
 	useEffect(() => {
-		state.active !== active && toggle();
+		Object.assign(state, {
+			active,
+			done: true,
+		});
 	}, [active]);
 
 	return (

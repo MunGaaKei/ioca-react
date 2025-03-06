@@ -1,4 +1,5 @@
 .i-btn {
+	--gap: 0.5em;
 	--background: var(--color-main);
 	--background-hover: var(--color-main-1);
 	--color: var(--color-main-reverse);
@@ -6,7 +7,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 0.5em;
+	gap: var(--gap);
 	padding: 0 0.6em;
 	height: 2.25em;
 	border-radius: var(--radius);
@@ -31,7 +32,7 @@
 }
 .i-btn-toggle-content {
 	display: inline-flex;
-	gap: 0.5em;
+	gap: var(--gap);
 	align-items: center;
 	transform: scale(0.4);
 	&.i-btn-toggle-active {

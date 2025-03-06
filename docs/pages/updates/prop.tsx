@@ -573,4 +573,33 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.2.7",
+		content: (
+			<List>
+				<Item>
+					{perf}
+					<Link to='/docs/button' className='blue'>
+						Button.Toggle
+					</Link>
+					受控模式
+				</Item>
+				<Item>
+					{perf}
+					<Link to='/docs/popup' className='blue'>
+						Popup
+					</Link>
+					显示隐藏
+				</Item>
+				<Item>
+					{perf}
+					<Link to='/docs/message' className='blue'>
+						Message
+					</Link>
+					，<span className='brown'>添加</span>
+					<code>Message.one</code>方法
+				</Item>
+			</List>
+		),
+	},
 ];

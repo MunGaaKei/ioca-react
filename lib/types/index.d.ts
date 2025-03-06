@@ -483,15 +483,29 @@ interface IMessage {
     closable?: boolean;
     timer?: ReturnType<typeof setTimeout>;
     className?: string;
+    close?: () => void;
     onShow?: () => void;
     onHide?: () => void;
 }
 
-declare function message(config: IMessage | ReactNode): () => void;
+declare function message(config: IMessage | ReactNode): {
+    instance: IMessage;
+    close: () => void;
+};
 declare namespace message {
-    var error: (content: ReactNode) => () => void;
-    var success: (content: ReactNode) => () => void;
-    var warning: (content: ReactNode) => () => void;
+    var error: (content: ReactNode) => {
+        instance: IMessage;
+        close: () => void;
+    };
+    var success: (content: ReactNode) => {
+        instance: IMessage;
+        close: () => void;
+    };
+    var warning: (content: ReactNode) => {
+        instance: IMessage;
+        close: () => void;
+    };
+    var one: (config: IMessage) => void;
 }
 
 declare function useModal(): {

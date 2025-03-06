@@ -1,7 +1,6 @@
 import { useMouseUp, useResizeObserver } from "@p/js/hooks";
 import { getPointPosition, getPosition } from "@p/js/utils";
 import { useCreation, useReactive } from "ahooks";
-import { debounce } from "radash";
 import {
 	CSSProperties,
 	Children,
@@ -45,14 +44,14 @@ export default function Popup(props: IPopup) {
 
 	const triggerRef = useRef<HTMLElement>(null);
 	const contentRef = useRef<HTMLDivElement>(null);
+	const timerRef = useRef<any>(null);
+	const statusRef = useRef<string>("");
 	const state = useReactive<{
 		show: boolean;
-		toggling: any;
 		style: CSSProperties;
 		arrowProps: Record<string, any>;
 	}>({
 		show: false,
-		toggling: false,
 		style: { position: fixed ? "fixed" : "absolute" },
 		arrowProps: {},
 	});
@@ -70,6 +69,12 @@ export default function Popup(props: IPopup) {
 		handleToggle(false);
 	});
 
+	const clearTimer = () => {
+		if (!timerRef.current) return;
+		clearTimeout(timerRef.current);
+		timerRef.current = null;
+	};
+
 	const handleShow = () => {
 		if (disabled) return;
 		if (
@@ -80,9 +85,11 @@ export default function Popup(props: IPopup) {
 		}
 
 		state.show = true;
-
-		state.toggling && clearTimeout(state.toggling);
-		state.toggling = setTimeout(() => {
+		statusRef.current = "showing";
+		timerRef.current = setTimeout(() => {
+			if (statusRef.current !== "showing") {
+				return;
+			}
 			const [left, top, { arrowX, arrowY, arrowPos }] = getPosition(
 				triggerRef.current,
 				contentRef.current,
@@ -107,15 +114,22 @@ export default function Popup(props: IPopup) {
 				top: arrowY,
 				pos: arrowPos,
 			};
-			state.toggling && clearTimeout(state.toggling);
 			onVisibleChange?.(true);
+			clearTimer();
+			statusRef.current = "";
 		}, showDelay);
 	};
 
-	const handleHide = debounce({ delay: 16 }, () => {
+	const handleHide = () => {
 		if (!state.show) return;
 
-		state.toggling = setTimeout(() => {
+		statusRef.current = "hiding";
+		timerRef.current = setTimeout(() => {
+			if (statusRef.current !== "hiding") {
+				clearTimer();
+				return;
+			}
+
 			state.style = {
 				...state.style,
 				opacity: 0,
@@ -124,11 +138,12 @@ export default function Popup(props: IPopup) {
 
 			setTimeout(() => {
 				state.show = false;
-				state.toggling && clearTimeout(state.toggling);
+				clearTimer();
 				onVisibleChange?.(false);
+				statusRef.current = "";
 			}, 160);
 		}, hideDelay);
-	});
+	};
 
 	const handleToggle = (action?: boolean) => {
 		if (action !== undefined) {
@@ -173,7 +188,7 @@ export default function Popup(props: IPopup) {
 
 					state.show = true;
 
-					state.toggling = setTimeout(() => {
+					timerRef.current = setTimeout(() => {
 						const [left, top] = getPointPosition(
 							e,
 							contentRef.current as HTMLElement
@@ -187,7 +202,7 @@ export default function Popup(props: IPopup) {
 							top,
 						};
 
-						state.toggling && clearTimeout(state.toggling);
+						clearTimer();
 						onVisibleChange?.(true);
 					}, showDelay);
 				},
@@ -202,7 +217,9 @@ export default function Popup(props: IPopup) {
 		const events: { [key: string]: () => void } = {};
 
 		if (trigger === "hover") {
-			events["onMouseEnter"] = () => handleToggle(true);
+			events["onMouseEnter"] = () => {
+				clearTimer();
+			};
 			events["onMouseLeave"] = () => handleToggle(false);
 		}
 

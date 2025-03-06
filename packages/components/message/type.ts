@@ -13,6 +13,7 @@ export interface IMessage {
 	closable?: boolean;
 	timer?: ReturnType<typeof setTimeout>;
 	className?: string;
+	close?: () => void;
 	onShow?: () => void;
 	onHide?: () => void;
 }

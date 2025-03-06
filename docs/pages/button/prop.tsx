@@ -82,9 +82,8 @@ export const DToggle = {
 					Deactive
 				</Button.Toggle>
 				<Button.Toggle
-					className='red'
-					flat
-					activeClass='blue'
+					className='bg-red'
+					activeClass='bg-blue'
 					after='Blue'
 					toggable={() =>
 						new Promise((resolve) => {
@@ -116,9 +115,8 @@ export const DToggle = {
 		Deactive
 	</Button.Toggle>
 	<Button.Toggle
-		className='red'
-		flat
-		activeClass='blue'
+		className='bg-red'
+		activeClass='bg-blue'
 		after='Blue'
 		toggable={() =>
 			new Promise((resolve) => {

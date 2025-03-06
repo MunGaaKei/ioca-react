@@ -16,7 +16,6 @@ const GlobalConfig = {
 	align: "center",
 	offset: "12px",
 	gap: 12,
-	max: 0,
 };
 
 const ItemDefaultConfig = {
@@ -26,7 +25,12 @@ const ItemDefaultConfig = {
 };
 
 const container = createContainer();
-const handler = {
+const handler: {
+	oneInstance: null | IMessage;
+	callout: (item: IMessage) => void;
+	close: () => void;
+} = {
+	oneInstance: null,
 	callout(item: IMessage) {},
 	close() {},
 };
@@ -99,6 +103,7 @@ function Messages() {
 				const { align = "center", unshift, onShow } = item;
 				const size = queue[align][unshift ? "unshift" : "push"](item);
 				state.items[align] = [...queue[align]];
+				item.close = this.close.bind(item);
 
 				setTimeout(() => {
 					const h = ref.current?.offsetHeight || 0;
@@ -108,10 +113,13 @@ function Messages() {
 					heights[align][unshift ? "unshift" : "push"](h);
 					state.tops[align] = [...heights[align]];
 					onShow?.();
-				}, 0);
+				}, 12);
 
-				item.duration !== 0 &&
-					setTimeout(this.close.bind(item), item.duration);
+				if (item.duration !== 0) {
+					item.timer = setTimeout(() => {
+						this.close.call(item);
+					}, item.duration);
+				}
 			},
 			close: function () {
 				const item = this as IMessage;
@@ -188,7 +196,10 @@ function message(config: IMessage | ReactNode) {
 
 	handler.callout(config as IMessage);
 
-	return handler.close.bind(config);
+	return {
+		instance: config,
+		close: handler.close.bind(config),
+	};
 }
 
 function createContainer() {
@@ -218,6 +229,24 @@ message.warning = (content: ReactNode) => {
 		content,
 		className: "bg-warning",
 	});
+};
+
+message.one = (config: IMessage) => {
+	const o = handler.oneInstance;
+
+	if (o) {
+		if (o.active && o.duration !== 0) {
+			clearTimeout(o.timer);
+			o.timer = setTimeout(() => {
+				o.close?.();
+			}, o.duration);
+		} else {
+			handler.callout(o);
+		}
+	} else {
+		const { instance } = message(config);
+		handler.oneInstance = instance;
+	}
 };
 
 export default message;
