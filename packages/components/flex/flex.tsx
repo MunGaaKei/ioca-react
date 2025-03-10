@@ -3,9 +3,9 @@ import { useMemo } from "react";
 import "./index.css";
 import { IFlex } from "./type";
 
-const Flex = (props: IFlex) => {
+const Flex: React.FC<IFlex> = (props: IFlex) => {
 	const {
-		as: Component = "div",
+		as: Component = "div" as any,
 		align,
 		justify,
 		direction,

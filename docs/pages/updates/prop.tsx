@@ -602,4 +602,28 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.2.8",
+		content: (
+			<List>
+				<Item>
+					<Link to='/docs/editor' className='blue'>
+						Editor
+					</Link>
+					{addAttr}
+					<code>border</code>、<code>richPaste</code>，
+					<span className='blue'>controls</span>添加可选值
+					<code>"none"</code>
+				</Item>
+				<Item>
+					<Link to='/docs/helper' className='blue'>
+						Helper Class
+					</Link>
+					<span className='brown'>添加</span>
+					<code>.flex-shrink</code>以及补充间距样式数值
+				</Item>
+				<Item>优化部分typescript提示</Item>
+			</List>
+		),
+	},
 ];

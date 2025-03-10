@@ -7,4 +7,3 @@ scrollbar
 input maxlength
 form span columns
 export interfaces
-editor border

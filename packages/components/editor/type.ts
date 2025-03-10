@@ -6,7 +6,9 @@ export interface IEditor {
 	width?: string | number;
 	height?: string | number;
 	autosize?: boolean;
-	controls?: string[] | "simple" | "all";
+	richPaste?: boolean;
+	controls?: string[] | "simple" | "all" | "none";
+	border?: boolean;
 	onInput?: (html: string, e: FormEvent<HTMLDivElement>) => void;
 }
 

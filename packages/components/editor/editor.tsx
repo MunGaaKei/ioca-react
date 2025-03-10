@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useImperativeHandle, useRef } from "react";
 import xss from "xss";
 import { IButton } from "../button/type";
@@ -12,6 +13,8 @@ const Editor = (props: IEditor) => {
 		height = "10em",
 		placeholder,
 		autosize,
+		border = true,
+		richPaste,
 		controls = "simple",
 		onInput,
 	} = props;
@@ -23,6 +26,7 @@ const Editor = (props: IEditor) => {
 	};
 
 	const handlePaste = async (e) => {
+		if (richPaste) return;
 		e.preventDefault();
 		const text = e.clipboardData.getData("text/plain");
 		exec("insertText", false, text);
@@ -83,14 +87,18 @@ const Editor = (props: IEditor) => {
 
 	return (
 		<div
-			className='i-editor'
+			className={classNames("i-editor", {
+				"i-editor-borderless": !border,
+			})}
 			style={{ [autosize ? "minHeight" : "height"]: height, width }}
 		>
-			<div className='i-editor-controls'>
-				{getControls(controls, {
-					controlBtnProps,
-				})}
-			</div>
+			{controls !== "none" && (
+				<div className='i-editor-controls'>
+					{getControls(controls, {
+						controlBtnProps,
+					})}
+				</div>
+			)}
 
 			<div
 				ref={editorRef}

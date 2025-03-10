@@ -3,9 +3,17 @@
 	flex-direction: column;
 	&:focus-within,
 	&:hover {
-		.i-editor-controls {
+		> .i-editor-controls,
+		> .i-editor-content {
 			border-color: var(--color-8);
 		}
+	}
+}
+.i-editor-borderless {
+	border-radius: var(--radius);
+	& > .i-editor-controls,
+	& > .i-editor-content {
+		border: none;
 	}
 }
 
@@ -37,6 +45,9 @@
 	word-wrap: break-word;
 	word-break: break-all;
 	tab-size: 1em;
+	&:first-child {
+		border-radius: var(--radius);
+	}
 	&:hover,
 	&:focus {
 		border-color: var(--color-8);

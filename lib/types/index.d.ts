@@ -301,7 +301,9 @@ interface IEditor {
     width?: string | number;
     height?: string | number;
     autosize?: boolean;
-    controls?: string[] | "simple" | "all";
+    richPaste?: boolean;
+    controls?: string[] | "simple" | "all" | "none";
+    border?: boolean;
     onInput?: (html: string, e: FormEvent<HTMLDivElement>) => void;
 }
 interface RefEditor {
@@ -311,7 +313,7 @@ interface RefEditor {
 
 declare const Editor: (props: IEditor) => react_jsx_runtime.JSX.Element;
 
-interface IFlex {
+interface IFlex extends HTMLAttributes<HTMLElement> {
     as?: keyof JSX.IntrinsicElements;
     align?: string;
     justify?: string;
@@ -319,12 +321,9 @@ interface IFlex {
     direction?: any;
     wrap?: any;
     columns?: string | number;
-    style?: CSSProperties;
-    className?: string;
-    children?: ReactNode;
 }
 
-declare const Flex: (props: IFlex) => react_jsx_runtime.JSX.Element;
+declare const Flex: React.FC<IFlex>;
 
 declare class IFormInstance {
     readonly id?: string;

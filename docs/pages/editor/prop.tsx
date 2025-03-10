@@ -84,9 +84,21 @@ export const PEditor = [
 		def: "false",
 	},
 	{
+		name: "border",
+		desc: "边框",
+		type: ["boolean"],
+		def: "true",
+	},
+	{
+		name: "richPaste",
+		desc: "粘贴时不阻止默认事件",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
 		name: "controls",
 		desc: "操作栏提供的功能，目前支持的有：bold, italic, underline, strike, redo, undo, clear",
-		type: ["string[]", "'simple'", "'all'"],
+		type: ["string[]", "'simple'", "'all'", "'none'"],
 		def: "'simple'",
 	},
 	{

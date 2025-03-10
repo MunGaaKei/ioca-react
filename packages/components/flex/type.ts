@@ -1,6 +1,6 @@
-import { CSSProperties, JSX, ReactNode } from "react";
+import { HTMLAttributes, JSX } from "react";
 
-export interface IFlex {
+export interface IFlex extends HTMLAttributes<HTMLElement> {
 	as?: keyof JSX.IntrinsicElements;
 	align?: string;
 	justify?: string;
@@ -8,7 +8,4 @@ export interface IFlex {
 	direction?: any;
 	wrap?: any;
 	columns?: string | number;
-	style?: CSSProperties;
-	className?: string;
-	children?: ReactNode;
 }
