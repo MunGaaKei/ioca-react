@@ -626,4 +626,24 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.2.9",
+		content: (
+			<List>
+				<Item>
+					<Link to='/docs/editor' className='blue'>
+						Editor
+					</Link>
+					{update}图标，添加更多事件绑定
+				</Item>
+				<Item>
+					{perf}
+					<Link to='/docs/button' className='blue'>
+						Button
+					</Link>
+					加载和禁用状态
+				</Item>
+			</List>
+		),
+	},
 ];

@@ -10,18 +10,10 @@ export default function Page() {
 				<Icon
 					icon={<TipsAndUpdatesTwotone />}
 					size='1em'
-					className='purple mr-8'
+					className='pink mr-8'
 				/>
 				<Text
-					gradient={[
-						"135deg",
-						"pink",
-						"purple",
-						"pink",
-						"purple",
-						"pink",
-						"purple",
-					]}
+					gradient={["0deg", "aqua", "blue", "aqua", "blue", "aqua"]}
 					wave
 				>
 					Updates

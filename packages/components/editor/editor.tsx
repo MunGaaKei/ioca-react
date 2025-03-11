@@ -16,7 +16,12 @@ const Editor = (props: IEditor) => {
 		border = true,
 		richPaste,
 		controls = "simple",
+		className,
+		style,
 		onInput,
+		onPaste,
+		onKeyDown,
+		...restProps
 	} = props;
 	const editorRef = useRef<HTMLDivElement>(null);
 	const controlBtnProps: IButton = {
@@ -26,6 +31,8 @@ const Editor = (props: IEditor) => {
 	};
 
 	const handlePaste = async (e) => {
+		onPaste?.(e);
+
 		if (richPaste) return;
 		e.preventDefault();
 		const text = e.clipboardData.getData("text/plain");
@@ -33,6 +40,8 @@ const Editor = (props: IEditor) => {
 	};
 
 	const handleKeyDown = (e) => {
+		onKeyDown?.(e);
+
 		switch (e.key) {
 			case "Tab":
 				e.preventDefault();
@@ -46,7 +55,6 @@ const Editor = (props: IEditor) => {
 				editorRef.current.scrollBy({
 					top: 20,
 					left: -1000,
-					behavior: "smooth",
 				});
 
 				if (!autosize) return;
@@ -87,10 +95,14 @@ const Editor = (props: IEditor) => {
 
 	return (
 		<div
-			className={classNames("i-editor", {
+			className={classNames("i-editor", className, {
 				"i-editor-borderless": !border,
 			})}
-			style={{ [autosize ? "minHeight" : "height"]: height, width }}
+			style={{
+				...style,
+				[autosize ? "minHeight" : "height"]: height,
+				width,
+			}}
 		>
 			{controls !== "none" && (
 				<div className='i-editor-controls'>
@@ -108,6 +120,7 @@ const Editor = (props: IEditor) => {
 				onPaste={handlePaste}
 				onInput={handleInput}
 				onKeyDown={handleKeyDown}
+				{...restProps}
 			/>
 		</div>
 	);

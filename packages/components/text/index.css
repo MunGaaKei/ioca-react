@@ -4,7 +4,7 @@
 .i-text-gradient-wave {
 	background-size: 200% 100%;
 	background-position: 0 0;
-	animation: text-wave 1s linear 0s infinite;
+	animation: text-wave 1.2s linear 0s infinite;
 }
 @keyframes text-wave {
 	100% {

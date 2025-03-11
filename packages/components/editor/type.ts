@@ -1,6 +1,7 @@
-import { FormEvent, RefObject } from "react";
+import { FormEvent, HTMLAttributes, RefObject } from "react";
 
-export interface IEditor {
+export interface IEditor
+	extends Omit<HTMLAttributes<HTMLDivElement>, "onInput"> {
 	ref?: RefObject<RefEditor | null>;
 	placeholder?: string;
 	width?: string | number;

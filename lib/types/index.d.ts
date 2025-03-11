@@ -295,7 +295,7 @@ declare const Dropdown: {
     Item: (props: IDropItem) => react_jsx_runtime.JSX.Element;
 };
 
-interface IEditor {
+interface IEditor extends Omit<HTMLAttributes<HTMLDivElement>, "onInput"> {
     ref?: RefObject<RefEditor | null>;
     placeholder?: string;
     width?: string | number;

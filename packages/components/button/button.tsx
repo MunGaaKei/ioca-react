@@ -51,6 +51,7 @@ const Button = (props: IButton) => {
 	const handleClick = (e: MouseEvent<HTMLElement>) => {
 		if (loading || restProps.disabled) {
 			e.stopPropagation();
+			e.preventDefault();
 			return;
 		}
 

@@ -1,6 +1,6 @@
 import {
+	ClearAllRound,
 	FormatBoldRound,
-	FormatClearRound,
 	FormatItalicRound,
 	FormatUnderlinedRound,
 	RedoRound,
@@ -26,26 +26,32 @@ const fnMap = {
 	bold: {
 		icon: <FormatBoldRound />,
 		onClick: () => exec("bold"),
+		tip: "粗体",
 	},
 	italic: {
 		icon: <FormatItalicRound />,
 		onClick: () => exec("italic"),
+		tip: "斜体",
 	},
 	underline: {
 		icon: <FormatUnderlinedRound />,
 		onClick: () => exec("underline"),
+		tip: "下划线",
 	},
 	strike: {
 		icon: <StrikethroughSRound />,
 		onClick: () => exec("strikeThrough"),
+		tip: "删除线",
 	},
 	redo: {
 		icon: <RedoRound />,
 		onClick: () => exec("redo"),
+		tip: "重做",
 	},
 	undo: {
 		icon: <UndoRound />,
 		onClick: () => exec("undo"),
+		tip: "撤销",
 	},
 	// color: {
 	// 	icon: <FormatColorTextRound />,
@@ -56,8 +62,9 @@ const fnMap = {
 	// 	onClick: () => exec("backColor", false, ""),
 	// },
 	clear: {
-		icon: <FormatClearRound />,
+		icon: <ClearAllRound />,
 		onClick: () => exec("removeFormat"),
+		tip: "清除格式",
 	},
 };
 
@@ -72,7 +79,7 @@ export default function getControls(fns, options) {
 
 	return keys.map((k) => {
 		if (fnMap[k]) {
-			const { icon, render, onClick } = fnMap[k];
+			const { icon, render, tip, onClick } = fnMap[k];
 
 			if (render) {
 				return render(options);
@@ -81,6 +88,7 @@ export default function getControls(fns, options) {
 			return (
 				<Button key={k} {...controlBtnProps} onClick={onClick}>
 					<Icon icon={icon} />
+					{tip && <span className='i-editor-control-tip'>{tip}</span>}
 				</Button>
 			);
 		}
