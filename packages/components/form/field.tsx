@@ -26,6 +26,10 @@ function Field(props: IField) {
 		if (!name) return;
 
 		form.set(name, v);
+		PubSub.publish(`${id}:change`, {
+			name,
+			value: v,
+		});
 	};
 
 	const hijackChildren = useMemo(() => {

@@ -13,6 +13,9 @@
 		z-index: 1;
 		backdrop-filter: var(--blur);
 	}
+	& > img {
+		border-radius: inherit;
+	}
 }
 
 .i-image-cover {

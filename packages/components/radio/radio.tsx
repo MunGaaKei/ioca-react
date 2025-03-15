@@ -21,6 +21,7 @@ function Radio(props: IRadio) {
 		disabled,
 		required,
 		className,
+		renderItem,
 		onChange,
 	} = props;
 
@@ -65,19 +66,23 @@ function Radio(props: IRadio) {
 					"i-radio-options-button": type === "button",
 				})}
 			>
-				{formattedOptions.map((option) => (
-					<RadioItem
-						key={option.value as string}
-						name={name}
-						value={option.value}
-						checked={state.value === option.value}
-						type={type}
-						disabled={disabled || option.disabled}
-						onChange={handleChange}
-					>
-						{option.label}
-					</RadioItem>
-				))}
+				{formattedOptions.map((option) => {
+					const checked = state.value === option.value;
+
+					return (
+						<RadioItem
+							key={option.value as string}
+							name={name}
+							value={option.value}
+							checked={checked}
+							type={type}
+							disabled={disabled || option.disabled}
+							onChange={handleChange}
+						>
+							{renderItem ?? option.label}
+						</RadioItem>
+					);
+				})}
 			</div>
 		</div>
 	);

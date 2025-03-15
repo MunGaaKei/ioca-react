@@ -27,6 +27,7 @@
 
 .i-input-label-text {
 	flex: 0 0 var(--label-width);
+	text-align: var(--label-align);
 	border-radius: inherit;
 	font-weight: 500;
 	transition: all 0.12s;
@@ -90,7 +91,8 @@
 
 .i-input-message {
 	--color: var(--color-5);
-	flex: 1 1 100%;
+	flex: 1 1 auto;
+	align-self: center;
 	z-index: 1;
 	font-size: 0.8em;
 	color: var(--color);

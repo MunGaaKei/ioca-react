@@ -1,5 +1,8 @@
 import { ChangeEvent, InputHTMLAttributes, ReactNode } from "react";
 import type { TOption, TValidate } from "../../type";
+
+type TRenderCheckboxItem = (checked: boolean, value: any) => ReactNode;
+
 export interface ICheckbox
 	extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange">,
 		TValidate {
@@ -8,6 +11,7 @@ export interface ICheckbox
 	type?: "default" | "switch" | "button";
 	optionInline?: boolean;
 	labelInline?: boolean;
+	renderItem?: TRenderCheckboxItem;
 	onChange?: (
 		value: any[],
 		option: TOption,
@@ -16,11 +20,16 @@ export interface ICheckbox
 }
 
 export interface ICheckboxItem
-	extends Omit<InputHTMLAttributes<HTMLElement>, "value" | "onChange">,
+	extends Omit<
+			InputHTMLAttributes<HTMLElement>,
+			"value" | "children" | "onChange"
+		>,
 		TValidate {
 	type?: "default" | "switch" | "button";
 	label?: ReactNode;
 	value?: boolean;
+	optionValue?: any;
 	partof?: boolean;
+	children?: ReactNode | TRenderCheckboxItem;
 	onChange?: (value: boolean, e: ChangeEvent<HTMLInputElement>) => void;
 }

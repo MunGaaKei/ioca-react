@@ -117,19 +117,23 @@ interface BaseInput extends TValidate {
 }
 type TPosition = "top" | "right" | "left" | "bottom";
 
+type TRenderCheckboxItem = (checked: boolean, value: any) => ReactNode;
 interface ICheckbox extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange">, TValidate {
     label?: ReactNode;
     options: TOption[] | (string | number)[];
     type?: "default" | "switch" | "button";
     optionInline?: boolean;
     labelInline?: boolean;
+    renderItem?: TRenderCheckboxItem;
     onChange?: (value: any[], option: TOption, e: ChangeEvent<HTMLInputElement>) => void;
 }
-interface ICheckboxItem extends Omit<InputHTMLAttributes<HTMLElement>, "value" | "onChange">, TValidate {
+interface ICheckboxItem extends Omit<InputHTMLAttributes<HTMLElement>, "value" | "children" | "onChange">, TValidate {
     type?: "default" | "switch" | "button";
     label?: ReactNode;
     value?: boolean;
+    optionValue?: any;
     partof?: boolean;
+    children?: ReactNode | TRenderCheckboxItem;
     onChange?: (value: boolean, e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -344,7 +348,7 @@ type TRule = {
     validator: TValidator;
     message?: string;
 };
-interface IForm extends HTMLAttributes<HTMLFormElement> {
+interface IForm extends Omit<HTMLAttributes<HTMLFormElement>, "onChange"> {
     form?: IFormInstance;
     rules?: {
         [key: string]: boolean | TValidator | TRule;
@@ -353,7 +357,11 @@ interface IForm extends HTMLAttributes<HTMLFormElement> {
     initialValues?: Record<string, any>;
     width?: string | number;
     gap?: string | number;
+    labelWidth?: string;
+    labelInline?: boolean;
+    labelRight?: boolean;
     onEnter?: (values: Record<string, any>, form: IFormInstance) => void;
+    onChange?: (name: any, value: any) => void;
 }
 interface IField {
     name?: string;
@@ -631,8 +639,10 @@ interface IProgress extends Omit<BaseInput, "value" | "hideClear" | "onChange"> 
 
 declare const Progress: (props: IProgress) => react_jsx_runtime.JSX.Element;
 
-interface IRadioItem extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+type TRenderRadioItem = (checked: boolean, value: any) => ReactNode;
+interface IRadioItem extends Omit<InputHTMLAttributes<HTMLInputElement>, "children" | "onChange"> {
     type?: "default" | "button";
+    children?: ReactNode | TRenderRadioItem;
     onChange?: (value: any, e: ChangeEvent) => void;
 }
 interface IRadio extends IRadioItem {
@@ -642,6 +652,7 @@ interface IRadio extends IRadioItem {
     labelInline?: boolean;
     status?: TStatus;
     message?: string;
+    renderItem?: TRenderRadioItem;
 }
 
 declare function RadioItem(props: IRadioItem): react_jsx_runtime.JSX.Element;

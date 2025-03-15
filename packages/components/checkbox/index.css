@@ -58,6 +58,11 @@
 	outline: 0;
 	align-self: center;
 }
+
+.i-checkbox-custom {
+	width: 0;
+	height: 0;
+}
 .i-checkbox-switch {
 	height: 1.125em;
 	width: 2.2em;

@@ -21,6 +21,7 @@ function Checkbox(props: ICheckbox) {
 		message,
 		required,
 		className,
+		renderItem,
 		onChange,
 		...restProps
 	} = props;
@@ -85,13 +86,14 @@ function Checkbox(props: ICheckbox) {
 							key={option.value as string}
 							name={name}
 							value={state.value.includes(option.value)}
+							optionValue={option.value}
 							type={type}
 							disabled={disabled || option.disabled}
 							onChange={(checked, e) =>
 								handleChange(checked, option, e)
 							}
 						>
-							{option.label}
+							{renderItem ?? option.label}
 						</CheckboxItem>
 					);
 				})}

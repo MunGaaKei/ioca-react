@@ -646,4 +646,42 @@ export const updates = [
 			</List>
 		),
 	},
+	{
+		title: "1.3.0",
+		content: (
+			<List>
+				<Item>
+					<Link to='/docs/tabs' className='blue'>
+						Tabs
+					</Link>
+					{update}优化动画
+				</Item>
+				<Item>
+					<Link to='/docs/form' className='blue'>
+						Form
+					</Link>
+					{addAttr}
+					<code>labelWidth</code>、<code>lableInline</code>、
+					<code>labelRight</code>、<code>onChange</code>
+				</Item>
+				<Item>
+					<Link to='/docs/radio' className='blue'>
+						Radio
+					</Link>
+					{addAttr}
+					<code>renderItem</code>，<b className='blue'>Radio.Item</b>
+					的<code>children</code>也可以传函数
+				</Item>
+				<Item>
+					<Link to='/docs/checkbox' className='blue'>
+						Checkbox
+					</Link>
+					{addAttr}
+					<code>renderItem</code>，
+					<b className='blue'>Checkbox.Item</b>的<code>children</code>
+					也可以传函数
+				</Item>
+			</List>
+		),
+	},
 ];

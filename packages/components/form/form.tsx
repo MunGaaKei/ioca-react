@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import { useEffect, useMemo } from "react";
+import PubSub from "pubsub-js";
+import { CSSProperties, useEffect, useMemo } from "react";
 import Context from "./context";
 import Field from "./field";
 import "./index.css";
@@ -16,12 +17,19 @@ const Form = (props: IForm) => {
 		width,
 		columns = 1,
 		gap = "1em",
+		labelInline,
+		labelWidth,
+		labelRight,
 		children,
+		onKeyDown,
 		onEnter,
+		onChange,
 		...restProps
 	} = props;
 
-	const handleEnter = (e) => {
+	const handleKeyDown = (e) => {
+		onKeyDown?.(e);
+
 		if (e.keyCode !== 13) return;
 
 		onEnter?.(form.data, form);
@@ -43,17 +51,33 @@ const Form = (props: IForm) => {
 		});
 	}, [form]);
 
+	useEffect(() => {
+		PubSub.subscribe(`${form.id}:change`, (evt, v) => {
+			onChange?.(v.name, v.value);
+		});
+
+		return () => {
+			PubSub.unsubscribe(`${form.id}:change`);
+		};
+	}, []);
+
 	return (
 		<Context value={form}>
 			<form
-				style={{
-					...style,
-					width,
-					gap,
-					gridTemplateColumns: gridColumns as any,
-				}}
-				className={classNames("i-form", className)}
-				onKeyDown={handleEnter}
+				style={
+					{
+						...style,
+						width,
+						gap,
+						gridTemplateColumns: gridColumns as any,
+						"--label-width": labelWidth,
+						"--label-align": labelRight ? "right" : undefined,
+					} as CSSProperties
+				}
+				className={classNames("i-form", className, {
+					"i-form-inline": labelInline,
+				})}
+				onKeyDown={handleKeyDown}
 				{...restProps}
 			>
 				{children}

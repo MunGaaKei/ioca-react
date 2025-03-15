@@ -157,17 +157,6 @@ const Tabs = ((props: ITabs) => {
 		state.active = key;
 	};
 
-	const handleMouseWheel = (e) => {
-		e.stopPropagation();
-		e.preventDefault();
-
-		if (vertical) return;
-
-		navsRef.current?.scrollBy({
-			left: e.deltaY + e.deltaX,
-		});
-	};
-
 	useEffect(() => {
 		if (!size || hideMore) return;
 		const { scrollHeight, scrollWidth } = navsRef.current as HTMLElement;
@@ -213,7 +202,7 @@ const Tabs = ((props: ITabs) => {
 				transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
 			};
 		}, 16);
-	}, [state.active, bar]);
+	}, [state.active, bar, size]);
 
 	useEffect(() => {
 		if (active === undefined || state.active === active) return;
@@ -230,6 +219,18 @@ const Tabs = ((props: ITabs) => {
 
 	useEffect(() => {
 		if (!navsRef.current || vertical) return;
+
+		const handleMouseWheel = (e) => {
+			e.stopPropagation();
+			e.preventDefault();
+
+			if (vertical) return;
+
+			navsRef.current?.scrollBy({
+				left: e.deltaY + e.deltaX,
+			});
+		};
+
 		navsRef.current.addEventListener("wheel", handleMouseWheel, {
 			passive: false,
 		});

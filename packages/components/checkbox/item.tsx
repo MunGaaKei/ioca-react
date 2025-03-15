@@ -14,6 +14,7 @@ export default function CheckboxItem(props: ICheckboxItem) {
 		message,
 		disabled,
 		partof,
+		optionValue,
 		children,
 		onChange,
 		...restProps
@@ -24,6 +25,7 @@ export default function CheckboxItem(props: ICheckboxItem) {
 		status,
 		message,
 	});
+	const isChildrenFn = typeof children === "function";
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const checked = e.target.checked;
@@ -65,7 +67,11 @@ export default function CheckboxItem(props: ICheckboxItem) {
 				onChange={handleChange}
 			/>
 
-			<span className='i-checkbox-text'>{children || label}</span>
+			{isChildrenFn ? (
+				children(state.value, optionValue)
+			) : (
+				<span className='i-checkbox-text'>{children || label}</span>
+			)}
 
 			{state.message && (
 				<span className='i-checkbox-message'>*{state.message}</span>

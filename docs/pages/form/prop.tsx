@@ -307,6 +307,23 @@ export const PForm = [
 		def: "'1em'",
 	},
 	{
+		name: "labelInline",
+		desc: "标签与输入框同一行",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
+		name: "labelWidth",
+		desc: "标签宽度",
+		type: ["string"],
+	},
+	{
+		name: "labelRight",
+		desc: "标签文本右对齐",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
 		name: "columns",
 		desc: "表单分列",
 		type: ["string", "number"],
@@ -325,6 +342,12 @@ export const PForm = [
 				) =&gt; void
 			</>,
 		],
+		event: true,
+	},
+	{
+		name: "onChange",
+		desc: "表单值修改时触发",
+		type: ["(name: string, value: any) => void"],
 		event: true,
 	},
 ];

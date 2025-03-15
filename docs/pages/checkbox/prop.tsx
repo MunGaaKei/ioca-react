@@ -1,5 +1,6 @@
-import { Checkbox, Radio } from "@p";
+import { Checkbox, Icon, Radio } from "@p";
 import { useState } from "react";
+import { AnimalSvg } from "../radio/prop";
 
 export const DBasic = {
 	demo: () => {
@@ -10,7 +11,7 @@ export const DBasic = {
 				<div className='mb-12 green'>{value.join(", ")}</div>
 				<Checkbox
 					value={value}
-					options={["Cat", "Dog", "Kuma"]}
+					options={["Cat", "Dog", "Rabbit"]}
 					onChange={setValue}
 				/>
 			</div>
@@ -23,7 +24,7 @@ return (
         <div className='mb-12 green'>{value.join(", ")}</div>
         <Checkbox
             value={value}
-            options={["Cat", "Dog", "Kuma"]}
+            options={["Cat", "Dog", "Rabbit"]}
             onChange={setValue}
         />
     </div>
@@ -40,7 +41,7 @@ export const DType = {
 				<Radio
 					label='type:'
 					value={type}
-					options={["default", "switch", "button"]}
+					options={["default", "switch", "button", "custom"]}
 					labelInline
 					onChange={setType}
 				/>
@@ -49,8 +50,20 @@ export const DType = {
 				</Checkbox.Item>
 				<Checkbox
 					type={type}
-					options={["Cat", "Dog", "Kuma"]}
+					options={["Cat", "Dog", "Rabbit"]}
 					className='mt-12'
+					renderItem={
+						type === "custom"
+							? (checked, value) => {
+									return (
+										<Icon
+											icon={AnimalSvg[value]}
+											className={checked ? "" : "color-8"}
+										/>
+									);
+							  }
+							: undefined
+					}
 				>
 					{type}
 				</Checkbox>
@@ -75,7 +88,7 @@ return (
 
         <Checkbox
 			type={type}
-			options={["Cat", "Dog", "Kuma"]}
+			options={["Cat", "Dog", "Rabbit"]}
 			className='mt-12'
 		>
 			{type}
@@ -141,6 +154,17 @@ export const PCheckbox = [
 		name: "message",
 		desc: "控件显示信息",
 		type: ["ReactNode"],
+	},
+	{
+		name: "renderItem",
+		desc: (
+			<>
+				自定义 <span className='blue'>CheckboxItem</span> 渲染内容，
+				<span className='blue'>CheckboxItem</span> 的
+				<code>children</code> 也可以传该函数
+			</>
+		),
+		type: ["(checked: boolean, value: any) => ReactNode"],
 	},
 	{
 		name: "onChange",
