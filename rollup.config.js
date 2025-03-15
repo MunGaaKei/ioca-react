@@ -6,20 +6,7 @@ import external from "rollup-plugin-peer-deps-external";
 import scss from "rollup-plugin-scss";
 
 const name = "@ioca/react";
-const externals = [
-	"react",
-	"react-dom",
-	"react/jsx-runtime",
-	"radash",
-	"dayjs",
-	"pubsub-js",
-	"ahooks",
-	"rc-virtual-list",
-	"dayjs/plugin/customParseFormat",
-	"@rc-component/color-picker",
-	"@rc-component/color-picker/assets/index.css",
-	/node_modules/,
-];
+const externals = ["react", "react-dom", "react/jsx-runtime", /node_modules/];
 
 export default [
 	{
