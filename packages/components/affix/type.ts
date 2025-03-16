@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 
 export interface IAffix extends HTMLAttributes<HTMLElement> {
 	position?: "fixed" | "absolute" | "sticky" | "static";

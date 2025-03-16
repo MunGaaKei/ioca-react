@@ -1,0 +1,1 @@
+{"version":3,"file":"context.js","sources":["../../../packages/components/form/context.tsx"],"sourcesContent":["import { createContext } from \"react\";\nimport { IFormInstance } from \"./useForm\";\n\nconst Context = createContext({} as IFormInstance);\n\nexport default Context;\n"],"names":["Context","createContext"],"mappings":"sCAGA,MAAMA,EAAUC,EAAc,CAAmB"}
