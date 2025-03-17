@@ -1,7 +1,7 @@
-import { useKeydown } from "@/packages/js/hooks";
 import classNames from "classnames";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useKeydown } from "../../js/hooks";
 import Button from "../button";
 import Helpericon from "../utils/helpericon";
 import "./index.css";

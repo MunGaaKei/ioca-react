@@ -1,6 +1,6 @@
-import useRipple from "@p/js/useRipple";
 import classnames from "classnames";
 import { MouseEvent, createElement, useEffect } from "react";
+import useRipple from "../../js/useRipple";
 import Loading from "../loading";
 import "./index.css";
 import { CompositionButton, IButton } from "./type";

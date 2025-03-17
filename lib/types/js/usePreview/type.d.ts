@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { CSSProperties, ReactNode } from 'react';
 import { IModal } from '../../components/modal/type.js';
 
@@ -8,18 +10,9 @@ type TPreviewItem = {
     rotate?: number;
     zoom?: number;
     style?: CSSProperties;
-    type?: TFileType;
+    type?: string;
     suffix?: string;
 };
-declare enum TFileType {
-    IMAGE = "IMAGE",
-    VIDEO = "VIDEO",
-    AUDIO = "AUDIO",
-    PDF = "PDF",
-    EXCEL = "EXCEL",
-    TXT = "TXT",
-    UNKNOWN = "UNKNOWN"
-}
 interface IPreview {
     items: (TPreviewItem | string)[];
     initial?: number;
@@ -36,4 +29,4 @@ interface IPreview {
     onRotate?: (deg: number) => void;
 }
 
-export { type IPreview, TFileType, type TPreviewItem };
+export type { IPreview, TPreviewItem };

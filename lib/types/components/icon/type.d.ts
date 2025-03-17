@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { HTMLAttributes, ReactNode, RefObject, CSSProperties } from 'react';
 
 interface IIcon extends HTMLAttributes<HTMLElement> {

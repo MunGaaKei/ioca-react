@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 export { default as Affix } from './components/affix/affix.js';
 export { default as Badge } from './components/badge/badge.js';
 export { default as Button } from './components/button/button.js';

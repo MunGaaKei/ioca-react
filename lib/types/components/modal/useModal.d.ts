@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { IModal } from './type.js';
 
 declare function useModal(): {

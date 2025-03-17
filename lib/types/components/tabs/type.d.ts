@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { ForwardRefExoticComponent, ReactNode, RefObject, CSSProperties, Ref } from 'react';
 import Item from './item.js';
 

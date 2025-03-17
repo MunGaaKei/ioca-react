@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { ICheckboxItem } from './type.js';
 

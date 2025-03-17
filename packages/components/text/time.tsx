@@ -1,5 +1,5 @@
-import { formatTime } from "@p/js/utils";
 import { useMemo } from "react";
+import { formatTime } from "../../js/utils";
 import Text from "./text";
 import { ITextTime } from "./type";
 

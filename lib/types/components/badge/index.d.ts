@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Badge from './badge.js';
 
 

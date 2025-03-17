@@ -1,7 +1,7 @@
-import { useMouseMove, useMouseUp } from "@p/js/hooks";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { useRef } from "react";
+import { useMouseMove, useMouseUp } from "../../js/hooks";
 import "./index.css";
 import { IResizable } from "./type";
 

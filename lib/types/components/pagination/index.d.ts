@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Pagination from './pagination.js';
 
 

@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Collapse from './collapse.js';
 
 

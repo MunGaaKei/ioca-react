@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Resizable from './resizable.js';
 
 

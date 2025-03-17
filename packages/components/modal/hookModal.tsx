@@ -1,7 +1,8 @@
 import { useReactive } from "ahooks";
-import { RefObject, useImperativeHandle } from "react";
+import type { RefObject } from "react";
+import { useImperativeHandle } from "react";
 import Modal from "./modal";
-import { IModal, RefHookModal } from "./type";
+import type { IModal, RefHookModal } from "./type";
 
 const HookModal = (
 	props: IModal & { ref?: RefObject<RefHookModal | null> }

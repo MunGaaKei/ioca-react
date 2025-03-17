@@ -1,5 +1,6 @@
 .i-datagrid-container {
 	border-radius: var(--radius);
+	overflow: auto;
 }
 .i-datagrid-loading {
 	overflow: hidden !important;

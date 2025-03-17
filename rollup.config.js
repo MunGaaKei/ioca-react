@@ -55,6 +55,8 @@ export default [
 			dir: "lib/types",
 			preserveModules: true,
 			preserveModulesRoot: "packages",
+			name,
+			banner: '/// <reference types="react" />\n',
 		},
 		external: [...externals, /\.scss$/, /\.css$/],
 		plugins: [
@@ -62,6 +64,10 @@ export default [
 				respectExternal: true,
 				compilerOptions: {
 					preserveSymlinks: false,
+					declarationDir: "lib/types",
+					paths: {
+						"@ioca/react": ["./packages/index.ts"],
+					},
 				},
 			}),
 			scss({

@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { ReactNode, CSSProperties } from 'react';
 
 interface IBadge {

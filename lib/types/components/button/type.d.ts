@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode, CSSProperties, RefObject } from 'react';
 import { LinkProps } from '/Users/iann/codes/ioca-react/node_modules/react-router/dist/development/index.d.ts';
 import Group from './group.js';

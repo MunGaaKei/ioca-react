@@ -1,14 +1,13 @@
-import { useIntersectionObserver } from "@p/js/hooks";
-import usePreview from "@p/js/usePreview";
-import { TFileType } from "@p/js/usePreview/type";
 import { HideImageTwotone } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { useEffect, useRef } from "react";
+import { useIntersectionObserver } from "../../js/hooks";
+import usePreview from "../../js/usePreview";
 import Icon from "../icon";
 import Loading from "../loading";
 import "./index.css";
-import { CompositionImage, IImage } from "./type";
+import type { CompositionImage, IImage } from "./type";
 
 const Image = (props: IImage) => {
 	const {
@@ -60,7 +59,7 @@ const Image = (props: IImage) => {
 				items: [
 					{
 						src,
-						type: TFileType.IMAGE,
+						type: "IMAGE",
 					},
 				],
 			});

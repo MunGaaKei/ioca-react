@@ -1,8 +1,7 @@
-import { getNextSorter } from "@p/js/utils";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { CSSProperties, MouseEvent, useEffect, useMemo, useRef } from "react";
-import ScrollContainer, { Scrollbars } from "react-custom-scrollbars-2";
+import { getNextSorter } from "../../js/utils";
 import Loading from "../loading";
 import Empty from "../utils/empty";
 import "./index.css";
@@ -34,7 +33,6 @@ const Datagrid = (props: IDatagrid) => {
 	} = props;
 
 	const container = useRef<HTMLDivElement>(null);
-	const scrollbar = useRef<Scrollbars>(null);
 	const state = useReactive<TDatagridState>({
 		rows: data,
 		widths: columns.map((col) => col.width ?? "min-content"),
@@ -135,34 +133,29 @@ const Datagrid = (props: IDatagrid) => {
 	}, [columns, resizable]);
 
 	useEffect(() => {
-		loading && scrollbar.current?.scrollTop(0);
+		loading && container.current?.scrollTo({ top: 0, left: 0 });
 	}, [loading]);
 
-	const scrollBarStyle = {
+	const mergedStyle = {
 		"--cell-padding": cellPadding,
 		...styles,
 	} as CSSProperties;
 
 	return (
-		<ScrollContainer
-			ref={scrollbar}
-			autoHide
-			autoHeight
-			autoHeightMax={height}
-			style={scrollBarStyle}
+		<div
+			style={{ maxHeight: height, ...mergedStyle }}
 			className={classNames("i-datagrid-container", className, {
 				"i-datagrid-bordered": border,
 				"i-datagrid-striped": striped,
 			})}
-			renderView={(props) => (
-				<div
-					{...props}
-					className={classNames({ "i-datagrid-loading": loading })}
-				/>
-			)}
-			onScroll={onScroll}
 		>
-			<div ref={container} className='i-datagrid'>
+			<div
+				ref={container}
+				className={classNames("i-datagrid", {
+					"i-datagrid-loading": loading,
+				})}
+				onWheel={onScroll}
+			>
 				{header && (
 					<Header
 						columns={columns}
@@ -191,7 +184,7 @@ const Datagrid = (props: IDatagrid) => {
 			</div>
 
 			{loading && renderLoading()}
-		</ScrollContainer>
+		</div>
 	);
 };
 

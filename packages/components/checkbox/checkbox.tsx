@@ -1,8 +1,8 @@
-import { formatOption } from "@p/js/utils";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { useEffect, useMemo } from "react";
 import "../../css/input.css";
+import { formatOption } from "../../js/utils";
 import "./index.css";
 import CheckboxItem from "./item";
 import type { ICheckbox } from "./type";

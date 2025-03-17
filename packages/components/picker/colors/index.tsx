@@ -1,5 +1,4 @@
 import ColorsPanel from "@rc-component/color-picker";
-import "@rc-component/color-picker/assets/index.css";
 import { useReactive } from "ahooks";
 import { useEffect } from "react";
 import Popup from "../../popup";

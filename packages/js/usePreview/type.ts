@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
-import { IModal } from "../../components/modal/type";
+import type { IModal } from "../../components/modal/type";
 
 export type TPreviewItem = {
 	src: string;
@@ -8,7 +8,7 @@ export type TPreviewItem = {
 	rotate?: number;
 	zoom?: number;
 	style?: CSSProperties;
-	type?: TFileType;
+	type?: string;
 	suffix?: string;
 };
 

@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { HTMLAttributes, ReactNode, CSSProperties } from 'react';
 
 type TKey = string | number;

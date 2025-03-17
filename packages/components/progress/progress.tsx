@@ -1,8 +1,8 @@
-import { useMouseMove, useMouseUp } from "@p/js/hooks";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { useEffect, useMemo, useRef } from "react";
 import "../../css/input.css";
+import { useMouseMove, useMouseUp } from "../../js/hooks";
 import Circle from "./circle";
 import "./index.css";
 import Line from "./line";

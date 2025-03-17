@@ -1,5 +1,3 @@
-import { useMouseUp, useResizeObserver } from "@p/js/hooks";
-import { getPointPosition, getPosition } from "@p/js/utils";
 import { useCreation, useReactive } from "ahooks";
 import {
 	CSSProperties,
@@ -12,6 +10,8 @@ import {
 	useMemo,
 	useRef,
 } from "react";
+import { useMouseUp, useResizeObserver } from "../../js/hooks";
+import { getPointPosition, getPosition } from "../../js/utils";
 import Content from "./content";
 import "./index.css";
 import { IPopup } from "./type";

@@ -1,3 +1,5 @@
+@import "@rc-component/color-picker/assets/index.css";
+
 .i-colorpicker-handle {
 	position: relative;
 	display: inline-flex;

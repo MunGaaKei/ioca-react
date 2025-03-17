@@ -1,9 +1,9 @@
-import { clamp, formatNumber } from "@p/js/utils";
 import { MinusRound, PlusRound } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { ChangeEvent, useEffect } from "react";
 import "../../css/input.css";
+import { clamp, formatNumber } from "../../js/utils";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
 import type { IInputNumber } from "./type";

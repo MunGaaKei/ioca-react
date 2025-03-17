@@ -1,7 +1,7 @@
-import usePreview from "@p/js/usePreview";
-import { TPreviewItem } from "@p/js/usePreview/type";
-import { getFileType, getSuffixByUrl } from "@p/js/utils";
 import { useMemo } from "react";
+import usePreview from "../../js/usePreview";
+import { TPreviewItem } from "../../js/usePreview/type";
+import { getFileType, getSuffixByUrl } from "../../js/utils";
 import Flex from "../flex";
 import Image from "./image";
 import { IImageList } from "./type";

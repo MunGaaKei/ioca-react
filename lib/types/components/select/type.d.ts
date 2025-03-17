@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { InputHTMLAttributes, ReactNode } from 'react';
 import { BaseInput, TOptions, TOption } from '../../type/index.js';
 import { IPopup } from '../popup/type.js';

@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Progress from './progress.js';
 
 

@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Select from './select.js';
 
 

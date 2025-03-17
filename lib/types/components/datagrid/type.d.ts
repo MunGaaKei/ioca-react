@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { ReactNode, CSSProperties, MouseEvent } from 'react';
 
 type IData = Record<string, any>;

@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { IButtonGroup } from './type.js';
 

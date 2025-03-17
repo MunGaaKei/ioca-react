@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Description from './description.js';
 
 

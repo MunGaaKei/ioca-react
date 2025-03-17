@@ -1,4 +1,3 @@
-import { exitFullScreen, fullScreen } from "@p/js/utils";
 import {
 	FullscreenExitRound,
 	FullscreenRound,
@@ -12,6 +11,7 @@ import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { throttle } from "radash";
 import { useEffect, useImperativeHandle, useRef } from "react";
+import { exitFullScreen, fullScreen } from "../../js/utils";
 import Button from "../button";
 import Icon from "../icon";
 import Progress from "../progress";

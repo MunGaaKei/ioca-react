@@ -1,5 +1,5 @@
-import { renderNode } from "@p/js/utils";
 import { useRef } from "react";
+import { renderNode } from "../../js/utils";
 import HookModal from "./hookModal";
 import { IModal, RefHookModal } from "./type";
 

@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Drawer from './drawer.js';
 
 

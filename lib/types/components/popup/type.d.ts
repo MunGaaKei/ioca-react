@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { ReactNode, CSSProperties } from 'react';
 import { TPosition } from '../../type/index.js';
 

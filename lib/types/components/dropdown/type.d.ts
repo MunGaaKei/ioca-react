@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { ReactNode } from 'react';
 import { IListItem } from '../list/type.js';
 import { IPopup } from '../popup/type.js';

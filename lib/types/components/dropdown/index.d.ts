@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Dropdown from './dropdown.js';
 
 

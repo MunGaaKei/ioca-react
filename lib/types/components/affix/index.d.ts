@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Affix from './affix.js';
 
 

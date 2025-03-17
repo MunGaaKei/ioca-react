@@ -1,6 +1,3 @@
-import { arrayMove } from "@/packages/js/utils";
-import usePreview from "@p/js/usePreview";
-import { TPreviewItem } from "@p/js/usePreview/type";
 import { PlusSharp } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
@@ -14,6 +11,9 @@ import {
 	useRef,
 } from "react";
 import { SortableItem } from "react-easy-sort";
+import usePreview from "../../js/usePreview";
+import { TPreviewItem } from "../../js/usePreview/type";
+import { arrayMove } from "../../js/utils";
 import Button from "../button";
 import Icon from "../icon";
 import InputContainer from "../input/container";

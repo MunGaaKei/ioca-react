@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { HTMLAttributes, RefObject, FormEvent } from 'react';
 
 interface IEditor extends Omit<HTMLAttributes<HTMLDivElement>, "onInput"> {

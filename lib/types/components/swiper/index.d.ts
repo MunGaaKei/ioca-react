@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Swiper from './swiper.js';
 
 

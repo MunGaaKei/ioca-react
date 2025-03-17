@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { ForwardRefExoticComponent, InputHTMLAttributes, ReactNode, TextareaHTMLAttributes, RefObject, ChangeEvent, MouseEvent } from 'react';
 import { BaseInput } from '../../type/index.js';
 import Number from './number.js';

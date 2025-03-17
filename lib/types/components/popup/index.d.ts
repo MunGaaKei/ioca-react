@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Popup from './popup.js';
 
 

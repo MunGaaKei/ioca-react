@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { HTMLAttributes, JSX } from 'react';
 
 interface IFlex extends HTMLAttributes<HTMLElement> {

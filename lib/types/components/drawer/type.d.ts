@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { HTMLAttributes, ReactNode } from 'react';
 
 interface IDrawer extends HTMLAttributes<HTMLDivElement> {

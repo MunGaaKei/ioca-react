@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { HTMLAttributes, ReactNode } from 'react';
 
 interface IPagination extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {

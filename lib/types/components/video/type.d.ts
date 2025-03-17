@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { HTMLAttributes, RefObject } from 'react';
 import { IProgress } from '../progress/type.js';
 

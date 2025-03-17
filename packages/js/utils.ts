@@ -1,7 +1,7 @@
-import { MouseEvent, ReactNode } from "react";
+import type { MouseEvent } from "react";
+import { ReactNode } from "react";
 import { Root, createRoot } from "react-dom/client";
-import { TFileType } from "../js/usePreview/type";
-import { TOption, TOptions, TRelativeOptions } from "../type";
+import type { TOption, TOptions, TRelativeOptions } from "../type";
 
 type TComputePosition = {
 	containerSize: number;
@@ -296,15 +296,15 @@ export function getSuffixByUrl(url: string) {
 	return url.match(/\.([^\./\?]+)($|\?)/)?.[1];
 }
 
-export function getFileType(suffix: string, type?: string): TFileType {
+export function getFileType(suffix: string, type?: string) {
 	switch (true) {
 		case ["jpg", "jpeg", "png", "webp", "svg"].includes(suffix) ||
 			type?.startsWith("image/"):
-			return TFileType["IMAGE"];
+			return "IMAGE";
 		case ["mp4", "avi"].includes(suffix) || type?.startsWith("video/"):
-			return TFileType["VIDEO"];
+			return "VIDEO";
 		default:
-			return TFileType["UNKNOWN"];
+			return "UNKNOWN";
 	}
 }
 

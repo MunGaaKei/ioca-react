@@ -1,9 +1,9 @@
-import { TFileType } from "@p/js/usePreview/type";
-import { formatBytes, getFileType } from "@p/js/utils";
 import { ListAltRound } from "@ricons/material";
 import { title } from "radash";
 import { RefObject } from "react";
 import SortableContainer from "react-easy-sort";
+import { TFileType } from "../../js/usePreview/type";
+import { formatBytes, getFileType } from "../../js/utils";
 import Icon from "../icon";
 import Image from "../image";
 import Helpericon from "../utils/helpericon";

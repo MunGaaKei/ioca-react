@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Checkbox from './checkbox.js';
 
 

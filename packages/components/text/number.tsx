@@ -1,5 +1,5 @@
-import { animate, formatNumber } from "@p/js/utils";
 import { useEffect, useMemo, useState } from "react";
+import { animate, formatNumber } from "../../js/utils";
 import Text from "./text";
 import { ITextNumber } from "./type";
 

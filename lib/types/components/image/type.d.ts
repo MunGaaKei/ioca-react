@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { FC, HTMLAttributes, ReactNode } from 'react';
 import List from './list.js';
 

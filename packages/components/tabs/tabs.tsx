@@ -1,4 +1,3 @@
-import { useIntersectionObserver } from "@p/js/hooks";
 import { MoreHorizRound } from "@ricons/material";
 import { useReactive, useSize } from "ahooks";
 import classNames from "classnames";
@@ -10,6 +9,7 @@ import {
 	useImperativeHandle,
 	useRef,
 } from "react";
+import { useIntersectionObserver } from "../../js/hooks";
 import Button from "../button";
 import Icon from "../icon";
 import Popup from "../popup";

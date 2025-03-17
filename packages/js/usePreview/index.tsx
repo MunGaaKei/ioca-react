@@ -1,10 +1,10 @@
-import HookModal from "@p/components/modal/hookModal";
-import { RefHookModal } from "@p/components/modal/type";
 import { useRef } from "react";
+import HookModal from "../../components/modal/hookModal";
+import type { RefHookModal } from "../../components/modal/type";
 import { renderNode } from "../utils";
 import Content from "./content";
 import "./index.css";
-import { IPreview } from "./type";
+import type { IPreview } from "./type";
 
 export default function usePreview() {
 	const ref = useRef<RefHookModal>(null);

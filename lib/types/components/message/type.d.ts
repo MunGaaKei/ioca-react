@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { ReactNode } from 'react';
 
 interface IMessage {

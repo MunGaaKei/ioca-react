@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import _default from './modal.js';
 
 

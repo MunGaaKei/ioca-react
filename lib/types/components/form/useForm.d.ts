@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { IForm } from './type.js';
 
 declare class IFormInstance {

@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import * as react from 'react';
 import { IIcon } from './type.js';
 

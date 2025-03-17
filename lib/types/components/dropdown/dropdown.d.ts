@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { IDropdown, IDropItem } from './type.js';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 

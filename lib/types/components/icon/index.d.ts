@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import Icon from './icon.js';
 
 

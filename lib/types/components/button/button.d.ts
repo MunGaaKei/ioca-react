@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 import { CompositionButton } from './type.js';
 
 declare const _default: CompositionButton;

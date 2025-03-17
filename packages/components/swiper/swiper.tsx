@@ -1,5 +1,3 @@
-import { useMouseMove, useMouseUp } from "@p/js/hooks";
-import { clamp } from "@p/js/utils";
 import {
 	KeyboardArrowLeftRound,
 	KeyboardArrowRightRound,
@@ -13,6 +11,8 @@ import {
 	useMemo,
 	useRef,
 } from "react";
+import { useMouseMove, useMouseUp } from "../../js/hooks";
+import { clamp } from "../../js/utils";
 import Icon from "../icon";
 import "./index.css";
 import Item from "./item";
