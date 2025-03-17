@@ -61,7 +61,7 @@
 			"import": "./lib/es/index.js",
 			"require": "./lib/cjs/index.js"
 		},
-		"./css": "./lib/css/index.css",
+		"./index.css": "./lib/css/index.css",
 		"./*": {
 			"types": "./lib/types/*.d.ts",
 			"import": "./lib/es/*.js",
