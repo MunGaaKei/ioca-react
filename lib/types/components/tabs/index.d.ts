@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import Tabs from './tabs.js';
 
 

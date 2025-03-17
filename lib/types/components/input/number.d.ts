@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { IInputNumber } from './type.js';
 

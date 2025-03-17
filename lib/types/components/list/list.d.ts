@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { IList, IListItem } from './type.js';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"divider.js","sources":["../../../../packages/components/step/divider.tsx"],"sourcesContent":["import \"./index.css\";\n\nexport default function Divider() {\n\treturn <i className='i-step-divider' />;\n}\n"],"names":["_jsx"],"mappings":";;;;;;AAEc,SAAU,OAAO,GAAA;AAC9B,IAAA,OAAOA,cAAG,CAAA,GAAA,EAAA,EAAA,SAAS,EAAC,gBAAgB,GAAG;AACxC;;;;"}

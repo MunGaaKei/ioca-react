@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../../../../packages/components/modal/index.tsx"],"sourcesContent":["import Modal from \"./modal\";\nimport useModal from \"./useModal\";\n\nModal.useModal = useModal;\n\nexport default Modal;\n"],"names":["Modal","useModal"],"mappings":";;;;;;;AAGAA,aAAK,CAAC,QAAQ,GAAGC,gBAAQ;;;;"}

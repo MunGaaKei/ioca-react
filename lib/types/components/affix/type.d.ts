@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { HTMLAttributes } from 'react';
 
 interface IAffix extends HTMLAttributes<HTMLElement> {

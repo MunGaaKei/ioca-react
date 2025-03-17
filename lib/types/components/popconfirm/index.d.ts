@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import Popconfirm from './popconfirm.js';
 
 

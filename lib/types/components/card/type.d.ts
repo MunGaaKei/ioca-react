@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { HTMLAttributes, CSSProperties, ReactNode } from 'react';
 
 interface ICard extends HTMLAttributes<HTMLDivElement> {

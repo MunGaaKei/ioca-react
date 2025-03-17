@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { ReactNode, InputHTMLAttributes, ChangeEvent } from 'react';
 import { TOption, TStatus } from '../../type/index.js';
 

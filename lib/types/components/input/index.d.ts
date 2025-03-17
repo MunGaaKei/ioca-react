@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import Input from './input.js';
 
 

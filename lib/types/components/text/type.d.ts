@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { FC, JSX, CSSProperties, ReactNode } from 'react';
 import HighLight from './highlight.js';
 import Number from './number.js';

@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { CSSProperties, ReactNode } from 'react';
 
 interface IStep {

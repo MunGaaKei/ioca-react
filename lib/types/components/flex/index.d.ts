@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import Flex from './flex.js';
 
 

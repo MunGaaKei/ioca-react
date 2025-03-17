@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { ReactNode } from 'react';
 import { IMessage } from './type.js';
 

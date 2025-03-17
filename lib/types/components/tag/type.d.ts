@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { HTMLAttributes, MouseEvent } from 'react';
 
 interface ITag extends HTMLAttributes<HTMLSpanElement> {

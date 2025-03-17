@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import Editor from './editor.js';
 
 

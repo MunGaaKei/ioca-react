@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { HTMLAttributes, ReactNode } from 'react';
 import { IFormInstance } from './useForm.js';
 

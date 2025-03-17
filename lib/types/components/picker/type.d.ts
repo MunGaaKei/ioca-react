@@ -1,7 +1,5 @@
-/// <reference types="react" />
-
-import { ColorPickerProps } from '/Users/iann/codes/ioca-react/node_modules/@rc-component/color-picker/lib/index.d.ts';
-import { Dayjs } from '/Users/iann/codes/ioca-react/node_modules/dayjs/index.d.ts';
+import { ColorPickerProps } from '@rc-component/color-picker';
+import { Dayjs } from 'dayjs';
 import { ReactNode } from 'react';
 import { BaseInput } from '../../type/index.js';
 import { IInput } from '../input/type.js';

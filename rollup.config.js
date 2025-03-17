@@ -1,77 +1,91 @@
 import resolve from "@rollup/plugin-node-resolve";
-import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import external from "rollup-plugin-peer-deps-external";
 import scss from "rollup-plugin-scss";
 
-const name = "@ioca/react";
 const externals = [
 	"react",
 	"react-dom",
 	"react/jsx-runtime",
 	"@types/react",
-	"@rc-component/color-picker/assets/index.css",
+	"classnames",
+	"ahooks",
+	"dayjs",
+	"@rc-component/color-picker",
 	/node_modules/,
+];
+const input = "./packages/index.ts";
+const plugins = [
+	external(),
+	resolve({
+		extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".scss"],
+		preferBuiltins: true,
+		moduleDirectories: ["node_modules"],
+	}),
+	typescript({
+		tsconfig: "./tsconfig.json",
+		declaration: false,
+		exclude: ["**/__tests__/**"],
+	}),
 ];
 
 export default [
-	// ESM 构建
+	// CSS 单独打包
 	{
-		input: "packages/index.ts",
+		input,
 		output: {
 			dir: "lib",
-			format: "esm",
-			preserveModules: true,
-			preserveModulesRoot: "packages",
-			exports: "named",
-			sourcemap: true,
 		},
 		external: externals,
 		plugins: [
-			external(),
-			resolve({
-				extensions: [".ts", ".tsx", ".js", ".jsx", ".scss"],
-				moduleDirectories: ["node_modules"],
-			}),
-			typescript({
-				tsconfig: "./tsconfig.json",
-				declaration: false,
-				exclude: ["**/__tests__/**"],
-				moduleResolution: "node",
-			}),
+			...plugins,
 			scss({
 				fileName: "css/index.css",
 				sourceMap: true,
 				outputStyle: "compressed",
 			}),
-			terser(),
 		],
 	},
-	// 类型声明文件构建
 	{
-		input: "packages/index.ts",
+		input,
+		output: [
+			{
+				dir: "lib/es",
+				format: "esm",
+				preserveModules: true,
+				preserveModulesRoot: "packages",
+				exports: "named",
+				sourcemap: true,
+			},
+			{
+				dir: "lib/cjs",
+				format: "cjs",
+				preserveModules: true,
+				preserveModulesRoot: "packages",
+				exports: "named",
+				sourcemap: true,
+			},
+		],
+		external: externals,
+		plugins: [...plugins, scss({ output: false })],
+	},
+	// 类型声明文件
+	{
+		input,
 		output: {
 			dir: "lib/types",
 			preserveModules: true,
 			preserveModulesRoot: "packages",
-			name,
-			banner: '/// <reference types="react" />\n',
 		},
 		external: [...externals, /\.scss$/, /\.css$/],
 		plugins: [
+			scss({ output: false }),
 			dts({
 				respectExternal: true,
 				compilerOptions: {
 					preserveSymlinks: false,
-					declarationDir: "lib/types",
-					paths: {
-						"@ioca/react": ["./packages/index.ts"],
-					},
 				},
-			}),
-			scss({
-				output: false,
 			}),
 		],
 	},

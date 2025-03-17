@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { CSSProperties, ReactNode } from 'react';
 import { IModal } from '../../components/modal/type.js';
 

@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { InputHTMLAttributes, RefObject, ReactNode, ChangeEvent } from 'react';
 import { BaseInput } from '../../type/index.js';
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../../../../packages/components/image/index.tsx"],"sourcesContent":["import Image from \"./image\";\nimport List from \"./list\";\n\nImage.List = List;\n\nexport default Image;\n"],"names":[],"mappings":";;;AAGA,KAAK,CAAC,IAAI,GAAG,IAAI;;;;"}

@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { HTMLAttributes, ReactNode, RefObject } from 'react';
 
 interface IList extends HTMLAttributes<HTMLUListElement> {

@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { ReactNode, RefObject, ChangeEvent, KeyboardEvent } from 'react';
 
 type TStatus = "normal" | "success" | "warning" | "error";

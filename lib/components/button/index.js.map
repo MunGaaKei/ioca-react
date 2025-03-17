@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sources":["../../../packages/components/button/index.tsx"],"sourcesContent":["import Button from \"./button\";\nimport Group from \"./group\";\nimport Toggle from \"./toggle\";\n\nButton.Toggle = Toggle;\nButton.Group = Group;\n\nexport default Button;\n"],"names":["Button","Toggle","Group"],"mappings":"gFAIAA,EAAOC,OAASA,EAChBD,EAAOE,MAAQA"}

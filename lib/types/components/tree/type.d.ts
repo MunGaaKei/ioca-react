@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import { RefObject, CSSProperties, ReactNode, MouseEvent, ForwardRefExoticComponent, RefAttributes } from 'react';
 import { LinkProps } from '/Users/iann/codes/ioca-react/node_modules/react-router/dist/development/index.d.ts';
 

@@ -1,5 +1,3 @@
-/// <reference types="react" />
-
 import * as react from 'react';
 import { IField } from './type.js';
 
