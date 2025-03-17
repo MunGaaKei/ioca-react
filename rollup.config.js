@@ -8,6 +8,8 @@ import scss from "rollup-plugin-scss";
 const externals = [
 	"react",
 	"react-dom",
+	"react-router",
+	"react-easy-sort",
 	"react/jsx-runtime",
 	"@types/react",
 	"classnames",
@@ -65,6 +67,9 @@ export default [
 				preserveModulesRoot: "packages",
 				exports: "named",
 				sourcemap: true,
+				environment: {
+					node: true,
+				},
 			},
 			{
 				dir: "lib/cjs",
@@ -74,6 +79,9 @@ export default [
 				exports: "named",
 				sourcemap: true,
 				interop: "auto",
+				environment: {
+					node: true,
+				},
 			},
 		],
 		external: externals,

@@ -1,5 +1,5 @@
 import { ForwardRefExoticComponent, RefAttributes, ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode, CSSProperties, RefObject } from 'react';
-import { LinkProps } from '/Users/iann/codes/ioca-react/node_modules/react-router/dist/development/index.d.ts';
+import { LinkProps } from 'react-router';
 import Group from './group.js';
 import Toggle from './toggle.js';
 
