@@ -1,6 +1,6 @@
 {
 	"name": "@ioca/react",
-	"version": "1.3.5",
+	"version": "1.3.6",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -19,13 +19,13 @@
 		"pubsub-js": "^1.9.5",
 		"radash": "^12.1.0",
 		"react": "^19.0.0",
-		"react-custom-scrollbars-2": "^4.5.0",
 		"react-dom": "^19.0.0",
 		"react-easy-sort": "^1.6.0",
 		"react-router": "^7.1.1",
 		"xss": "^1.0.15"
 	},
 	"devDependencies": {
+		"@rollup/plugin-commonjs": "^28.0.3",
 		"@rollup/plugin-node-resolve": "^15.3.0",
 		"@rollup/plugin-terser": "^0.4.4",
 		"@rollup/plugin-typescript": "^12.1.1",
@@ -38,6 +38,7 @@
 		"fs": "^0.0.1-security",
 		"mockjs": "^1.1.0",
 		"path": "^0.12.7",
+		"react-custom-scrollbars-2": "^4.5.0",
 		"react-syntax-highlighter": "^15.6.1",
 		"rollup": "^4.28.0",
 		"rollup-plugin-dts": "^6.1.1",

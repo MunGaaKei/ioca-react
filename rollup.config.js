@@ -1,3 +1,4 @@
+import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
@@ -13,6 +14,7 @@ const externals = [
 	"ahooks",
 	"dayjs",
 	"@rc-component/color-picker",
+	"xss",
 	/node_modules/,
 ];
 const input = "./packages/index.ts";
@@ -23,10 +25,16 @@ const plugins = [
 		preferBuiltins: true,
 		moduleDirectories: ["node_modules"],
 	}),
+	commonjs({
+		include: /node_modules/,
+		requireReturnsDefault: "auto",
+	}),
 	typescript({
 		tsconfig: "./tsconfig.json",
 		declaration: false,
 		exclude: ["**/__tests__/**"],
+		moduleResolution: "node",
+		skipLibCheck: true,
 	}),
 ];
 
@@ -65,6 +73,7 @@ export default [
 				preserveModulesRoot: "packages",
 				exports: "named",
 				sourcemap: true,
+				interop: "auto",
 			},
 		],
 		external: externals,
@@ -85,6 +94,7 @@ export default [
 				respectExternal: true,
 				compilerOptions: {
 					preserveSymlinks: false,
+					esModuleInterop: true,
 				},
 			}),
 		],
