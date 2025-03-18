@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 type TMouseEvent = (e: MouseEvent) => void;
 type TKeyboardEvent = (e: KeyboardEvent) => void;
@@ -6,22 +6,18 @@ type TEventOption = {
 	disabled?: boolean;
 };
 
-const isBrowser = typeof window !== "undefined";
+const MouseMoveEvents = new Set<TMouseEvent>();
+const MouseUpEvents = new Set<TMouseEvent>();
+const KeydownEvents = new Set<TKeyboardEvent>();
 
-let ClickEvents: Set<TMouseEvent>;
-let MouseMoveEvents: Set<TMouseEvent>;
-let MouseUpEvents: Set<TMouseEvent>;
-let KeydownEvents: Set<TKeyboardEvent>;
-let touchable: boolean;
-let EVENTS: any;
+let initialized = false;
 
-if (isBrowser) {
-	ClickEvents = new Set<TMouseEvent>();
-	MouseMoveEvents = new Set<TMouseEvent>();
-	MouseUpEvents = new Set<TMouseEvent>();
-	KeydownEvents = new Set<TKeyboardEvent>();
-	touchable = "ontouchend" in document;
-	EVENTS = {
+const initEvents = () => {
+	if (!document || initialized) return;
+	initialized = true;
+
+	const touchable = "ontouchend" in document;
+	const EVENTS: Record<string, any> = {
 		MOVE: touchable ? "touchmove" : "mousemove",
 		UP: touchable ? "touchend" : "mouseup",
 		KEYDOWN: "keydown",
@@ -29,7 +25,7 @@ if (isBrowser) {
 
 	document.addEventListener(
 		EVENTS.MOVE,
-		(e: MouseEvent) => {
+		(e) => {
 			for (const listener of MouseMoveEvents.values()) {
 				listener(e);
 			}
@@ -48,11 +44,16 @@ if (isBrowser) {
 			listener(e);
 		}
 	});
+};
+
+function useInitEvents() {
+	useEffect(initEvents, []);
 }
 
 export function useMouseMove(listener: TMouseEvent, options?: TEventOption) {
+	useInitEvents();
 	useEffect(() => {
-		if (!isBrowser || options?.disabled) return;
+		if (options?.disabled) return;
 
 		MouseMoveEvents.add(listener);
 		return () => {
@@ -62,8 +63,9 @@ export function useMouseMove(listener: TMouseEvent, options?: TEventOption) {
 }
 
 export function useMouseUp(listener: TMouseEvent, options?: TEventOption) {
+	useInitEvents();
 	useEffect(() => {
-		if (!isBrowser || options?.disabled) return;
+		if (options?.disabled) return;
 
 		MouseUpEvents.add(listener);
 		return () => {
@@ -73,8 +75,9 @@ export function useMouseUp(listener: TMouseEvent, options?: TEventOption) {
 }
 
 export function useKeydown(listener: TKeyboardEvent, options?: TEventOption) {
+	useInitEvents();
 	useEffect(() => {
-		if (!isBrowser || options?.disabled) return;
+		if (options?.disabled) return;
 
 		KeydownEvents.add(listener);
 		return () => {
@@ -84,41 +87,29 @@ export function useKeydown(listener: TKeyboardEvent, options?: TEventOption) {
 }
 
 export function useIntersectionObserver(configs?: IntersectionObserverInit) {
-	const WM = useRef(new WeakMap());
-	const IO = useRef<IntersectionObserver | null>(null);
+	const WM = new WeakMap();
+	const IO = new IntersectionObserver((entries) => {
+		entries.map((entry) => {
+			const callback = WM.get(entry.target);
 
-	useEffect(() => {
-		if (!isBrowser) return;
-
-		IO.current = new IntersectionObserver((entries) => {
-			entries.map((entry) => {
-				const callback = WM.current.get(entry.target);
-				callback?.(entry.target, entry.isIntersecting);
-			});
-		}, configs);
-
-		return () => {
-			IO.current?.disconnect();
-		};
-	}, []);
+			callback?.(entry.target, entry.isIntersecting);
+		});
+	}, configs);
 
 	function observe(target: HTMLElement, callback: Function) {
-		if (!isBrowser || !IO.current || !target) return;
-		if (WM.current.get(target)) return;
+		if (WM.get(target)) return;
 
-		WM.current.set(target, callback);
-		IO.current.observe(target);
+		WM.set(target, callback);
+		target && IO.observe(target);
 	}
 
 	function unobserve(target: HTMLElement) {
-		if (!isBrowser || !IO.current || !target) return;
-		IO.current.unobserve(target);
-		WM.current.delete(target);
+		target && IO.unobserve(target);
+		WM.delete(target);
 	}
 
 	function disconnect() {
-		if (!isBrowser || !IO.current) return;
-		IO.current.disconnect();
+		IO.disconnect();
 	}
 
 	return {
@@ -129,41 +120,29 @@ export function useIntersectionObserver(configs?: IntersectionObserverInit) {
 }
 
 export function useResizeObserver() {
-	const WM = useRef(new WeakMap());
-	const IO = useRef<ResizeObserver | null>(null);
+	const WM = new WeakMap();
+	const IO = new ResizeObserver((entries) => {
+		entries.map((entry) => {
+			const callback = WM.get(entry.target);
 
-	useEffect(() => {
-		if (!isBrowser) return;
-
-		IO.current = new ResizeObserver((entries) => {
-			entries.map((entry) => {
-				const callback = WM.current.get(entry.target);
-				callback?.(entry.target);
-			});
+			callback?.(entry.target);
 		});
-
-		return () => {
-			IO.current?.disconnect();
-		};
-	}, []);
+	});
 
 	function observe(target: HTMLElement, callback: Function) {
-		if (!isBrowser || !IO.current || !target) return;
-		if (WM.current.get(target)) return;
+		if (WM.get(target)) return;
 
-		IO.current.observe(target);
-		WM.current.set(target, callback);
+		target && IO.observe(target);
+		WM.set(target, callback);
 	}
 
 	function unobserve(target: HTMLElement) {
-		if (!isBrowser || !IO.current || !target) return;
-		IO.current.unobserve(target);
-		WM.current.delete(target);
+		target && IO.unobserve(target);
+		WM.delete(target);
 	}
 
 	function disconnect() {
-		if (!isBrowser || !IO.current) return;
-		IO.current.disconnect();
+		IO.disconnect();
 	}
 
 	return {
