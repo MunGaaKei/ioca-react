@@ -68,6 +68,7 @@ const Video = (props: IVideo) => {
 	};
 
 	const fsChangeListener = () => {
+		if (typeof document === "undefined") return;
 		const tar = videoRef.current?.parentElement;
 		if (!tar) return;
 
@@ -183,6 +184,8 @@ const Video = (props: IVideo) => {
 	}));
 
 	useEffect(() => {
+		if (typeof document === "undefined") return;
+
 		const v = videoRef.current;
 		if (!v) return;
 

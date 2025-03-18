@@ -24,7 +24,6 @@ const ItemDefaultConfig = {
 	active: false,
 };
 
-const container = createContainer();
 const handler: {
 	oneInstance: null | IMessage;
 	callout: (item: IMessage) => void;
@@ -45,8 +44,6 @@ const heights: THeights = {
 	center: [],
 	right: [],
 };
-
-createRoot(container).render(<Messages />);
 
 const MessageItem = function ({
 	ref,
@@ -203,10 +200,10 @@ function message(config: IMessage | ReactNode) {
 }
 
 function createContainer() {
+	if (typeof document === "undefined") return null;
 	const container = document.createElement("div");
 	container.dataset.id = "messages";
 	document.body.append(container);
-
 	return container;
 }
 
@@ -248,5 +245,17 @@ message.one = (config: IMessage) => {
 		handler.oneInstance = instance;
 	}
 };
+
+// 初始化消息容器
+let container: HTMLElement | null = null;
+let root: any = null;
+
+if (typeof window !== "undefined") {
+	container = createContainer();
+	if (container) {
+		root = createRoot(container);
+		root.render(<Messages />);
+	}
+}
 
 export default message;

@@ -19,6 +19,7 @@ const externals = [
 	"xss",
 	/node_modules/,
 ];
+
 const input = "./packages/index.ts";
 const plugins = [
 	external(),
@@ -30,6 +31,8 @@ const plugins = [
 	commonjs({
 		include: /node_modules/,
 		requireReturnsDefault: "auto",
+		transformMixedEsModules: true,
+		esmExternals: true,
 	}),
 	typescript({
 		tsconfig: "./tsconfig.json",
@@ -78,7 +81,8 @@ export default [
 				preserveModulesRoot: "packages",
 				exports: "named",
 				sourcemap: true,
-				interop: "auto",
+				interop: "compat",
+				externalLiveBindings: false,
 				environment: {
 					node: true,
 				},

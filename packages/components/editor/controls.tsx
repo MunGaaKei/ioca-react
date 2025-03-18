@@ -12,7 +12,10 @@ import { escapeAttrValue } from "xss";
 import Button from "../button";
 import Icon from "../icon";
 
-export const exec = (a, b?, c?) => document.execCommand(a, b, c);
+export const exec = (a, b?, c?) => {
+	if (typeof document === "undefined") return;
+	return document.execCommand(a, b, c);
+};
 
 export const xssOptions = {
 	onIgnoreTagAttr: function (tag, name, value) {

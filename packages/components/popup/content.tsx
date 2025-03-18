@@ -6,7 +6,10 @@ import { IPopupContent } from "./type";
 const Content = (props: IPopupContent) => {
 	const {
 		ref,
-		getContainer = (trigger) => trigger?.offsetParent ?? document.body,
+		getContainer = (trigger) => {
+			if (typeof document === "undefined") return null;
+			return trigger?.offsetParent ?? document.body;
+		},
 		trigger,
 		arrow,
 		arrowProps = {},

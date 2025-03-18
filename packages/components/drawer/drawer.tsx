@@ -105,7 +105,7 @@ function Drawer(props: IDrawer) {
 				</div>
 			</div>
 		),
-		document.body
+		document?.body ?? null
 	);
 }
 

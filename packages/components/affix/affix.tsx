@@ -23,7 +23,10 @@ const Affix = (props: IAffix) => {
 		style,
 		className,
 		children,
-		getContainer = () => document.body,
+		getContainer = () => {
+			if (typeof document === "undefined") return null;
+			return document.body;
+		},
 	} = props;
 
 	const [hidden, setHidden] = useState<boolean>(false);

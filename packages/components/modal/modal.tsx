@@ -161,6 +161,11 @@ function Modal(props: IModal) {
 		visible ? handleShow() : handleHide();
 	}, [visible]);
 
+	const handleClick = () => {
+		if (typeof document === "undefined") return;
+		document.documentElement.click();
+	};
+
 	if (!show) return null;
 
 	return createPortal(
@@ -189,7 +194,7 @@ function Modal(props: IModal) {
 				}}
 				onClick={(e) => {
 					e.stopPropagation();
-					document.documentElement.click();
+					handleClick();
 					onClick?.(e);
 				}}
 				{...restProps}
@@ -211,7 +216,7 @@ function Modal(props: IModal) {
 				)}
 			</div>
 		</div>,
-		document.body
+		document?.body ?? null
 	);
 }
 

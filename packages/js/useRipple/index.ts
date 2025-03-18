@@ -3,8 +3,9 @@ import "./ripple.css";
 const TIMEOUT = 500;
 
 const useRipple = () => {
-	if (document.documentElement.dataset["useripple"]) return;
-	document.documentElement.dataset["useripple"] = "enable";
+	if (!document) return;
+	if (document.documentElement.dataset["iocaRipple"]) return;
+	document.documentElement.dataset["iocaRipple"] = "enable";
 
 	document.addEventListener("mousedown", listener);
 };
@@ -19,6 +20,7 @@ function listener(e: MouseEvent) {
 }
 
 function triggerRipple(target: HTMLElement, e: MouseEvent) {
+	if (!document) return;
 	const [$box, $ripple] = createRipple();
 	const rect = target.getBoundingClientRect();
 	const size = Math.max(rect.width, rect.height) * 2;
