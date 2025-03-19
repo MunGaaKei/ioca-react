@@ -5,6 +5,9 @@ import { ChangeEvent, useEffect, useMemo } from "react";
 import "../../css/input.css";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
+import Number from "./number";
+import Range from "./range";
+import Textarea from "./textarea";
 import type { CompositionInput, IInput } from "./type";
 
 const Input = ((props: IInput) => {
@@ -119,5 +122,9 @@ const Input = ((props: IInput) => {
 		</InputContainer>
 	);
 }) as CompositionInput;
+
+Input.Textarea = Textarea;
+Input.Number = Number;
+Input.Range = Range;
 
 export default Input;

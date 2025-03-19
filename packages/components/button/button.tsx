@@ -2,7 +2,9 @@ import classnames from "classnames";
 import { MouseEvent, createElement, useEffect } from "react";
 import useRipple from "../../js/useRipple";
 import Loading from "../loading";
+import Group from "./group";
 import "./index.css";
+import Toggle from "./toggle";
 import { CompositionButton, IButton } from "./type";
 
 const formatClass = ({
@@ -103,5 +105,8 @@ const Button = (props: IButton) => {
 		childNodes
 	);
 };
+
+Button.Toggle = Toggle;
+Button.Group = Group;
 
 export default Button as CompositionButton;

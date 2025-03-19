@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sources":["../../../../packages/components/input/index.tsx"],"sourcesContent":["import Input from \"./input\";\nimport Number from \"./number\";\nimport Range from \"./range\";\nimport Textarea from \"./textarea\";\n\nInput.Textarea = Textarea;\nInput.Number = Number;\nInput.Range = Range;\n\nexport default Input;\n"],"names":[],"mappings":";;;;;AAKA,KAAK,CAAC,QAAQ,GAAG,QAAQ;AACzB,KAAK,CAAC,MAAM,GAAG,MAAM;AACrB,KAAK,CAAC,KAAK,GAAG,KAAK;;;;"}
+{"version":3,"file":"index.js","sources":[],"sourcesContent":[],"names":[],"mappings":";;;;"}

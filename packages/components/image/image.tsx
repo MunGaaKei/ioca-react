@@ -7,6 +7,7 @@ import usePreview from "../../js/usePreview";
 import Icon from "../icon";
 import Loading from "../loading";
 import "./index.css";
+import List from "./list";
 import type { CompositionImage, IImage } from "./type";
 
 const Image = (props: IImage) => {
@@ -131,5 +132,7 @@ const Image = (props: IImage) => {
 		</div>
 	);
 };
+
+Image.List = List;
 
 export default Image as CompositionImage;

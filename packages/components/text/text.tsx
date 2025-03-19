@@ -1,6 +1,9 @@
 import classNames from "classnames";
 import { useMemo } from "react";
+import HighLight from "./highlight";
 import "./index.css";
+import Number from "./number";
+import Time from "./time";
 import { CompositionText, IText } from "./type";
 
 const Text = (props: IText) => {
@@ -43,5 +46,9 @@ const Text = (props: IText) => {
 		</Tag>
 	);
 };
+
+Text.Number = Number;
+Text.Time = Time;
+Text.HighLight = HighLight;
 
 export default Text as CompositionText;

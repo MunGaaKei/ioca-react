@@ -6,6 +6,7 @@ import Button from "../button";
 import Helpericon from "../utils/helpericon";
 import "./index.css";
 import { CompositionModal, IModal, IModalContent } from "./type";
+import useModal from "./useModal";
 
 function DefaultContent(props: IModalContent) {
 	const {
@@ -219,5 +220,7 @@ function Modal(props: IModal) {
 		document?.body ?? null
 	);
 }
+
+Modal.useModal = useModal;
 
 export default Modal as CompositionModal;

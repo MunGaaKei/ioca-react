@@ -86,19 +86,29 @@ export function useKeydown(listener: TKeyboardEvent, options?: TEventOption) {
 	}, [listener]);
 }
 
+const defaultObserver = {
+	observe: () => {},
+	unobserve: () => {},
+	disconnect: () => {},
+};
+
 export function useIntersectionObserver(configs?: IntersectionObserverInit) {
+	if (typeof window === "undefined") {
+		return {
+			...defaultObserver,
+		};
+	}
+
 	const WM = new WeakMap();
 	const IO = new IntersectionObserver((entries) => {
 		entries.map((entry) => {
 			const callback = WM.get(entry.target);
-
 			callback?.(entry.target, entry.isIntersecting);
 		});
 	}, configs);
 
 	function observe(target: HTMLElement, callback: Function) {
 		if (WM.get(target)) return;
-
 		WM.set(target, callback);
 		target && IO.observe(target);
 	}
@@ -120,18 +130,22 @@ export function useIntersectionObserver(configs?: IntersectionObserverInit) {
 }
 
 export function useResizeObserver() {
+	if (typeof window === "undefined") {
+		return {
+			...defaultObserver,
+		};
+	}
+
 	const WM = new WeakMap();
 	const IO = new ResizeObserver((entries) => {
 		entries.map((entry) => {
 			const callback = WM.get(entry.target);
-
 			callback?.(entry.target);
 		});
 	});
 
 	function observe(target: HTMLElement, callback: Function) {
 		if (WM.get(target)) return;
-
 		target && IO.observe(target);
 		WM.set(target, callback);
 	}

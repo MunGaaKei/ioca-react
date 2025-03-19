@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sources":["../../../../packages/components/text/index.tsx"],"sourcesContent":["import HighLight from \"./highlight\";\nimport Number from \"./number\";\nimport Text from \"./text\";\nimport Time from \"./time\";\n\nText.Number = Number;\nText.Time = Time;\nText.HighLight = HighLight;\n\nexport default Text;\n"],"names":["Time"],"mappings":";;;;;AAKA,IAAI,CAAC,MAAM,GAAG,MAAM;AACpB,IAAI,CAAC,IAAI,GAAGA,QAAI;AAChB,IAAI,CAAC,SAAS,GAAG,SAAS;;;;"}
+{"version":3,"file":"index.js","sources":[],"sourcesContent":[],"names":[],"mappings":";;;;"}

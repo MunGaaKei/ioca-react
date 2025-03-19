@@ -1,5 +1,5 @@
 import type { MouseEvent } from "react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Root, createRoot } from "react-dom/client";
 import type { TOption, TOptions, TRelativeOptions } from "../type";
 
@@ -386,3 +386,42 @@ export const arrayMove = (array, fromIndex: number, toIndex: number) => {
 	array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
 	return array;
 };
+
+type ReactiveObject<T> = T & { __isReactive?: boolean };
+
+export function useReactive<T extends object>(
+	initialState: T
+): ReactiveObject<T> {
+	const [, setState] = useState<number>(0);
+	const reactiveState = useRef<ReactiveObject<T>>(initialState);
+
+	useEffect(() => {
+		if (!reactiveState.current.__isReactive) {
+			reactiveState.current = createReactiveObject(
+				reactiveState.current,
+				setState
+			);
+		}
+	}, []);
+
+	return reactiveState.current;
+}
+
+function createReactiveObject<T extends object>(
+	target: T,
+	setState: React.Dispatch<React.SetStateAction<number>>
+): ReactiveObject<T> {
+	return new Proxy(target, {
+		get(obj, prop) {
+			if (prop === "__isReactive") return true;
+			return Reflect.get(obj, prop);
+		},
+		set(obj, prop, value) {
+			const result = Reflect.set(obj, prop, value);
+			setState((prev) => prev + 1); // Trigger re-render
+			return result;
+		},
+	}) as ReactiveObject<T>;
+}
+
+export default useReactive;
