@@ -10,6 +10,7 @@ const Item = (props: IListItem) => {
 		disabled,
 		label,
 		style,
+		border,
 		className,
 		children,
 		...restProps
@@ -21,6 +22,7 @@ const Item = (props: IListItem) => {
 			className={classNames("i-list-item", className, {
 				"i-list-item-active": active,
 				"i-list-option": type === "option",
+				"i-list-item-bordered": border,
 				disabled,
 			})}
 			style={{ alignItems: align, ...style }}

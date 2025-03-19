@@ -7,15 +7,14 @@ export default function Page() {
 		<>
 			<h2 className='mb-40'>Get Start</h2>
 			<p className='mb-12'>
-				基于{" "}
 				<a
 					href='https://react.dev/blog/2024/12/05/react-19'
 					target='_blank'
 					style={{ color: "#58c4dc" }}
 				>
-					React / <b>19</b>
+					<b>React 19</b>
 				</a>{" "}
-				开发
+				开发，支持<b>按需加载</b>、<b>SSR</b>、<b>Typescript</b>。
 			</p>
 			<CodeView lang='bash'>{PInstall}</CodeView>
 

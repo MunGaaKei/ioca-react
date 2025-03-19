@@ -64,9 +64,6 @@
 	align-items: center;
 	overflow: hidden;
 	transition: var(--transition);
-	& > .i-image {
-		height: 100%;
-	}
 }
 
 .i-swiper-arrow {

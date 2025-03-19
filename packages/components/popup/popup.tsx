@@ -247,9 +247,9 @@ export default function Popup(props: IPopup) {
 		});
 	};
 
+	const { observe, unobserve, disconnect } = useResizeObserver();
 	useEffect(() => {
-		if (trigger === "contextmenu") return;
-		const { observe, unobserve, disconnect } = useResizeObserver();
+		if (trigger === "contextmenu" || !observe) return;
 
 		triggerRef.current && observe(triggerRef.current, computePosition);
 

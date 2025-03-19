@@ -5,7 +5,7 @@ import Item from "./item";
 import { IList } from "./type";
 
 const List = (props: IList) => {
-	const { label, type, className, children, ...restProps } = props;
+	const { label, type, border, className, children, ...restProps } = props;
 
 	return (
 		<ul className={classNames("i-list", className)} {...restProps}>
@@ -19,7 +19,8 @@ const List = (props: IList) => {
 					return cloneElement(node, {
 						label: renderLabel,
 						...nodeProps,
-						type,
+						type: props.type,
+						border,
 					});
 				}
 

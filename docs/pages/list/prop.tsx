@@ -15,6 +15,11 @@ export const DBasic = {
 					<List.Item>年月把擁有變做失去</List.Item>
 					<List.Item>疲倦的雙眼帶著期望</List.Item>
 				</List>
+				<List border type='option'>
+					<List.Item>今天只有殘留的軀殼</List.Item>
+					<List.Item>迎接光輝歲月</List.Item>
+					<List.Item>風雨中抱緊自由</List.Item>
+				</List>
 			</Flex>
 		);
 	},
@@ -28,6 +33,11 @@ export const DBasic = {
 	<List label={<AudiotrackOutlined height={16} />}>
 		<List.Item>年月把擁有變做失去</List.Item>
 		<List.Item>疲倦的雙眼帶著期望</List.Item>
+	</List>
+	<List border type='option'>
+		<List.Item>今天只有殘留的軀殼</List.Item>
+		<List.Item>迎接光輝歲月</List.Item>
+		<List.Item>風雨中抱緊自由</List.Item>
 	</List>
 </Flex>`,
 	lang: "xml",
@@ -44,6 +54,12 @@ export const PList = [
 		desc: "类型",
 		type: ["'default'", "'option'"],
 		def: "'default'",
+	},
+	{
+		name: "border",
+		desc: "子项边框",
+		type: ["boolean"],
+		def: "false",
 	},
 ];
 

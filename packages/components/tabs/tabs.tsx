@@ -158,7 +158,7 @@ const Tabs = ((props: ITabs) => {
 	};
 
 	useEffect(() => {
-		if (!size || hideMore) return;
+		if (!size || hideMore || !observe) return;
 		const { scrollHeight, scrollWidth } = navsRef.current as HTMLElement;
 		const { width, height } = size;
 
@@ -211,7 +211,8 @@ const Tabs = ((props: ITabs) => {
 	}, [active]);
 
 	useEffect(() => {
-		if (hideMore) return;
+		if (hideMore || !unobserve) return;
+
 		return () => {
 			navRefs.current?.map(unobserve);
 		};

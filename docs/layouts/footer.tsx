@@ -27,7 +27,11 @@ export default function Footer() {
 					href='https://mungaakei.github.io/iann/'
 					target='_blank'
 					className='color-2'
-					style={{ fontFamily: "jaini", fontSize: 18 }}
+					style={{
+						fontFamily: "jaini",
+						fontSize: 20,
+						letterSpacing: 1,
+					}}
 				>
 					Iann
 				</a>

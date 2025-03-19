@@ -1,11 +1,8 @@
 global search
-calendar
-tree shaking
+picker: calendar
 skeleton
-grid infinite
-scrollbar
-input maxlength
-form span columns
-export interfaces
-form return nodes by configs: useConfig
-swiper height
+grid: infinite
+input: maxlength
+form: span columns
+form: return nodes by configs: useConfig
+list: compressed

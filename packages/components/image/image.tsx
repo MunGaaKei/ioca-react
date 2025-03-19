@@ -73,7 +73,7 @@ const Image = (props: IImage) => {
 			state.status = "loading";
 		}
 
-		if (!lazyload || !ref.current) return;
+		if (!lazyload || !ref.current || !observe) return;
 
 		observe(ref.current, (tar: HTMLElement, visible: boolean) => {
 			if (!visible) return;
@@ -85,7 +85,7 @@ const Image = (props: IImage) => {
 		return () => {
 			ref.current && unobserve(ref.current);
 		};
-	}, [src]);
+	}, [src, observe]);
 
 	restProps[lazyload ? "data-src" : "src"] = src;
 	const iSize = state.status === "loading" ? initSize : undefined;

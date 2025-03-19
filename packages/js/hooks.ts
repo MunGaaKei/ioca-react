@@ -87,9 +87,9 @@ export function useKeydown(listener: TKeyboardEvent, options?: TEventOption) {
 }
 
 const defaultObserver = {
-	observe: () => {},
-	unobserve: () => {},
-	disconnect: () => {},
+	observe: undefined,
+	unobserve: undefined,
+	disconnect: undefined,
 };
 
 export function useIntersectionObserver(configs?: IntersectionObserverInit) {

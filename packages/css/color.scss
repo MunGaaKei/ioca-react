@@ -1,68 +1,67 @@
 @use "sass:color";
-@use "sass:string";
+@use "sass:map";
 @use "sass:list";
 
 $colors: (
-	"white-0": white,
-	"white-1": whitesmoke,
-	"white-2": #ebebeb,
 	"white": white,
-	"black-0": #dbdbdb,
-	"black-1": #212121,
-	"black-2": #313131,
 	"black": black,
-	"red-0": #fcdfe4,
-	"red-1": #dc143c,
-	"red-2": #ee4063,
 	"red": #dc143c,
-	"blue-0": #d6ebff,
-	"blue-1": #007cf4,
-	"blue-2": #47a4ff,
 	"blue": #1e90ff,
-	"green-0": #e7fff2,
-	"green-1": #37a467,
-	"green-2": #53c586,
 	"green": #3cb371,
-	"yellow-0": #fffae5,
-	"yellow-1": #ffb820,
-	"yellow-2": #ffd272,
 	"yellow": #ffc549,
-	"brown-0": #fbece2,
-	"brown-1": #8b3a07,
-	"brown-2": #6d2e07,
 	"brown": #95410c,
-	"grey-0": #f6f6f6,
-	"grey-1": #b1b1b1,
-	"grey-2": #9c9c9c,
 	"grey": #d7d7d7,
-	"pink-0": #ffe3f1,
-	"pink-1": #ff55aa,
-	"pink-2": #ff92c8,
 	"pink": #ff69b4,
-	"purple-0": #eddefb,
-	"purple-1": #751bc9,
-	"purple-2": #a861e9,
 	"purple": #8a2be2,
-	"aqua-0": #e8ffff,
-	"aqua-1": #1efdfd,
-	"aqua-2": #0ae0e0,
 	"aqua": aqua,
-	"orange-0": #fff1e8,
-	"orange-1": #eb7521,
-	"orange-2": #e66a12,
 	"orange": #fb812a,
-	"warning-0": #fff0bf,
-	"warning-1": #f0a313,
-	"warning-2": #fda605,
 	"warning": #ffb01f,
-	"error-0": #ffdbdb,
-	"error-1": #f13636,
-	"error-2": #db1e1e,
 	"error": #ff4545,
-	"success-0": #acf899,
-	"success-1": #4ad926,
-	"success-2": #40d01c,
 	"success": #52e12e,
+);
+
+$colors-light: (
+	"white": white,
+	"black": #dbdbdb,
+	"red": #fcdfe4,
+	"blue": #d6ebff,
+	"green": #e7fff2,
+	"yellow": #fffae5,
+	"brown": #fbece2,
+	"grey": #f6f6f6,
+	"pink": #ffe3f1,
+	"purple": #eddefb,
+	"aqua": #e8ffff,
+	"orange": #fff1e8,
+	"warning": #fff0bf,
+	"error": #ffdbdb,
+	"success": #acf899,
+);
+
+$colors-heavy: (
+	"white": #fafafa,
+	"black": #1a1a1a,
+	"red": #dc143c,
+	"blue": #007cf4,
+	"green": #37a467,
+	"yellow": #ffb820,
+	"brown": #8b3a07,
+	"grey": #b1b1b1,
+	"pink": #ff55aa,
+	"purple": #751bc9,
+	"aqua": #1efdfd,
+	"orange": #eb7521,
+	"warning": #f0a313,
+	"error": #f13636,
+	"success": #4ad926,
+);
+
+$lightColors: (
+	"white": true,
+	"grey": true,
+	"yellow": true,
+	"aqua": true,
+	"warning": true,
 );
 
 :root {
@@ -107,18 +106,32 @@ $colors: (
 	}
 
 	@each $name, $value in $colors {
-		$number: string.slice($name, -1);
-		$enhanced: string.index(("012"), $number);
-		$lightColors: ("white", "grey", "yellow", "aqua", "warning");
-		$isLightColor: list.index($lightColors, $name);
+		$isLightColor: map.get($lightColors, $name) != null;
 
+		$light: map.get($colors-light, $name);
+		$heavy: map.get($colors-heavy, $name);
+		--#{$name}-0: #{$light};
 		--#{$name}: #{$value};
+		--#{$name}-1: #{$heavy};
+
+		.bg-#{$name}-0 {
+			--background: #{$light};
+			--color-hover: var(--color);
+			background-color: #{$light};
+			color: #{$value};
+
+			&:hover {
+				--background-hover: #{$value};
+			}
+
+			&.i-btn:hover {
+				background: var(--background-hover);
+				color: var(--color-hover);
+			}
+		}
 
 		.bg-#{$name} {
 			--background: var(--#{$name});
-			background: var(--#{$name});
-			color: var(--color);
-
 			@if $isLightColor {
 				--color: var(--black);
 				--color-hover: var(--black);
@@ -126,43 +139,57 @@ $colors: (
 				--color: var(--white);
 				--color-hover: var(--white);
 			}
+			background-color: var(--background);
+			color: var(--color);
 
-			@if $number == "0" {
-				$sourceColor: string.slice($name, 0, -3);
-				$hoverColor: string.slice($name, 0, -3);
-				--color: var(--#{$sourceColor});
-				&:hover {
-					--background-hover: var(--#{$hoverColor});
-					@if $number == "0" and $isLightColor == null {
-						--color-hover: var(--white);
-					}
-				}
+			&:hover {
+				--background-hover: #{$heavy};
 			}
 
-			@if $enhanced == null {
-				&:hover {
-					--background-hover: var(--#{$name}-1);
-				}
-			}
 			&.i-btn:hover {
 				background: var(--background-hover);
 				color: var(--color-hover);
 			}
 		}
-	}
 
-	@each $name, $value in $colors {
-		$number: string.slice($name, -1);
-		$enhanced: string.index(("012"), $number);
+		.bg-#{$name}-1 {
+			--background: #{$heavy};
+			@if $isLightColor {
+				--color: var(--black);
+				--color-hover: var(--black);
+			} @else {
+				--color: var(--white);
+				--color-hover: var(--white);
+			}
+			background-color: var(--background);
+			color: var(--color);
+
+			&:hover {
+				--background-hover: #{$value};
+			}
+
+			&.i-btn:hover {
+				background: var(--background-hover);
+				color: var(--color-hover);
+			}
+		}
+
+		.#{$name}-0 {
+			--color: #{$light};
+			--color-hover: var(--#{$name});
+			color: var(--color);
+		}
 
 		.#{$name} {
 			--color: var(--#{$name});
+			--background-hover: var(--#{$name}-0);
+			--color-hover: var(--#{$name});
+			color: var(--color);
+		}
 
-			@if $enhanced == null {
-				--background-hover: var(--#{$name}-0);
-				--color-hover: var(--#{$name});
-			}
-
+		.#{$name}-1 {
+			--color: #{$heavy};
+			--color-hover: var(--#{$name});
 			color: var(--color);
 		}
 	}
@@ -213,13 +240,9 @@ $colors: (
 	.bg-slight {
 		color: var(--white);
 	}
-	kbd,
-	.kbd {
-		background-color: var(--black-1);
-		color: var(--white);
-		border-right: 2px solid var(--color-8);
-		border-bottom: 3px solid var(--color-8);
-		box-shadow: -1px -1px 1px var(--black-2);
+	code,
+	.code {
+		background: var(--color-8);
 	}
 
 	--white-0: #595959;
