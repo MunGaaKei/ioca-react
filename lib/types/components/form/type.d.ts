@@ -26,5 +26,17 @@ interface IField {
     children?: ReactNode;
     required?: boolean;
 }
+interface IFormItem {
+    name: string;
+    label?: ReactNode;
+    required?: boolean;
+    component: any;
+    componentProps?: Record<string, any>;
+    colspan?: number | "full";
+    rowspan?: number | "full";
+    render?: (config: IFormItem, values: Record<string, any>) => ReactNode;
+    shouldRender?: (values: Record<string, any>, form: IFormInstance) => boolean;
+    shouldUpdate?: (values: Record<string, any>, form: IFormInstance) => boolean;
+}
 
-export type { IField, IForm, TRule, TValidator };
+export type { IField, IForm, IFormItem, TRule, TValidator };

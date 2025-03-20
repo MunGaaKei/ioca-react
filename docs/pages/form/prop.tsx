@@ -72,14 +72,14 @@ export const DBasic = {
 						}
 					/>
 				</Field>
-				<Flex>
-					<Field name='age'>
-						<Input.Number label='年龄' max={150} min={1} />
-					</Field>
-					<Field name='weight'>
-						<Input.Range label='体重范围' min={0} />
-					</Field>
-				</Flex>
+
+				<Field name='age'>
+					<Input.Number label='年龄' max={150} min={1} />
+				</Field>
+				<Field name='weight'>
+					<Input.Range label='体重范围' min={0} />
+				</Field>
+
 				<Field name='gender' required>
 					<Radio
 						label='性别'
@@ -124,7 +124,7 @@ export const DBasic = {
 					<Input.Textarea label='说明' rows={3} autoSize />
 				</Field>
 
-				<Flex className='gap-12'>
+				<Flex className='gap-12 colspan-full'>
 					<Button onClick={handleSubmit}>获取表单值</Button>
 					<Button onClick={handleValidate} className='bg-pink'>
 						校验表单
@@ -265,6 +265,98 @@ return (
 	</Form>
 );`,
 	lang: "javascript",
+};
+
+const configs = [
+	{
+		name: "name",
+		label: "名字",
+		required: true,
+		component: Input,
+	},
+	{
+		name: "age",
+		label: "年龄",
+		component: Input.Number,
+	},
+	{
+		name: "bio",
+		label: "简介",
+		component: Input.Textarea,
+		colspan: 2,
+		shouldRender: (values) => !!values.name,
+	},
+];
+
+export const DUseConfig = {
+	demo: () => {
+		const { form, node } = Form.useConfig(configs, {
+			columns: 2,
+			width: 420,
+			rules: {
+				name: true,
+			},
+		});
+
+		const handleSubmit = async () => {
+			const data = await form.validate();
+			Message("可以打开控制台查看数据");
+			console.log(data);
+		};
+
+		return (
+			<>
+				{node}
+				<Flex className='mt-12'>
+					<Button onClick={handleSubmit}>获取表单值</Button>
+				</Flex>
+			</>
+		);
+	},
+	lang: "javascript",
+	code: `const configs = [
+	{
+		name: "name",
+		label: "名字",
+		required: true,
+		component: Input,
+	},
+	{
+		name: "age",
+		label: "年龄",
+		component: Input.Number,
+	},
+	{
+		name: "bio",
+		label: "简介",
+		component: Input.Textarea,
+		colspan: 2,
+		shouldRender: (values) => !!values.name,
+	},
+];
+
+const { form, node } = Form.useConfig(configs, {
+	columns: 2,
+	width: 420,
+	rules: {
+		name: true,
+	},
+});
+
+const handleSubmit = async () => {
+	const data = await form.validate();
+	Message("可以打开控制台查看数据");
+	console.log(data);
+};
+
+return (
+	<>
+		{node}
+		<Flex className='mt-12'>
+			<Button onClick={handleSubmit}>获取表单值</Button>
+		</Flex>
+	</>
+);`,
 };
 
 export const PForm = [

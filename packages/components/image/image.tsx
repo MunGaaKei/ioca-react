@@ -54,22 +54,22 @@ const Image = (props: IImage) => {
 	const handleClick = (e) => {
 		onClick?.(e);
 
-		previewable &&
-			src &&
-			preview({
-				items: [
-					{
-						src,
-						type: "IMAGE",
-					},
-				],
-			});
+		if (!previewable || !src) return;
+
+		preview({
+			items: [
+				{
+					src,
+					type: "IMAGE",
+				},
+			],
+		});
 	};
 
 	useEffect(() => {
 		if (!src) return;
 
-		if (!ref.current?.complete) {
+		if (!ref.current?.complete && observe && lazyload) {
 			state.status = "loading";
 		}
 
@@ -85,7 +85,7 @@ const Image = (props: IImage) => {
 		return () => {
 			ref.current && unobserve(ref.current);
 		};
-	}, [src, observe]);
+	}, [src]);
 
 	restProps[lazyload ? "data-src" : "src"] = src;
 	const iSize = state.status === "loading" ? initSize : undefined;

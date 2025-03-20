@@ -5,6 +5,7 @@ import Context from "./context";
 import Field from "./field";
 import "./index.css";
 import { IForm } from "./type";
+import useConfig from "./useConfig";
 import useForm, { IFormInstance } from "./useForm";
 
 const Form = (props: IForm) => {
@@ -88,5 +89,6 @@ const Form = (props: IForm) => {
 
 Form.useForm = useForm;
 Form.Field = Field;
+Form.useConfig = useConfig;
 
 export default Form;

@@ -281,6 +281,21 @@
 		}
 	}
 
+	@each $i in 2, 3, 4, 5 {
+		.colspan-#{$i} {
+			grid-column: span #{$i};
+		}
+		.rowspan-#{$i} {
+			grid-row: span #{$i};
+		}
+	}
+	.colspan-full {
+		grid-column: 1 / -1;
+	}
+	.rowspan-full {
+		grid-row: 1 / -1;
+	}
+
 	@media (min-width: 880px) {
 		.screen-sm {
 			display: none !important;

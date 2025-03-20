@@ -46,12 +46,13 @@ const initEvents = () => {
 	});
 };
 
-function useInitEvents() {
+function initEventsOnce() {
 	useEffect(initEvents, []);
 }
 
 export function useMouseMove(listener: TMouseEvent, options?: TEventOption) {
-	useInitEvents();
+	initEventsOnce();
+
 	useEffect(() => {
 		if (options?.disabled) return;
 
@@ -59,11 +60,12 @@ export function useMouseMove(listener: TMouseEvent, options?: TEventOption) {
 		return () => {
 			MouseMoveEvents.delete(listener);
 		};
-	}, [listener]);
+	}, []);
 }
 
 export function useMouseUp(listener: TMouseEvent, options?: TEventOption) {
-	useInitEvents();
+	initEventsOnce();
+
 	useEffect(() => {
 		if (options?.disabled) return;
 
@@ -71,11 +73,12 @@ export function useMouseUp(listener: TMouseEvent, options?: TEventOption) {
 		return () => {
 			MouseUpEvents.delete(listener);
 		};
-	}, [listener]);
+	}, []);
 }
 
 export function useKeydown(listener: TKeyboardEvent, options?: TEventOption) {
-	useInitEvents();
+	initEventsOnce();
+
 	useEffect(() => {
 		if (options?.disabled) return;
 
@@ -83,7 +86,7 @@ export function useKeydown(listener: TKeyboardEvent, options?: TEventOption) {
 		return () => {
 			KeydownEvents.delete(listener);
 		};
-	}, [listener]);
+	}, []);
 }
 
 const defaultObserver = {
