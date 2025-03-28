@@ -114,6 +114,9 @@ export default function Page() {
 					文字溢出显示省略号...
 				</Item>
 				<Item label={<code>.overflow-auto</code>}>overflow: auto;</Item>
+				<Item label={<code>.overflow-hidden</code>}>
+					overflow: hidden;
+				</Item>
 				<Item label={<code>.h-100vh</code>}>height: 100vh;</Item>
 				<Item label={<code>.bg-blur</code>}>背景模糊</Item>
 				<Item label={<code>.round</code>}>

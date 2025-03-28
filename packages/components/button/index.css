@@ -1,5 +1,5 @@
 .i-btn {
-	--gap: 0.5em;
+	--gap: 0.25em;
 	--background: var(--color-main);
 	--background-hover: var(--color-main-1);
 	--color: var(--color-main-reverse);

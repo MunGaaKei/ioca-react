@@ -3,39 +3,25 @@ import { PInputCommon, PValidateCommon } from "../components/common";
 
 export const DBasic = {
 	demo: () => {
-		return (
-			<Input
-				placeholder='Input'
-				style={{ width: 200 }}
-				initValue='Hello'
-			/>
-		);
+		return <Input placeholder='Input' width={240} initValue='Hello' />;
 	},
-	code: `<Input placeholder='Input' style={{ width: 200 }} initValue='Hello' />`,
+	code: `<Input placeholder='Input' width={240} initValue='Hello' />`,
 	lang: "xml",
 };
 
 export const DNumber = {
 	demo: () => {
-		return (
-			<Input.Number
-				placeholder='Number'
-				style={{ width: 160 }}
-				thousand=','
-			/>
-		);
+		return <Input.Number placeholder='Number' width={160} thousand=',' />;
 	},
-	code: `<Input placeholder='Input' style={{ width: 160 }} thousand=',' />`,
+	code: `<Input placeholder='Input' width={160} thousand=',' />`,
 	lang: "xml",
 };
 
 export const DRange = {
 	demo: () => {
-		return (
-			<Input.Range placeholder={["min", "max"]} style={{ width: 240 }} />
-		);
+		return <Input.Range placeholder={["min", "max"]} width={240} />;
 	},
-	code: `<Input.Range placeholder={["min", "max"]} style={{ width: 240 }} />`,
+	code: `<Input.Range placeholder={["min", "max"]} width={240} />`,
 	lang: "xml",
 };
 
@@ -179,6 +165,12 @@ export const PInputRange = [
 		name: "precision",
 		desc: "精度",
 		type: ["number"],
+	},
+	{
+		name: "autoSwitch",
+		desc: "失焦后，自动根据两者大小排序",
+		type: ["boolean"],
+		def: "false",
 	},
 ];
 

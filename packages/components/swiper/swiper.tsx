@@ -337,7 +337,7 @@ const Swiper = ((props: ISwiper) => {
 					})}
 				</div>
 
-				{arrow && (
+				{arrow && size > 1 && (
 					<>
 						{(loop || state.current !== 0) && (
 							<a

@@ -26,6 +26,7 @@ const Input = ((props: IInput) => {
 		message,
 		tip,
 		clear,
+		width,
 		hideVisible,
 		border,
 		required,
@@ -96,7 +97,7 @@ const Input = ((props: IInput) => {
 			label={label}
 			labelInline={labelInline}
 			className={className}
-			style={style}
+			style={{ width, ...style }}
 			tip={message ?? tip}
 			status={status}
 			required={required}

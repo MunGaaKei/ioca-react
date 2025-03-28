@@ -21,7 +21,7 @@ export interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
 	keepDOM?: boolean;
 	disableEsc?: boolean;
 	onVisibleChange?: (visible: boolean) => void;
-	onOk?: () => void | Promise<any>;
+	onOk?: () => (void | boolean) | Promise<any>;
 	onClose?: () => void;
 }
 

@@ -12,6 +12,7 @@ interface IEditor extends Omit<HTMLAttributes<HTMLDivElement>, "onInput"> {
     onInput?: (html: string, e: FormEvent<HTMLDivElement>) => void;
 }
 interface RefEditor {
+    input: HTMLDivElement | null;
     getSafeValue: () => string;
     setValue: (html: string) => void;
 }

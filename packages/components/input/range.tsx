@@ -25,11 +25,13 @@ const Range = (props: IInputRange) => {
 		append,
 		prepend,
 		step = 1,
+		width,
 		thousand,
 		precision,
 		hideControl,
 		placeholder,
 		border,
+		autoSwitch,
 		onChange,
 		onBlur,
 		style,
@@ -55,10 +57,9 @@ const Range = (props: IInputRange) => {
 	const handleChange = (e: ChangeEvent<HTMLInputElement>, i: number) => {
 		const { value } = e.target;
 		const v = formatInputValue(value.replace(/[^\d\.-]/g, ""));
-
 		const range = Array.isArray(state.value) ? state.value : [];
-		range[i] = +v;
 
+		range[i] = v;
 		state.value = range;
 		onChange?.(range, e);
 	};
@@ -81,9 +82,9 @@ const Range = (props: IInputRange) => {
 		onChange?.(range, e);
 	};
 
-	const handleSwitch = (e: MouseEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
+	const handleSwitch = (e?: MouseEvent) => {
+		e?.preventDefault();
+		e?.stopPropagation();
 		const range = state.value ? state.value : [];
 		const v = range[0];
 		range[0] = range[1];
@@ -103,12 +104,24 @@ const Range = (props: IInputRange) => {
 		...restProps,
 	};
 
+	const handleBlur = () => {
+		const range = Array.isArray(state.value) ? state.value : [];
+
+		if (range.length < 2) return;
+
+		const l = +range[0];
+		const r = +range[1];
+
+		if (l <= r) return;
+		handleSwitch();
+	};
+
 	return (
 		<InputContainer
 			label={label}
 			labelInline={labelInline}
 			className={className}
-			style={style}
+			style={{ width, ...style }}
 			tip={message ?? tip}
 			status={status}
 		>
@@ -132,6 +145,7 @@ const Range = (props: IInputRange) => {
 					value={state.value?.[0] || ""}
 					placeholder={placeholder?.[0]}
 					{...inputProps}
+					onBlur={handleBlur}
 					onChange={(e) => handleChange(e, 0)}
 				/>
 
@@ -160,6 +174,7 @@ const Range = (props: IInputRange) => {
 					value={state.value?.[1] || ""}
 					placeholder={placeholder?.[1]}
 					{...inputProps}
+					onBlur={handleBlur}
 					onChange={(e) => handleChange(e, 1)}
 				/>
 

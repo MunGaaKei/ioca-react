@@ -12,6 +12,7 @@ interface IInput extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, 
 interface ITextarea extends Omit<BaseInput, "ref">, Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "defaultValue" | "onChange"> {
     ref?: RefObject<HTMLTextAreaElement | null>;
     autoSize?: boolean;
+    width?: string | number;
 }
 interface IInputNumber extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "defaultValue"> {
     value?: string | number;
@@ -35,6 +36,7 @@ interface IInputRange extends Omit<BaseInput, "value" | "onChange">, Omit<InputH
     thousand?: string;
     precision?: number;
     hideControl?: boolean;
+    autoSwitch?: boolean;
     onChange?: (value: (number | string | undefined)[], e?: ChangeEvent<HTMLInputElement> | MouseEvent<Element>) => void;
 }
 type CompositionInput = ForwardRefExoticComponent<IInput> & {

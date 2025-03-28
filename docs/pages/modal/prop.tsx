@@ -261,7 +261,7 @@ export const PModal = [
 	{
 		name: "onOk",
 		desc: "点击确定按钮回调",
-		type: ["() => Promise<void> | void"],
+		type: ["() => Promise<void> | void | boolean"],
 		event: true,
 	},
 	{

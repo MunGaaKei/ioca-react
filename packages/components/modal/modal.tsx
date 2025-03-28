@@ -25,7 +25,7 @@ function DefaultContent(props: IModalContent) {
 	const handleOk = async () => {
 		const ret = await onOk?.();
 
-		if (ret) return;
+		if (ret === false) return;
 
 		onClose?.();
 	};

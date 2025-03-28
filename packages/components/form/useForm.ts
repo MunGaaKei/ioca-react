@@ -67,6 +67,7 @@ export class IFormInstance {
 			if (typeof o === "function") {
 				rule.validator = o;
 			} else if (o === true) {
+				rule.validator = (v) => ![undefined, null, ""].includes(v);
 				rule.message = "required";
 			} else {
 				Object.assign(rule, o);
@@ -103,6 +104,7 @@ export class IFormInstance {
 			if (typeof o === "function") {
 				rule.validator = o;
 			} else if (o === true) {
+				rule.validator = (v) => ![undefined, null, ""].includes(v);
 				rule.message = "required";
 			} else {
 				Object.assign(rule, o);

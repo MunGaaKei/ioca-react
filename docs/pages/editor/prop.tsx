@@ -111,6 +111,8 @@ export const PEditor = [
 
 export const PRef = `interface RefEditor {
 
+	input: HTMLDivElement | null;
+
 	getSafeValue: () => string;
 
 	setValue: (html: string) => void;

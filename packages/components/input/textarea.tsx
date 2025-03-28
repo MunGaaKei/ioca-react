@@ -19,6 +19,7 @@ const Textarea = (props: ITextarea) => {
 		tip,
 		autoSize,
 		border,
+		width,
 		style,
 		onChange,
 		onEnter,
@@ -71,7 +72,7 @@ const Textarea = (props: ITextarea) => {
 			label={label}
 			labelInline={labelInline}
 			className={className}
-			style={style}
+			style={{ width, ...style }}
 			tip={message ?? tip}
 			status={status}
 		>

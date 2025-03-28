@@ -23,6 +23,7 @@ const Number = (props: IInputNumber) => {
 		precision,
 		type,
 		className,
+		width,
 		status = "normal",
 		append,
 		border,
@@ -89,7 +90,7 @@ const Number = (props: IInputNumber) => {
 			label={label}
 			labelInline={labelInline}
 			className={className}
-			style={style}
+			style={{ width, ...style }}
 			tip={message ?? tip}
 			status={status}
 		>

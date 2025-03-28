@@ -44,6 +44,7 @@ export interface ITextarea
 		> {
 	ref?: RefObject<HTMLTextAreaElement | null>;
 	autoSize?: boolean;
+	width?: string | number;
 }
 
 export interface IInputNumber
@@ -79,6 +80,7 @@ export interface IInputRange
 	thousand?: string;
 	precision?: number;
 	hideControl?: boolean;
+	autoSwitch?: boolean;
 	onChange?: (
 		value: (number | string | undefined)[],
 		e?: ChangeEvent<HTMLInputElement> | MouseEvent<Element>

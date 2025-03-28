@@ -13,6 +13,25 @@
 	}
 }
 
+.g-logo {
+	position: relative;
+	height: 120px;
+	width: 120px;
+	background: var(--black);
+	border-radius: 12px;
+	color: var(--white);
+	line-height: 60px;
+	overflow: hidden;
+}
+.g-logo-text {
+	position: absolute;
+	top: 0;
+	left: 10%;
+	font-size: 80px;
+	font-weight: 900;
+	font-family: jaini;
+}
+
 .home-start {
 	position: relative;
 	white-space: nowrap;
@@ -20,9 +39,9 @@
 		content: "\20";
 		position: absolute;
 		z-index: -1;
-		left: -0.25em;
 		bottom: 4px;
-		right: -0.25em;
+		left: 40%;
+		right: 40%;
 		height: 1em;
 		border-radius: 4px;
 		background-color: var(--color-8);
@@ -32,6 +51,8 @@
 	}
 	&:hover:before {
 		opacity: 1;
-		transform: rotate(-12deg);
+		left: -0.25em;
+		right: -0.25em;
+		transform: rotate(-12deg) skewX(12deg);
 	}
 }

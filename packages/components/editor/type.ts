@@ -14,6 +14,7 @@ export interface IEditor
 }
 
 export interface RefEditor {
+	input: HTMLDivElement | null;
 	getSafeValue: () => string;
 	setValue: (html: string) => void;
 }

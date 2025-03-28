@@ -68,6 +68,7 @@ const Editor = (props: IEditor) => {
 
 	useImperativeHandle(ref, () => {
 		return {
+			input: editorRef.current,
 			setValue(html) {
 				if (!editorRef.current) return;
 				const safeHtml = xss(html, xssOptions);
