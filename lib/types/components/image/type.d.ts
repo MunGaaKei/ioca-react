@@ -1,18 +1,23 @@
 import { FC, HTMLAttributes, ReactNode } from 'react';
+import { TPreviewItem } from '../../js/usePreview/type.js';
 import List from './list.js';
 
 interface IImage extends HTMLAttributes<HTMLImageElement> {
     src?: string;
+    thumb?: string;
     alt?: string;
     round?: boolean;
     size?: string | number;
     initSize?: string | number;
+    width?: string | number;
+    height?: string | number;
     lazyload?: boolean;
     fallback?: ReactNode;
     fit?: any;
+    ratio?: number;
     cover?: ReactNode;
     coverClass?: string;
-    usePreview?: boolean;
+    usePreview?: boolean | TPreviewItem;
 }
 interface IImageList extends Omit<IImage, "src" | "alt"> {
     items: string[] | IImage[];

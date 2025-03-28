@@ -62,7 +62,6 @@ export default function List(props: IImageList) {
 					<Image
 						key={i}
 						src={img.src}
-						size={60}
 						usePreview={false}
 						onClick={(e) => handleClick(e, i)}
 						{...restProps}

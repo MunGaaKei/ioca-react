@@ -13,8 +13,12 @@ import type { CompositionImage, IImage } from "./type";
 const Image = (props: IImage) => {
 	const {
 		src,
+		thumb,
 		round,
 		size,
+		height,
+		width,
+		ratio,
 		initSize,
 		lazyload,
 		fallback = (
@@ -87,14 +91,15 @@ const Image = (props: IImage) => {
 		};
 	}, [src]);
 
-	restProps[lazyload ? "data-src" : "src"] = src;
+	restProps[lazyload ? "data-src" : "src"] = thumb ?? src;
 	const iSize = state.status === "loading" ? initSize : undefined;
 
 	return (
 		<div
 			style={{
-				width: size ?? iSize,
-				height: size ?? iSize,
+				width: width ?? size ?? iSize,
+				height: height ?? size ?? iSize,
+				aspectRatio: ratio,
 				...style,
 			}}
 			className={classNames("i-image", className, {

@@ -60,6 +60,11 @@ export const PImage = [
 		type: ["number", "string"],
 	},
 	{
+		name: "ratio",
+		desc: "图片比例大小",
+		type: ["number", "string"],
+	},
+	{
 		name: "lazyload",
 		desc: "图片懒加载",
 		type: ["boolean"],

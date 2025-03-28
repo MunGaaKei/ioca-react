@@ -298,10 +298,30 @@ export function getSuffixByUrl(url: string) {
 
 export function getFileType(suffix: string, type?: string) {
 	switch (true) {
-		case ["jpg", "jpeg", "png", "webp", "svg"].includes(suffix) ||
-			type?.startsWith("image/"):
+		case [
+			"jpg",
+			"jpeg",
+			"png",
+			"webp",
+			"svg",
+			"avif",
+			"heif",
+			"heic",
+			"apng",
+			"bmp",
+			"ico",
+		].includes(suffix) || type?.startsWith("image/"):
 			return "IMAGE";
-		case ["mp4", "avi"].includes(suffix) || type?.startsWith("video/"):
+		case [
+			"mp4",
+			"avi",
+			"webm",
+			"ogv",
+			"mov",
+			"mkv",
+			"mpd",
+			"m3u8",
+		].includes(suffix) || type?.startsWith("video/"):
 			return "VIDEO";
 		default:
 			return "UNKNOWN";
