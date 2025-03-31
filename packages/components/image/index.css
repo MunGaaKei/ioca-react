@@ -1,7 +1,6 @@
 .i-image {
 	position: relative;
 	display: inline-flex;
-	margin: auto;
 	align-items: center;
 	justify-content: center;
 	align-self: center;
@@ -10,6 +9,7 @@
 	vertical-align: middle;
 	background: var(--background-opacity);
 	backdrop-filter: var(--blur);
+	flex-shrink: 0;
 	.i-loading-container {
 		z-index: 1;
 		backdrop-filter: var(--blur);

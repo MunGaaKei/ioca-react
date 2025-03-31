@@ -53,13 +53,14 @@ export const DBasic = {
 		return (
 			<Form form={form} rules={rules} width={420} onEnter={handleSubmit}>
 				<Field name='name' required>
-					<Input labelInline label='名字' />
+					<Input labelInline label='名字' maxLength={4} />
 				</Field>
 				<Field name='password' required>
 					<Input
 						type='password'
 						label='密码'
 						tip='3位数字'
+						maxLength={12}
 						append={
 							<Button
 								className='bg-blue'

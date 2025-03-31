@@ -22,7 +22,7 @@ const Popconfirm = (props: IPopconfirm) => {
 	const {
 		trigger = "click",
 		visible,
-		icon = <Icon icon={<InfoOutlined />} className='error' />,
+		icon = <Icon icon={<InfoOutlined />} className='error' size='1.2em' />,
 		content,
 		okButtonProps,
 		cancelButtonProps,
@@ -74,7 +74,7 @@ const Popconfirm = (props: IPopconfirm) => {
 
 	const popconfirmContent = (
 		<div className='i-popconfirm'>
-			<Flex gap={12}>
+			<Flex gap='.5em'>
 				{icon}
 				<div className='i-popconfirm-content'>{content}</div>
 			</Flex>

@@ -30,6 +30,7 @@ const Input = ((props: IInput) => {
 		hideVisible,
 		border,
 		required,
+		maxLength,
 		onChange,
 		onEnter,
 		style,
@@ -83,6 +84,7 @@ const Input = ((props: IInput) => {
 		type: state.type,
 		name,
 		value: state.value,
+		maxLength,
 		className: classNames("i-input", `i-input-${type}`),
 		onChange: handleChange,
 		onKeyDown: handleKeydown,
@@ -111,6 +113,12 @@ const Input = ((props: IInput) => {
 				{prepend && <div className='i-input-prepend'>{prepend}</div>}
 
 				<input {...inputProps} />
+
+				{maxLength && state.value?.length > 0 && (
+					<span className='color-8 pr-4 font-sm'>
+						{state.value.length} / {maxLength}
+					</span>
+				)}
 
 				<Helpericon
 					active={!!clearable || showHelper}
