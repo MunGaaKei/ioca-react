@@ -45,8 +45,6 @@ const Pagination = (props: IPagination) => {
 		];
 	}, [page, totalPage, sibling]);
 
-	if (totalPage <= page && page === 1) return <></>;
-
 	const handlePageChange = async (p?: number) => {
 		if (!onChange || loading) return;
 		setLoading(true);
@@ -62,10 +60,16 @@ const Pagination = (props: IPagination) => {
 
 	useEffect(() => setPage(defaultPage), [defaultPage]);
 
+	if (totalPage <= page && page === 1) return <></>;
+
 	return (
 		<div className={classNames("i-pagination", className)} {...restProps}>
 			{prev && (
-				<Page page={page - 1 || 1} onChange={handlePageChange}>
+				<Page
+					page={page - 1 || 1}
+					disabled={page === 1}
+					onChange={handlePageChange}
+				>
 					{prev}
 				</Page>
 			)}
@@ -100,7 +104,11 @@ const Pagination = (props: IPagination) => {
 			)}
 
 			{next && (
-				<Page page={page + 1} onChange={handlePageChange}>
+				<Page
+					page={page + 1}
+					disabled={page === totalPage}
+					onChange={handlePageChange}
+				>
 					{next}
 				</Page>
 			)}

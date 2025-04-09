@@ -1,4 +1,5 @@
 import { Upload } from "@p";
+import { Link } from "react-router";
 
 export const DBasic = {
 	demo: <Upload />,
@@ -83,6 +84,15 @@ export const PUpload = [
 		name: "cardSize",
 		desc: "卡片模式下，卡片大小",
 		type: ["string"],
+	},
+	{
+		name: "defaultButtonProps",
+		desc: "默认上传按钮属性",
+		type: [
+			<Link className='link' to='/docs/button#button'>
+				IButton
+			</Link>,
+		],
 	},
 	{
 		name: "renderItem",

@@ -1,5 +1,6 @@
 import { InputHTMLAttributes, RefObject, ReactNode, ChangeEvent } from 'react';
 import { BaseInput } from '../../type/index.js';
+import { IButton } from '../button/type.js';
 
 interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
     ref?: RefObject<RefUpload | null>;
@@ -13,7 +14,7 @@ interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLI
     mode?: "default" | "card";
     droppable?: boolean;
     cardSize?: string;
-    defaultText?: ReactNode;
+    defaultButtonProps?: IButton;
     shouldUpload?: (file: IFile) => boolean;
     uploader?: (file: IFile) => Promise<IFile>;
     renderItem?: (file: IFile, i: number) => ReactNode;

@@ -1,5 +1,6 @@
 import { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from "react";
 import { BaseInput } from "../../type";
+import { IButton } from "../button/type";
 
 export interface IUpload
 	extends Omit<BaseInput, "ref">,
@@ -15,7 +16,7 @@ export interface IUpload
 	mode?: "default" | "card";
 	droppable?: boolean;
 	cardSize?: string;
-	defaultText?: ReactNode;
+	defaultButtonProps?: IButton;
 	shouldUpload?: (file: IFile) => boolean;
 	uploader?: (file: IFile) => Promise<IFile>;
 	renderItem?: (file: IFile, i: number) => ReactNode;

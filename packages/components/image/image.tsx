@@ -40,7 +40,6 @@ const Image = (props: IImage) => {
 		status: "loading",
 	});
 	const ref = useRef<HTMLImageElement>(null);
-	const wh = fit ? "100%" : undefined;
 
 	const { observe, unobserve } = useIntersectionObserver();
 	const preview = usePreview();
@@ -60,7 +59,11 @@ const Image = (props: IImage) => {
 
 		if (!previewable || !src) return;
 
+		const previewConfigs =
+			typeof previewable === "boolean" ? {} : previewable;
+
 		preview({
+			...previewConfigs,
 			items: [
 				{
 					src,
@@ -71,7 +74,7 @@ const Image = (props: IImage) => {
 	};
 
 	useEffect(() => {
-		if (!src) return;
+		if (!src || typeof window === "undefined") return;
 
 		if (!ref.current?.complete && observe && lazyload) {
 			state.status = "loading";
@@ -114,7 +117,7 @@ const Image = (props: IImage) => {
 					{src && (
 						<img
 							ref={ref}
-							style={{ objectFit: fit, width: wh, height: wh }}
+							style={{ objectFit: fit }}
 							{...restProps}
 							onLoad={handleLoad}
 							onError={handleError}

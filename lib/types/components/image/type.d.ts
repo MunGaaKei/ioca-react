@@ -1,5 +1,5 @@
 import { FC, HTMLAttributes, ReactNode } from 'react';
-import { TPreviewItem } from '../../js/usePreview/type.js';
+import { IPreview } from '../../js/usePreview/type.js';
 import List from './list.js';
 
 interface IImage extends HTMLAttributes<HTMLImageElement> {
@@ -17,7 +17,7 @@ interface IImage extends HTMLAttributes<HTMLImageElement> {
     ratio?: number;
     cover?: ReactNode;
     coverClass?: string;
-    usePreview?: boolean | TPreviewItem;
+    usePreview?: boolean | IPreview;
 }
 interface IImageList extends Omit<IImage, "src" | "alt"> {
     items: string[] | IImage[];

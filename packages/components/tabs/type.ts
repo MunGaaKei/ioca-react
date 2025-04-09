@@ -7,10 +7,10 @@ import {
 } from "react";
 import TabItem from "./item";
 
-export type TTabKey = string | number;
+export type TTabKey = string;
 
 export interface ITabItem {
-	key?: TTabKey;
+	key?: string;
 	props?: any;
 	title?: ReactNode;
 	content?: ReactNode;
@@ -22,8 +22,8 @@ export interface ITabItem {
 
 export interface ITabs {
 	ref?: RefObject<RefTabs | null>;
-	active?: TTabKey;
-	tabs?: ITabItem[] | TTabKey[];
+	active?: string;
+	tabs?: ITabItem[] | string[];
 	type?: "default" | "line" | "pane";
 	prepend?: ReactNode;
 	append?: ReactNode;
@@ -37,12 +37,12 @@ export interface ITabs {
 	children?: ReactNode;
 	style?: CSSProperties;
 	renderMore?: (moreTabs: ITabItem[]) => ReactNode;
-	onTabChange?: (to?: TTabKey, from?: TTabKey) => void;
+	onTabChange?: (to?: string, from?: string) => void;
 }
 
 export interface RefTabs {
-	open: (key: TTabKey) => void;
-	close: (key: TTabKey) => void;
+	open: (key: string) => void;
+	close: (key: string) => void;
 	add: (tab: ITabItem, position?: number) => void;
 	navs: Ref<HTMLDivElement>;
 }

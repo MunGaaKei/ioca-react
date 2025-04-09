@@ -1,4 +1,4 @@
-import { PlusSharp } from "@ricons/material";
+import { DriveFolderUploadOutlined, PlusSharp } from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { uid } from "radash";
@@ -35,7 +35,7 @@ const Upload = (props: IUpload) => {
 		className,
 		style,
 		children,
-		defaultText = "Upload",
+		defaultButtonProps,
 		mode = "default",
 		cardSize = "4em",
 		disabled,
@@ -59,6 +59,16 @@ const Upload = (props: IUpload) => {
 	});
 	const inputRef = useRef<HTMLInputElement>(null);
 	const preview = usePreview();
+	const defBtnProps = Object.assign(
+		{
+			children: (
+				<>
+					<Icon icon={<DriveFolderUploadOutlined />} /> 上传
+				</>
+			),
+		},
+		defaultButtonProps
+	);
 
 	const trigger = useMemo(() => {
 		if (children) return children;
@@ -78,9 +88,14 @@ const Upload = (props: IUpload) => {
 				);
 			default:
 				return (
-					<Button className='i-upload-btn' disabled={disabled}>
-						{defaultText}
-					</Button>
+					<Button
+						{...defBtnProps}
+						className={classNames(
+							"i-upload-btn",
+							defBtnProps.className
+						)}
+						disabled={disabled}
+					/>
 				);
 		}
 	}, [mode, children]);

@@ -16,13 +16,13 @@ import Popup from "../popup";
 import Helpericon from "../utils/helpericon";
 import "./index.css";
 import TabItem from "./item";
-import { CompositionTabs, ITabItem, ITabs, TTabKey } from "./type";
+import { CompositionTabs, ITabItem, ITabs } from "./type";
 
 type TState = {
-	active?: TTabKey;
-	prevActive?: TTabKey;
+	active?: string;
+	prevActive?: string;
 	barStyle: CSSProperties;
-	cachedTabs: TTabKey[];
+	cachedTabs: string[];
 	overflow: boolean;
 	more: ITabItem[];
 	tabs: ITabItem[];
@@ -77,7 +77,7 @@ const Tabs = ((props: ITabs) => {
 
 			state.tabs = Children.map(children, (node, i) => {
 				const { key, props: nodeProps } = node as {
-					key?: TTabKey;
+					key?: string;
 					props?: any;
 				};
 				const { title, children, content, keepDOM } = nodeProps;
@@ -115,17 +115,17 @@ const Tabs = ((props: ITabs) => {
 		const i = state.tabs.findIndex((t) => t.key === key);
 
 		if (i > -1) {
-			open(state.tabs[i].key ?? i);
+			open(state.tabs[i].key ?? `${i}`);
 			return;
 		}
 
 		const l = state.tabs.length;
-		const tkey = tab.key ?? l;
+		const tkey = tab.key ?? `${l}`;
 		state.tabs.push({ ...tab, key: tkey });
 		open(tkey);
 	};
 
-	const close = (key: TTabKey) => {
+	const close = (key: string) => {
 		const i = state.tabs.findIndex((t) => t.key === key);
 
 		if (i < 0) return;
@@ -138,7 +138,7 @@ const Tabs = ((props: ITabs) => {
 		open(state.prevActive ?? next?.key ?? "");
 	};
 
-	const open = (key: TTabKey) => {
+	const open = (key: string) => {
 		if (key === state.active) {
 			if (!toggable) return;
 
@@ -273,7 +273,7 @@ const Tabs = ((props: ITabs) => {
 					)}
 				>
 					{state.tabs.map((tab, i) => {
-						const { title, key = i, closable } = tab;
+						const { title, key = `${i}`, closable } = tab;
 
 						return (
 							<a
@@ -320,7 +320,7 @@ const Tabs = ((props: ITabs) => {
 						content={
 							<div className='i-tabs-morelist pd-4'>
 								{state.more.map((tab, i) => {
-									const { key = i, title } = tab;
+									const { key = `${i}`, title } = tab;
 									const isActive = state.active === key;
 
 									return (
@@ -347,7 +347,7 @@ const Tabs = ((props: ITabs) => {
 
 			<div className='i-tab-contents'>
 				{state.tabs.map((tab, i) => {
-					const { key = i, content } = tab;
+					const { key = `${i}`, content } = tab;
 					const isActive = state.active === key;
 					const show =
 						isActive ||

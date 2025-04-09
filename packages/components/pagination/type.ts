@@ -18,5 +18,6 @@ export interface IPagination
 
 export interface IPageItem extends Pick<IPagination, "children" | "onChange"> {
 	active?: boolean;
+	disabled?: boolean;
 	page: number;
 }

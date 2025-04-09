@@ -5,6 +5,7 @@
 	background: var(--background-opacity-2);
 	backdrop-filter: var(--blur);
 	border-radius: var(--radius);
+	overflow: auto;
 }
 .i-card-bordered {
 	border: 1px solid var(--color-8);

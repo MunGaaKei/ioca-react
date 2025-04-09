@@ -24,7 +24,7 @@ export const DBasic = {
 					</>
 				}
 			>
-				<Image src={yehuimei} />
+				<Image src={yehuimei} className='roundless' />
 			</Card>
 
 			<Card
@@ -32,7 +32,7 @@ export const DBasic = {
 					<>
 						<Flex gap={8} align='center'>
 							<a>
-								<Image className='bg-red' size={24} round />
+								<Image className='bg-red' size={24} />
 							</a>
 							<h5>范特西</h5>
 						</Flex>
@@ -73,7 +73,7 @@ export const DBasic = {
 			</>
 		}
 	>
-		<Image src={yehuimei} />
+		<Image src={yehuimei} className='roundless' />
 	</Card>
 
 	<Card
@@ -81,7 +81,7 @@ export const DBasic = {
 			<>
 				<Flex gap={8} align='center'>
 					<a>
-						<Image className='bg-red' size={24} round />
+						<Image className='bg-red' size={24} />
 					</a>
 					<h5>范特西</h5>
 				</Flex>

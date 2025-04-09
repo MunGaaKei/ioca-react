@@ -76,7 +76,7 @@
 			background: transparent;
 			border-color: var(--color-8);
 			border-bottom: 1px solid var(--background);
-			box-shadow: 1px 2px 2px var(--color-8);
+			box-shadow: 1px 2px 0 1px var(--color-8);
 			&:hover {
 				background-color: transparent;
 			}

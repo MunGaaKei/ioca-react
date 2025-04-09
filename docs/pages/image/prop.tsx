@@ -31,9 +31,13 @@ export const DBasic = {
 
 export const DImageList = {
 	demo: (
-		<Image.List items={[jay, fantasy, dimensions, yehuimei]} usePreview />
+		<Image.List
+			items={[jay, fantasy, dimensions, yehuimei]}
+			size={60}
+			usePreview
+		/>
 	),
-	code: `<Image.List items={['jay.jpg', 'fantasy.jpg', 'dimensions.jpg', 'yehuimei.jpg']} usePreview />`,
+	code: `<Image.List items={['jay.jpg', 'fantasy.jpg', 'dimensions.jpg', 'yehuimei.jpg']} size={60} usePreview />`,
 	lang: "xml",
 };
 
@@ -93,7 +97,12 @@ export const PImage = [
 	{
 		name: "usePreview",
 		desc: "开启图片预览功能",
-		type: ["boolean"],
+		type: [
+			"boolean",
+			<Link className='link' to='/docs/preview'>
+				IPreview
+			</Link>,
+		],
 		def: "false",
 	},
 ];

@@ -7,9 +7,9 @@ import { useRef } from "react";
 export const DBasic = {
 	demo: () => {
 		return (
-			<Tabs active='0' toggable>
+			<Tabs active='1'>
 				{[...new Array(13).keys()].map((i) => (
-					<Tabs.Item key={i} title={`title ${i + 1}`}>
+					<Tabs.Item key={`${i}`} title={`title ${i + 1}`}>
 						<div className='pd-8'>{`content ${i + 1}`}</div>
 					</Tabs.Item>
 				))}
@@ -22,9 +22,9 @@ export const DBasic = {
 			</Tabs>
 		);
 	},
-	code: `<Tabs active='0'>
+	code: `<Tabs active='1'>
     {[...new Array(13).keys()].map((i) => (
-        <Tabs.Item key={i} title={\`title \${i + 1}\`}>
+        <Tabs.Item key={\`\${i}\`} title={\`title \${i + 1}\`}>
             <div className='pd-8'>{\`content \${i + 1}\`}</div>
         </Tabs.Item>
     ))}
@@ -117,7 +117,7 @@ export const PTabs = [
 	{
 		name: "active",
 		desc: "当前项",
-		type: ["string", "number"],
+		type: ["string"],
 	},
 	{
 		name: "type",
@@ -195,7 +195,7 @@ export const PTabItem = [
 	{
 		name: "key",
 		desc: "标签页索引",
-		type: ["string", "number"],
+		type: ["string"],
 	},
 	{
 		name: "title",

@@ -28,6 +28,7 @@ const Number = (props: IInputNumber) => {
 		append,
 		border,
 		prepend,
+		disabled,
 		message,
 		tip,
 		hideControl,
@@ -79,6 +80,7 @@ const Number = (props: IInputNumber) => {
 	const inputProps = {
 		ref,
 		name,
+		disabled,
 		value: state.value,
 		className: "i-input i-input-number",
 		onChange: handleChange,
@@ -102,7 +104,7 @@ const Number = (props: IInputNumber) => {
 			>
 				{prepend && <div className='i-input-prepend'>{prepend}</div>}
 
-				{!hideControl && (
+				{!hideControl && !disabled && (
 					<Helpericon
 						active
 						icon={<MinusRound />}
@@ -112,7 +114,7 @@ const Number = (props: IInputNumber) => {
 
 				<input {...inputProps} />
 
-				{!hideControl && (
+				{!hideControl && !disabled && (
 					<Helpericon
 						active
 						icon={<PlusRound />}
