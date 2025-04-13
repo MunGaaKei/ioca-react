@@ -74,8 +74,11 @@ export class IFormInstance {
 			}
 
 			const isValid = rule.validator?.(data[field], this);
+			if (typeof isValid === "string") {
+				rule.message = isValid;
+			}
 
-			if (!isValid) {
+			if (isValid !== true) {
 				PubSub.publish(`${id}:invalid:${field}`, {
 					message: rule.message,
 					status: "error",
@@ -111,8 +114,11 @@ export class IFormInstance {
 			}
 
 			const isValid = rule.validator?.(data[name], this);
+			if (typeof isValid === "string") {
+				rule.message = isValid;
+			}
 
-			if (!isValid) {
+			if (isValid !== true) {
 				PubSub.publish(`${id}:invalid:${name}`, {
 					message: rule.message,
 					status: "error",

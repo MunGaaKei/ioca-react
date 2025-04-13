@@ -2,6 +2,7 @@ import classnames from "classnames";
 import { MouseEvent, createElement, useEffect } from "react";
 import useRipple from "../../js/useRipple";
 import Loading from "../loading";
+import Confirm from "./confirm";
 import Group from "./group";
 import "./index.css";
 import Toggle from "./toggle";
@@ -107,6 +108,7 @@ const Button = (props: IButton) => {
 };
 
 Button.Toggle = Toggle;
+Button.Confirm = Confirm;
 Button.Group = Group;
 
 export default Button as CompositionButton;

@@ -5,9 +5,11 @@ import Demo from "../components/demo";
 import {
 	DBasic,
 	DColor,
+	DConfirm,
 	DGroup,
 	DToggle,
 	PButton,
+	PButtonConfirm,
 	PButtonGroup,
 	PButtonToggle,
 } from "./prop";
@@ -34,6 +36,11 @@ export default function button() {
 			<Demo source={DToggle} inline />
 
 			<h3 className='mt-80 mb-20'>
+				<span className='color-5'>Button.</span>Confirm
+			</h3>
+			<Demo source={DConfirm} />
+
+			<h3 className='mt-80 mb-20'>
 				<span className='color-5'>Button.</span>Group
 			</h3>
 			<Demo source={DGroup} />
@@ -58,6 +65,20 @@ export default function button() {
 				</Flex>
 			</h4>
 			<Api apis={PButtonToggle} className='mb-40' />
+
+			<h4 id='button-confirm' className='mb-20'>
+				<Flex gap={12}>
+					<span className='blue'>
+						<span className='opacity-5'>Button.</span>Confirm
+					</span>
+
+					<span className='color-5'>extends</span>
+					<a href='#button' className='blue'>
+						Button
+					</a>
+				</Flex>
+			</h4>
+			<Api apis={PButtonConfirm} className='mb-40' />
 
 			<h4 id='button-group' className='mb-20'>
 				<Flex gap={12}>

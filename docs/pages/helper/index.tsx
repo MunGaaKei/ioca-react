@@ -149,6 +149,14 @@ export default function Page() {
 					鼠标移入时
 					<span className='round-0 hover-opacity'>透明度</span>变1
 				</Item>
+				<Item
+					label={<code>.hover-parent</code>}
+					className='hover-parent'
+				>
+					鼠标移入<code>.hover-parent</code>父类时，子类
+					<code>.hover-children</code>
+					<span className='hover-children'>透明度</span>变1
+				</Item>
 				<Item label={<code>.kbd</code>}>
 					<kbd>kbd键样式</kbd>
 				</Item>

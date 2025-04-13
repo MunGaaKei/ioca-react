@@ -1,3 +1,7 @@
 .i-popconfirm {
-	padding: 12px;
+	padding: 1rem;
+}
+
+.i-popconfirm-footer {
+	margin-top: 1rem;
 }

@@ -3,9 +3,9 @@ import { PInputCommon, PValidateCommon } from "../components/common";
 
 export const DBasic = {
 	demo: () => {
-		return <Input placeholder='Input' width={240} initValue='Hello' />;
+		return <Input placeholder='Input' width={240} />;
 	},
-	code: `<Input placeholder='Input' width={240} initValue='Hello' />`,
+	code: `<Input placeholder='Input' width={240} />`,
 	lang: "xml",
 };
 
@@ -54,11 +54,6 @@ export const PInput = [
 		desc: "输入框类型",
 		type: ["HTMLInputElement.type"],
 	},
-	{
-		name: "initValue",
-		desc: "初始值",
-		type: ["string"],
-	},
 	...PInputCommon,
 	{
 		name: "clear",
@@ -71,6 +66,12 @@ export const PInput = [
 		desc: "显示边框",
 		type: ["boolean"],
 		def: "true",
+	},
+	{
+		name: "underline",
+		desc: "输入框为下划线样式",
+		type: ["boolean"],
+		def: "false",
 	},
 	...PValidateCommon,
 	{

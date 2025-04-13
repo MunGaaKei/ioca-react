@@ -16,8 +16,7 @@ const Input = ((props: IInput) => {
 		type = "text",
 		label,
 		name,
-		value = props.initValue ?? "",
-		initValue = "",
+		value = "",
 		prepend,
 		append,
 		labelInline,
@@ -29,6 +28,7 @@ const Input = ((props: IInput) => {
 		width,
 		hideVisible,
 		border,
+		underline,
 		required,
 		maxLength,
 		onChange,
@@ -108,6 +108,7 @@ const Input = ((props: IInput) => {
 				className={classNames("i-input-item", {
 					[`i-input-${status}`]: status !== "normal",
 					"i-input-borderless": !border,
+					"i-input-underline": underline,
 				})}
 			>
 				{prepend && <div className='i-input-prepend'>{prepend}</div>}

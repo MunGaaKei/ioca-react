@@ -5,6 +5,7 @@ import {
 	LightModeTwotone,
 	NightlightTwotone,
 } from "@ricons/material";
+import { sleep } from "radash";
 import { useRef } from "react";
 
 export const DBasic = {
@@ -129,6 +130,23 @@ export const DToggle = {
 		Red
 	</Button.Toggle>
 </Flex>`,
+	lang: "xml",
+};
+
+export const DConfirm = {
+	demo: () => {
+		const handleDelete = async () => {
+			await sleep(1000);
+			return true;
+		};
+
+		return (
+			<Button.Confirm className='bg-error' onOk={handleDelete}>
+				删除
+			</Button.Confirm>
+		);
+	},
+	code: ``,
 	lang: "xml",
 };
 
@@ -281,6 +299,37 @@ export const PButtonToggle = [
 		desc: "状态切换时触发",
 		type: ["(active: boolean) => void"],
 		event: true,
+	},
+];
+
+export const PButtonConfirm = [
+	{
+		name: "okButtonProps",
+		desc: "确定按钮属性",
+		type: [
+			<a className='link' href='#button'>
+				IButton
+			</a>,
+		],
+	},
+	{
+		name: "cancelButtonProps",
+		desc: "取消按钮属性",
+		type: [
+			<a className='link' href='#button'>
+				IButton
+			</a>,
+		],
+	},
+	{
+		name: "onOk",
+		desc: "确定按钮回调",
+		type: ["() => void | boolean | Promise<void | boolean>"],
+	},
+	{
+		name: "onCancel",
+		desc: "取消按钮回调",
+		type: ["() => void"],
 	},
 ];
 

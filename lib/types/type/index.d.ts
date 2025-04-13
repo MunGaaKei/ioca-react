@@ -15,10 +15,10 @@ interface BaseInput extends TValidate {
     label?: ReactNode;
     ref?: RefObject<HTMLInputElement | null>;
     value?: any;
-    initValue?: any;
     labelInline?: boolean;
     clear?: boolean;
     border?: boolean;
+    underline?: boolean;
     tip?: ReactNode;
     onChange?: (value: any, e?: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     onEnter?: (e: KeyboardEvent) => void;

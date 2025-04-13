@@ -35,9 +35,11 @@ function Modal(props: IModal) {
 		onOk,
 		...restProps
 	} = props;
+
 	const [show, setShow] = useState(visible);
 	const [active, setActive] = useState(false);
 	const [bounced, setBounced] = useState(false);
+	const [client, setClient] = useState(false);
 	const toggable = useRef(true);
 
 	const handleShow = async () => {
@@ -46,11 +48,13 @@ function Modal(props: IModal) {
 		(!keepDOM || !show) && setShow(true);
 		toggable.current = false;
 
-		setTimeout(() => {
+		const timer = setTimeout(() => {
 			setActive(true);
 			onVisibleChange?.(true);
 			toggable.current = true;
 		}, 24);
+
+		return () => clearTimeout(timer);
 	};
 
 	const handleHide = () => {
@@ -59,23 +63,25 @@ function Modal(props: IModal) {
 
 		if (!closable) {
 			setBounced(true);
-			setTimeout(() => {
+			const timer = setTimeout(() => {
 				setBounced(false);
 				toggable.current = true;
 			}, 400);
-			return;
+			return () => clearTimeout(timer);
 		}
 
 		setActive(false);
-		setTimeout(() => {
+		const timer = setTimeout(() => {
 			!keepDOM && setShow(false);
 			toggable.current = true;
 			onVisibleChange?.(false);
 			onClose?.();
 		}, 240);
+
+		return () => clearTimeout(timer);
 	};
 
-	const handleBackdropClick = function () {
+	const handleBackdropClick = () => {
 		backdropClosable && handleHide();
 	};
 
@@ -91,12 +97,16 @@ function Modal(props: IModal) {
 		visible ? handleShow() : handleHide();
 	}, [visible]);
 
+	useEffect(() => {
+		setClient(true);
+	}, []);
+
 	const handleClick = () => {
 		if (typeof document === "undefined") return;
 		document.documentElement.click();
 	};
 
-	if (!show) return null;
+	if (!show || !client) return null;
 
 	return createPortal(
 		<div
@@ -112,6 +122,8 @@ function Modal(props: IModal) {
 			)}
 			style={style}
 			onClick={handleBackdropClick}
+			aria-modal='true'
+			aria-hidden={!active}
 		>
 			<div
 				className={classNames("i-modal", {
@@ -127,6 +139,8 @@ function Modal(props: IModal) {
 					handleClick();
 					onClick?.(e);
 				}}
+				role='dialog'
+				aria-labelledby={title ? "modal-title" : undefined}
 				{...restProps}
 			>
 				{customized && children}

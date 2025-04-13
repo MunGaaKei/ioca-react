@@ -1,6 +1,6 @@
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import "../../css/input.css";
 import { useMouseMove, useMouseUp } from "../../js/hooks";
 import Circle from "./circle";
@@ -39,13 +39,13 @@ const Progress = (props: IProgress) => {
 	const rectTL = vertical ? "top" : "left";
 	const rectWH = vertical ? "height" : "width";
 
-	const toFixedValue = useMemo(() => {
+	const getFixedValue = () => {
 		let value = +state.value.toFixed(precision);
 		value = Math.min(100, value);
 		value = Math.max(0, value);
 
 		return value;
-	}, [state.value, precision]);
+	};
 
 	const handleMouseDown = (e) => {
 		if (!ref.current || !draggable) return;
@@ -86,7 +86,7 @@ const Progress = (props: IProgress) => {
 	const handleMouseUp = () => {
 		if (!state.dragging || !draggable) return;
 
-		onChange?.(toFixedValue);
+		onChange?.(getFixedValue());
 		state.dragging = false;
 		onDraggingChange?.(false);
 	};

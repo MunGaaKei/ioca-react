@@ -12,8 +12,7 @@ const Range = (props: IInputRange) => {
 	const {
 		label,
 		name,
-		value = props.initValue ?? "",
-		initValue,
+		value,
 		labelInline,
 		min = -Infinity,
 		max = Infinity,
@@ -86,9 +85,7 @@ const Range = (props: IInputRange) => {
 		e?.preventDefault();
 		e?.stopPropagation();
 		const range = state.value ? state.value : [];
-		const v = range[0];
-		range[0] = range[1];
-		range[1] = v;
+		[range[0], range[1]] = [range[1], range[0]];
 
 		state.value = range;
 		onChange?.(range);
@@ -105,15 +102,15 @@ const Range = (props: IInputRange) => {
 	};
 
 	const handleBlur = () => {
+		if (!autoSwitch) return;
 		const range = Array.isArray(state.value) ? state.value : [];
 
 		if (range.length < 2) return;
 
-		const l = +range[0];
-		const r = +range[1];
-
-		if (l <= r) return;
-		handleSwitch();
+		const [left, right] = range.map(Number);
+		if (left > right) {
+			handleSwitch();
+		}
 	};
 
 	return (

@@ -188,6 +188,17 @@
 			opacity: 1;
 		}
 	}
+	.hover-children {
+		opacity: 0;
+		transform: var(--transition);
+	}
+	.hover-parent {
+		&:hover {
+			.hover-children {
+				opacity: 1;
+			}
+		}
+	}
 	.bg-transparent {
 		background: transparent;
 	}

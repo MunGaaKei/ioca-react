@@ -79,11 +79,7 @@ const Popconfirm = (props: IPopconfirm) => {
 				<div className='i-popconfirm-content'>{content}</div>
 			</Flex>
 
-			<Flex
-				gap={12}
-				justify='flex-end'
-				className='mt-8 i-popconfirm-footer'
-			>
+			<Flex gap={12} justify='flex-end' className='i-popconfirm-footer'>
 				{cancelButtonProps !== null && (
 					<Button {...cancel} onClick={handleCancel} />
 				)}

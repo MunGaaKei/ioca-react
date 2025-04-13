@@ -1,7 +1,7 @@
 import { useGlobalValues } from "@d/config/context";
 import { Button, Drawer, Icon, Popup, Text } from "@p";
 import {
-	BugReportOutlined,
+	BugReportTwotone,
 	LightModeTwotone,
 	MenuRound,
 	NightlightTwotone,
@@ -97,7 +97,7 @@ export default function Sider(props) {
 				href='https://github.com/MunGaaKei/ioca-react/issues/new'
 				target='_blank'
 			>
-				<Icon icon={<BugReportOutlined />} size='1.8em' />
+				<Icon icon={<BugReportTwotone />} size='1.8em' />
 			</Button>
 
 			{/* <Button square flat>

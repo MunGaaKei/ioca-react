@@ -11,6 +11,7 @@ export const DBasic = {
 				<Drawer
 					visible={visible}
 					header={<h5>止战之殇</h5>}
+					keepDOM
 					onVisibleChange={setVisible}
 				>
 					<div

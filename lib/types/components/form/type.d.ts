@@ -1,7 +1,7 @@
 import { HTMLAttributes, ReactNode } from 'react';
 import { IFormInstance } from './useForm.js';
 
-type TValidator = (value: any, form: IFormInstance) => boolean;
+type TValidator = (value: any, form: IFormInstance) => boolean | string;
 type TRule = {
     validator: TValidator;
     message?: string;

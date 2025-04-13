@@ -152,15 +152,16 @@
 		align-items: center;
 		white-space: nowrap;
 		border-radius: 2em;
-		border: 1px solid var(--color-9);
+		border: 1.5px solid var(--color-9);
 	}
 	&:hover + .i-checkbox-text {
 		background-color: var(--color-9);
 		border-color: var(--color-8);
 	}
 	&:checked + .i-checkbox-text {
-		background-color: var(--color-main);
-		color: var(--color-main-reverse);
+		background-color: var(--color-main-0);
+		color: var(--color-main);
+		border-color: var(--color-main);
 	}
 }
 .i-checkbox-partof {

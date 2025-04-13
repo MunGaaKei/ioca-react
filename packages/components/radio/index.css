@@ -99,16 +99,15 @@
 		line-height: 1.8;
 		font-size: 0.94em;
 		white-space: nowrap;
-		border: 1px solid var(--color-9);
+		border: 1.5px solid var(--color-9);
 		&:hover {
-			background: var(--color-main-0);
+			background-color: var(--color-main-0);
 			border-color: var(--color-8);
 		}
 	}
 	&:checked + .i-radio-text {
-		background: var(--color-main);
-		color: var(--color-main-reverse);
-		box-shadow: 0 0 2px var(--dim);
+		background: var(--color-main-0);
+		color: var(--color-main);
 		border-color: var(--color-main);
 	}
 }

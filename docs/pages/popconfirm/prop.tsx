@@ -12,7 +12,7 @@ export const DBasic = {
 				content={
 					<>
 						<h5>警告</h5>
-						<p className='my-12 color-5'>描述</p>
+						<p className='my-12 color-5 font-sm'>一段警告描述</p>
 						<Input value={value} onChange={setValue} />
 					</>
 				}
@@ -42,7 +42,7 @@ return (
 		content={
 			<>
 				<h5>警告</h5>
-				<p className='my-12 color-5'>描述</p>
+				<p className='my-12 color-5 font-sm'>一段警告描述</p>
 				<Input
 					value={value}
 					onChange={setValue}
