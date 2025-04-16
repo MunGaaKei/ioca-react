@@ -1,3 +1,6 @@
+.i-datepicker-label {
+	position: unset;
+}
 .i-datepicker {
 	padding: 8px;
 	.i-datepicker-item {
@@ -77,7 +80,7 @@
 }
 
 .i-datepicker-icon {
-	margin-right: 0.25em;
+	margin-right: 0.4em;
 	opacity: 0.5;
 	pointer-events: none;
 }

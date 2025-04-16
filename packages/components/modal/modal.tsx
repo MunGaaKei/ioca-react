@@ -39,7 +39,7 @@ function Modal(props: IModal) {
 	const [show, setShow] = useState(visible);
 	const [active, setActive] = useState(false);
 	const [bounced, setBounced] = useState(false);
-	const [client, setClient] = useState(false);
+	const [mounted, setMounted] = useState(false);
 	const toggable = useRef(true);
 
 	const handleShow = async () => {
@@ -98,7 +98,7 @@ function Modal(props: IModal) {
 	}, [visible]);
 
 	useEffect(() => {
-		setClient(true);
+		setMounted(true);
 	}, []);
 
 	const handleClick = () => {
@@ -106,7 +106,7 @@ function Modal(props: IModal) {
 		document.documentElement.click();
 	};
 
-	if (!show || !client) return null;
+	if (!show || !mounted) return null;
 
 	return createPortal(
 		<div

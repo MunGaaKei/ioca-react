@@ -146,8 +146,17 @@ export const DConfirm = {
 			</Button.Confirm>
 		);
 	},
-	code: ``,
-	lang: "xml",
+	code: `const handleDelete = async () => {
+	await sleep(1000);
+	return true;
+};
+
+return (
+	<Button.Confirm className='bg-error' onOk={handleDelete}>
+		删除
+	</Button.Confirm>
+);`,
+	lang: "javascript",
 };
 
 export const DGroup = {

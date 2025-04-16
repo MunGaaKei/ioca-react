@@ -7,10 +7,10 @@ import type { IModal, RefHookModal } from "./type";
 const HookModal = (
 	props: IModal & { ref?: RefObject<RefHookModal | null> }
 ) => {
-	const { ref } = props;
+	const { ref, ...restProps } = props;
 	const state = useReactive<IModal>({});
 
-	const mergedProps = Object.assign({}, props, state);
+	const mergedProps = Object.assign({}, restProps, state);
 
 	useImperativeHandle(ref, () => ({
 		update: (config: IModal = {}) => {

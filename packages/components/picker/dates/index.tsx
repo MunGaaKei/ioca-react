@@ -1,5 +1,6 @@
 import { CalendarMonthTwotone } from "@ricons/material";
 import { useReactive } from "ahooks";
+import classNames from "classnames";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js";
 import { useEffect, useMemo, useState } from "react";
@@ -22,6 +23,7 @@ const Datepicker = (props: IDatePicker) => {
 		weeks,
 		format = FORMAT,
 		placeholder = props.format ?? FORMAT,
+		className,
 		renderDate,
 		renderMonth,
 		renderYear,
@@ -120,6 +122,7 @@ const Datepicker = (props: IDatePicker) => {
 				onChange={handleChange}
 				onBlur={handleBlur}
 				onEnter={handleSetDate}
+				className={classNames("i-datepicker-label", className)}
 				{...restProps}
 			/>
 		</Popup>

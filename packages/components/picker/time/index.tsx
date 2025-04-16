@@ -1,5 +1,6 @@
 import { AccessTimeRound } from "@ricons/material";
 import { useReactive } from "ahooks";
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import Icon from "../../icon";
 import Input from "../../input";
@@ -16,6 +17,7 @@ export default function TimePicker(props: ITimePicker) {
 		format = FORMAT,
 		periods,
 		placeholder = props.format ?? FORMAT,
+		className,
 		renderItem,
 		onChange,
 		onBlur,
@@ -90,6 +92,7 @@ export default function TimePicker(props: ITimePicker) {
 				}
 				onChange={handleChange}
 				onBlur={handleBlur}
+				className={classNames("i-timepicker-label", className)}
 				{...restProps}
 			/>
 		</Popup>
