@@ -20,11 +20,11 @@ export const DBasic = {
 					onClose={() => setVisible(false)}
 				>
 					<div className='px-12'>
-						Lorem ipsum dolor sit amet, consectetur adipisicing
-						elit. Accusamus harum facilis deserunt. Ut molestiae
-						nulla laborum doloribus ratione est perferendis
-						laboriosam omnis nesciunt fuga sequi odio suscipit
-						alias, modi ipsum.
+						Lorem ipsum, dolor sit amet consectetur adipisicing
+						elit. Quidem dicta impedit, suscipit dignissimos
+						corporis illum repellendus labore aperiam nisi. Itaque
+						cum sit error ab. Libero deleniti eligendi nobis
+						perspiciatis maxime?
 					</div>
 				</Modal>
 			</>

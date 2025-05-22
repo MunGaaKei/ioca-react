@@ -47,6 +47,7 @@
 
 .i-modal-header,
 .i-modal-footer {
+	position: relative;
 	display: flex;
 	align-items: center;
 	padding: 12px;
@@ -60,9 +61,9 @@
 }
 
 .i-modal-content {
+	overflow-x: hidden;
 	flex: 1;
 	max-height: 100%;
-	overflow-x: hidden;
 }
 
 .i-modal {

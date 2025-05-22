@@ -33,6 +33,10 @@
 		opacity: 1;
 	}
 	&.i-timepicker-item-active {
+		position: sticky;
+		top: 0;
+		bottom: 0;
+		z-index: 1;
 		background: var(--color-main);
 		color: var(--color-main-reverse);
 		opacity: 1;

@@ -2,18 +2,29 @@ import { useGlobalValues } from "@/docs/config/context";
 import { version } from "@/package.json";
 import { Button, Flex, Icon, Image, Text } from "@p";
 import { LightModeTwotone, NightlightTwotone } from "@ricons/material";
+import { useEffect } from "react";
 import { Link } from "react-router";
 import "./index.css";
+import logoReverse from "/logo-reverse.png";
 import logo from "/logo.png";
 
 export default function Home() {
 	const global = useGlobalValues();
+	const themeDark = global.theme === "theme-dark";
 	const gradient = [
 		"30deg",
 		"var(--color-1)",
 		"var(--color-2)",
 		"var(--color-6)",
 	];
+
+	useEffect(() => {
+		const ico = document.getElementById("ico");
+
+		if (ico && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+			ico.setAttribute("href", logoReverse);
+		}
+	}, [themeDark]);
 
 	return (
 		<Flex className='h-100vh justify-evenly'>
@@ -23,7 +34,7 @@ export default function Home() {
 				className='absolute'
 				style={{ right: 12, top: 12 }}
 				after={<Icon icon={<NightlightTwotone />} />}
-				active={global.theme === "theme-dark"}
+				active={themeDark}
 				onToggle={(v) =>
 					global.update("theme", v ? "theme-dark" : "theme-none")
 				}
@@ -32,12 +43,11 @@ export default function Home() {
 			</Button.Toggle>
 
 			<div className='self-center'>
-				<Image src={logo} size={100} className='home-logo' />
-				{/* <div className='g-logo'>
-					<span className='g-logo-text'>
-						I<span style={{ color: "#58c4dc" }}>R</span>
-					</span>
-				</div> */}
+				<Image
+					src={themeDark ? logoReverse : logo}
+					size={100}
+					className='home-logo'
+				/>
 			</div>
 			<Flex
 				direction='column'

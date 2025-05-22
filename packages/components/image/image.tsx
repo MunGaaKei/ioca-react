@@ -55,6 +55,7 @@ const Image = (props: IImage) => {
 	};
 
 	const handleClick = (e) => {
+		e.stopPropagation();
 		onClick?.(e);
 
 		if (!previewable || !src) return;
@@ -109,6 +110,7 @@ const Image = (props: IImage) => {
 				rounded: round,
 				[`i-image-${state.status}`]: state.status,
 			})}
+			onClick={handleClick}
 		>
 			{state.status === "error" ? (
 				fallback

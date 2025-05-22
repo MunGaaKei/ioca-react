@@ -37,8 +37,8 @@
 		--background: var(--background-opacity-1);
 	}
 	&.i-page-active {
-		--background: var(--color-main-0);
-		--color: var(--color-main);
+		--background: var(--color-main);
+		--color: var(--color-main-reverse);
 		cursor: default;
 	}
 	&.i-page-loading {
