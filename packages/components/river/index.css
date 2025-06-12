@@ -1,0 +1,11 @@
+.i-river {
+	overflow: hidden;
+}
+
+.i-river-track {
+	display: inline-flex;
+}
+
+.i-river-item {
+	flex-shrink: 0;
+}

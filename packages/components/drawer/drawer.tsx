@@ -57,7 +57,6 @@ function Drawer(props: IDrawer) {
 		toggable.current = false;
 
 		startTransition(() => {
-			// 确保 DOM 已经挂载
 			requestAnimationFrame(() => {
 				state.active = true;
 				toggable.current = true;

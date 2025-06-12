@@ -38,6 +38,24 @@ $colors-light: (
 	"success": #acf899,
 );
 
+$colors-dark-light: (
+	"white": #393939,
+	"black": #6d6d6d,
+	"red": #4d3232,
+	"yellow": #4b421f,
+	"green": #114911,
+	"aqua": #1e3d3d,
+	"blue": #2d4467,
+	"pink": #56474f,
+	"brown": #3b2d2d,
+	"orange": #473514,
+	"purple": #372337,
+	"grey": #414141,
+	"warning": #4b3e13,
+	"error": #533535,
+	"success": #123b08,
+);
+
 $colors-heavy: (
 	"white": #fafafa,
 	"black": #1a1a1a,
@@ -117,7 +135,7 @@ $lightColors: (
 		.bg-#{$name}-0 {
 			--background: #{$light};
 			--color-hover: var(--color);
-			background-color: #{$light};
+			background-color: var(--background);
 			color: #{$value};
 
 			&:hover {
@@ -245,21 +263,21 @@ $lightColors: (
 		background: var(--color-8);
 	}
 
-	--white-0: #595959;
-	--black-0: #6d6d6d;
-	--red-0: #4d3232;
-	--yellow-0: #4b421f;
-	--green-0: #114911;
-	--aqua-0: #1e3d3d;
-	--blue-0: #2d4467;
-	--pink-0: #5d2f37;
-	--brown-0: #3b2d2d;
-	--orange-0: #473514;
-	--purple-0: #372337;
-	--grey-0: #414141;
-	--warning-0: #4b3e13;
-	--error-0: #533535;
-	--success-0: #123b08;
+	@each $name, $value in $colors {
+		$light: map.get($colors-dark-light, $name);
+
+		.bg-#{$name}-0 {
+			--background: #{$light};
+		}
+
+		.#{$name}-0 {
+			--color: #{$light};
+		}
+
+		.#{$name} {
+			--background-hover: #{$light};
+		}
+	}
 }
 
 .theme-dark {

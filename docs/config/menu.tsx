@@ -41,6 +41,7 @@ import {
 	ViewCarouselTwotone,
 	ViewDayTwotone,
 	ViewSidebarTwotone,
+	WaterRound,
 	WebAssetTwotone,
 	WysiwygTwotone,
 } from "@ricons/material";
@@ -269,6 +270,12 @@ export default [
 				href: "/docs/resizable",
 				as: Link,
 				icon: <Icon icon={<MultipleStopRound />} />,
+			},
+			{
+				title: "River",
+				href: "/docs/river",
+				as: Link,
+				icon: <Icon icon={<WaterRound />} />,
 			},
 			{
 				title: "Step",

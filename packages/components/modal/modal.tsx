@@ -52,7 +52,7 @@ function Modal(props: IModal) {
 			setActive(true);
 			onVisibleChange?.(true);
 			toggable.current = true;
-		}, 24);
+		}, 64);
 
 		return () => clearTimeout(timer);
 	};
