@@ -70,6 +70,17 @@ const Select = (props: ISelect) => {
 		onChange?.(v);
 	};
 
+	const displayLabel = useMemo(() => {
+		if (multiple) {
+			return "";
+		}
+
+		const option = formattedOptions.find(
+			(opt) => opt.value === state.value
+		);
+		return option ? option.label : state.value;
+	}, [state.value, formattedOptions]);
+
 	const handleSelect = (value: any, option?: TOption) => {
 		onSelect?.(value, option);
 
@@ -197,9 +208,9 @@ const Select = (props: ISelect) => {
 
 					{!multiple && (
 						<input
-							value={active ? state.filterValue : state.value}
+							value={active ? state.filterValue : displayLabel}
 							className='i-input i-select'
-							placeholder={state.value || placeholder}
+							placeholder={displayLabel || placeholder}
 							onChange={handleInputChange}
 							readOnly={!filter}
 						/>

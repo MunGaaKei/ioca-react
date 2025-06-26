@@ -73,6 +73,7 @@ export default function Popup(props: IPopup) {
 		if (!timerRef.current) return;
 		clearTimeout(timerRef.current);
 		timerRef.current = null;
+		statusRef.current = "";
 	};
 
 	const handleShow = () => {
@@ -84,39 +85,41 @@ export default function Popup(props: IPopup) {
 			return;
 		}
 
-		state.show = true;
 		statusRef.current = "showing";
-		timerRef.current = setTimeout(() => {
-			if (statusRef.current !== "showing") {
-				return;
-			}
-			const [left, top, { arrowX, arrowY, arrowPos }] = getPosition(
-				triggerRef.current,
-				contentRef.current,
-				{
-					position,
-					gap,
-					offset,
-					align,
-					refWindow: referToWindow,
-				}
-			);
+		state.show = true;
 
-			state.style = {
-				...state.style,
-				opacity: 1,
-				transform: "none",
-				left,
-				top,
-			};
-			state.arrowProps = {
-				left: arrowX,
-				top: arrowY,
-				pos: arrowPos,
-			};
-			onVisibleChange?.(true);
-			clearTimer();
-			statusRef.current = "";
+		timerRef.current = setTimeout(() => {
+			if (statusRef.current !== "showing") return;
+
+			requestAnimationFrame(() => {
+				const [left, top, { arrowX, arrowY, arrowPos }] = getPosition(
+					triggerRef.current,
+					contentRef.current,
+					{
+						position,
+						gap,
+						offset,
+						align,
+						refWindow: referToWindow,
+					}
+				);
+
+				state.style = {
+					...state.style,
+					opacity: 1,
+					transform: "none",
+					left,
+					top,
+				};
+				state.arrowProps = {
+					left: arrowX,
+					top: arrowY,
+					pos: arrowPos,
+				};
+				onVisibleChange?.(true);
+				clearTimer();
+				statusRef.current = "";
+			});
 		}, showDelay);
 	};
 

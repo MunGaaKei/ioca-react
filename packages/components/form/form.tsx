@@ -33,7 +33,7 @@ const Form = (props: IForm) => {
 
 		if (e.keyCode !== 13) return;
 
-		onEnter?.(form.data, form);
+		onEnter?.(e, form.data, form);
 	};
 
 	const gridColumns = useMemo(() => {

@@ -15,6 +15,7 @@ const defaultCancel = {
 export default function Confirm(props: IButtonConfirm) {
 	const {
 		ref,
+		size,
 		okButtonProps,
 		cancelButtonProps,
 		onOk,
@@ -61,13 +62,26 @@ export default function Confirm(props: IButtonConfirm) {
 	};
 
 	if (!state.active) {
-		return <Button ref={ref} {...restProps} onClick={handleClick} />;
+		return (
+			<Button
+				ref={ref}
+				size={size}
+				{...restProps}
+				onClick={handleClick}
+			/>
+		);
 	}
 
 	return (
 		<Button.Group>
-			<Button {...ok} loading={state.loading} onClick={hanldeOk} />
 			<Button
+				size={size}
+				{...ok}
+				loading={state.loading}
+				onClick={hanldeOk}
+			/>
+			<Button
+				size={size}
 				{...cancel}
 				disabled={state.loading}
 				onClick={handleCancel}

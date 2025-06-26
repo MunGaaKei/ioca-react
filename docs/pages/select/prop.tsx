@@ -3,13 +3,39 @@ import { Select } from "@p";
 export const DBasic = {
 	demo: (
 		<Select
-			options={["Cat", "Dog", "Kuma"]}
+			options={[
+				{
+					label: "🐱",
+					value: "Cat",
+				},
+				{
+					label: "🐶",
+					value: "Dog",
+				},
+				{
+					label: "🐻",
+					value: "Kuma",
+				},
+			]}
 			style={{ width: 200 }}
 			placeholder='Select'
 		/>
 	),
 	code: `<Select
-    options={["Cat", "Dog", "Kuma"]}
+	options={[
+		{
+			label: "🐱",
+			value: "Cat",
+		},
+		{
+			label: "🐶",
+			value: "Dog",
+		},
+		{
+			label: "🐻",
+			value: "Kuma",
+		},
+	]}
     style={{ width: 200 }}
     placeholder='Select'
 />`,

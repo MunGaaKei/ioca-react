@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, KeyboardEvent, ReactNode } from 'react';
 import { IFormInstance } from './useForm.js';
 
 type TValidator = (value: any, form: IFormInstance) => boolean | string;
@@ -18,7 +18,7 @@ interface IForm extends Omit<HTMLAttributes<HTMLFormElement>, "onChange"> {
     labelWidth?: string;
     labelInline?: boolean;
     labelRight?: boolean;
-    onEnter?: (values: Record<string, any>, form: IFormInstance) => void;
+    onEnter?: (e: KeyboardEvent, values: Record<string, any>, form: IFormInstance) => void;
     onChange?: (name: any, value: any) => void;
 }
 interface IField {
