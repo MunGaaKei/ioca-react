@@ -149,6 +149,7 @@ const Select = (props: ISelect) => {
 				position='bottom'
 				arrow={false}
 				fitSize
+				offset={0}
 				{...popupProps}
 				visible={active}
 				trigger='none'

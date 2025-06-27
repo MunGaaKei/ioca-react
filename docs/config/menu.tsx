@@ -5,6 +5,7 @@ import {
 	ArrowDropDownCircleTwotone,
 	ArtTrackSharp,
 	AssignmentOutlined,
+	BedtimeTwotone,
 	BlurOnFilled,
 	BuildCircleTwotone,
 	ChatBubbleOutlineRound,
@@ -306,6 +307,12 @@ export default [
 				href: "/docs/text",
 				as: Link,
 				icon: <Icon icon={<TextFormatRound />} />,
+			},
+			{
+				title: "Theme",
+				href: "/docs/theme",
+				as: Link,
+				icon: <Icon icon={<BedtimeTwotone />} />,
 			},
 			{
 				title: "Tree",

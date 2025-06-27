@@ -38,3 +38,4 @@ export { default as Tree } from './components/tree/tree.js';
 export { default as Upload } from './components/upload/upload.js';
 export { default as Video } from './components/video/video.js';
 export { default as usePreview } from './js/usePreview/index.js';
+export { default as useTheme } from './js/useTheme/index.js';

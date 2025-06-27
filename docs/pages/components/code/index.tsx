@@ -1,4 +1,4 @@
-import { useGlobalValues } from "@d/config/context";
+import { useTheme } from "@/packages";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {
 	atomOneDark,
@@ -10,12 +10,12 @@ import "./index.css";
 
 export default function CodeView(props) {
 	const { lang = "Javascript", children } = props;
-	const global = useGlobalValues();
+	const { theme } = useTheme({ listenStorageChange: true });
 
 	return (
 		<SyntaxHighlighter
 			language={lang}
-			style={global.theme === "theme-dark" ? atomOneDark : atomOneLight}
+			style={theme === "theme-dark" ? atomOneDark : atomOneLight}
 			children={children}
 			className='demo-codes'
 		/>

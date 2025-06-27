@@ -16,7 +16,8 @@ const Form = (props: IForm) => {
 		style,
 		className,
 		width,
-		columns = 1,
+		columns,
+		itemMaxWidth,
 		gap = "1em",
 		labelInline,
 		labelWidth,
@@ -37,10 +38,15 @@ const Form = (props: IForm) => {
 	};
 
 	const gridColumns = useMemo(() => {
-		if (!columns) return;
+		if (!columns && !itemMaxWidth) return;
 
-		if (typeof columns === "number")
+		if (itemMaxWidth) {
+			return `repeat(auto-fill, minmax(${itemMaxWidth}, 1fr))`;
+		}
+
+		if (typeof columns === "number") {
 			return `minmax(0, 1fr) `.repeat(columns);
+		}
 
 		return columns;
 	}, [columns]);

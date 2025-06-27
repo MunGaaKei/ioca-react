@@ -5,6 +5,7 @@ import {
 	MouseEvent,
 	cloneElement,
 	isValidElement,
+	useContext,
 	useEffect,
 	useLayoutEffect,
 	useMemo,
@@ -12,6 +13,7 @@ import {
 } from "react";
 import { useMouseUp, useResizeObserver } from "../../js/hooks";
 import { getPointPosition, getPosition } from "../../js/utils";
+import ModalContext from "../modal/context";
 import Content from "./content";
 import "./index.css";
 import { IPopup } from "./type";
@@ -34,7 +36,6 @@ export default function Popup(props: IPopup) {
 		watchResize,
 		clickOutside = true,
 		disabled,
-		referToWindow,
 		style,
 		className,
 		getContainer,
@@ -46,13 +47,15 @@ export default function Popup(props: IPopup) {
 	const contentRef = useRef<HTMLDivElement>(null);
 	const timerRef = useRef<any>(null);
 	const statusRef = useRef<string>("");
+	const isInModal = useContext(ModalContext);
+	const refWindow = isInModal || fixed;
 	const state = useReactive<{
 		show: boolean;
 		style: CSSProperties;
 		arrowProps: Record<string, any>;
 	}>({
 		show: false,
-		style: { position: fixed ? "fixed" : "absolute" },
+		style: { position: refWindow ? "fixed" : "absolute" },
 		arrowProps: {},
 	});
 
@@ -100,7 +103,7 @@ export default function Popup(props: IPopup) {
 						gap,
 						offset,
 						align,
-						refWindow: referToWindow,
+						refWindow,
 					}
 				);
 
@@ -240,7 +243,7 @@ export default function Popup(props: IPopup) {
 				gap,
 				offset,
 				align,
-				refWindow: referToWindow,
+				refWindow,
 			}
 		);
 

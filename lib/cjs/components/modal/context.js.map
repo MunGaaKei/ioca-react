@@ -1,0 +1,1 @@
+{"version":3,"file":"context.js","sources":["../../../../packages/components/modal/context.ts"],"sourcesContent":["import { createContext } from \"react\";\n\nconst ModalContext = createContext(false);\n\nexport default ModalContext;\n"],"names":["createContext"],"mappings":";;;;;;AAEA,MAAM,YAAY,GAAGA,mBAAa,CAAC,KAAK;;;;"}

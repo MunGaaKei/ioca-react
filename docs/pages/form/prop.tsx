@@ -424,6 +424,12 @@ export const PForm = [
 		exp: true,
 	},
 	{
+		name: "itemMaxWidth",
+		desc: "表单项最大宽度，设置后会自动计算列数",
+		type: ["string"],
+		exp: true,
+	},
+	{
 		name: "onEnter",
 		desc: "回车键按下调用",
 		type: [

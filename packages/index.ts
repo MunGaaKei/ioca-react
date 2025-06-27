@@ -38,6 +38,7 @@ import Tree from "./components/tree";
 import Upload from "./components/upload";
 import Video from "./components/video";
 import usePreview from "./js/usePreview";
+import useTheme from "./js/useTheme";
 
 export {
 	Affix,
@@ -79,5 +80,6 @@ export {
 	Tree,
 	Upload,
 	usePreview,
+	useTheme,
 	Video,
 };

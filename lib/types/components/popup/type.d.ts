@@ -18,7 +18,6 @@ interface IPopup {
     watchResize?: boolean;
     clickOutside?: boolean;
     disabled?: boolean;
-    referToWindow?: boolean;
     style?: CSSProperties;
     children?: ReactNode;
     className?: string;

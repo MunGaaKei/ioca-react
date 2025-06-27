@@ -1,5 +1,4 @@
-import { useGlobalValues } from "@d/config/context";
-import { Button, Drawer, Icon, Popup, Text } from "@p";
+import { Button, Drawer, Icon, Popup, Text, useTheme } from "@p";
 import {
 	BugReportTwotone,
 	LightModeTwotone,
@@ -11,7 +10,7 @@ import { Link } from "react-router";
 
 export default function Sider(props) {
 	const { useDrawer, menus } = props;
-	const global = useGlobalValues();
+	const { theme, setTheme } = useTheme({ listenStorageChange: true });
 	const state = useReactive({
 		menuVisible: false,
 	});
@@ -37,10 +36,8 @@ export default function Sider(props) {
 					square
 					flat
 					after={<Icon icon={<NightlightTwotone />} />}
-					active={global.theme === "theme-dark"}
-					onToggle={(v) =>
-						global.update("theme", v ? "theme-dark" : "theme-none")
-					}
+					active={theme === "theme-dark"}
+					onToggle={(v) => setTheme(v ? "theme-dark" : "theme-none")}
 				>
 					<Icon icon={<LightModeTwotone />} />
 				</Button.Toggle>

@@ -16,6 +16,7 @@ export interface IForm
 	columns?: number | string;
 	initialValues?: Record<string, any>;
 	width?: string | number;
+	itemMaxWidth?: string;
 	gap?: string | number;
 	labelWidth?: string;
 	labelInline?: boolean;

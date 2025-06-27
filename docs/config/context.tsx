@@ -1,8 +1,7 @@
 import { useLocalStorageState } from "ahooks";
-import { createContext, useEffect } from "react";
+import { createContext } from "react";
 
 type TSettings = {
-	theme?: string;
 	update?: (key: string | Record<string, any>, value?) => void;
 };
 
@@ -12,9 +11,7 @@ export const useGlobalValues = () => {
 	const [settings = {}, setSettings] = useLocalStorageState<TSettings>(
 		"ioca-react-settings",
 		{
-			defaultValue: {
-				theme: "auto",
-			},
+			defaultValue: {},
 			listenStorageChange: true,
 		}
 	);
@@ -27,22 +24,7 @@ export const useGlobalValues = () => {
 
 		setSettings(key);
 	};
-
-	useEffect(() => {
-		const cls = document.body.classList;
-		const cns = Array.from(cls);
-		const pre = cns.find((n) => n.startsWith("theme-"));
-
-		if (pre) {
-			cls.replace(pre, settings.theme ?? "theme-auto");
-			return;
-		}
-
-		settings.theme && cls.add(settings.theme);
-	}, [settings?.theme]);
-
 	return {
-		...settings,
 		update,
 	};
 };

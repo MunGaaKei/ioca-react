@@ -29,7 +29,7 @@ export default function useConfig(configs: IFormItem[], formProps?: IForm) {
 						shouldUpdate,
 						shouldRender,
 					} = config;
-					const { className } = componentProps;
+					const { className, style } = componentProps;
 
 					if (shouldRender && !shouldRender(values, form)) {
 						return <Fragment key={name} />;
@@ -42,7 +42,7 @@ export default function useConfig(configs: IFormItem[], formProps?: IForm) {
 									label={label}
 									required={required}
 									{...componentProps}
-									className={`${className} ${
+									className={`${className ?? ""} ${
 										colspan !== 1
 											? `colspan-${colspan}`
 											: ""

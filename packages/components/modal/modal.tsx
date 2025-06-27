@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useKeydown } from "../../js/hooks";
 import Content from "./content";
+import ModalContext from "./context";
 import "./index.css";
 import { CompositionModal, IModal } from "./type";
 import useModal from "./useModal";
@@ -143,21 +144,23 @@ function Modal(props: IModal) {
 				aria-labelledby={title ? "modal-title" : undefined}
 				{...restProps}
 			>
-				{customized && children}
+				<ModalContext.Provider value={true}>
+					{customized && children}
 
-				{!customized && (
-					<Content
-						title={title}
-						hideCloseButton={hideCloseButton}
-						footer={footer}
-						okButtonProps={okButtonProps}
-						cancelButtonProps={cancelButtonProps}
-						children={children}
-						footerLeft={footerLeft}
-						onOk={onOk}
-						onClose={handleHide}
-					/>
-				)}
+					{!customized && (
+						<Content
+							title={title}
+							hideCloseButton={hideCloseButton}
+							footer={footer}
+							okButtonProps={okButtonProps}
+							cancelButtonProps={cancelButtonProps}
+							children={children}
+							footerLeft={footerLeft}
+							onOk={onOk}
+							onClose={handleHide}
+						/>
+					)}
+				</ModalContext.Provider>
 			</div>
 		</div>,
 		document?.body ?? null

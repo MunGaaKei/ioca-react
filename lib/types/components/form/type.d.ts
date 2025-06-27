@@ -14,6 +14,7 @@ interface IForm extends Omit<HTMLAttributes<HTMLFormElement>, "onChange"> {
     columns?: number | string;
     initialValues?: Record<string, any>;
     width?: string | number;
+    itemMaxWidth?: string;
     gap?: string | number;
     labelWidth?: string;
     labelInline?: boolean;
