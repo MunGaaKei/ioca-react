@@ -101,6 +101,8 @@ export default function Content(props: IPreview) {
 	};
 
 	const handleMouseWheel = throttle({ interval: 60 }, (e) => {
+		e.stopPropagation();
+		e.preventDefault();
 		if (!isImage) return;
 		let after = state.scale + (e.deltaY < 0 ? 0.05 : -0.05);
 		if (after > 2) after = 2;
