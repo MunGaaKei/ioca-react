@@ -1,6 +1,6 @@
 import { useReactive } from "ahooks";
 import classNames from "classnames";
-import { ChangeEvent, useEffect, useRef } from "react";
+import { ChangeEvent, useEffect, useImperativeHandle, useRef } from "react";
 import "../../css/input.css";
 import InputContainer from "./container";
 import type { ITextarea } from "./type";
@@ -28,7 +28,7 @@ const Textarea = (props: ITextarea) => {
 	const state = useReactive({
 		value,
 	});
-	const refTextarea = useRef<HTMLDivElement>(null);
+	const refTextarea = useRef<HTMLTextAreaElement>(null);
 
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,7 +37,7 @@ const Textarea = (props: ITextarea) => {
 
 		state.value = v;
 
-		const ta = refTextarea.current?.firstChild as HTMLElement;
+		const ta = refTextarea.current as HTMLElement;
 		if (autoSize && ta) {
 			ta.style.height = `${ta.scrollHeight}px`;
 		}
@@ -56,8 +56,14 @@ const Textarea = (props: ITextarea) => {
 		state.value = value;
 	}, [value]);
 
+	useImperativeHandle(ref, () => {
+		return {
+			input: refTextarea.current,
+		};
+	});
+
 	const inputProps = {
-		ref,
+		ref: refTextarea,
 		name,
 		value: state.value,
 		className: "i-input i-textarea",
@@ -76,7 +82,6 @@ const Textarea = (props: ITextarea) => {
 			status={status}
 		>
 			<div
-				ref={refTextarea}
 				className={classNames("i-input-item", {
 					[`i-input-${status}`]: status !== "normal",
 					"i-input-borderless": !border,

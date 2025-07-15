@@ -4,6 +4,7 @@
 
 .i-river-track {
 	display: inline-flex;
+	will-change: transform;
 }
 
 .i-river-item {

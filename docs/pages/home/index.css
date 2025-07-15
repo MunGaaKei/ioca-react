@@ -2,8 +2,9 @@
 	font-family: "jaini";
 	font-size: 4em;
 	display: flex;
-	flex-wrap: wrap;
+	align-items: center;
 	gap: 12px;
+	color: var(--color-6);
 }
 
 .g-logo {
@@ -47,5 +48,16 @@
 		left: -0.25em;
 		right: -0.25em;
 		transform: rotate(-12deg) skewX(12deg);
+	}
+}
+
+.home-components {
+	position: absolute;
+	inset: 0;
+}
+
+@media (max-width: 800px) {
+	.home-title {
+		font-size: 40px;
 	}
 }

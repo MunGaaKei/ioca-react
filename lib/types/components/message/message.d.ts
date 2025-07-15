@@ -18,6 +18,10 @@ declare namespace message {
         instance: IMessage;
         close: () => void;
     };
+    var info: (content: ReactNode) => {
+        instance: IMessage;
+        close: () => void;
+    };
     var one: (config: IMessage) => void;
 }
 

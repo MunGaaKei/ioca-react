@@ -26,7 +26,7 @@ export default function Home() {
 	}, [themeDark]);
 
 	return (
-		<Flex className='h-100vh justify-evenly'>
+		<Flex className='h-100vh justify-center'>
 			<Button.Toggle
 				square
 				flat
@@ -39,25 +39,23 @@ export default function Home() {
 				<Icon icon={<LightModeTwotone />} />
 			</Button.Toggle>
 
-			<div className='self-center'>
+			<Flex
+				direction='column'
+				justify='center'
+				align='center'
+				className='w-30'
+			>
 				<Image
 					src={themeDark ? logoReverse : logo}
 					size={100}
 					className='home-logo'
 				/>
-			</div>
-			<Flex
-				direction='column'
-				justify='center'
-				align='flex-start'
-				className='w-30'
-			>
 				<h1 className='home-title'>
 					<Text gradient={gradient}>IOCA</Text>/
 					<Text gradient={gradient}>REACT</Text>
 				</h1>
 				<p>
-					<span className='opacity-5'>ver</span>{" "}
+					<span className='opacity-5'>ver.</span>
 					<b className='font-lg'>{version}</b>
 				</p>
 				<h2 className='mt-40 hover-text-shadow'>

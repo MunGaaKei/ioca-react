@@ -42,9 +42,13 @@ export interface ITextarea
 			TextareaHTMLAttributes<HTMLTextAreaElement>,
 			"value" | "defaultValue" | "onChange"
 		> {
-	ref?: RefObject<HTMLTextAreaElement | null>;
+	ref?: RefObject<RefTextarea | null>;
 	autoSize?: boolean;
 	width?: string | number;
+}
+
+export interface RefTextarea {
+	input: HTMLTextAreaElement | null;
 }
 
 export interface IInputNumber

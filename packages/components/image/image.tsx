@@ -55,7 +55,6 @@ const Image = (props: IImage) => {
 	};
 
 	const handleClick = (e) => {
-		e.stopPropagation();
 		onClick?.(e);
 
 		if (!previewable || !src) return;

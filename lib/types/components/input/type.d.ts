@@ -10,9 +10,12 @@ interface IInput extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, 
     hideVisible?: boolean;
 }
 interface ITextarea extends Omit<BaseInput, "ref">, Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "defaultValue" | "onChange"> {
-    ref?: RefObject<HTMLTextAreaElement | null>;
+    ref?: RefObject<RefTextarea | null>;
     autoSize?: boolean;
     width?: string | number;
+}
+interface RefTextarea {
+    input: HTMLTextAreaElement | null;
 }
 interface IInputNumber extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "defaultValue"> {
     value?: string | number;
@@ -45,4 +48,4 @@ type CompositionInput = ForwardRefExoticComponent<IInput> & {
     Range: typeof Range;
 };
 
-export type { CompositionInput, IInput, IInputNumber, IInputRange, ITextarea };
+export type { CompositionInput, IInput, IInputNumber, IInputRange, ITextarea, RefTextarea };

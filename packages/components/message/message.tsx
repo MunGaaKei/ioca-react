@@ -228,6 +228,13 @@ message.warning = (content: ReactNode) => {
 	});
 };
 
+message.info = (content: ReactNode) => {
+	return message({
+		content,
+		className: "bg-blue",
+	});
+};
+
 message.one = (config: IMessage) => {
 	const o = handler.oneInstance;
 
