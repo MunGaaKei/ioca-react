@@ -122,7 +122,6 @@ const Image = (props: IImage) => {
 							{...restProps}
 							onLoad={handleLoad}
 							onError={handleError}
-							onClick={handleClick}
 						/>
 					)}
 
@@ -131,7 +130,6 @@ const Image = (props: IImage) => {
 					{cover && (
 						<div
 							className={classNames("i-image-cover", coverClass)}
-							onClick={handleClick}
 						>
 							{cover}
 						</div>

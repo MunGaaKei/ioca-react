@@ -14,6 +14,8 @@ const useTheme = (props?: ITheme) => {
 	});
 
 	useEffect(() => {
+		if (typeof document === "undefined") return;
+
 		const cls = document.documentElement.classList;
 		const cns = Array.from(cls);
 		const pre = cns.find((n) => n.startsWith("theme-")) ?? "";
