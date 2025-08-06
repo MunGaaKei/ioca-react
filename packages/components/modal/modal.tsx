@@ -124,7 +124,7 @@ function Modal(props: IModal) {
 			style={style}
 			onClick={handleBackdropClick}
 			aria-modal='true'
-			aria-hidden={!active}
+			inert={!active}
 		>
 			<div
 				className={classNames("i-modal", {

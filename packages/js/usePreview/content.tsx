@@ -13,7 +13,7 @@ import {
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { throttle } from "radash";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useMouseMove, useMouseUp } from "../hooks";
 import { getFileType, getSuffixByUrl } from "../utils";
 import DefaultRenderFile from "./renderFile";
@@ -159,6 +159,20 @@ export default function Content(props: IPreview) {
 	useMouseMove(handleMouseMove);
 	useMouseUp(handleMouseUp);
 
+	useEffect(() => {
+		if (!box.current) return;
+
+		box.current.addEventListener("wheel", handleMouseWheel, {
+			passive: false,
+		});
+
+		return () => {
+			if (!box.current) return;
+
+			box.current.removeEventListener("wheel", handleMouseWheel);
+		};
+	}, []);
+
 	return (
 		<>
 			<div
@@ -173,7 +187,6 @@ export default function Content(props: IPreview) {
 						state.scale
 					})`,
 				}}
-				onWheel={handleMouseWheel}
 				onMouseDown={handleMouseDown}
 				onClick={(e) => e.stopPropagation()}
 			>

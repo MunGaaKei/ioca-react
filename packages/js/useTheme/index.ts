@@ -1,36 +1,41 @@
 import { useLocalStorageState } from "ahooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ITheme } from "./type";
 
 const useTheme = (props?: ITheme) => {
 	const {
 		key = "ioca-react-theme",
-		defaultValue,
+		defaultValue = "theme-auto",
 		listenStorageChange,
 	} = props ?? {};
+
+	const [mounted, setMounted] = useState(false);
+
 	const [theme, setTheme] = useLocalStorageState<string>(key, {
-		defaultValue: defaultValue ?? "",
+		defaultValue,
 		listenStorageChange,
 	});
 
 	useEffect(() => {
-		if (typeof document === "undefined") return;
+		setMounted(true);
+	}, []);
+
+	useEffect(() => {
+		if (!mounted || !theme) return;
 
 		const cls = document.documentElement.classList;
-		const cns = Array.from(cls);
-		const pre = cns.find((n) => n.startsWith("theme-")) ?? "";
+		const prev = Array.from(cls).find((n) => n.startsWith("theme-"));
 
-		if (pre) {
-			cls.replace(pre, theme || "theme-auto");
-			return;
+		if (prev) {
+			cls.replace(prev, theme);
+		} else {
+			cls.add(theme);
 		}
-
-		theme && cls.add(theme);
-	}, [theme]);
+	}, [theme, mounted]);
 
 	return {
-		theme,
-		setTheme,
+		theme: mounted ? theme : defaultValue,
+		setTheme: mounted ? setTheme : () => {},
 	};
 };
 
