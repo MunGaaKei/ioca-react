@@ -42,7 +42,7 @@
 .i-modal-active > .i-modal {
 	opacity: 1;
 	transform: none;
-	pointer-events: unset;
+	pointer-events: all;
 }
 
 .i-modal-header,
