@@ -56,14 +56,12 @@ const Popconfirm = (props: IPopconfirm) => {
 	const handleOk = async (e: MouseEvent<HTMLElement>) => {
 		state.loading = true;
 		ok.onClick?.(e);
-
-		onOk?.()
-			?.then(() => {
-				state.visible = false;
-			})
-			.finally(() => {
-				state.loading = false;
-			});
+		try {
+			await onOk?.();
+			state.visible = false;
+		} finally {
+			state.loading = false;
+		}
 	};
 
 	const handleCancel = async (e: MouseEvent<HTMLElement>) => {

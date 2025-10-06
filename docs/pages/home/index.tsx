@@ -47,8 +47,8 @@ export default function Home() {
 			>
 				<Image
 					src={themeDark ? logoReverse : logo}
-					size={100}
-					className='home-logo'
+					size={120}
+					className='mb-40'
 				/>
 				<h1 className='home-title'>
 					<Text gradient={gradient}>IOCA</Text>/

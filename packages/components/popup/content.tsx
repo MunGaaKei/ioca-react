@@ -70,7 +70,9 @@ const Content = (props: IPopupContent) => {
 		</div>
 	);
 
-	return createPortal(content, getContainer(trigger));
+	const container = getContainer(trigger);
+	if (!container) return null;
+	return createPortal(content, container);
 };
 
 export default Content;

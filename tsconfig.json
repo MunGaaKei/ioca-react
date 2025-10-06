@@ -1,26 +1,35 @@
 {
-	"include": ["docs", "packages", "global.d.ts"],
+	"include": ["packages", "docs", "global.d.ts"],
 	"exclude": ["node_modules", "lib", "dist"],
 	"compilerOptions": {
-		"baseUrl": "./",
+		/* 语言与模块系统 */
 		"target": "ESNext",
-		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"skipLibCheck": true,
-		"resolveJsonModule": true,
-		"strict": true,
-		"noEmit": true,
-		"allowSyntheticDefaultImports": true,
-		"noImplicitAny": false,
 		"module": "ESNext",
-		"moduleResolution": "node",
+		"moduleResolution": "Bundler",
 		"jsx": "react-jsx",
-		"types": ["node"],
+
+		/* 输出与类型 */
+		"noEmit": true,
+		"declaration": false,
+		"skipLibCheck": true,
+
+		/* 路径与模块支持 */
 		"paths": {
 			"@/*": ["./*"],
-			"@d/*": ["./docs/*"],
-			"@p": ["./packages"],
-			"@p/*": ["./packages/*"]
-		}
+			"@p": ["./packages/index.ts"],
+			"@p/*": ["./packages/*"],
+			"@d/*": ["./docs/*"]
+		},
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"allowImportingTsExtensions": true,
+		"allowArbitraryExtensions": true,
+
+		/* 调试与兼容 */
+		"forceConsistentCasingInFileNames": true,
+		"customConditions": ["development"],
+		"types": ["node"],
+		"noImplicitAny": false
 	}
-	// "references": [{ "path": "./tsconfig.node.json" }]
 }

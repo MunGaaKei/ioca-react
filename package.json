@@ -1,6 +1,6 @@
 {
 	"name": "@ioca/react",
-	"version": "1.4.05",
+	"version": "1.4.61",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -47,7 +47,7 @@
 		"rollup-plugin-scss": "^4.0.0",
 		"sass": "^1.86.0",
 		"typescript": "^5.7.2",
-		"vite": "^6.0.2",
+		"vite": "^7.1.9",
 		"vite-plugin-dynamic-import": "^1.6.0"
 	},
 	"peerDependencies": {

@@ -92,9 +92,9 @@ export default function Popup(props: IPopup) {
 		state.show = true;
 
 		timerRef.current = setTimeout(() => {
-			if (statusRef.current !== "showing") return;
-
 			requestAnimationFrame(() => {
+				if (statusRef.current !== "showing") return;
+
 				const [left, top, { arrowX, arrowY, arrowPos }] = getPosition(
 					triggerRef.current,
 					contentRef.current,
@@ -284,6 +284,10 @@ export default function Popup(props: IPopup) {
 	useLayoutEffect(() => {
 		handleToggle(visible);
 	}, [visible]);
+
+	useEffect(() => {
+		clearTimer();
+	}, []);
 
 	return (
 		<>

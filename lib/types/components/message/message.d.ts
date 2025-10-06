@@ -3,24 +3,24 @@ import { IMessage } from './type.js';
 
 declare function message(config: IMessage | ReactNode): {
     instance: IMessage;
-    close: () => void;
+    close: any;
 };
 declare namespace message {
     var error: (content: ReactNode) => {
         instance: IMessage;
-        close: () => void;
+        close: any;
     };
     var success: (content: ReactNode) => {
         instance: IMessage;
-        close: () => void;
+        close: any;
     };
     var warning: (content: ReactNode) => {
         instance: IMessage;
-        close: () => void;
+        close: any;
     };
     var info: (content: ReactNode) => {
         instance: IMessage;
-        close: () => void;
+        close: any;
     };
     var one: (config: IMessage) => void;
 }
