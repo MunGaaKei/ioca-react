@@ -92,6 +92,8 @@ export default function Popup(props: IPopup) {
 		state.show = true;
 
 		timerRef.current = setTimeout(() => {
+			if (statusRef.current !== "showing") return;
+
 			requestAnimationFrame(() => {
 				if (statusRef.current !== "showing") return;
 
@@ -286,7 +288,9 @@ export default function Popup(props: IPopup) {
 	}, [visible]);
 
 	useEffect(() => {
-		clearTimer();
+		return () => {
+			clearTimer();
+		};
 	}, []);
 
 	return (

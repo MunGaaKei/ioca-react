@@ -101,6 +101,12 @@ export const PInput = [
 		type: ["() => void"],
 		event: true,
 	},
+	{
+		name: "onClear",
+		desc: "点击清除按钮时触发",
+		type: ["() => void"],
+		event: true,
+	},
 ];
 
 export const PInputNumber = [

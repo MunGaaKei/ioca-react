@@ -90,7 +90,7 @@ export default function Sider(props) {
 				</>
 			)}
 
-			<Popup className='pd-8 bg-0' content='Report Bugs' position='left'>
+			<Popup className='pd-8 bg-0' content='Bugs' position='left'>
 				<Button
 					square
 					flat
