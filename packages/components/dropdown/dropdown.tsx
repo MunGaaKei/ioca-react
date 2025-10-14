@@ -9,6 +9,10 @@ const Dropdown = (props: IDropdown) => {
 	const { visible, width, content, children, ...restProps } = props;
 	const [active, setActive] = useState(visible);
 
+	if (!content) {
+		return children;
+	}
+
 	return (
 		<Popup
 			trigger='click'

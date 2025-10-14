@@ -34,6 +34,7 @@ export interface IInput
 	prepend?: ReactNode;
 	append?: ReactNode;
 	hideVisible?: boolean;
+	onClear?: () => void;
 }
 
 export interface ITextarea

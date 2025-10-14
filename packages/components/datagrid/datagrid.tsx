@@ -23,9 +23,12 @@ const Datagrid = (props: IDatagrid) => {
 		height = "unset",
 		style,
 		className,
-		renderLoading = () => <Loading size='1.5em' className='color-3' />,
+		renderLoading = () => (
+			<Loading size='1.5em' className='color-3' absolute />
+		),
 		onCellClick,
 		onRowClick,
+		onCellDoubleClick,
 		onHeaderClick,
 		onSort,
 		onScroll,
@@ -177,6 +180,7 @@ const Datagrid = (props: IDatagrid) => {
 						columns={columns}
 						onCellClick={onCellClick}
 						onRowClick={onRowClick}
+						onCellDoubleClick={onCellDoubleClick}
 					/>
 				))}
 

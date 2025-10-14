@@ -33,6 +33,7 @@ const Input = ((props: IInput) => {
 		maxLength,
 		onChange,
 		onEnter,
+		onClear,
 		style,
 		...restProps
 	} = props;
@@ -65,6 +66,7 @@ const Input = ((props: IInput) => {
 
 		const v = "";
 		onChange?.(v);
+		onClear?.();
 	};
 
 	const HelperIcon = useMemo(() => {

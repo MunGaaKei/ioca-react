@@ -92,6 +92,7 @@
 	transition: var(--transition);
 	background: transparent;
 	border-radius: inherit;
+	text-align: inherit;
 
 	&[type="number"]::-webkit-inner-spin-button,
 	&[type="number"]::-webkit-outer-spin-button {

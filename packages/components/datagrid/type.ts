@@ -16,8 +16,13 @@ export interface IColumn {
 	colSpan?: number;
 	width?: string;
 	fixed?: "left" | "right";
-	render?: (value?: any, data?: IData, index?: number) => ReactNode;
-	renderHeader?: (column?: IColumn, index?: number) => ReactNode;
+	render?: (
+		value?: any,
+		data?: IData,
+		row?: number,
+		col?: number
+	) => ReactNode;
+	renderHeader?: (column?: IColumn, col?: number) => ReactNode;
 }
 
 export interface IDatagrid {

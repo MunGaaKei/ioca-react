@@ -50,7 +50,7 @@ export function Cell(props: ICell) {
 				onCellDoubleClick?.(data, column, row, col, e)
 			}
 		>
-			{render?.(data[id], data, col) ?? (
+			{render?.(data[id], data, row, col) ?? (
 				<div
 					className={classNames("i-datagrid-cell-content", {
 						"i-datagrid-cell-content-ellipsis": cellEllipsis,

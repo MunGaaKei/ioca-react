@@ -10,6 +10,7 @@ export const DBasic = {
 			{
 				id: "id",
 				width: 40,
+				render: (a, b, index) => index,
 			},
 			{
 				id: "name",
@@ -85,7 +86,6 @@ export const DBasic = {
 				mock({
 					"list|20": [
 						{
-							"id|+1": 1,
 							name: "@cname",
 							email: "@email",
 							phone: /^1[385][1-9]\d{8}/,
@@ -361,7 +361,7 @@ export const PColumn = [
 		name: "render",
 		desc: "表格内容自定义渲染",
 		type: [
-			"(value?: any, data?: Record<string, any>, index?: number) => ReactNode",
+			"(value?: any, data?: Record<string, any>, row?: number, col?: number) => ReactNode",
 		],
 	},
 	{

@@ -8,6 +8,7 @@ interface IInput extends BaseInput, Omit<InputHTMLAttributes<HTMLInputElement>, 
     prepend?: ReactNode;
     append?: ReactNode;
     hideVisible?: boolean;
+    onClear?: () => void;
 }
 interface ITextarea extends Omit<BaseInput, "ref">, Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "defaultValue" | "onChange"> {
     ref?: RefObject<RefTextarea | null>;
