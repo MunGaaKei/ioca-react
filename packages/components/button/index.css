@@ -73,9 +73,6 @@
 .i-btn:hover {
 	--background: var(--background-hover);
 }
-.i-btn:active {
-	--background: var(--color-main);
-}
 .i-btn-secondary {
 	--background-hover: var(--color-8);
 	--background: var(--color-9);

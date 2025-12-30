@@ -51,7 +51,7 @@
 	align-items: baseline;
 	transition: var(--transition);
 	border-radius: inherit;
-	border: var(--input-border-width) solid var(--color-9);
+	border: var(--input-border-width) solid var(--background-opacity-2);
 	max-width: 100%;
 	.i-btn {
 		align-self: stretch;
@@ -59,7 +59,7 @@
 	&:hover,
 	&:focus-within,
 	&.i-input-focus {
-		border-color: var(--color-8);
+		border-color: var(--background-opacity-1);
 		background-color: transparent;
 	}
 	&.i-input-success {
@@ -79,7 +79,7 @@
 .i-input-underline {
 	border-width: 0 0 var(--input-border-width) 0;
 	border-radius: 0;
-	border-color: var(--color-9);
+	border-color: var(--background-opacity-2);
 	background: transparent;
 }
 

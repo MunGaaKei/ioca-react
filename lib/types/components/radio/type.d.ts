@@ -3,7 +3,7 @@ import { TOption, TStatus } from '../../type/index.js';
 
 type TRenderRadioItem = (checked: boolean, value: any) => ReactNode;
 interface IRadioItem extends Omit<InputHTMLAttributes<HTMLInputElement>, "children" | "onChange"> {
-    type?: "default" | "button";
+    type?: "default" | "button" | "custom";
     children?: ReactNode | TRenderRadioItem;
     onChange?: (value: any, e: ChangeEvent) => void;
 }

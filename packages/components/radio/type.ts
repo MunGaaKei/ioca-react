@@ -8,7 +8,7 @@ export interface IRadioItem
 		InputHTMLAttributes<HTMLInputElement>,
 		"children" | "onChange"
 	> {
-	type?: "default" | "button";
+	type?: "default" | "button" | "custom";
 	children?: ReactNode | TRenderRadioItem;
 	onChange?: (value: any, e: ChangeEvent) => void;
 }
