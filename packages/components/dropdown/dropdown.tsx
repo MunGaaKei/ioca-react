@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import List from "../list";
 import Popup from "../popup";
 import "./index.css";
@@ -12,6 +12,10 @@ const Dropdown = (props: IDropdown) => {
 	if (!content) {
 		return children;
 	}
+
+	useEffect(() => {
+		setActive(visible);
+	}, [visible]);
 
 	return (
 		<Popup
