@@ -67,6 +67,7 @@ export interface IInputNumber
 	thousand?: string;
 	precision?: number;
 	hideControl?: boolean;
+	showMax?: boolean;
 }
 
 export interface IInputRange

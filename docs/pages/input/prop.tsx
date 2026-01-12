@@ -11,17 +11,33 @@ export const DBasic = {
 
 export const DNumber = {
 	demo: () => {
-		return <Input.Number placeholder='Number' width={160} thousand=',' />;
+		return (
+			<Input.Number
+				placeholder='Number'
+				width={160}
+				thousand=','
+				max={1200}
+				showMax
+			/>
+		);
 	},
-	code: `<Input placeholder='Input' width={160} thousand=',' />`,
+	code: `<Input.Number
+	placeholder='Number'
+	width={160}
+	thousand=','
+	max={1200}
+	showMax
+/>`,
 	lang: "xml",
 };
 
 export const DRange = {
 	demo: () => {
-		return <Input.Range placeholder={["min", "max"]} width={240} />;
+		return (
+			<Input.Range placeholder={["min", "max"]} width={240} autoSwitch />
+		);
 	},
-	code: `<Input.Range placeholder={["min", "max"]} width={240} />`,
+	code: `<Input.Range placeholder={["min", "max"]} width={240} autoSwitch />`,
 	lang: "xml",
 };
 
@@ -139,6 +155,18 @@ export const PInputNumber = [
 		name: "precision",
 		desc: "精度",
 		type: ["number"],
+	},
+	{
+		name: "hideControl",
+		desc: "隐藏数字控制按钮",
+		type: ["boolean"],
+		def: "false",
+	},
+	{
+		name: "showMax",
+		desc: "显示最大值按钮，在 max 有效时显示",
+		type: ["boolean"],
+		def: "false",
 	},
 ];
 

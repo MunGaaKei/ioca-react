@@ -13,6 +13,13 @@ const Dropdown = (props: IDropdown) => {
 		return children;
 	}
 
+	const handleVisibleChange = (v: boolean) => {
+		setActive(v);
+		if (props.onVisibleChange) {
+			props.onVisibleChange(v);
+		}
+	};
+
 	useEffect(() => {
 		setActive(visible);
 	}, [visible]);
@@ -34,7 +41,7 @@ const Dropdown = (props: IDropdown) => {
 			{...restProps}
 			touchable
 			visible={active}
-			onVisibleChange={setActive}
+			onVisibleChange={handleVisibleChange}
 		>
 			{children}
 		</Popup>

@@ -1,6 +1,6 @@
 {
 	"name": "@ioca/react",
-	"version": "1.4.65",
+	"version": "1.4.68",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",

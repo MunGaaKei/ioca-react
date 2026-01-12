@@ -1,4 +1,8 @@
-import { MinusRound, PlusRound } from "@ricons/material";
+import {
+	KeyboardDoubleArrowUpRound,
+	MinusRound,
+	PlusRound,
+} from "@ricons/material";
 import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { ChangeEvent, useEffect } from "react";
@@ -31,6 +35,7 @@ const Number = (props: IInputNumber) => {
 		message,
 		tip,
 		hideControl,
+		showMax,
 		style,
 		onChange,
 		onEnter,
@@ -50,25 +55,33 @@ const Number = (props: IInputNumber) => {
 
 	const formatInputValue = (v?: string | number) => {
 		if (!v) return "";
-		if (typeof v === "number" || !thousand) return v;
+		if (typeof v === "number") return v.toString();
+		if (!thousand) return v;
 
-		return v.replaceAll(thousand, "");
+		return v.split(thousand).join("");
 	};
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
-		const v = formatInputValue(value.replace(/[^\d\.-]/g, ""));
+		const v = formatInputValue(value.replace(/[^\d\.-]/g, "")); // 保留负号和小数点
+		const numValue = clamp(+v, min, max); // 确保值在范围内
 
-		state.value = v;
-		onChange?.(+v, e);
+		state.value = getFormatNumber(numValue); // 修复 thousand 格式化
+		onChange?.(numValue, e);
 	};
 
 	const handleOperate = (param: number) => {
-		const value = formatInputValue(state.value) ?? 0;
-		const result = getRangeNumber(+value + param);
+		const value = parseFloat(formatInputValue(state.value)) || 0; // 确保值为数字，默认值为 0
+		const result = getRangeNumber(value + param);
 
 		state.value = getFormatNumber(result);
 
+		onChange?.(result);
+	};
+
+	const handleMax = () => {
+		const result = getRangeNumber(max);
+		state.value = getFormatNumber(result);
 		onChange?.(result);
 	};
 
@@ -118,6 +131,14 @@ const Number = (props: IInputNumber) => {
 						active
 						icon={<PlusRound />}
 						onClick={() => handleOperate(step)}
+					/>
+				)}
+
+				{showMax && max && !disabled && (
+					<Helpericon
+						active
+						icon={<KeyboardDoubleArrowUpRound />}
+						onClick={handleMax}
 					/>
 				)}
 

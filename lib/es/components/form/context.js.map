@@ -1,1 +1,0 @@
-{"version":3,"file":"context.js","sources":["../../../../packages/components/form/context.tsx"],"sourcesContent":["import { createContext } from \"react\";\r\nimport { IFormInstance } from \"./useForm\";\r\n\r\nconst Context = createContext({} as IFormInstance);\r\n\r\nexport default Context;\r\n"],"names":[],"mappings":";;AAGA,MAAM,OAAO,GAAG,aAAa,CAAC,EAAmB;;;;"}
