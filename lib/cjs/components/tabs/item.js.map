@@ -1,0 +1,1 @@
+{"version":3,"file":"item.js","sources":["../../../../packages/components/tabs/item.tsx"],"sourcesContent":["import { ITabItem } from \"./type\";\r\n\r\nconst Item = (props: ITabItem) => {\r\n\treturn <></>;\r\n};\r\n\r\nexport default Item;\r\n"],"names":["_jsx"],"mappings":";;;;;;AAEA,MAAM,IAAI,GAAG,CAAC,KAAe,KAAI;AAChC,IAAA,OAAOA,uCAAK;AACb;;;;"}

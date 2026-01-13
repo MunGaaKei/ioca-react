@@ -1,0 +1,1 @@
+{"version":3,"file":"item.js","sources":["../../../../packages/components/collapse/item.tsx"],"sourcesContent":["import { ICollapseItem } from \"./type\";\r\n\r\nexport default function Item(props: ICollapseItem) {\r\n\treturn <></>;\r\n}\r\n"],"names":["_jsx"],"mappings":";;;;;;AAEwB,SAAA,IAAI,CAAC,KAAoB,EAAA;AAChD,IAAA,OAAOA,uCAAK;AACb;;;;"}
