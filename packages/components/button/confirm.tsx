@@ -1,6 +1,6 @@
+import { useReactive } from "../../js/hooks";
 import Button from "./button";
 import type { IButton, IButtonConfirm } from "./type";
-import { useReactive } from "../../js/hooks";
 
 const defaultOk = {
 	children: "确定",
@@ -16,6 +16,7 @@ export default function Confirm(props: IButtonConfirm) {
 	const {
 		ref,
 		size,
+		defaultActive,
 		okButtonProps,
 		cancelButtonProps,
 		onOk,
@@ -25,7 +26,7 @@ export default function Confirm(props: IButtonConfirm) {
 	} = props;
 
 	const state = useReactive({
-		active: false,
+		active: defaultActive ?? false,
 		loading: false,
 	});
 

@@ -8,9 +8,9 @@ import {
 	RefObject,
 } from "react";
 import { LinkProps } from "react-router";
-import Confirm from "./confirm";
-import Group from "./group";
-import Toggle from "./toggle";
+import type Confirm from "./confirm";
+import type Group from "./group";
+import type Toggle from "./toggle";
 
 interface BaseButtonProps {
 	as?:
@@ -35,7 +35,8 @@ interface BaseButtonProps {
 }
 
 export interface IButton
-	extends BaseButtonProps,
+	extends
+		BaseButtonProps,
 		Omit<ButtonHTMLAttributes<HTMLElement>, "type" | "onToggle">,
 		Omit<AnchorHTMLAttributes<HTMLElement>, "onToggle"> {}
 
@@ -49,6 +50,7 @@ export interface IButtonToggle extends IButton {
 }
 
 export interface IButtonConfirm extends IButton {
+	defaultActive?: boolean;
 	okButtonProps?: IButton;
 	cancelButtonProps?: IButton;
 	onOk?: () => void | boolean | Promise<void | boolean>;
@@ -63,8 +65,9 @@ export interface IButtonGroup {
 	style?: CSSProperties;
 }
 
-export interface CompositionButton
-	extends ForwardRefExoticComponent<IButton & RefAttributes<HTMLElement>> {
+export interface CompositionButton extends ForwardRefExoticComponent<
+	IButton & RefAttributes<HTMLElement>
+> {
 	Toggle: typeof Toggle;
 	Group: typeof Group;
 	Confirm: typeof Confirm;

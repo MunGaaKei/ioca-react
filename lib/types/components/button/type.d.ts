@@ -31,6 +31,7 @@ interface IButtonToggle extends IButton {
     onToggle?: (active: boolean) => void;
 }
 interface IButtonConfirm extends IButton {
+    defaultActive?: boolean;
     okButtonProps?: IButton;
     cancelButtonProps?: IButton;
     onOk?: () => void | boolean | Promise<void | boolean>;

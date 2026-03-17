@@ -8,9 +8,13 @@ import {
 	UndoRound,
 } from "@ricons/material";
 import { Fragment } from "react/jsx-runtime";
-import { escapeAttrValue } from "xss";
+import xss from "xss";
 import Button from "../button";
 import Icon from "../icon";
+
+const { escapeAttrValue } = xss as unknown as {
+	escapeAttrValue: (value: string) => string;
+};
 
 export const exec = (a, b?, c?) => {
 	if (typeof document === "undefined") return;
