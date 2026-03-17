@@ -68,7 +68,7 @@ const Button = (props: IButton) => {
 		createElement(
 			"span",
 			{ key: "content", className: "i-btn-content" },
-			children
+			children,
 		),
 	];
 
@@ -92,7 +92,7 @@ const Button = (props: IButton) => {
 				...attrs,
 				...restProps,
 			},
-			childNodes
+			childNodes,
 		);
 	}
 
@@ -103,7 +103,7 @@ const Button = (props: IButton) => {
 			...attrs,
 			...restProps,
 		},
-		childNodes
+		childNodes,
 	);
 };
 

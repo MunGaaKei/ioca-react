@@ -1,4 +1,4 @@
-import { ForwardRefExoticComponent, InputHTMLAttributes, ReactNode, TextareaHTMLAttributes, RefObject, ChangeEvent, MouseEvent } from 'react';
+import { InputHTMLAttributes, ReactNode, ForwardRefExoticComponent, TextareaHTMLAttributes, RefObject, ChangeEvent, MouseEvent } from 'react';
 import { BaseInput } from '../../type/index.js';
 import Number from './number.js';
 import Range from './range.js';

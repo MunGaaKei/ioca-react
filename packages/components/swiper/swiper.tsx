@@ -2,7 +2,6 @@ import {
 	KeyboardArrowLeftRound,
 	KeyboardArrowRightRound,
 } from "@ricons/material";
-import { useReactive } from "ahooks";
 import classNames from "classnames";
 import {
 	Children,
@@ -11,7 +10,7 @@ import {
 	useMemo,
 	useRef,
 } from "react";
-import { useMouseMove, useMouseUp } from "../../js/hooks";
+import { useMouseMove, useMouseUp, useReactive } from "../../js/hooks";
 import { clamp } from "../../js/utils";
 import Icon from "../icon";
 import "./index.css";

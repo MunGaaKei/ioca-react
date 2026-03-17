@@ -1,4 +1,3 @@
-import { useCreation, useReactive } from "ahooks";
 import {
 	CSSProperties,
 	Children,
@@ -11,7 +10,12 @@ import {
 	useMemo,
 	useRef,
 } from "react";
-import { useMouseUp, useResizeObserver } from "../../js/hooks";
+import {
+	useCreation,
+	useMouseUp,
+	useReactive,
+	useResizeObserver,
+} from "../../js/hooks";
 import { getPointPosition, getPosition } from "../../js/utils";
 import ModalContext from "../modal/context";
 import Content from "./content";

@@ -1,6 +1,6 @@
-import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { ChangeEvent, useEffect } from "react";
+import { useReactive } from "../../js/hooks";
 import { ICheckboxItem } from "./type";
 
 export default function CheckboxItem(props: ICheckboxItem) {

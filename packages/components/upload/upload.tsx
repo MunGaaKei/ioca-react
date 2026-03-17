@@ -1,5 +1,4 @@
 import { DriveFolderUploadOutlined, PlusSharp } from "@ricons/material";
-import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { uid } from "radash";
 import {
@@ -10,6 +9,7 @@ import {
 	useMemo,
 	useRef,
 } from "react";
+import { useReactive } from "../../js/hooks";
 import { SortableItem } from "react-easy-sort";
 import usePreview from "../../js/usePreview";
 import { TPreviewItem } from "../../js/usePreview/type";

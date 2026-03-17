@@ -1,11 +1,11 @@
 import { Button, Drawer, Icon, Popup, Text, useTheme } from "@p";
+import { useReactive } from "@p/js/hooks";
 import {
 	BugReportTwotone,
 	LightModeTwotone,
 	MenuRound,
 	NightlightTwotone,
 } from "@ricons/material";
-import { useReactive } from "ahooks";
 import { Link } from "react-router";
 
 export default function Sider(props) {

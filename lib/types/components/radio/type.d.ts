@@ -1,4 +1,4 @@
-import { ReactNode, InputHTMLAttributes, ChangeEvent } from 'react';
+import { InputHTMLAttributes, ReactNode, ChangeEvent } from 'react';
 import { TOption, TStatus } from '../../type/index.js';
 
 type TRenderRadioItem = (checked: boolean, value: any) => ReactNode;

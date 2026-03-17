@@ -10,11 +10,10 @@ import {
 	RotateLeftRound,
 	RotateRightRound,
 } from "@ricons/material";
-import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { throttle } from "radash";
 import { useEffect, useMemo, useRef } from "react";
-import { useMouseMove, useMouseUp } from "../hooks";
+import { useMouseMove, useMouseUp, useReactive } from "../hooks";
 import { getFileType, getSuffixByUrl } from "../utils";
 import DefaultRenderFile from "./renderFile";
 import { IPreview, TFileType, TPreviewItem } from "./type";

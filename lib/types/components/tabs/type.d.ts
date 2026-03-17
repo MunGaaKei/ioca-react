@@ -1,4 +1,4 @@
-import { ForwardRefExoticComponent, ReactNode, RefObject, CSSProperties, Ref } from 'react';
+import { ForwardRefExoticComponent, RefObject, ReactNode, Ref, CSSProperties } from 'react';
 import Item from './item.js';
 
 interface ITabItem {

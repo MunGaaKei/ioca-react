@@ -1,4 +1,4 @@
-import { useLocalStorageState } from "ahooks";
+import { useLocalStorageState } from "@p/js/hooks";
 import { createContext } from "react";
 
 type TSettings = {

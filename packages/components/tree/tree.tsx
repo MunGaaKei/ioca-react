@@ -1,5 +1,5 @@
-import { useReactive } from "ahooks";
 import { useEffect, useImperativeHandle } from "react";
+import { useReactive } from "../../js/hooks";
 import "./index.css";
 import { TreeList } from "./item";
 import { ITree, ITreeItem } from "./type";

@@ -1,6 +1,6 @@
-import { useReactive } from "ahooks";
 import type { RefObject } from "react";
 import { useImperativeHandle } from "react";
+import { useReactive } from "../../js/hooks";
 import Modal from "./modal";
 import type { IModal, RefHookModal } from "./type";
 

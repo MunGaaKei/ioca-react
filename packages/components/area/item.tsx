@@ -1,22 +1,26 @@
 import classNames from "classnames";
-import Scrollbars from "react-custom-scrollbars-2";
 import { IAreaItem } from "./type";
 
 function Item(props: IAreaItem) {
-	const { name = "content", style, className, children, ref } = props;
+	const {
+		name = "content",
+		style,
+		className,
+		children,
+		ref,
+		...rest
+	} = props;
 
 	return (
-		<Scrollbars
+		<div
 			ref={ref}
 			className={classNames(`i-area-${name}`, className)}
 			style={{ gridArea: name, ...style }}
-			autoHide
-			renderView={(props) => (
-				<div {...props} className='i-area-scrollview' />
-			)}
 		>
-			{children}
-		</Scrollbars>
+			<div {...rest} className='i-area-scrollview'>
+				{children}
+			</div>
+		</div>
 	);
 }
 

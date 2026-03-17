@@ -1,5 +1,5 @@
 import { Checkbox, Step } from "@p";
-import { useReactive } from "ahooks";
+import { useReactive } from "@p/js/hooks";
 
 export const DBasic = {
 	demo: () => {

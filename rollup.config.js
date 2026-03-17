@@ -13,7 +13,6 @@ const externals = [
 	"react/jsx-runtime",
 	"@types/react",
 	"classnames",
-	"ahooks",
 	"dayjs",
 	"@rc-component/color-picker",
 	"xss",
@@ -36,12 +35,19 @@ const plugins = [
 	}),
 	typescript({
 		tsconfig: "./tsconfig.json",
+		compilerOptions: {
+			allowImportingTsExtensions: false,
+		},
 		declaration: false,
 		exclude: ["**/__tests__/**"],
-		moduleResolution: "node",
 		skipLibCheck: true,
 	}),
 ];
+
+const onwarn = (warning, warn) => {
+	if (warning.code === "CIRCULAR_DEPENDENCY") return;
+	warn(warning);
+};
 
 export default [
 	// CSS 单独打包
@@ -50,6 +56,7 @@ export default [
 		output: {
 			dir: "lib",
 		},
+		onwarn,
 		external: externals,
 		plugins: [
 			...plugins,
@@ -57,6 +64,7 @@ export default [
 				fileName: "css/index.css",
 				sourceMap: true,
 				outputStyle: "compressed",
+				silenceDeprecations: ["legacy-js-api"],
 			}),
 		],
 	},
@@ -70,9 +78,6 @@ export default [
 				preserveModulesRoot: "packages",
 				exports: "named",
 				sourcemap: true,
-				environment: {
-					node: true,
-				},
 			},
 			{
 				dir: "lib/cjs",
@@ -83,13 +88,14 @@ export default [
 				sourcemap: true,
 				interop: "compat",
 				externalLiveBindings: false,
-				environment: {
-					node: true,
-				},
 			},
 		],
+		onwarn,
 		external: externals,
-		plugins: [...plugins, scss({ output: false })],
+		plugins: [
+			...plugins,
+			scss({ output: false, silenceDeprecations: ["legacy-js-api"] }),
+		],
 	},
 	// 类型声明文件
 	{
@@ -99,9 +105,10 @@ export default [
 			preserveModules: true,
 			preserveModulesRoot: "packages",
 		},
+		onwarn,
 		external: [...externals, /\.scss$/, /\.css$/],
 		plugins: [
-			scss({ output: false }),
+			scss({ output: false, silenceDeprecations: ["legacy-js-api"] }),
 			dts({
 				respectExternal: true,
 				compilerOptions: {

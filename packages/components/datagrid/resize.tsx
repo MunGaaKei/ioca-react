@@ -1,5 +1,4 @@
-import { useReactive } from "ahooks";
-import { useMouseMove, useMouseUp } from "../../js/hooks";
+import { useMouseMove, useMouseUp, useReactive } from "../../js/hooks";
 
 export default function Resize(props) {
 	const { index, onWidthChange } = props;

@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 import { IModal } from '../../components/modal/type.js';
 
 type TPreviewItem = {

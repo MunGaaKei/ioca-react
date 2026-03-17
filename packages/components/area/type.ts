@@ -3,16 +3,15 @@ import {
 	HTMLAttributes,
 	RefAttributes,
 } from "react";
-import Scrollbars, { ScrollbarProps } from "react-custom-scrollbars-2";
 import Item from "./item";
 
-export interface IArea extends ScrollbarProps {
+export interface IArea extends HTMLAttributes<HTMLDivElement> {
 	layout?: "ltcb" | "tlrb";
 }
 
-export interface IAreaItem extends HTMLAttributes<HTMLElement> {
+export interface IAreaItem extends HTMLAttributes<HTMLDivElement> {
 	name?: string;
-	ref?: React.Ref<Scrollbars>;
+	ref?: React.Ref<HTMLDivElement>;
 }
 
 export interface CompositionArea

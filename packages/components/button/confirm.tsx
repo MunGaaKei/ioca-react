@@ -1,6 +1,6 @@
-import { useReactive } from "ahooks";
 import Button from "./button";
 import type { IButton, IButtonConfirm } from "./type";
+import { useReactive } from "../../js/hooks";
 
 const defaultOk = {
 	children: "确定",

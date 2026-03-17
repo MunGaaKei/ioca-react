@@ -1,6 +1,6 @@
-import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { MouseEvent, useEffect } from "react";
+import { useReactive } from "../../js/hooks";
 import Button from "./button";
 import { IButtonToggle } from "./type";
 
@@ -63,7 +63,7 @@ export default function Toggle(props: IButtonToggle) {
 			className={classNames(
 				className,
 				{ [activeClass || ""]: state.active },
-				"i-btn-toggle"
+				"i-btn-toggle",
 			)}
 			{...restProps}
 			onClick={handleClick}
@@ -73,7 +73,7 @@ export default function Toggle(props: IButtonToggle) {
 					"i-btn-toggle-active": state.done,
 				})}
 			>
-				{state.active ? after ?? children : children}
+				{state.active ? (after ?? children) : children}
 			</div>
 		</Button>
 	);

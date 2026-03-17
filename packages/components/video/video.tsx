@@ -7,10 +7,10 @@ import {
 	VolumeDownRound,
 	VolumeOffRound,
 } from "@ricons/material";
-import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { throttle } from "radash";
 import { useEffect, useImperativeHandle, useRef } from "react";
+import { useReactive } from "../../js/hooks";
 import { exitFullScreen, fullScreen } from "../../js/utils";
 import Button from "../button";
 import Icon from "../icon";

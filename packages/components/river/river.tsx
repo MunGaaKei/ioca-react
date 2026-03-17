@@ -1,6 +1,6 @@
-import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { Children, useLayoutEffect, useMemo, useRef } from "react";
+import { useReactive } from "../../js/hooks";
 import "./index.css";
 import { IRiver } from "./type";
 

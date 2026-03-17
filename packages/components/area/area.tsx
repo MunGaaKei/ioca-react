@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import "./area.css";
 import Item from "./item";
+import type { CompositionArea, IArea } from "./type";
 
-function Area<IArea>(props) {
+const Area = ((props: IArea) => {
 	const { layout = "ltcb", style, className, children } = props;
 
 	return (
@@ -13,7 +14,7 @@ function Area<IArea>(props) {
 			{children}
 		</div>
 	);
-}
+}) as CompositionArea;
 
 Area.Item = Item;
 

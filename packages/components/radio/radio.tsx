@@ -1,6 +1,6 @@
-import { useReactive } from "ahooks";
 import classNames from "classnames";
 import { useEffect, useMemo } from "react";
+import { useReactive } from "../../js/hooks";
 import "../../css/input.css";
 import { formatOption } from "../../js/utils";
 import "./index.css";

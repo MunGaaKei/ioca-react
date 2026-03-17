@@ -1,7 +1,7 @@
 import menu from "@d/config/menu";
 import { Tree } from "@p";
 import Area from "@p/components/area";
-import { configResponsive, useResponsive } from "ahooks";
+import { configResponsive, useResponsive } from "@p/js/hooks";
 import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router";
 import Footer from "./footer";
@@ -24,10 +24,11 @@ export default function Document() {
 			className='pd-8'
 		/>
 	);
-	const contentRef = useRef<any>(null);
+	const contentRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		contentRef.current?.scrollTop(0);
+		contentRef.current?.scrollTo?.({ top: 0 });
+		if (contentRef.current) contentRef.current.scrollTop = 0;
 	}, [name]);
 
 	return (

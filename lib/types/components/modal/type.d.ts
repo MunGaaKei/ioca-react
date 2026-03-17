@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode, FC } from 'react';
 import { IButton } from '../button/type.js';
 import useModal from './useModal.js';
 

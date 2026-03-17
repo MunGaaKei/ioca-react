@@ -1,6 +1,6 @@
 import ColorsPanel from "@rc-component/color-picker";
-import { useReactive } from "ahooks";
 import { useEffect } from "react";
+import { useReactive } from "../../../js/hooks";
 import Popup from "../../popup";
 import { IColorPicker } from "../type";
 import Footer, { ColorMethods } from "./footer";

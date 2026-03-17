@@ -1,4 +1,3 @@
-import { useReactive } from "ahooks";
 import PubSub from "pubsub-js";
 import {
 	Children,
@@ -8,6 +7,7 @@ import {
 	useEffect,
 	useMemo,
 } from "react";
+import { useReactive } from "../../js/hooks";
 import Context from "./context";
 import { IField } from "./type";
 

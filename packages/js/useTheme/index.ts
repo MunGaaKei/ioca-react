@@ -1,4 +1,4 @@
-import { useLocalStorageState } from "ahooks";
+import { useLocalStorageState } from "../hooks";
 import { useEffect, useState } from "react";
 import { ITheme } from "./type";
 

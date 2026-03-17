@@ -7,7 +7,6 @@ import {
 } from "@ricons/material";
 import classNames from "classnames";
 import { useState } from "react";
-import Scrollbars from "react-custom-scrollbars-2";
 import CodeView from "../code";
 import "./index.css";
 
@@ -82,14 +81,9 @@ export default function Demo(props: IDemo) {
 				{collapsed ? (
 					<></>
 				) : (
-					<Scrollbars
-						autoHide
-						autoHeight
-						autoHeightMax={500}
-						className='flex-1'
-					>
+					<div className='demo-code-scroll flex-1'>
 						<CodeView lang={lang}>{code}</CodeView>
-					</Scrollbars>
+					</div>
 				)}
 			</div>
 		</Flex>
