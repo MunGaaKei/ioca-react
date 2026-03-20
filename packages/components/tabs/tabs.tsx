@@ -1,9 +1,9 @@
 import { MoreHorizRound } from "@ricons/material";
 import classNames from "classnames";
-import { pick } from "radash";
 import {
 	CSSProperties,
 	Children,
+	ReactNode,
 	useEffect,
 	useImperativeHandle,
 	useRef,
@@ -55,6 +55,7 @@ const Tabs = ((props: ITabs) => {
 	const navRefs = useRef<HTMLElement[]>([]);
 	const barRef = useRef<HTMLSpanElement>(null);
 	const navsRef = useRef<HTMLDivElement>(null);
+	const contentsRef = useRef<Map<string, ReactNode>>(new Map());
 	const state = useReactive<TState>({
 		active,
 		prevActive: undefined,
@@ -68,11 +69,7 @@ const Tabs = ((props: ITabs) => {
 	const size = useSize(navsRef);
 
 	useEffect(() => {
-		const sanitizeContent = (node: unknown) => {
-			if (!node || typeof node !== "object") return node;
-			if (!("$$typeof" in node)) return node;
-			return pick(node as any, ["props", "type", "$$typeof", "ref"]);
-		};
+		contentsRef.current.clear();
 
 		if (!items) {
 			if (!children) {
@@ -85,19 +82,21 @@ const Tabs = ((props: ITabs) => {
 					key?: string;
 					props?: any;
 				};
-				const { title, children, content, keepDOM } = nodeProps;
-
-				const cloned = children
-					? typeof children === "string"
-						? children
-						: pick(children, ["props", "type", "$$typeof", "ref"])
-					: content;
+				const {
+					title,
+					children: tabChildren,
+					content,
+					keepDOM,
+					closable,
+				} = nodeProps;
+				const tabKey = String(key ?? i);
+				contentsRef.current.set(tabKey, tabChildren ?? content);
 
 				return {
-					key: key || String(i),
+					key: tabKey,
 					title,
-					content: cloned,
 					keepDOM,
+					closable,
 				};
 			}) as ITabItem[];
 
@@ -106,30 +105,31 @@ const Tabs = ((props: ITabs) => {
 
 		state.tabs = items.map((item, i) => {
 			if (["string", "number"].includes(typeof item)) {
-				return { key: item, title: item };
+				const key = String(item);
+				return { key, title: item };
 			}
-			if (item.key === undefined) {
-				item.key = i;
-			}
+			const key = String(item.key ?? i);
+			contentsRef.current.set(key, item.content);
+			const { content, ...rest } = item;
 			return {
-				...item,
-				content: sanitizeContent(item.content),
+				...rest,
+				key,
 			};
 		});
 	}, [children, items]);
 
 	const add = (tab: ITabItem) => {
-		const { key } = tab;
-		const i = state.tabs.findIndex((t) => t.key === key);
+		const tkey = String(tab.key ?? state.tabs.length);
+		const i = state.tabs.findIndex((t) => t.key === tkey);
 
 		if (i > -1) {
 			open(state.tabs[i].key ?? `${i}`);
 			return;
 		}
 
-		const l = state.tabs.length;
-		const tkey = tab.key ?? `${l}`;
-		state.tabs.push({ ...tab, key: tkey });
+		contentsRef.current.set(tkey, tab.content);
+		const { content, ...rest } = tab;
+		state.tabs.push({ ...rest, key: tkey });
 		open(tkey);
 	};
 
@@ -138,6 +138,7 @@ const Tabs = ((props: ITabs) => {
 
 		if (i < 0) return;
 
+		contentsRef.current.delete(key);
 		state.tabs.splice(i, 1);
 
 		if (state.active !== key) return;
@@ -355,7 +356,8 @@ const Tabs = ((props: ITabs) => {
 
 			<div className='i-tab-contents'>
 				{state.tabs.map((tab, i) => {
-					const { key = `${i}`, content } = tab;
+					const key = tab.key ?? `${i}`;
+					const content = contentsRef.current.get(key);
 					const isActive = state.active === key;
 					const show =
 						isActive ||
