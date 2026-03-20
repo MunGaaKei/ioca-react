@@ -1,9 +1,7 @@
-import { HideImageTwotone } from "@ricons/material";
 import classNames from "classnames";
 import { useEffect, useRef } from "react";
 import { useIntersectionObserver, useReactive } from "../../js/hooks";
 import usePreview from "../../js/usePreview";
-import Icon from "../icon";
 import Loading from "../loading";
 import "./index.css";
 import List from "./list";
@@ -20,9 +18,7 @@ const Image = (props: IImage) => {
 		ratio,
 		initSize,
 		lazyload,
-		fallback = (
-			<Icon icon={<HideImageTwotone />} size='2em' className='color-5' />
-		),
+		fallback,
 		fit,
 		style,
 		className,
@@ -75,6 +71,13 @@ const Image = (props: IImage) => {
 	useEffect(() => {
 		if (!src || typeof window === "undefined") return;
 
+		const img = ref.current;
+		const hasSrcAttr = img?.getAttribute("src");
+		const canSyncStatus = Boolean(img && (!lazyload || hasSrcAttr));
+		if (canSyncStatus && img?.complete) {
+			state.status = img.naturalWidth > 0 ? undefined : "error";
+		}
+
 		if (!ref.current?.complete && observe && lazyload) {
 			state.status = "loading";
 		}
@@ -111,7 +114,7 @@ const Image = (props: IImage) => {
 			onClick={handleClick}
 		>
 			{state.status === "error" ? (
-				fallback
+				(fallback ?? null)
 			) : (
 				<>
 					{src && (

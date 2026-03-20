@@ -68,6 +68,12 @@ const Tabs = ((props: ITabs) => {
 	const size = useSize(navsRef);
 
 	useEffect(() => {
+		const sanitizeContent = (node: unknown) => {
+			if (!node || typeof node !== "object") return node;
+			if (!("$$typeof" in node)) return node;
+			return pick(node as any, ["props", "type", "$$typeof", "ref"]);
+		};
+
 		if (!items) {
 			if (!children) {
 				state.tabs = [];
@@ -105,7 +111,10 @@ const Tabs = ((props: ITabs) => {
 			if (item.key === undefined) {
 				item.key = i;
 			}
-			return item;
+			return {
+				...item,
+				content: sanitizeContent(item.content),
+			};
 		});
 	}, [children, items]);
 
@@ -253,7 +262,7 @@ const Tabs = ((props: ITabs) => {
 			className={classNames(
 				"i-tabs",
 				{ flex: vertical, [`i-tabs-${type}`]: type !== "default" },
-				className
+				className,
 			)}
 			{...rest}
 		>
@@ -268,7 +277,7 @@ const Tabs = ((props: ITabs) => {
 					ref={navsRef}
 					className={classNames(
 						"i-tab-navs",
-						`justify-${navsJustify}`
+						`justify-${navsJustify}`,
 					)}
 				>
 					{state.tabs.map((tab, i) => {

@@ -74,18 +74,18 @@
 	--background: var(--background-hover);
 }
 .i-btn-secondary {
-	--background-hover: var(--color-8);
+	--background-hover: var(--background-opacity-1);
 	--background: var(--color-9);
 	--color: var(--color-1);
 }
 .i-btn-flat {
-	--background-hover: var(--color-9);
+	--background-hover: var(--background-opacity-1);
 	--color-main-reverse: var(--color);
 	--background: transparent;
 	--color: var(--color-1);
 }
 .i-btn-outline {
-	--background-hover: var(--color-main-0);
+	--background-hover: var(--background-opacity-1);
 	--color: var(--color-main);
 	&.i-btn {
 		--background: transparent;
