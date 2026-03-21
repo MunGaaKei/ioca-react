@@ -5,8 +5,7 @@ import {
 import classNames from "classnames";
 import dayjs, { Dayjs } from "dayjs";
 import { throttle } from "radash";
-import { ReactNode, useEffect, useRef } from "react";
-import { useReactive } from "../../../js/hooks";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import Icon from "../../icon";
 import Helpericon from "../../utils/helpericon";
 import { IBaseDates } from "../type";
@@ -50,69 +49,65 @@ const Panel = (props: IBaseDates) => {
 		onDateClick,
 	} = props;
 
-	const state = useReactive({
-		today: value,
-		month: value || dayjs(),
-		selectedYear: dayjs(),
-		years: [] as number[],
-		selectable: false,
-	});
+	const [today, setToday] = useState(value);
+	const [month, setMonth] = useState(value || dayjs());
+	const [selectedYear, setSelectedYear] = useState(dayjs());
+	const [years, setYears] = useState<number[]>([]);
+	const [selectable, setSelectable] = useState(false);
 
 	const $years = useRef<HTMLDivElement>(null);
 
 	const handleOperateMonth = (next: boolean) => {
-		state.month = state.month[next ? "add" : "subtract"](1, "month");
+		setMonth((m) => m[next ? "add" : "subtract"](1, "month"));
 	};
 
 	const handleChangeDate = (date: Dayjs) => {
-		if (date.isSame(state.today, "day")) return;
+		if (date.isSame(today, "day")) return;
 
-		if (!date.isSame(state.month, "month")) {
-			state.month = date;
+		if (!date.isSame(month, "month")) {
+			setMonth(date);
 		}
 
-		state.today = date;
+		setToday(date);
 		onDateClick?.(date);
 	};
 
 	const handleChangeMonth = (month: number) => {
-		state.month = state.month
-			.year(state.selectedYear.year())
-			.month(month - 1);
-		state.selectable = false;
+		setMonth((m) => m.year(selectedYear.year()).month(month - 1));
+		setSelectable(false);
 	};
 
 	const getMoreYears = throttle({ interval: 100 }, (e) => {
 		const isUp = e.deltaY < 0;
 
-		state.years = state.years.map((y) => (y += isUp ? -1 : 1));
+		setYears((ys) => ys.map((y) => y + (isUp ? -1 : 1)));
 	});
 
 	useEffect(() => {
-		if (!state.selectable) return;
+		if (!selectable) return;
 
-		state.selectedYear = state.month;
-		const y = state.selectedYear.year();
-		const years = Array.from({ length: 7 }).map((_, i) => y - 3 + i);
+		setSelectedYear(month);
+		const y = month.year();
+		const nextYears = Array.from({ length: 7 }).map((_, i) => y - 3 + i);
 
-		state.years = [...years];
-	}, [state.selectable]);
+		setYears([...nextYears]);
+	}, [selectable, month]);
 
 	useEffect(() => {
-		state.today = value;
-		state.month = value || dayjs();
+		setToday(value);
+		setMonth(value || dayjs());
 	}, [value]);
 
 	return (
 		<div className='i-datepicker'>
 			<div className='i-datepicker-units'>
 				<YearMonth
-					value={state.month}
+					value={month}
 					unitYear={unitYear}
 					unitMonth={unitMonth}
 					renderMonth={renderMonth}
 					renderYear={renderYear}
-					onClick={() => (state.selectable = true)}
+					onClick={() => setSelectable(true)}
 				/>
 				<a
 					className='ml-auto i-datepicker-action'
@@ -132,7 +127,7 @@ const Panel = (props: IBaseDates) => {
 
 			<div
 				className={classNames("i-datepicker-ym", {
-					"i-datepicker-active": state.selectable,
+					"i-datepicker-active": selectable,
 				})}
 			>
 				<Helpericon
@@ -140,7 +135,7 @@ const Panel = (props: IBaseDates) => {
 					className='i-datepicker-close'
 					onClick={(e) => {
 						e.stopPropagation();
-						state.selectable = false;
+						setSelectable(false);
 					}}
 				/>
 
@@ -149,17 +144,14 @@ const Panel = (props: IBaseDates) => {
 					className='i-datepicker-years'
 					onWheel={getMoreYears}
 				>
-					{state.years.map((y) => (
+					{years.map((y) => (
 						<a
 							key={y}
 							className={classNames("i-datepicker-year", {
 								"i-datepicker-active":
-									y === state.selectedYear.year(),
+									y === selectedYear.year(),
 							})}
-							onClick={() =>
-								(state.selectedYear =
-									state.selectedYear.year(y))
-							}
+							onClick={() => setSelectedYear((sy) => sy.year(y))}
 						>
 							{renderYear(y)}
 						</a>
@@ -173,7 +165,7 @@ const Panel = (props: IBaseDates) => {
 								key={m}
 								className={classNames("i-datepicker-month", {
 									"i-datepicker-active":
-										m === state.month.month() + 1,
+										m === month.month() + 1,
 								})}
 								onClick={() => handleChangeMonth(m)}
 							>
@@ -185,8 +177,8 @@ const Panel = (props: IBaseDates) => {
 			</div>
 
 			<Dates
-				value={state.today}
-				month={state.month}
+				value={today}
+				month={month}
 				disabledDate={disabledDate}
 				onDateClick={handleChangeDate}
 				renderDate={renderDate}

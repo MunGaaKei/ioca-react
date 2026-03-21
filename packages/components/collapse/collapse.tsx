@@ -1,7 +1,6 @@
 import { MinusRound, PlusRound } from "@ricons/material";
 import classNames from "classnames";
-import { Children, useMemo } from "react";
-import { useReactive } from "../../js/hooks";
+import { Children, useMemo, useState } from "react";
 import Helpericon from "../utils/helpericon";
 import "./index.css";
 import Item from "./item";
@@ -22,9 +21,7 @@ const Collapse = (props: ICollapse) => {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		active,
-	});
+	const [activeKey, setActiveKey] = useState(active);
 
 	const collapses = useMemo(() => {
 		if (!items) {
@@ -65,20 +62,22 @@ const Collapse = (props: ICollapse) => {
 		if (disabled) return;
 
 		if (!multiple) {
-			state.active = state.active === key ? undefined : key;
-			onCollapse?.(key as TKey, state.active !== undefined);
+			const nextActive = activeKey === key ? undefined : key;
+			setActiveKey(nextActive);
+			onCollapse?.(key as TKey, nextActive !== undefined);
 			return;
 		}
 
-		if (!Array.isArray(state.active)) state.active = [];
+		const group = Array.isArray(activeKey) ? [...activeKey] : [];
 
-		const i = state.active.findIndex((k) => k === key);
+		const i = group.findIndex((k) => k === key);
 
 		if (i > -1) {
-			state.active.splice(i, 1);
+			group.splice(i, 1);
 		} else {
-			key !== undefined && state.active.push(key);
+			key !== undefined && group.push(key);
 		}
+		setActiveKey(group as any);
 		onCollapse?.(key as TKey, i < 0);
 	};
 
@@ -103,8 +102,8 @@ const Collapse = (props: ICollapse) => {
 					...restProps
 				} = item;
 				const isActive = multiple
-					? ((state.active as TKey[]) || []).includes(key)
-					: state.active === key;
+					? ((activeKey as TKey[]) || []).includes(key)
+					: activeKey === key;
 
 				return (
 					<div

@@ -1,5 +1,4 @@
-import { useEffect, useMemo } from "react";
-import { useReactive } from "../../../js/hooks";
+import { useEffect, useMemo, useState } from "react";
 import "./index.css";
 import Items from "./item";
 
@@ -24,12 +23,10 @@ export default function Panel(props) {
 		onChange,
 		onFallback,
 	} = props;
-	const state = useReactive<any>({
-		period: undefined,
-		hour: undefined,
-		minute: undefined,
-		second: undefined,
-	});
+	const [period, setPeriod] = useState<any>(undefined);
+	const [hour, setHour] = useState<any>(undefined);
+	const [minute, setMinute] = useState<any>(undefined);
+	const [second, setSecond] = useState<any>(undefined);
 
 	const [hours, minutes, seconds] = useMemo(() => {
 		const hasH = format.includes("h");
@@ -51,26 +48,47 @@ export default function Panel(props) {
 		return [hours, minutes, seconds];
 	}, [stepH, stepM, stepS, format, periods]);
 
-	const updateValue = () => {
+	const updateValue = (next?: {
+		period?: any;
+		hour?: any;
+		minute?: any;
+		second?: any;
+	}) => {
+		const nextPeriod = next?.period ?? period;
+		const nextHour = next?.hour ?? hour;
+		const nextMinute = next?.minute ?? minute;
+		const nextSecond = next?.second ?? second;
+
 		const reg = /(hh|h){1}|(mm|m){1}|(ss|s){1}/gi;
 		let result = format.replace(reg, (pattern) => {
 			const p = pattern.toLowerCase();
 			const u = UnitMaps[p];
-			const n = state[u] ?? 0;
+			const n =
+				u === "hour"
+					? (nextHour ?? 0)
+					: u === "minute"
+						? (nextMinute ?? 0)
+						: (nextSecond ?? 0);
 
 			return p.length > 1 && n < 10 ? `0${n ?? 0}` : n ?? 0;
 		});
 
 		if (periods && hours.length > 0) {
-			result = `${state.period ?? periods[0]} ${result}`;
+			result = `${nextPeriod ?? periods[0]} ${result}`;
 		}
 
 		onChange(result);
 	};
 
 	const handleSetTime = (v, unit) => {
-		state[unit] = v;
-		updateValue();
+		const next = { period, hour, minute, second, [unit]: v };
+
+		if (unit === "period") setPeriod(v);
+		if (unit === "hour") setHour(v);
+		if (unit === "minute") setMinute(v);
+		if (unit === "second") setSecond(v);
+
+		updateValue(next);
 	};
 
 	useEffect(() => {
@@ -79,7 +97,7 @@ export default function Panel(props) {
 		if (periods && hours.length > 0 && value) {
 			const [p, t] = value.split(" ");
 			time = t ?? "";
-			state.period = periods.includes(p) ? p : undefined;
+			setPeriod(periods.includes(p) ? p : undefined);
 		}
 
 		const nums = time.match(/\d+/g) ?? [];
@@ -90,22 +108,23 @@ export default function Panel(props) {
 		}
 
 		let i = 0;
+		const parsed = {
+			hour: undefined,
+			minute: undefined,
+			second: undefined,
+		};
 		const r = format.replace(/(hh|h)+|(mm|m)+|(ss|s)+/gi, (p) => {
 			const n = nums[i++] ?? 0;
-			let o = p;
-
-			if (UnitMaps[p] === "hour") {
-				o = Math.min(periods ? 11 : 23, n);
-			}
-
-			o = Math.min(59, n);
-
-			state[UnitMaps[p]] = o;
+			const o = Math.min(59, n);
+			parsed[UnitMaps[p]] = o;
 			return p.length > 1 && o < 10 ? `0${o}` : o;
 		});
 
+		setHour(parsed.hour);
+		setMinute(parsed.minute);
+		setSecond(parsed.second);
 		onFallback(r);
-	}, [value]);
+	}, [value, format, hours.length, periods]);
 
 	return (
 		<div className='i-timepicker'>
@@ -115,7 +134,7 @@ export default function Panel(props) {
 						<div className='i-timepicker-list'>
 							<Items
 								items={periods}
-								active={state.period}
+								active={period}
 								onClick={(p) => handleSetTime(p, "period")}
 							/>
 						</div>
@@ -123,7 +142,7 @@ export default function Panel(props) {
 					<div className='i-timepicker-list'>
 						<Items
 							items={hours}
-							active={state.hour}
+							active={hour}
 							unit='hour'
 							renderItem={renderItem}
 							onClick={(h) => handleSetTime(h, "hour")}
@@ -135,7 +154,7 @@ export default function Panel(props) {
 				<div className='i-timepicker-list'>
 					<Items
 						items={minutes}
-						active={state.minute}
+						active={minute}
 						unit='minute'
 						renderItem={renderItem}
 						onClick={(m) => handleSetTime(m, "minute")}
@@ -146,7 +165,7 @@ export default function Panel(props) {
 				<div className='i-timepicker-list'>
 					<Items
 						items={seconds}
-						active={state.second}
+						active={second}
 						unit='second'
 						renderItem={renderItem}
 						onClick={(s) => handleSetTime(s, "second")}

@@ -1,6 +1,5 @@
 import { CheckRound } from "@ricons/material";
-import { useEffect } from "react";
-import { useReactive } from "../../../js/hooks";
+import { useEffect, useState } from "react";
 import Button from "../../button";
 import Icon from "../../icon";
 import Input from "../../input";
@@ -14,24 +13,22 @@ export const ColorMethods = {
 
 export default function Footer(props) {
 	const { value, type, onTypeChange, onChange, onOk } = props;
-	const state = useReactive({
-		value,
-		type,
-	});
+	const [inputValue, setInputValue] = useState(value);
+	const [colorType, setColorType] = useState(type);
 
 	const handleChange = (v) => {
-		state.value = v;
+		setInputValue(v);
 		onChange(v);
 	};
 
 	const handleTypeChange = (t) => {
-		state.type = t;
+		setColorType(t);
 		onTypeChange(t);
 	};
 
 	useEffect(() => {
-		state.value = value;
-		state.type = type;
+		setInputValue(value);
+		setColorType(type);
 	}, [value, type]);
 
 	return (
@@ -42,12 +39,12 @@ export default function Footer(props) {
 				hideArrow
 				style={{ width: "5.6em" }}
 				options={["RGB", "HEX", "HSB"]}
-				value={state.type}
+				value={colorType}
 				onChange={handleTypeChange}
 			/>
 			<Input
 				placeholder='color'
-				value={state.value}
+				value={inputValue}
 				onChange={handleChange}
 			/>
 			<Button square onClick={onOk}>

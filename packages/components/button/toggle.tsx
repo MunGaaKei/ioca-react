@@ -1,6 +1,5 @@
 import classNames from "classnames";
-import { MouseEvent, useEffect } from "react";
-import { useReactive } from "../../js/hooks";
+import { MouseEvent, useEffect, useState } from "react";
 import Button from "./button";
 import { IButtonToggle } from "./type";
 
@@ -19,28 +18,24 @@ export default function Toggle(props: IButtonToggle) {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		active,
-		done: true,
-	});
+	const [isActive, setIsActive] = useState(active);
+	const [done, setDone] = useState(true);
 
 	const toggle = async () => {
 		const hasAfter = !!after;
-		const nextActive = !state.active;
+		const nextActive = !isActive;
 
 		const canToggle = toggable ? await toggable() : true;
 		if (!canToggle) return;
 
-		Object.assign(state, {
-			active: nextActive,
-			done: !hasAfter,
-		});
+		setIsActive(nextActive);
+		setDone(!hasAfter);
 		onToggle?.(nextActive);
 
 		if (!hasAfter) return;
 
 		setTimeout(() => {
-			state.done = true;
+			setDone(true);
 		}, 16);
 	};
 
@@ -51,10 +46,8 @@ export default function Toggle(props: IButtonToggle) {
 	};
 
 	useEffect(() => {
-		Object.assign(state, {
-			active,
-			done: true,
-		});
+		setIsActive(active);
+		setDone(true);
 	}, [active]);
 
 	return (
@@ -62,7 +55,7 @@ export default function Toggle(props: IButtonToggle) {
 			ref={ref}
 			className={classNames(
 				className,
-				{ [activeClass || ""]: state.active },
+				{ [activeClass || ""]: isActive },
 				"i-btn-toggle",
 			)}
 			{...restProps}
@@ -70,10 +63,10 @@ export default function Toggle(props: IButtonToggle) {
 		>
 			<div
 				className={classNames("i-btn-toggle-content", {
-					"i-btn-toggle-active": state.done,
+					"i-btn-toggle-active": done,
 				})}
 			>
-				{state.active ? (after ?? children) : children}
+				{isActive ? (after ?? children) : children}
 			</div>
 		</Button>
 	);

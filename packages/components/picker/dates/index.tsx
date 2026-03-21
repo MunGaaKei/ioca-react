@@ -3,7 +3,6 @@ import classNames from "classnames";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js";
 import { useEffect, useMemo, useState } from "react";
-import { useReactive } from "../../../js/hooks";
 import Icon from "../../icon";
 import Input from "../../input";
 import Popup from "../../popup";
@@ -35,35 +34,33 @@ const Datepicker = (props: IDatePicker) => {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		value,
-	});
+	const [inputValue, setInputValue] = useState(value);
 
 	const [active, setActive] = useState<boolean>(false);
 
 	const dayJsValue = useMemo(() => {
-		if (!state.value) return null;
+		if (!inputValue) return null;
 
-		const date = dayjs(state.value as string, format, true);
+		const date = dayjs(inputValue as string, format, true);
 
 		if (date.isValid()) return date;
 
 		return null;
-	}, [state.value]);
+	}, [inputValue, format]);
 
 	const handleDateClick = (date: Dayjs) => {
 		handleChange(date.format(format));
 	};
 
 	const handleChange = (v) => {
-		state.value = v;
+		setInputValue(v);
 		onChange?.(v);
 	};
 
 	const handleSetDate = () => {
-		if (!state.value) return;
+		if (!inputValue) return;
 
-		const date = dayjs(state.value as string, FORMATTYPES, true);
+		const date = dayjs(inputValue as string, FORMATTYPES, true);
 
 		if (date.isValid()) {
 			handleChange(date.format(format));
@@ -84,7 +81,7 @@ const Datepicker = (props: IDatePicker) => {
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setInputValue(value);
 	}, [value]);
 
 	return (
@@ -110,7 +107,7 @@ const Datepicker = (props: IDatePicker) => {
 			{...popupProps}
 		>
 			<Input
-				value={state.value}
+				value={inputValue}
 				append={
 					<Icon
 						icon={<CalendarMonthTwotone />}

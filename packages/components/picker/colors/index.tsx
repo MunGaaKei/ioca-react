@@ -1,6 +1,5 @@
 import ColorsPanel from "@rc-component/color-picker";
-import { useEffect } from "react";
-import { useReactive } from "../../../js/hooks";
+import { useEffect, useState } from "react";
 import Popup from "../../popup";
 import { IColorPicker } from "../type";
 import Footer, { ColorMethods } from "./footer";
@@ -20,53 +19,57 @@ export default function ColorPicker(props: IColorPicker) {
 		onChange,
 	} = props;
 
-	const state = useReactive({
-		type,
-		value,
-		syncValue: value,
-		visible: popupProps?.visible,
-	});
+	const [colorType, setColorType] = useState(type);
+	const [colorValue, setColorValue] = useState(value);
+	const [syncValue, setSyncValue] = useState(value);
+	const [visible, setVisible] = useState<boolean | undefined>(popupProps?.visible);
 
 	const handleChange = (target) => {
-		state.syncValue = target;
+		setSyncValue(target);
 	};
 
 	const handleComplete = (target) => {
-		const method = ColorMethods[state.type];
+		const method = ColorMethods[colorType];
 
 		if (target.a !== 1) {
 			target.a = parseFloat(target.a.toFixed(3));
 		}
 
-		state.value = target[method]?.();
+		setColorValue(target[method]?.());
 	};
 
 	const handleVisibleChange = (v: boolean) => {
-		state.visible = v;
+		setVisible(v);
 		popupProps?.onVisibleChange?.(v);
 	};
 
 	const handleTypeChange = (t) => {
 		const method = ColorMethods[t];
 
-		state.type = t;
-		state.value = state.syncValue[method]?.();
+		setColorType(t);
+		setColorValue(syncValue?.[method]?.());
 	};
 
 	const handleValueChange = (v) => {
-		state.value = v;
-		state.syncValue = v;
+		setColorValue(v);
+		setSyncValue(v);
 	};
 
 	const handleOk = () => {
-		onChange?.(state.value);
-		state.visible = false;
+		onChange?.(colorValue);
+		setVisible(false);
 	};
 
 	useEffect(() => {
-		state.syncValue = value;
-		state.value = value;
+		setSyncValue(value);
+		setColorValue(value);
 	}, [value]);
+
+	useEffect(() => {
+		if (popupProps?.visible !== undefined) {
+			setVisible(popupProps.visible);
+		}
+	}, [popupProps?.visible]);
 
 	if (usePanel) {
 		return <ColorsPanel {...props} />;
@@ -78,18 +81,18 @@ export default function ColorPicker(props: IColorPicker) {
 			touchable
 			position='bottom'
 			{...popupProps}
-			visible={state.visible}
+			visible={visible}
 			content={
 				<ColorsPanel
-					value={state.syncValue}
+					value={syncValue}
 					disabledAlpha={disabledAlpha}
 					panelRender={(panel) => {
 						return (
 							<>
 								{panel}
 								<Footer
-									value={state.value}
-									type={state.type}
+									value={colorValue}
+									type={colorType}
 									onTypeChange={handleTypeChange}
 									onChange={handleValueChange}
 									onOk={handleOk}

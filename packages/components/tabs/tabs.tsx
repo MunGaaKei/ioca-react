@@ -7,8 +7,9 @@ import {
 	useEffect,
 	useImperativeHandle,
 	useRef,
+	useState,
 } from "react";
-import { useIntersectionObserver, useReactive, useSize } from "../../js/hooks";
+import { useIntersectionObserver, useSize } from "../../js/hooks";
 import Button from "../button";
 import Icon from "../icon";
 import Popup from "../popup";
@@ -16,16 +17,6 @@ import Helpericon from "../utils/helpericon";
 import "./index.css";
 import TabItem from "./item";
 import { CompositionTabs, ITabItem, ITabs } from "./type";
-
-type TState = {
-	active?: string;
-	prevActive?: string;
-	barStyle: CSSProperties;
-	cachedTabs: string[];
-	overflow: boolean;
-	more: ITabItem[];
-	tabs: ITabItem[];
-};
 
 const Tabs = ((props: ITabs) => {
 	const {
@@ -56,15 +47,15 @@ const Tabs = ((props: ITabs) => {
 	const barRef = useRef<HTMLSpanElement>(null);
 	const navsRef = useRef<HTMLDivElement>(null);
 	const contentsRef = useRef<Map<string, ReactNode>>(new Map());
-	const state = useReactive<TState>({
-		active,
-		prevActive: undefined,
-		barStyle: {},
-		cachedTabs: [],
-		overflow: false,
-		more: [],
-		tabs: [],
-	});
+	const [activeKey, setActiveKey] = useState<string | undefined>(active);
+	const [prevActiveKey, setPrevActiveKey] = useState<string | undefined>(
+		undefined,
+	);
+	const [barStyle, setBarStyle] = useState<CSSProperties>({});
+	const [cachedTabs, setCachedTabs] = useState<string[]>([]);
+	const [overflow, setOverflow] = useState(false);
+	const [moreTabs, setMoreTabs] = useState<ITabItem[]>([]);
+	const [tabs, setTabs] = useState<ITabItem[]>([]);
 	const { observe, unobserve } = useIntersectionObserver();
 	const size = useSize(navsRef);
 
@@ -73,97 +64,103 @@ const Tabs = ((props: ITabs) => {
 
 		if (!items) {
 			if (!children) {
-				state.tabs = [];
+				setTabs([]);
 				return;
 			}
 
-			state.tabs = Children.map(children, (node, i) => {
-				const { key, props: nodeProps } = node as {
-					key?: string;
-					props?: any;
-				};
-				const {
-					title,
-					children: tabChildren,
-					content,
-					keepDOM,
-					closable,
-				} = nodeProps;
-				const tabKey = String(key ?? i);
-				contentsRef.current.set(tabKey, tabChildren ?? content);
+			setTabs(
+				(Children.map(children, (node, i) => {
+					const { key, props: nodeProps } = node as {
+						key?: string;
+						props?: any;
+					};
+					const {
+						title,
+						children: tabChildren,
+						content,
+						keepDOM,
+						closable,
+					} = nodeProps;
+					const tabKey = String(key ?? i);
+					contentsRef.current.set(tabKey, tabChildren ?? content);
 
-				return {
-					key: tabKey,
-					title,
-					keepDOM,
-					closable,
-				};
-			}) as ITabItem[];
+					return {
+						key: tabKey,
+						title,
+						keepDOM,
+						closable,
+					};
+				}) as ITabItem[]) ?? [],
+			);
 
 			return;
 		}
 
-		state.tabs = items.map((item, i) => {
-			if (["string", "number"].includes(typeof item)) {
-				const key = String(item);
-				return { key, title: item };
-			}
-			const key = String(item.key ?? i);
-			contentsRef.current.set(key, item.content);
-			const { content, ...rest } = item;
-			return {
-				...rest,
-				key,
-			};
-		});
+		setTabs(
+			items.map((item, i) => {
+				if (["string", "number"].includes(typeof item)) {
+					const key = String(item);
+					return { key, title: item };
+				}
+				const key = String(item.key ?? i);
+				contentsRef.current.set(key, item.content);
+				const { content, ...rest } = item;
+				return {
+					...rest,
+					key,
+				};
+			}),
+		);
 	}, [children, items]);
 
 	const add = (tab: ITabItem) => {
-		const tkey = String(tab.key ?? state.tabs.length);
-		const i = state.tabs.findIndex((t) => t.key === tkey);
+		const tkey = String(tab.key ?? tabs.length);
+		const i = tabs.findIndex((t) => t.key === tkey);
 
 		if (i > -1) {
-			open(state.tabs[i].key ?? `${i}`);
+			open(tabs[i].key ?? `${i}`);
 			return;
 		}
 
 		contentsRef.current.set(tkey, tab.content);
 		const { content, ...rest } = tab;
-		state.tabs.push({ ...rest, key: tkey });
+		setTabs((ts) => [...ts, { ...rest, key: tkey }]);
 		open(tkey);
 	};
 
 	const close = (key: string) => {
-		const i = state.tabs.findIndex((t) => t.key === key);
+		const i = tabs.findIndex((t) => t.key === key);
 
 		if (i < 0) return;
 
 		contentsRef.current.delete(key);
-		state.tabs.splice(i, 1);
+		const nextTabs = [...tabs];
+		nextTabs.splice(i, 1);
+		setTabs(nextTabs);
 
-		if (state.active !== key) return;
+		if (activeKey !== key) return;
 
-		const next = state.tabs[i] || state.tabs[i - 1];
-		open(state.prevActive ?? next?.key ?? "");
+		const next = nextTabs[i] || nextTabs[i - 1];
+		open(prevActiveKey ?? next?.key ?? "");
 	};
 
 	const open = (key: string) => {
-		if (key === state.active) {
+		if (key === activeKey) {
 			if (!toggable) return;
 
 			onTabChange?.(undefined, key);
-			state.active = undefined;
+			setActiveKey(undefined);
 
-			state.barStyle = {
+			setBarStyle({
 				height: 0,
 				width: 0,
-			};
+			});
 			return;
 		}
 
-		state.prevActive = state.active;
-		onTabChange?.(key, state.active);
-		state.active = key;
+		setPrevActiveKey(activeKey);
+		onTabChange?.(key, activeKey);
+		setActiveKey(key);
 	};
 
 	useEffect(() => {
@@ -171,50 +168,58 @@ const Tabs = ((props: ITabs) => {
 		const { scrollHeight, scrollWidth } = navsRef.current as HTMLElement;
 		const { width, height } = size;
 
-		state.overflow = scrollHeight > height || scrollWidth > width;
+		const nextOverflow = scrollHeight > height || scrollWidth > width;
+		setOverflow(nextOverflow);
 
-		if (!state.overflow) return;
+		if (!nextOverflow) return;
 
 		navRefs.current.map((nav, i) => {
 			if (!nav) return;
 			observe(nav, (tar: HTMLElement, visible: boolean) => {
-				if (!state.tabs[i]) return;
-				state.tabs[i].intersecting = visible;
-				state.more = state.tabs.filter((tab) => !tab.intersecting);
+				setTabs((ts) => {
+					if (!ts[i]) return ts;
+					const nextTabs = ts.map((t, idx) =>
+						idx === i ? { ...t, intersecting: visible } : t,
+					);
+					setMoreTabs(nextTabs.filter((tab) => !tab.intersecting));
+					return nextTabs;
+				});
 			});
 		});
-	}, [size, hideMore, state.tabs.length]);
+	}, [size, hideMore, tabs.length, observe]);
 
 	useEffect(() => {
-		if (!bar || type === "pane" || state.active === undefined) {
+		if (!bar || type === "pane" || activeKey === undefined) {
 			return;
 		}
 
-		const index = state.tabs.findIndex((tab) => tab.key === state.active);
+		const index = tabs.findIndex((tab) => tab.key === activeKey);
 
 		setTimeout(() => {
 			const nav = navRefs.current[index];
 
 			if (!nav) return;
 
-			if (state.tabs[index].keepDOM && state.active) {
-				const i = state.cachedTabs.findIndex((k) => k === state.active);
-				i < 0 && state.cachedTabs.unshift(state.active);
+			if (tabs[index]?.keepDOM && activeKey) {
+				setCachedTabs((keys) => {
+					if (keys.includes(activeKey)) return keys;
+					return [activeKey, ...keys];
+				});
 			}
 
 			const { offsetHeight, offsetLeft, offsetTop, offsetWidth } = nav;
 			const isLine = type === "line";
 
-			state.barStyle = {
+			setBarStyle({
 				height: !vertical && isLine ? ".25em" : offsetHeight,
 				width: vertical && isLine ? ".25em" : offsetWidth,
 				transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
-			};
+			});
 		}, 16);
-	}, [state.active, bar, size]);
+	}, [activeKey, bar, size, tabs, type, vertical]);
 
 	useEffect(() => {
-		if (active === undefined || state.active === active) return;
+		if (active === undefined || activeKey === active) return;
 
 		open(active);
 	}, [active]);
@@ -225,7 +230,7 @@ const Tabs = ((props: ITabs) => {
 		return () => {
 			navRefs.current?.map(unobserve);
 		};
-	}, [state.tabs.length]);
+	}, [tabs.length, hideMore, unobserve]);
 
 	useEffect(() => {
 		if (!navsRef.current || vertical) return;
@@ -281,7 +286,7 @@ const Tabs = ((props: ITabs) => {
 						`justify-${navsJustify}`,
 					)}
 				>
-					{state.tabs.map((tab, i) => {
+					{tabs.map((tab, i) => {
 						const { title, key = `${i}`, closable } = tab;
 
 						return (
@@ -289,7 +294,7 @@ const Tabs = ((props: ITabs) => {
 								key={key}
 								ref={(ref) => (navRefs.current[i] = ref as any)}
 								className={classNames("i-tab-nav", {
-									"i-tab-active": state.active === key,
+									"i-tab-active": activeKey === key,
 								})}
 								onClick={() => open(key)}
 							>
@@ -314,12 +319,12 @@ const Tabs = ((props: ITabs) => {
 						<span
 							ref={barRef}
 							className={classNames("i-tab-navs-bar", barClass)}
-							style={state.barStyle}
+							style={barStyle}
 						/>
 					)}
 				</div>
 
-				{!hideMore && state.overflow && state.more.length > 0 && (
+				{!hideMore && overflow && moreTabs.length > 0 && (
 					<Popup
 						arrow={false}
 						position={vertical ? "right" : "bottom"}
@@ -328,9 +333,9 @@ const Tabs = ((props: ITabs) => {
 						hideDelay={500}
 						content={
 							<div className='i-tabs-morelist pd-4'>
-								{state.more.map((tab, i) => {
+								{moreTabs.map((tab, i) => {
 									const { key = `${i}`, title } = tab;
-									const isActive = state.active === key;
+									const isActive = activeKey === key;
 
 									return (
 										<a
@@ -347,7 +352,7 @@ const Tabs = ((props: ITabs) => {
 							</div>
 						}
 					>
-						{renderMore(state.more)}
+						{renderMore(moreTabs)}
 					</Popup>
 				)}
 
@@ -355,13 +360,13 @@ const Tabs = ((props: ITabs) => {
 			</div>
 
 			<div className='i-tab-contents'>
-				{state.tabs.map((tab, i) => {
+				{tabs.map((tab, i) => {
 					const key = tab.key ?? `${i}`;
 					const content = contentsRef.current.get(key);
-					const isActive = state.active === key;
+					const isActive = activeKey === key;
 					const show =
 						isActive ||
-						(key !== undefined && state.cachedTabs.includes(key));
+						(key !== undefined && cachedTabs.includes(key));
 
 					return (
 						show && (

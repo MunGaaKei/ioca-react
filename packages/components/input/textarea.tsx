@@ -1,6 +1,12 @@
-import { useReactive } from "@p/js/hooks";
 import classNames from "classnames";
-import { ChangeEvent, useEffect, useImperativeHandle, useRef } from "react";
+import {
+	ChangeEvent,
+	useEffect,
+	useImperativeHandle,
+	useRef,
+	useState,
+	type KeyboardEvent,
+} from "react";
 import "../../css/input.css";
 import InputContainer from "./container";
 import type { ITextarea } from "./type";
@@ -25,17 +31,15 @@ const Textarea = (props: ITextarea) => {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		value,
-	});
+	const [textareaValue, setTextareaValue] = useState(value);
 	const refTextarea = useRef<HTMLTextAreaElement>(null);
 
 	const handleChange = (
-		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
 		const v = e.target.value;
 
-		state.value = v;
+		setTextareaValue(v);
 
 		const ta = refTextarea.current as HTMLElement;
 		if (autoSize && ta) {
@@ -45,7 +49,7 @@ const Textarea = (props: ITextarea) => {
 		onChange?.(v, e);
 	};
 
-	const handleKeydown = (e) => {
+	const handleKeydown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
 		if (e.code !== "Enter") return;
 
 		e.stopPropagation();
@@ -53,7 +57,7 @@ const Textarea = (props: ITextarea) => {
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setTextareaValue(value);
 	}, [value]);
 
 	useImperativeHandle(ref, () => {
@@ -65,7 +69,7 @@ const Textarea = (props: ITextarea) => {
 	const inputProps = {
 		ref: refTextarea,
 		name,
-		value: state.value,
+		value: textareaValue,
 		className: "i-input i-textarea",
 		onChange: handleChange,
 		onKeyDown: handleKeydown,

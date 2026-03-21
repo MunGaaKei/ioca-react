@@ -2,7 +2,6 @@ import { UnfoldMoreRound } from "@ricons/material";
 import classNames from "classnames";
 import { debounce } from "radash";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { useReactive } from "../../js/hooks";
 import "../../css/input.css";
 import { formatOption } from "../../js/utils";
 import { TOption } from "../../type";
@@ -42,19 +41,15 @@ const Select = (props: ISelect) => {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		inputValue: "",
-		filterValue: "",
-		value,
-		loading: false,
-	});
+	const [filterValue, setFilterValue] = useState("");
+	const [selectedValue, setSelectedValue] = useState(value);
 
 	const [active, setActive] = useState<boolean>(false);
 
 	const formattedOptions = useMemo(() => formatOption(options), [options]);
 
 	const filterOptions = useMemo(() => {
-		const { filterValue: fv } = state;
+		const fv = filterValue;
 		if (!fv || !filter) return formattedOptions;
 
 		const filterFn =
@@ -63,10 +58,10 @@ const Select = (props: ISelect) => {
 				: (opt) => opt.value.includes(fv) || opt.label.includes(fv);
 
 		return formattedOptions.filter(filterFn);
-	}, [formattedOptions, filter, state.filterValue]);
+	}, [formattedOptions, filter, filterValue]);
 
 	const changeValue = (v: any) => {
-		state.value = v;
+		setSelectedValue(v);
 		onChange?.(v);
 	};
 
@@ -76,16 +71,16 @@ const Select = (props: ISelect) => {
 		}
 
 		const option = formattedOptions.find(
-			(opt) => opt.value === state.value
+			(opt) => opt.value === selectedValue
 		);
-		return option ? option.label : state.value;
-	}, [state.value, formattedOptions]);
+		return option ? option.label : selectedValue;
+	}, [selectedValue, formattedOptions]);
 
 	const handleSelect = (value: any, option?: TOption) => {
 		onSelect?.(value, option);
 
 		if (multiple) {
-			const values = [...(state.value as any[])];
+			const values = [...(selectedValue as any[])];
 			const i = values.findIndex((v) => v === value);
 
 			i > -1 ? values.splice(i, 1) : values.push(value);
@@ -103,7 +98,7 @@ const Select = (props: ISelect) => {
 
 		if (!filter) return;
 
-		state.filterValue = "";
+		setFilterValue("");
 	};
 
 	const handleHelperClick = (e) => {
@@ -118,21 +113,21 @@ const Select = (props: ISelect) => {
 		{ delay: 400 },
 		(e: ChangeEvent<HTMLInputElement>) => {
 			const v = e.target.value;
-			state.filterValue = v;
+			setFilterValue(v);
 		}
 	);
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		state.filterValue = e.target.value;
+		setFilterValue(e.target.value);
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setSelectedValue(value);
 	}, [value]);
 
 	const hasValue = multiple
-		? (state.value as any[]).length > 0
-		: !!state.value;
+		? (selectedValue as any[]).length > 0
+		: !!selectedValue;
 	const clearable = !hideClear && active && hasValue;
 	const text = message ?? tip;
 
@@ -157,7 +152,7 @@ const Select = (props: ISelect) => {
 				content={
 					<Options
 						options={filterOptions}
-						value={state.value}
+						value={selectedValue}
 						multiple={multiple}
 						filter={!!filter}
 						filterPlaceholder={filterPlaceholder}
@@ -179,7 +174,7 @@ const Select = (props: ISelect) => {
 					<input
 						ref={ref}
 						type='hidden'
-						value={state.value}
+						value={selectedValue}
 						{...restProps}
 					/>
 
@@ -192,7 +187,7 @@ const Select = (props: ISelect) => {
 							>
 								{displayValue({
 									options: formattedOptions,
-									value: state.value,
+									value: selectedValue,
 									multiple,
 									maxDisplay,
 									onSelect: handleSelect,
@@ -209,7 +204,7 @@ const Select = (props: ISelect) => {
 
 					{!multiple && (
 						<input
-							value={active ? state.filterValue : displayLabel}
+							value={active ? filterValue : displayLabel}
 							className='i-input i-select'
 							placeholder={displayLabel || placeholder}
 							onChange={handleInputChange}

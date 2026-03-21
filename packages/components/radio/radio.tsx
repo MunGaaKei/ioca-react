@@ -1,6 +1,5 @@
 import classNames from "classnames";
-import { useEffect, useMemo } from "react";
-import { useReactive } from "../../js/hooks";
+import { useEffect, useMemo, useState } from "react";
 import "../../css/input.css";
 import { formatOption } from "../../js/utils";
 import "./index.css";
@@ -25,19 +24,17 @@ function Radio(props: IRadio) {
 		onChange,
 	} = props;
 
-	const state = useReactive({
-		value,
-	});
+	const [selectedValue, setSelectedValue] = useState(value);
 
 	const formattedOptions = useMemo(() => formatOption(options), [options]);
 
 	const handleChange = (value, e) => {
-		state.value = value;
+		setSelectedValue(value);
 		onChange?.(value, e);
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setSelectedValue(value);
 	}, [value]);
 
 	return (
@@ -67,7 +64,7 @@ function Radio(props: IRadio) {
 				})}
 			>
 				{formattedOptions.map((option) => {
-					const checked = state.value === option.value;
+					const checked = selectedValue === option.value;
 
 					return (
 						<RadioItem

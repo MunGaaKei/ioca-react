@@ -8,8 +8,8 @@ import {
 	useImperativeHandle,
 	useMemo,
 	useRef,
+	useState,
 } from "react";
-import { useReactive } from "../../js/hooks";
 import { SortableItem } from "react-easy-sort";
 import usePreview from "../../js/usePreview";
 import { TPreviewItem } from "../../js/usePreview/type";
@@ -51,12 +51,8 @@ const Upload = (props: IUpload) => {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		files,
-		value,
-		status,
-		message,
-	});
+	const [fileList, setFileListState] = useState(files);
+	const [uploadMessage, setUploadMessage] = useState(message);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const preview = usePreview();
 	const defBtnProps = Object.assign(
@@ -67,7 +63,7 @@ const Upload = (props: IUpload) => {
 				</>
 			),
 		},
-		defaultButtonProps
+		defaultButtonProps,
 	);
 
 	const trigger = useMemo(() => {
@@ -92,7 +88,7 @@ const Upload = (props: IUpload) => {
 						{...defBtnProps}
 						className={classNames(
 							"i-upload-btn",
-							defBtnProps.className
+							defBtnProps.className,
 						)}
 						disabled={disabled}
 					/>
@@ -102,7 +98,7 @@ const Upload = (props: IUpload) => {
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = Array.from(e.target.files || []) as IFile[];
-		const { files: before } = state;
+		const before = fileList;
 		const changed: IFile[] = [];
 
 		files.map((f) => {
@@ -122,27 +118,26 @@ const Upload = (props: IUpload) => {
 		});
 
 		const after = [...before, ...changed];
+		const last = after.at(-1);
+		const nextFiles = multiple ? after.slice(0, limit) : last ? [last] : [];
 
-		Object.assign(state, {
-			files: multiple ? after.slice(0, limit) : [after.at(-1)],
-			status,
-			message,
-		});
+		setFileListState(nextFiles);
+		setUploadMessage(message);
 
-		onFilesChange?.(state.files, changed, e);
-		onChange?.(state.files, e);
+		onFilesChange?.(nextFiles, changed, e);
+		onChange?.(nextFiles, e);
 
 		handleUpload(changed);
 		inputRef.current && (inputRef.current.value = "");
 	};
 
 	const handleRemove = (i: number) => {
-		const [...files] = state.files;
+		const [...files] = fileList;
 
 		const changed = files.splice(i, 1);
 		URL.revokeObjectURL(changed[0]?.src || "");
 
-		state.files = files;
+		setFileListState(files);
 		onFilesChange?.(files, changed);
 		onChange?.(files);
 
@@ -160,33 +155,34 @@ const Upload = (props: IUpload) => {
 	};
 
 	const handlePreview = (i: number) => {
-		preview({ items: state.files as TPreviewItem[], initial: i });
+		preview({ items: fileList as TPreviewItem[], initial: i });
 	};
 
 	const setFileList = (files?: IFile[] | File[]) => {
 		if (!files) return;
 
-		state.files = files.map((f) => {
-			return { ...f, id: f.id ?? uid(7) };
-		});
+		setFileListState(
+			files.map((f: IFile | File) => {
+				const file = f as IFile;
+				return { ...file, id: file.id ?? uid(7) };
+			}),
+		);
 	};
 
-	const handleSortEnd = (before, after) => {
-		const [...files] = state.files;
+	const handleSortEnd = (before: number, after: number) => {
+		const [...files] = fileList;
 
-		state.files = arrayMove(files, before, after);
-		onChange?.(state.files);
+		const nextFiles = arrayMove(files, before, after);
+		setFileListState(nextFiles);
+		onChange?.(nextFiles);
 	};
 
 	useEffect(() => {
-		Object.assign(state, {
-			status,
-			message,
-		});
+		setUploadMessage(message);
 	}, [status, message]);
 
 	useEffect(() => {
-		state.files = value?.filter?.((file) => !!file.id) ?? [];
+		setFileListState(value?.filter?.((file: IFile) => !!file.id) ?? []);
 	}, [value]);
 
 	useEffect(() => {
@@ -196,11 +192,11 @@ const Upload = (props: IUpload) => {
 	useImperativeHandle(
 		ref,
 		() => ({
-			getFileList: () => state.files,
+			getFileList: () => fileList,
 
 			setFileList,
 		}),
-		[]
+		[fileList],
 	);
 
 	return (
@@ -218,7 +214,7 @@ const Upload = (props: IUpload) => {
 				style={{ ["--upload-card-size"]: cardSize } as CSSProperties}
 			>
 				<ListContainer sortable={sortable} onSortEnd={handleSortEnd}>
-					{state.files.map((file: IFile, i: number) => {
+					{fileList.map((file: IFile, i: number) => {
 						const node = (
 							<FileListItem
 								key={i}
@@ -237,11 +233,11 @@ const Upload = (props: IUpload) => {
 					})}
 				</ListContainer>
 
-				{state.message && (
-					<span className='i-upload-message'>{state.message}</span>
+				{uploadMessage && (
+					<span className='i-upload-message'>{uploadMessage}</span>
 				)}
 
-				{state.files.length < limit && (
+				{fileList.length < limit && (
 					<label>
 						<input
 							{...restProps}

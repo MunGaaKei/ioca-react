@@ -1,7 +1,6 @@
 import { MinusRound, PlusRound, SyncAltRound } from "@ricons/material";
-import { useReactive } from "@p/js/hooks";
 import classNames from "classnames";
-import { ChangeEvent, MouseEvent, useEffect } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import "../../css/input.css";
 import { clamp, formatNumber } from "../../js/utils";
 import Helpericon from "../utils/helpericon";
@@ -37,9 +36,7 @@ const Range = (props: IInputRange) => {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		value,
-	});
+	const [rangeValue, setRangeValue] = useState(value);
 
 	const getRangeNumber = (v: number) => clamp(v, min, max);
 
@@ -56,10 +53,10 @@ const Range = (props: IInputRange) => {
 	const handleChange = (e: ChangeEvent<HTMLInputElement>, i: number) => {
 		const { value } = e.target;
 		const v = formatInputValue(value.replace(/[^\d\.-]/g, ""));
-		const range = Array.isArray(state.value) ? state.value : [];
+		const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
 
 		range[i] = v;
-		state.value = range;
+		setRangeValue(range);
 		onChange?.(range, e);
 	};
 
@@ -71,28 +68,28 @@ const Range = (props: IInputRange) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		const range = Array.isArray(state.value) ? state.value : [];
+		const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
 		const value = formatInputValue(range[i]) ?? 0;
 		const result = getRangeNumber(+value + param);
 
 		range[i] = getFormatNumber(result);
 
-		state.value = range;
+		setRangeValue(range);
 		onChange?.(range, e);
 	};
 
 	const handleSwitch = (e?: MouseEvent) => {
 		e?.preventDefault();
 		e?.stopPropagation();
-		const range = state.value ? state.value : [];
+		const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
 		[range[0], range[1]] = [range[1], range[0]];
 
-		state.value = range;
+		setRangeValue(range);
 		onChange?.(range);
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setRangeValue(value);
 	}, [value]);
 
 	const inputProps = {
@@ -103,7 +100,7 @@ const Range = (props: IInputRange) => {
 
 	const handleBlur = () => {
 		if (!autoSwitch) return;
-		const range = Array.isArray(state.value) ? state.value : [];
+		const range = Array.isArray(rangeValue) ? rangeValue : [];
 
 		if (range.length < 2) return;
 
@@ -139,7 +136,7 @@ const Range = (props: IInputRange) => {
 				)}
 
 				<input
-					value={state.value?.[0] || ""}
+					value={rangeValue?.[0] || ""}
 					placeholder={placeholder?.[0]}
 					{...inputProps}
 					onBlur={handleBlur}
@@ -168,7 +165,7 @@ const Range = (props: IInputRange) => {
 				)}
 
 				<input
-					value={state.value?.[1] || ""}
+					value={rangeValue?.[1] || ""}
 					placeholder={placeholder?.[1]}
 					{...inputProps}
 					onBlur={handleBlur}

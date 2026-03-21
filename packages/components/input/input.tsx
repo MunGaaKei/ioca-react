@@ -1,7 +1,12 @@
 import { VisibilityOffRound, VisibilityRound } from "@ricons/material";
-import { useReactive } from "@p/js/hooks";
 import classNames from "classnames";
-import { ChangeEvent, useEffect, useMemo } from "react";
+import {
+	ChangeEvent,
+	useEffect,
+	useMemo,
+	useState,
+	type KeyboardEvent,
+} from "react";
 import "../../css/input.css";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
@@ -38,54 +43,54 @@ const Input = ((props: IInput) => {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		value,
-		type,
-		visible: false,
-	});
+	const [inputValue, setInputValue] = useState(value);
+	const [inputType, setInputType] = useState(type);
+	const [visible, setVisible] = useState(false);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const v = e.target.value;
 
-		state.value = v;
+		setInputValue(v);
 		onChange?.(v, e);
 	};
 
-	const handleKeydown = (e) => {
+	const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
 		e.code === "Enter" && onEnter?.(e);
 	};
 
 	const handleHelperClick = () => {
 		if (type === "password" && !hideVisible) {
-			Object.assign(state, {
-				visible: !state.visible,
-				type: !state.visible ? "text" : "password",
+			setVisible((v) => {
+				const next = !v;
+				setInputType(next ? "text" : "password");
+				return next;
 			});
 			return;
 		}
 
 		const v = "";
+		setInputValue(v);
 		onChange?.(v);
 		onClear?.();
 	};
 
 	const HelperIcon = useMemo(() => {
 		if (type === "password") {
-			return state.visible ? <VisibilityRound /> : <VisibilityOffRound />;
+			return visible ? <VisibilityRound /> : <VisibilityOffRound />;
 		}
 
 		return undefined;
-	}, [state.visible]);
+	}, [type, visible]);
 
 	useEffect(() => {
-		state.value = value;
+		setInputValue(value);
 	}, [value]);
 
 	const inputProps = {
 		ref,
-		type: state.type,
+		type: inputType,
 		name,
-		value: state.value,
+		value: inputValue,
 		maxLength,
 		className: classNames("i-input", `i-input-${type}`),
 		onChange: handleChange,
@@ -93,8 +98,13 @@ const Input = ((props: IInput) => {
 		...restProps,
 	};
 
-	const clearable = clear && state.value;
-	const showHelper = type === "password" && !!state.value;
+	useEffect(() => {
+		setInputType(type);
+		setVisible(false);
+	}, [type]);
+
+	const clearable = clear && inputValue;
+	const showHelper = type === "password" && !!inputValue;
 
 	return (
 		<InputContainer
@@ -117,9 +127,9 @@ const Input = ((props: IInput) => {
 
 				<input {...inputProps} />
 
-				{maxLength && state.value?.length > 0 && (
+				{maxLength && inputValue?.length > 0 && (
 					<span className='color-8 pr-4 font-sm'>
-						{state.value.length} / {maxLength}
+						{inputValue.length} / {maxLength}
 					</span>
 				)}
 

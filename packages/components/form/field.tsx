@@ -6,19 +6,16 @@ import {
 	useContext,
 	useEffect,
 	useMemo,
+	useState,
 } from "react";
-import { useReactive } from "../../js/hooks";
 import Context from "./context";
 import { IField } from "./type";
 
 function Field(props: IField) {
 	const { name, required, children } = props;
-	const state = useReactive({
-		value: undefined,
-		status: "normal",
-		message: undefined,
-		update: 0,
-	});
+	const [fieldValue, setFieldValue] = useState<any>(undefined);
+	const [fieldStatus, setFieldStatus] = useState("normal");
+	const [fieldMessage, setFieldMessage] = useState<any>(undefined);
 	const form = useContext(Context);
 	const { id } = form;
 
@@ -37,35 +34,32 @@ function Field(props: IField) {
 			if (!isValidElement(node)) return null;
 
 			const { onChange } = node.props as any;
-			const { value, status, message } = state;
 
 			return cloneElement(node, {
-				value,
-				status,
-				message,
+				value: fieldValue,
+				status: fieldStatus,
+				message: fieldMessage,
 				required,
 				onChange: (...args) => {
 					handleChange(args[0]);
 					onChange?.(...args);
-					Object.assign(state, {
-						status: "normal",
-						message: undefined,
-					});
+					setFieldStatus("normal");
+					setFieldMessage(undefined);
 				},
 			} as any);
 		});
-	}, [children, state.update]);
+	}, [children, fieldValue, fieldStatus, fieldMessage, required]);
 
 	useEffect(() => {
 		if (!name) return;
 
 		PubSub.subscribe(`${id}:set:${name}`, (evt, v) => {
-			state.value = v;
-			state.update += 1;
+			setFieldValue(v);
 		});
 		PubSub.subscribe(`${id}:invalid:${name}`, (evt, v) => {
-			Object.assign(state, v);
-			state.update += 1;
+			if (v?.value !== undefined) setFieldValue(v.value);
+			if (v?.status) setFieldStatus(v.status);
+			if ("message" in (v ?? {})) setFieldMessage(v.message);
 		});
 
 		Promise.resolve().then(() => {

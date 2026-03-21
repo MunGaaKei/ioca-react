@@ -1,5 +1,4 @@
-import { useEffect, useImperativeHandle } from "react";
-import { useReactive } from "../../js/hooks";
+import { useEffect, useImperativeHandle, useRef, useState } from "react";
 import "./index.css";
 import { TreeList } from "./item";
 import { ITree, ITreeItem } from "./type";
@@ -22,15 +21,13 @@ const Tree = (props: ITree) => {
 		onItemCheck,
 		...restProps
 	} = props;
-	const state = useReactive({
-		selected,
-		checked,
-		partofs: {} as Record<string, boolean>,
-		nodeMaps: new Map(),
-	});
+	const [selectedKey, setSelectedKey] = useState(selected);
+	const [checkedKeys, setCheckedKeys] = useState(checked);
+	const [partofs, setPartofs] = useState<Record<string, boolean>>({});
+	const nodeMapsRef = useRef<Map<any, any>>(new Map());
 	const oNodeProps = Object.assign({}, defaultNodeProps, nodeProps);
 
-	const isChecked = (key?: string) => state.checked.includes(key || "");
+	const isChecked = (key?: string) => checkedKeys.includes(key || "");
 
 	const checkItem = (
 		item: ITreeItem,
@@ -106,35 +103,35 @@ const Tree = (props: ITree) => {
 		const [shouldChanged, partofs] = checkItem(item, checked);
 		const changedKeys = Object.keys(shouldChanged);
 
-		state.checked = checked
-			? Array.from(new Set([...state.checked, ...changedKeys]))
-			: state.checked.filter((k) => !changedKeys.includes(k));
+		const nextChecked = checked
+			? Array.from(new Set([...checkedKeys, ...changedKeys]))
+			: checkedKeys.filter((k) => !changedKeys.includes(k));
 
-		Object.assign(state.partofs, partofs);
-
-		onItemCheck?.(item, checked, state.checked);
+		setCheckedKeys(nextChecked);
+		setPartofs((p) => ({ ...p, ...partofs }));
+		onItemCheck?.(item, checked, nextChecked);
 	};
 
 	const handleSelect = (key: string, item: ITreeItem) => {
 		if (!props.selectable) return;
 
-		state.selected = key;
+		setSelectedKey(key);
 		onItemSelect?.(key, item);
 	};
 
 	useEffect(() => {
 		if (selected === undefined) return;
 
-		state.selected = selected;
+		setSelectedKey(selected);
 	}, [selected]);
 
 	useEffect(() => {
-		state.nodeMaps.clear();
+		nodeMapsRef.current.clear();
 
 		const { key, children } = oNodeProps;
 		const recursive = (nodes) => {
 			nodes.map((o) => {
-				state.nodeMaps.set(o[key], o);
+				nodeMapsRef.current.set(o[key], o);
 
 				o[children]?.length > 0 && recursive(o[children]);
 			});
@@ -147,23 +144,23 @@ const Tree = (props: ITree) => {
 		return {
 			getChecked: () => {
 				const items: ITreeItem[] = [];
-				state.checked.map((k) => {
-					const item = state.nodeMaps.get(k);
+				checkedKeys.map((k) => {
+					const item = nodeMapsRef.current.get(k);
 					items.push(item);
 				});
-				return [state.checked, items];
+				return [checkedKeys, items];
 			},
 			getSelected: () => {
-				const item = state.nodeMaps.get(state.selected);
-				return [state.selected, item];
+				const item = nodeMapsRef.current.get(selectedKey);
+				return [selectedKey, item];
 			},
 			getPartofs: () => {
 				const items: ITreeItem[] = [];
-				const keys = Object.keys(state.partofs).filter((k) => {
-					const indeterminate = state.partofs[k];
+				const keys = Object.keys(partofs).filter((k) => {
+					const indeterminate = partofs[k];
 
 					if (indeterminate) {
-						const item = state.nodeMaps.get(k);
+						const item = nodeMapsRef.current.get(k);
 						items.push(item);
 					}
 
@@ -178,9 +175,9 @@ const Tree = (props: ITree) => {
 	return (
 		<TreeList
 			data={data}
-			selected={state.selected}
-			checked={state.checked}
-			partofs={state.partofs}
+			selected={selectedKey}
+			checked={checkedKeys}
+			partofs={partofs}
 			nodeProps={oNodeProps}
 			onItemCheck={handleCheck}
 			onItemSelect={handleSelect}

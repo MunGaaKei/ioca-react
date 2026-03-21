@@ -1,7 +1,6 @@
 import { AccessTimeRound } from "@ricons/material";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import { useReactive } from "../../../js/hooks";
 import Icon from "../../icon";
 import Input from "../../input";
 import Popup from "../../popup";
@@ -24,25 +23,22 @@ export default function TimePicker(props: ITimePicker) {
 		popupProps,
 		...restProps
 	} = props;
-	const state = useReactive({
-		value,
-		safeValue: undefined,
-	});
+	const [timeValue, setTimeValue] = useState(value);
+	const [safeValue, setSafeValue] = useState(undefined);
 	const [active, setActive] = useState<boolean>(false);
 
 	const handleChange = (v) => {
-		state.value = v;
+		setTimeValue(v);
 	};
 
 	const handleFallback = (v) => {
-		state.safeValue = v;
+		setSafeValue(v);
 	};
 
 	const handleValidTime = () => {
-		if (!state.value) return;
+		if (!timeValue) return;
 
-		state.value = state.safeValue;
-		handleChange(state.safeValue);
+		setTimeValue(safeValue);
 	};
 
 	const handleBlur = (e) => {
@@ -56,7 +52,7 @@ export default function TimePicker(props: ITimePicker) {
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setTimeValue(value);
 	}, [value]);
 
 	return (
@@ -71,7 +67,7 @@ export default function TimePicker(props: ITimePicker) {
 			onVisibleChange={handleVisibleChange}
 			content={
 				<Panel
-					value={state.value}
+					value={timeValue}
 					format={format}
 					periods={periods}
 					renderItem={renderItem}
@@ -81,7 +77,7 @@ export default function TimePicker(props: ITimePicker) {
 			}
 		>
 			<Input
-				value={state.value}
+				value={timeValue}
 				placeholder={placeholder}
 				append={
 					<Icon

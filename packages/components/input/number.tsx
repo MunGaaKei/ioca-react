@@ -3,9 +3,14 @@ import {
 	MinusRound,
 	PlusRound,
 } from "@ricons/material";
-import { useReactive } from "@p/js/hooks";
 import classNames from "classnames";
-import { ChangeEvent, useEffect } from "react";
+import {
+	ChangeEvent,
+	useEffect,
+	useState,
+	type FocusEvent,
+	type KeyboardEvent,
+} from "react";
 import "../../css/input.css";
 import { clamp, formatNumber } from "../../js/utils";
 import Helpericon from "../utils/helpericon";
@@ -44,14 +49,37 @@ const Number = (props: IInputNumber) => {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		value,
-	});
+	const [inputValue, setInputValue] = useState<string>(
+		value === undefined || value === null ? "" : String(value),
+	);
 
-	const getRangeNumber = (v: number) => clamp(v, min, max);
+	const formatOut = (num: number) => {
+		const v = clamp(num, min, max);
+		if (precision !== undefined)
+			return formatNumber(v, { precision, thousand });
+		const s = String(v);
+		if (!thousand) return s;
+		const negative = s.startsWith("-");
+		const body = negative ? s.slice(1) : s;
+		const [integer, decimal] = body.split(".");
+		const withThousand = integer.replace(/\B(?=(\d{3})+(?!\d))/g, thousand);
+		return decimal
+			? `${negative ? "-" : ""}${withThousand}.${decimal}`
+			: `${negative ? "-" : ""}${withThousand}`;
+	};
 
-	const getFormatNumber = (v: number) =>
-		formatNumber(v, { precision, thousand });
+	const sanitizeNumberInput = (raw: string) => {
+		const hasMinus = raw.startsWith("-");
+		let v = raw.replace(/[^\d.]/g, "");
+		if (hasMinus) v = `-${v}`;
+
+		const parts = v.split(".");
+		if (parts.length > 1) {
+			v = `${parts.shift()}.${parts.join("")}`;
+		}
+
+		return v;
+	};
 
 	const formatInputValue = (v?: string | number) => {
 		if (!v) return "";
@@ -63,39 +91,67 @@ const Number = (props: IInputNumber) => {
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
-		const v = formatInputValue(value.replace(/[^\d\.-]/g, "")); // 保留负号和小数点
-		const numValue = clamp(+v, min, max); // 确保值在范围内
+		const v = sanitizeNumberInput(formatInputValue(value));
+		const isIntermediate =
+			v === "" || v === "-" || v === "." || v === "-." || v.endsWith(".");
 
-		state.value = getFormatNumber(numValue); // 修复 thousand 格式化
-		onChange?.(numValue, e);
+		setInputValue(v);
+		if (isIntermediate) return;
+
+		const num = parseFloat(v);
+		if (globalThis.Number.isNaN(num)) return;
+
+		onChange?.(clamp(num, min, max), e);
+		if (precision !== undefined) setInputValue(formatOut(num));
 	};
 
 	const handleOperate = (param: number) => {
-		const value = parseFloat(formatInputValue(state.value)) || 0; // 确保值为数字，默认值为 0
-		const result = getRangeNumber(value + param);
-
-		state.value = getFormatNumber(result);
-
-		onChange?.(result);
+		const value = parseFloat(formatInputValue(inputValue)) || 0; // 确保值为数字，默认值为 0
+		const result = value + param;
+		setInputValue(formatOut(result));
+		onChange?.(clamp(result, min, max));
 	};
 
 	const handleMax = () => {
-		const result = getRangeNumber(max);
-		state.value = getFormatNumber(result);
-		onChange?.(result);
+		setInputValue(formatOut(max));
+		onChange?.(clamp(max, min, max));
+	};
+
+	const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+		onBlur?.(e);
+
+		const v = sanitizeNumberInput(formatInputValue(inputValue));
+		if (!v || v === "-" || v === "." || v === "-.") {
+			setInputValue("");
+			return;
+		}
+
+		const num = parseFloat(v);
+		if (globalThis.Number.isNaN(num)) return;
+
+		const numValue = clamp(num, min, max);
+		setInputValue(formatOut(numValue));
+		onChange?.(numValue, e);
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setInputValue(
+			value === undefined || value === null ? "" : String(value),
+		);
 	}, [value]);
 
 	const inputProps = {
 		ref,
 		name,
 		disabled,
-		value: state.value,
+		value: inputValue,
 		className: "i-input i-input-number",
 		onChange: handleChange,
+		onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => {
+			e.code === "Enter" && onEnter?.(e);
+		},
+		onInput,
+		onBlur: handleBlur,
 		...restProps,
 	};
 

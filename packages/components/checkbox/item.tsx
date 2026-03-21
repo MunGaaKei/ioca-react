@@ -1,6 +1,5 @@
 import classNames from "classnames";
-import { ChangeEvent, useEffect } from "react";
-import { useReactive } from "../../js/hooks";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ICheckboxItem } from "./type";
 
 export default function CheckboxItem(props: ICheckboxItem) {
@@ -20,35 +19,34 @@ export default function CheckboxItem(props: ICheckboxItem) {
 		...restProps
 	} = props;
 
-	const state = useReactive({
-		value,
-		status,
-		message,
-	});
+	const [checked, setChecked] = useState(value);
+	const [itemStatus, setItemStatus] = useState(status);
+	const [itemMessage, setItemMessage] = useState(message);
 	const isChildrenFn = typeof children === "function";
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const checked = e.target.checked;
-
-		Object.assign(state, {
-			value: checked,
-			status,
-			message,
-		});
-
-		onChange?.(checked, e);
+		const next = e.target.checked;
+		setChecked(next);
+		setItemStatus(status);
+		setItemMessage(message);
+		onChange?.(next, e);
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setChecked(value);
 	}, [value]);
+
+	useEffect(() => {
+		setItemStatus(status);
+		setItemMessage(message);
+	}, [status, message]);
 
 	return (
 		<label
 			className={classNames(
 				"i-checkbox-item",
 				{
-					[`i-checkbox-${state.status}`]: state.status !== "normal",
+					[`i-checkbox-${itemStatus}`]: itemStatus !== "normal",
 					disabled,
 				},
 				className
@@ -62,19 +60,19 @@ export default function CheckboxItem(props: ICheckboxItem) {
 					[`i-checkbox-${type}`]: !partof,
 					"i-checkbox-partof": partof,
 				})}
-				checked={state.value}
+				checked={checked}
 				disabled={disabled}
 				onChange={handleChange}
 			/>
 
 			{isChildrenFn ? (
-				children(state.value, optionValue)
+				children(checked, optionValue)
 			) : (
 				<span className='i-checkbox-text'>{children || label}</span>
 			)}
 
-			{state.message && (
-				<span className='i-checkbox-message'>*{state.message}</span>
+			{itemMessage && (
+				<span className='i-checkbox-message'>*{itemMessage}</span>
 			)}
 		</label>
 	);

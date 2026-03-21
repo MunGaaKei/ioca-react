@@ -1,6 +1,5 @@
 import classNames from "classnames";
-import { useEffect, useMemo } from "react";
-import { useReactive } from "../../js/hooks";
+import { useEffect, useMemo, useState } from "react";
 import "../../css/input.css";
 import { formatOption } from "../../js/utils";
 import "./index.css";
@@ -26,16 +25,12 @@ function Checkbox(props: ICheckbox) {
 		...restProps
 	} = props;
 
-	const state = useReactive<{
-		value: any;
-	}>({
-		value,
-	});
+	const [selectedValues, setSelectedValues] = useState<any>(value);
 
 	const formattedOptions = useMemo(() => formatOption(options), [options]);
 
 	const handleChange = (checked, opt, e) => {
-		const group = [...state.value];
+		const group = [...selectedValues];
 		const i = group.findIndex((item) => item === opt.value);
 
 		if (checked && i < 0) {
@@ -44,12 +39,12 @@ function Checkbox(props: ICheckbox) {
 			group.splice(i, 1);
 		}
 
-		state.value = group;
+		setSelectedValues(group);
 		onChange?.(group, opt, e);
 	};
 
 	useEffect(() => {
-		state.value = value;
+		setSelectedValues(value);
 	}, [value]);
 
 	return (
@@ -85,7 +80,7 @@ function Checkbox(props: ICheckbox) {
 						<CheckboxItem
 							key={option.value as string}
 							name={name}
-							value={state.value.includes(option.value)}
+							value={selectedValues.includes(option.value)}
 							optionValue={option.value}
 							type={type}
 							disabled={disabled || option.disabled}
