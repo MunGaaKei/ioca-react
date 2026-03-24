@@ -1,25 +1,13 @@
 import classNames from "classnames";
-import { useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { IPopupContent } from "./type";
 
-const Content = (props: IPopupContent) => {
-	const {
-		ref,
-		getContainer = (trigger) => {
-			if (typeof document === "undefined") return null;
-			return trigger?.offsetParent ?? document.body;
-		},
-		trigger,
-		arrow,
-		arrowProps = {},
-		className,
-		children,
-		...restProps
-	} = props;
+const Content = forwardRef<HTMLDivElement, IPopupContent>((props, ref) => {
+	const { arrow, arrowProps = {}, className, children, ...restProps } = props;
 
 	const arrowCSS = useMemo(() => {
-		let { left, top, pos } = arrowProps;
+		let { left = 0, top = 0, pos } = arrowProps as any;
 		let transform = "";
 
 		switch (pos) {
@@ -70,9 +58,10 @@ const Content = (props: IPopupContent) => {
 		</div>
 	);
 
-	const container = getContainer(trigger);
+	const container =
+		typeof document === "undefined" ? null : (document.body as HTMLElement);
 	if (!container) return null;
 	return createPortal(content, container);
-};
+});
 
 export default Content;

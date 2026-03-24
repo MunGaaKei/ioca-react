@@ -49,7 +49,6 @@ export const DVariant = {
 					trigger='click'
 					position='right'
 					offset={8}
-					watchResize
 					content={
 						<div className='pd-20' style={{ width: 400 }}>
 							<h4>Lorem</h4>
@@ -84,7 +83,6 @@ export const DVariant = {
 		trigger='click'
 		position='right'
 		offset={8}
-		watchResize
 		content={
 			<div className='pd-20' style={{ width: 400 }}>
 				<h4>Lorem</h4>
@@ -189,18 +187,6 @@ export const PPopup = [
 		def: "false",
 	},
 	{
-		name: "watchResize",
-		desc: "当触发目标元素位置变化时，内容区重新调整位置",
-		type: ["boolean"],
-		def: "false",
-	},
-	{
-		name: "clickOutside",
-		desc: "点击内容区域外时隐藏内容",
-		type: ["boolean"],
-		def: "true",
-	},
-	{
 		name: "disabled",
 		desc: "禁用状态",
 		type: ["boolean"],
@@ -215,17 +201,6 @@ export const PPopup = [
 		name: "className",
 		desc: "内容区域样式",
 		type: ["string"],
-	},
-	{
-		name: "fixed",
-		desc: "CSS position 值为 fixed",
-		type: ["boolean"],
-		def: "false",
-	},
-	{
-		name: "getContainer",
-		desc: "内容区域渲染位置，默认目标元素的相对父节点，某些情况下你可能需要用到它，比如在弹出层中使用。",
-		type: ["() => HTMLElement"],
 	},
 	{
 		name: "onVisibleChange",

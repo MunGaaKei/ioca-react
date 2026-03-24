@@ -62,7 +62,6 @@ export default function TimePicker(props: ITimePicker) {
 			position='bottom'
 			arrow={false}
 			align='start'
-			watchResize
 			{...popupProps}
 			onVisibleChange={handleVisibleChange}
 			content={

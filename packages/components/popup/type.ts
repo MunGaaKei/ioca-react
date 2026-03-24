@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, RefObject } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { TPosition } from "../../type";
 export interface IPopup {
 	visible?: boolean;
@@ -6,7 +6,6 @@ export interface IPopup {
 	trigger?: "hover" | "click" | "focus" | "none" | "contextmenu";
 	gap?: number;
 	offset?: number;
-	fixed?: boolean;
 	position?: TPosition;
 	arrow?: boolean;
 	align?: "start" | "center" | "end";
@@ -14,22 +13,17 @@ export interface IPopup {
 	hideDelay?: number;
 	touchable?: boolean;
 	fitSize?: boolean;
-	watchResize?: boolean;
-	clickOutside?: boolean;
 	disabled?: boolean;
 	style?: CSSProperties;
 	children?: ReactNode;
 	className?: string;
-	getContainer?: (trigger?: HTMLElement) => HTMLElement;
 	onVisibleChange?: (visible: boolean) => void;
 }
 
-export interface IPopupContent
-	extends Pick<
-		IPopup,
-		"getContainer" | "arrow" | "className" | "style" | "children"
-	> {
-	ref?: RefObject<HTMLDivElement | null>;
+export interface IPopupContent extends Pick<
+	IPopup,
+	"arrow" | "className" | "style" | "children"
+> {
 	trigger?: HTMLElement;
 	arrowProps?: Record<string, any>;
 }

@@ -92,7 +92,6 @@ const Datepicker = (props: IDatePicker) => {
 			arrow={false}
 			align='start'
 			onVisibleChange={handleVisibleChange}
-			watchResize
 			content={
 				<Panel
 					value={dayJsValue}

@@ -1,23 +1,18 @@
+import { debounce } from "radash";
 import {
-	CSSProperties,
 	Children,
 	MouseEvent,
+	Ref,
 	cloneElement,
 	isValidElement,
-	useContext,
 	useEffect,
 	useLayoutEffect,
 	useMemo,
 	useRef,
+	useState,
 } from "react";
-import {
-	useCreation,
-	useMouseUp,
-	useReactive,
-	useResizeObserver,
-} from "../../js/hooks";
+import { useMouseUp, useResizeObserver } from "../../js/hooks";
 import { getPointPosition, getPosition } from "../../js/utils";
-import ModalContext from "../modal/context";
 import Content from "./content";
 import "./index.css";
 import { IPopup } from "./type";
@@ -29,20 +24,16 @@ export default function Popup(props: IPopup) {
 		trigger = "hover",
 		gap = 12,
 		offset = 8,
-		fixed,
 		position = "top",
 		showDelay = 16,
 		hideDelay = 12,
 		touchable,
 		arrow = true,
-		align,
+		align = "center",
 		fitSize,
-		watchResize,
-		clickOutside = true,
 		disabled,
 		style,
 		className,
-		getContainer,
 		children,
 		onVisibleChange,
 	} = props;
@@ -50,111 +41,281 @@ export default function Popup(props: IPopup) {
 	const triggerRef = useRef<HTMLElement>(null);
 	const contentRef = useRef<HTMLDivElement>(null);
 	const timerRef = useRef<any>(null);
-	const statusRef = useRef<string>("");
-	const isInModal = useContext(ModalContext);
-	const refWindow = isInModal || fixed;
-	const state = useReactive<{
-		show: boolean;
-		style: CSSProperties;
-		arrowProps: Record<string, any>;
-	}>({
-		show: false,
-		style: { position: refWindow ? "fixed" : "absolute" },
-		arrowProps: {},
+	const afterHideTimerRef = useRef<any>(null);
+	const rafRef = useRef<number | null>(null);
+
+	const [show, setShow] = useState(false);
+	const showRef = useRef(false);
+	showRef.current = show;
+
+	const latestRef = useRef({
+		disabled,
+		trigger,
+		touchable,
+		showDelay,
+		hideDelay,
+		position,
+		gap,
+		offset,
+		align,
+		fitSize,
+		onVisibleChange,
 	});
+	latestRef.current = {
+		disabled,
+		trigger,
+		touchable,
+		showDelay,
+		hideDelay,
+		position,
+		gap,
+		offset,
+		align,
+		fitSize,
+		onVisibleChange,
+	};
 
-	useMouseUp((e) => {
-		if (!triggerRef.current || !contentRef.current || !clickOutside) return;
-
-		const tar = e.target as HTMLElement;
-		const isContain =
-			triggerRef.current.contains(tar) ||
-			contentRef.current.contains(tar);
-
-		if (!state.show || isContain) return;
-
-		handleToggle(false);
-	});
+	const phaseRef = useRef<"" | "showing" | "hiding">("");
+	const lastPosRef = useRef<{ left: number; top: number } | null>(null);
+	const lastArrowRef = useRef<{
+		left: number;
+		top: number;
+		transform: string;
+	} | null>(null);
+	const arrowElRef = useRef<HTMLElement | null>(null);
+	const pointRef = useRef<{ pageX: number; pageY: number } | null>(null);
 
 	const clearTimer = () => {
 		if (!timerRef.current) return;
 		clearTimeout(timerRef.current);
 		timerRef.current = null;
-		statusRef.current = "";
+		phaseRef.current = "";
 	};
 
-	const handleShow = () => {
-		if (disabled) return;
+	const clearAllTimers = () => {
+		clearTimer();
+		if (afterHideTimerRef.current) {
+			clearTimeout(afterHideTimerRef.current);
+			afterHideTimerRef.current = null;
+		}
+		if (rafRef.current !== null) {
+			cancelAnimationFrame(rafRef.current);
+			rafRef.current = null;
+		}
+	};
+
+	const setContentVisible = (visible: boolean) => {
+		const el = contentRef.current;
+		if (!el) return;
+		el.style.opacity = visible ? "1" : "0";
+		el.style.transform = visible ? "none" : "translate(0, 2px)";
+	};
+
+	const ensureBaseStyle = () => {
+		const el = contentRef.current;
+		if (!el) return;
+		const pos = "fixed";
+		if (el.style.position !== pos) el.style.position = pos;
+	};
+
+	const applyFitSize = () => {
+		const o = latestRef.current;
+		const triggerEl = triggerRef.current;
+		const contentEl = contentRef.current;
+		if (!triggerEl || !contentEl) return;
+
+		const vertical = ["top", "bottom"].includes(o.position);
+		const key = vertical ? "width" : "height";
+		if (!o.fitSize) {
+			(contentEl.style as any)[key] = "";
+			return;
+		}
+
+		const size = triggerEl[vertical ? "offsetWidth" : "offsetHeight"];
+		(contentEl.style as any)[key] =
+			typeof size === "number" ? `${size}px` : "";
+	};
+
+	const applyArrow = (arrowX: number, arrowY: number, arrowPos: string) => {
+		const contentEl = contentRef.current;
+		if (!contentEl) return;
+
+		const arrowEl =
+			arrowElRef.current ??
+			(contentEl.querySelector(".i-popup-arrow") as HTMLElement | null);
+		arrowElRef.current = arrowEl;
+		if (!arrowEl) return;
+
+		let left = arrowX ?? 0;
+		let top = arrowY ?? 0;
+		let transform = "";
+
+		switch (arrowPos) {
+			case "left":
+				left += 2;
+				transform = `translate(-100%, -50%) rotate(180deg)`;
+				break;
+			case "right":
+				left -= 2;
+				transform = `translate(0, -50%)`;
+				break;
+			case "top":
+				top -= 2;
+				transform = `translate(-50%, -50%) rotate(-90deg)`;
+				break;
+			case "bottom":
+				top += 2;
+				transform = `translate(-50%, -50%) rotate(90deg)`;
+				break;
+			default:
+				break;
+		}
+
+		const prev = lastArrowRef.current;
 		if (
-			state.show &&
-			(trigger !== "hover" || (trigger === "hover" && !touchable))
+			prev &&
+			prev.left === left &&
+			prev.top === top &&
+			prev.transform === transform
 		) {
 			return;
 		}
 
-		statusRef.current = "showing";
-		state.show = true;
+		lastArrowRef.current = { left, top, transform };
+		arrowEl.style.left = `${left}px`;
+		arrowEl.style.top = `${top}px`;
+		arrowEl.style.transform = transform;
+	};
+
+	const applyLeftTop = (left: number, top: number) => {
+		const contentEl = contentRef.current;
+		if (!contentEl) return;
+
+		const prev = lastPosRef.current;
+		if (prev && prev.left === left && prev.top === top) return;
+
+		lastPosRef.current = { left, top };
+		contentEl.style.left = `${left}px`;
+		contentEl.style.top = `${top}px`;
+	};
+
+	const computeRelativePosition = () => {
+		const triggerEl = triggerRef.current;
+		const contentEl = contentRef.current;
+		if (!triggerEl || !contentEl) return;
+
+		const o = latestRef.current;
+		applyFitSize();
+
+		const [left, top, { arrowX, arrowY, arrowPos }] = getPosition(
+			triggerEl,
+			contentEl,
+			{
+				position: o.position,
+				gap: o.gap,
+				offset: o.offset,
+				align: o.align,
+				refWindow: true,
+			},
+		);
+
+		applyLeftTop(left, top);
+		applyArrow(arrowX, arrowY, arrowPos);
+	};
+
+	const computePointPosition = () => {
+		const contentEl = contentRef.current as HTMLElement | null;
+		if (!contentEl) return;
+		const point = pointRef.current;
+		if (!point) return;
+
+		const [left, top] = getPointPosition(point as any, contentEl);
+		applyLeftTop(left, top);
+	};
+
+	const scheduleComputePosition = () => {
+		if (!showRef.current) return;
+		if (rafRef.current !== null) return;
+		rafRef.current = requestAnimationFrame(() => {
+			rafRef.current = null;
+			if (!showRef.current) return;
+			ensureBaseStyle();
+
+			if (latestRef.current.trigger === "contextmenu") {
+				computePointPosition();
+				return;
+			}
+
+			computeRelativePosition();
+		});
+	};
+
+	const handleShow = () => {
+		const opts = latestRef.current;
+		if (opts.disabled) return;
+		clearAllTimers();
+		if (
+			showRef.current &&
+			(opts.trigger !== "hover" ||
+				(opts.trigger === "hover" && !opts.touchable))
+		) {
+			ensureBaseStyle();
+			computeRelativePosition();
+			setContentVisible(true);
+			return;
+		}
+
+		phaseRef.current = "showing";
+		if (!showRef.current) {
+			lastPosRef.current = null;
+			lastArrowRef.current = null;
+			arrowElRef.current = null;
+			setShow(true);
+		}
 
 		timerRef.current = setTimeout(() => {
-			if (statusRef.current !== "showing") return;
+			if (phaseRef.current !== "showing") return;
 
-			requestAnimationFrame(() => {
-				if (statusRef.current !== "showing") return;
+			rafRef.current = requestAnimationFrame(() => {
+				rafRef.current = null;
+				if (phaseRef.current !== "showing") return;
+				if (!contentRef.current) return;
 
-				const [left, top, { arrowX, arrowY, arrowPos }] = getPosition(
-					triggerRef.current,
-					contentRef.current,
-					{
-						position,
-						gap,
-						offset,
-						align,
-						refWindow,
-					}
-				);
-
-				state.style = {
-					...state.style,
-					opacity: 1,
-					transform: "none",
-					left,
-					top,
-				};
-				state.arrowProps = {
-					left: arrowX,
-					top: arrowY,
-					pos: arrowPos,
-				};
-				onVisibleChange?.(true);
+				ensureBaseStyle();
+				if (opts.trigger === "contextmenu") {
+					computePointPosition();
+				} else {
+					computeRelativePosition();
+				}
+				setContentVisible(true);
+				opts.onVisibleChange?.(true);
 				clearTimer();
-				statusRef.current = "";
+				phaseRef.current = "";
 			});
-		}, showDelay);
+		}, opts.showDelay);
 	};
 
 	const handleHide = () => {
-		if (!state.show) return;
+		if (!showRef.current) return;
 
-		statusRef.current = "hiding";
+		clearAllTimers();
+		phaseRef.current = "hiding";
 		timerRef.current = setTimeout(() => {
-			if (statusRef.current !== "hiding") {
+			if (phaseRef.current !== "hiding") {
 				clearTimer();
 				return;
 			}
 
-			state.style = {
-				...state.style,
-				opacity: 0,
-				transform: "translate(0, 2px)",
-			};
+			setContentVisible(false);
 
-			setTimeout(() => {
-				state.show = false;
-				clearTimer();
-				onVisibleChange?.(false);
-				statusRef.current = "";
+			afterHideTimerRef.current = setTimeout(() => {
+				afterHideTimerRef.current = null;
+				setShow(false);
+				clearAllTimers();
+				latestRef.current.onVisibleChange?.(false);
+				phaseRef.current = "";
 			}, 160);
-		}, hideDelay);
+		}, latestRef.current.hideDelay);
 	};
 
 	const handleToggle = (action?: boolean) => {
@@ -162,67 +323,72 @@ export default function Popup(props: IPopup) {
 			action ? handleShow() : handleHide();
 			return;
 		}
-
-		state.show ? handleHide() : handleShow();
+		showRef.current ? handleHide() : handleShow();
 	};
-	const eventMaps = useCreation(
-		() => ({
+
+	const hideRef = useRef(handleHide);
+	const toggleRef = useRef(handleToggle);
+	hideRef.current = handleHide;
+	toggleRef.current = handleToggle;
+
+	const doHide = useMemo(() => () => hideRef.current(), []);
+	const doToggle = useMemo(
+		() => (action?: boolean) => toggleRef.current(action),
+		[],
+	);
+
+	const eventMaps = useMemo(() => {
+		return {
 			click: {
-				onClick: () => handleToggle(true),
+				onClick: () => doToggle(true),
 			},
 			hover: {
-				onMouseEnter: () => handleToggle(true),
-				onMouseLeave: () => handleToggle(false),
+				onMouseEnter: () => doToggle(true),
+				onMouseLeave: () => doToggle(false),
 			},
 			focus: {
-				onFocus: () => handleToggle(true),
-				onBlur: () => handleToggle(false),
+				onFocus: () => doToggle(true),
+				onBlur: () => doToggle(false),
 			},
 			contextmenu: {
 				onContextMenu: (e: MouseEvent) => {
 					e.preventDefault();
 					e.stopPropagation();
 
-					if (state.show) {
-						const [left, top] = getPointPosition(
-							e,
-							contentRef.current as HTMLElement
-						);
+					pointRef.current = {
+						pageX: (e as any).pageX,
+						pageY: (e as any).pageY,
+					};
 
-						state.style = {
-							...state.style,
-							left,
-							top,
-						};
-
+					if (showRef.current) {
+						ensureBaseStyle();
+						computePointPosition();
 						return;
 					}
 
-					state.show = true;
+					clearAllTimers();
+					phaseRef.current = "showing";
+					lastPosRef.current = null;
+					lastArrowRef.current = null;
+					arrowElRef.current = null;
+					setShow(true);
 
 					timerRef.current = setTimeout(() => {
-						const [left, top] = getPointPosition(
-							e,
-							contentRef.current as HTMLElement
-						);
+						if (phaseRef.current !== "showing") return;
+						if (!contentRef.current) return;
 
-						state.style = {
-							...state.style,
-							opacity: 1,
-							transform: "none",
-							left,
-							top,
-						};
-
+						ensureBaseStyle();
+						computePointPosition();
+						setContentVisible(true);
 						clearTimer();
-						onVisibleChange?.(true);
-					}, showDelay);
+						latestRef.current.onVisibleChange?.(true);
+						phaseRef.current = "";
+					}, latestRef.current.showDelay);
 				},
 			},
 			none: {},
-		}),
-		[]
-	);
+		};
+	}, [doToggle]);
 
 	const contentTouch = useMemo(() => {
 		if (!touchable) return {};
@@ -238,99 +404,161 @@ export default function Popup(props: IPopup) {
 		return events;
 	}, [touchable, trigger]);
 
-	const computePosition = () => {
-		if (!state.show) return;
-
-		const [left, top, { arrowX, arrowY, arrowPos }] = getPosition(
-			triggerRef.current,
-			contentRef.current,
-			{
-				position,
-				gap,
-				offset,
-				align,
-				refWindow,
-			}
-		);
-
-		Object.assign(state, {
-			style: { ...state.style, left, top },
-			arrowProps: { left: arrowX, top: arrowY, pos: arrowPos },
-		});
-	};
-
 	const { observe, unobserve, disconnect } = useResizeObserver();
 	useEffect(() => {
-		if (trigger === "contextmenu" || !observe) return;
-
-		triggerRef.current && observe(triggerRef.current, computePosition);
-
-		if (!watchResize || !contentRef.current) return;
-
-		observe(contentRef.current, computePosition);
-
+		if (!observe) return;
+		const triggerEl = triggerRef.current;
+		const contentEl = contentRef.current;
+		if (triggerEl) observe(triggerEl, scheduleComputePosition);
+		if (contentEl) observe(contentEl, scheduleComputePosition);
 		return () => {
-			if (!watchResize || !contentRef.current) return;
-
-			unobserve(contentRef.current);
-			triggerRef.current && unobserve(triggerRef.current);
+			if (contentEl) unobserve(contentEl);
+			if (triggerEl) unobserve(triggerEl);
 			disconnect();
 		};
-	}, [watchResize, contentRef.current, triggerRef.current]);
+	}, [trigger, observe, unobserve, disconnect, show]);
 
 	useLayoutEffect(() => {
-		if (!fitSize || !state.show) return;
-
-		const vertical = ["top", "bottom"].includes(position);
-		const size =
-			triggerRef.current?.[vertical ? "offsetWidth" : "offsetHeight"];
-		state.style = { ...state.style, [vertical ? "width" : "height"]: size };
-	}, [state.show, fitSize]);
+		if (!show) return;
+		ensureBaseStyle();
+		if (latestRef.current.trigger === "contextmenu") {
+			computePointPosition();
+		} else {
+			computeRelativePosition();
+		}
+	}, [show]);
 
 	useLayoutEffect(() => {
-		handleToggle(visible);
+		doToggle(visible);
 	}, [visible]);
 
 	useEffect(() => {
 		return () => {
-			clearTimer();
+			clearAllTimers();
 		};
 	}, []);
 
+	const mouseUpHandlerRef = useRef<(e: any) => void>(() => {});
+	mouseUpHandlerRef.current = (e) => {
+		if (!showRef.current) return;
+		const triggerEl = triggerRef.current;
+		const contentEl = contentRef.current;
+		if (!triggerEl || !contentEl) return;
+		const tar = e.target as HTMLElement;
+		if (triggerEl.contains(tar) || contentEl.contains(tar)) return;
+		doHide();
+	};
+	const onGlobalMouseUp = useMemo(
+		() => (e: any) => mouseUpHandlerRef.current(e),
+		[],
+	);
+	useMouseUp(onGlobalMouseUp);
+
+	useEffect(() => {
+		if (!show) return;
+		if (typeof window === "undefined") return;
+
+		const onScrollOrResize = debounce({ delay: 160 }, () => {
+			scheduleComputePosition();
+		});
+
+		window.addEventListener("scroll", onScrollOrResize, {
+			passive: true,
+			capture: true,
+		});
+
+		return () => {
+			window.removeEventListener("scroll", onScrollOrResize, true);
+		};
+	}, [show]);
+
+	const mergeRefs = (...refs: Array<Ref<HTMLElement> | undefined>) => {
+		return (node: HTMLElement | null) => {
+			for (const ref of refs) {
+				if (!ref) continue;
+				if (typeof ref === "function") {
+					ref(node);
+				} else {
+					(ref as any).current = node;
+				}
+			}
+		};
+	};
+
 	return (
 		<>
-			{Children.map(children, (child) => {
-				if (!isValidElement(child)) return;
+			{(() => {
+				const events = eventMaps[trigger] as any;
+				const items = Children.toArray(children);
+				const canAttachRef = (el: any) => {
+					if (!isValidElement(el)) return false;
+					const t: any = el.type;
+					if (typeof t === "string") return true;
+					if (t?.prototype?.isReactComponent) return true;
+					if (t?.$$typeof === Symbol.for("react.forward_ref"))
+						return true;
+					return false;
+				};
 
-				const { className, ...restProps } = child.props as any;
-				Object.keys(eventMaps[trigger]).map((evt) => {
-					if (!restProps[evt]) return;
-					const fn = eventMaps[trigger][evt];
+				if (items.length !== 1) {
+					return (
+						<div
+							ref={triggerRef as any}
+							{...events}
+							className='i-popup-trigger'
+							style={{ display: "inline-block" }}
+						>
+							{children}
+						</div>
+					);
+				}
 
-					eventMaps[trigger][evt] = (e) => {
-						fn();
-						restProps[evt](e);
-					};
+				const only = items[0] as any;
+				if (!isValidElement(only) || !canAttachRef(only)) {
+					return (
+						<div
+							ref={triggerRef as any}
+							{...events}
+							className='i-popup-trigger'
+							style={{ display: "inline-block" }}
+						>
+							{only}
+						</div>
+					);
+				}
+
+				const { className: childClassName, ...restProps } =
+					only.props as any;
+				const nextProps: Record<string, any> = { ...restProps };
+				for (const evt of Object.keys(events)) {
+					const theirs = restProps[evt];
+					const ours = events[evt];
+					nextProps[evt] =
+						typeof theirs === "function"
+							? (e: any) => {
+									ours(e);
+									theirs(e);
+								}
+							: ours;
+				}
+				return cloneElement(only as any, {
+					ref: mergeRefs((only as any).ref, triggerRef as any),
+					className: childClassName,
+					...nextProps,
 				});
+			})()}
 
-				return cloneElement(child, {
-					ref: triggerRef,
-					className,
-					...restProps,
-					...eventMaps[trigger],
-				});
-			})}
-
-			{state.show && (
+			{show && (
 				<Content
 					ref={contentRef}
 					arrow={arrow && trigger !== "contextmenu"}
-					style={{ ...style, ...state.style }}
-					arrowProps={state.arrowProps}
+					style={{
+						...style,
+						position: "fixed",
+					}}
 					className={className}
 					{...contentTouch}
 					trigger={triggerRef.current as HTMLElement}
-					getContainer={getContainer}
 				>
 					{content}
 				</Content>

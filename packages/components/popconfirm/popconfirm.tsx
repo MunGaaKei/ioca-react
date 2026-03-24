@@ -1,6 +1,6 @@
 import { InfoOutlined } from "@ricons/material";
-import { useReactive } from "../../js/hooks";
 import { MouseEvent } from "react";
+import { useReactive } from "../../js/hooks";
 import Button from "../button";
 import { IButton } from "../button/type";
 import Flex from "../flex";
@@ -27,7 +27,7 @@ const Popconfirm = (props: IPopconfirm) => {
 		okButtonProps,
 		cancelButtonProps,
 		children,
-		align = "end",
+		align,
 		position = "top",
 		offset = 12,
 		extra,

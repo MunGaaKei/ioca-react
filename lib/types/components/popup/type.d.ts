@@ -7,7 +7,6 @@ interface IPopup {
     trigger?: "hover" | "click" | "focus" | "none" | "contextmenu";
     gap?: number;
     offset?: number;
-    fixed?: boolean;
     position?: TPosition;
     arrow?: boolean;
     align?: "start" | "center" | "end";
@@ -15,13 +14,10 @@ interface IPopup {
     hideDelay?: number;
     touchable?: boolean;
     fitSize?: boolean;
-    watchResize?: boolean;
-    clickOutside?: boolean;
     disabled?: boolean;
     style?: CSSProperties;
     children?: ReactNode;
     className?: string;
-    getContainer?: (trigger?: HTMLElement) => HTMLElement;
     onVisibleChange?: (visible: boolean) => void;
 }
 
