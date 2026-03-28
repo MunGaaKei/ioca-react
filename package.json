@@ -1,101 +1,101 @@
 {
-  "name": "@ioca/react",
-  "version": "1.4.76",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "make": "node templates/index.js",
-    "lib": "rimraf lib && npx rollup -c"
-  },
-  "dependencies": {
-    "@rc-component/color-picker": "^2.0.1",
-    "@ricons/material": "^0.12.0",
-    "classnames": "^2.5.1",
-    "dayjs": "^1.11.13",
-    "highlight-words-core": "^1.2.3",
-    "pubsub-js": "^1.9.5",
-    "radash": "^12.1.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-easy-sort": "^1.6.0",
-    "react-router": "^7.1.1",
-    "xss": "^1.0.15"
-  },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.3",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^12.1.1",
-    "@types/mockjs": "^1.0.10",
-    "@types/node": "^22.10.1",
-    "@types/pubsub-js": "^1.8.5",
-    "@types/react": "^19.0.4",
-    "@vitejs/plugin-react": "^6.0.1",
-    "chalk": "^5.4.1",
-    "fs": "^0.0.1-security",
-    "mockjs": "^1.1.0",
-    "path": "^0.12.7",
-    "react-syntax-highlighter": "^15.6.1",
-    "rimraf": "^6.0.1",
-    "rollup": "^4.59.0",
-    "rollup-plugin-dts": "^6.1.1",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-scss": "^4.0.0",
-    "sass": "^1.86.0",
-    "typescript": "^5.7.2",
-    "vite": "^8.0.0",
-    "vite-plugin-dynamic-import": "^1.6.0"
-  },
-  "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
-  },
-  "main": "lib/cjs/index.js",
-  "module": "lib/es/index.js",
-  "types": "lib/types/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./lib/types/index.d.ts",
-      "import": "./lib/es/index.js",
-      "require": "./lib/cjs/index.js"
-    },
-    "./index.css": "./lib/css/index.css",
-    "./*": {
-      "types": "./lib/types/*.d.ts",
-      "import": "./lib/es/*.js",
-      "require": "./lib/cjs/*.js"
-    }
-  },
-  "files": [
-    "lib"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "license": "MIT",
-  "description": "ioca react ui components",
-  "directories": {
-    "doc": "docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MunGaaKei/ioca-react.git"
-  },
-  "keywords": [
-    "ioca",
-    "react ui",
-    "components"
-  ],
-  "author": "iannman",
-  "bugs": {
-    "url": "https://github.com/MunGaaKei/ioca-react/issues"
-  },
-  "homepage": "https://github.com/MunGaaKei/ioca-react#readme",
-  "sideEffects": [
-    "*.css",
-    "*.scss"
-  ],
-  "packageManager": "pnpm@10.32.1"
+	"name": "@ioca/react",
+	"version": "1.4.81",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview",
+		"make": "node templates/index.js",
+		"lib": "rimraf lib && npx rollup -c"
+	},
+	"dependencies": {
+		"@rc-component/color-picker": "^2.0.1",
+		"@ricons/material": "^0.12.0",
+		"classnames": "^2.5.1",
+		"dayjs": "^1.11.13",
+		"highlight-words-core": "^1.2.3",
+		"pubsub-js": "^1.9.5",
+		"radash": "^12.1.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"react-easy-sort": "^1.6.0",
+		"react-router": "^7.1.1",
+		"xss": "^1.0.15"
+	},
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^28.0.3",
+		"@rollup/plugin-node-resolve": "^15.3.0",
+		"@rollup/plugin-terser": "^0.4.4",
+		"@rollup/plugin-typescript": "^12.1.1",
+		"@types/mockjs": "^1.0.10",
+		"@types/node": "^22.10.1",
+		"@types/pubsub-js": "^1.8.5",
+		"@types/react": "^19.0.4",
+		"@vitejs/plugin-react": "^6.0.1",
+		"chalk": "^5.4.1",
+		"fs": "^0.0.1-security",
+		"mockjs": "^1.1.0",
+		"path": "^0.12.7",
+		"react-syntax-highlighter": "^15.6.1",
+		"rimraf": "^6.0.1",
+		"rollup": "^4.59.0",
+		"rollup-plugin-dts": "^6.1.1",
+		"rollup-plugin-peer-deps-external": "^2.2.4",
+		"rollup-plugin-scss": "^4.0.0",
+		"sass": "^1.86.0",
+		"typescript": "^5.7.2",
+		"vite": "^8.0.0",
+		"vite-plugin-dynamic-import": "^1.6.0"
+	},
+	"peerDependencies": {
+		"react": ">=16.8.0",
+		"react-dom": ">=16.8.0"
+	},
+	"main": "lib/cjs/index.js",
+	"module": "lib/es/index.js",
+	"types": "lib/types/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./lib/types/index.d.ts",
+			"import": "./lib/es/index.js",
+			"require": "./lib/cjs/index.js"
+		},
+		"./index.css": "./lib/css/index.css",
+		"./*": {
+			"types": "./lib/types/*.d.ts",
+			"import": "./lib/es/*.js",
+			"require": "./lib/cjs/*.js"
+		}
+	},
+	"files": [
+		"lib"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"description": "ioca react ui components",
+	"directories": {
+		"doc": "docs"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MunGaaKei/ioca-react.git"
+	},
+	"keywords": [
+		"ioca",
+		"react ui",
+		"components"
+	],
+	"author": "iannman",
+	"bugs": {
+		"url": "https://github.com/MunGaaKei/ioca-react/issues"
+	},
+	"homepage": "https://github.com/MunGaaKei/ioca-react#readme",
+	"sideEffects": [
+		"*.css",
+		"*.scss"
+	],
+	"packageManager": "pnpm@10.32.1"
 }
