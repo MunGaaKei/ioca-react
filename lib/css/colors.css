@@ -62,6 +62,7 @@
     --background-opacity-1: rgba(211, 211, 211, 0.4);
     --background-opacity-2: rgba(188, 188, 188, 0.15);
 
+    --color: var(--color-2);
     --color-main: var(--color-2);
     --color-main-1: var(--color-0);
     --color-main-0: var(--color-9);
