@@ -1,13 +1,31 @@
 import { Button, Drawer, Dropdown, Icon, Popup, Text, useTheme } from "@p";
 import { useReactive } from "@p/js/hooks";
 import {
+    BrightnessAutoOutlined,
     ErrorOutlineRound,
     MenuRound,
-    MotionPhotosAutoTwotone,
     NightlightTwotone,
     WbSunnyOutlined,
 } from "@ricons/material";
 import { Link } from "react-router";
+
+const themes = [
+    {
+        name: "theme-auto",
+        icon: <BrightnessAutoOutlined />,
+        text: "跟随系统",
+    },
+    {
+        name: "theme-dark",
+        icon: <NightlightTwotone />,
+        text: "暗黑",
+    },
+    {
+        name: "theme-light",
+        icon: <WbSunnyOutlined />,
+        text: "亮色",
+    },
+];
 
 export default function Sider(props) {
     const { useDrawer, menus } = props;
@@ -58,49 +76,30 @@ export default function Sider(props) {
 
             <Dropdown
                 content={(close) => {
-                    return (
-                        <>
-                            <Dropdown.Item
-                                type="option"
-                                active={theme === "theme-auto"}
-                                onClick={() => {
-                                    setTheme("theme-auto");
-                                    close();
-                                }}
-                            >
-                                <Icon icon={<MotionPhotosAutoTwotone />} />
-                                自动
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                                type="option"
-                                active={theme === "theme-none"}
-                                onClick={() => {
-                                    setTheme("theme-none");
-                                    close();
-                                }}
-                            >
-                                <Icon icon={<WbSunnyOutlined />} />
-                                明亮
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                                type="option"
-                                active={theme === "theme-dark"}
-                                onClick={() => {
-                                    setTheme("theme-dark");
-                                    close();
-                                }}
-                            >
-                                <Icon icon={<NightlightTwotone />} />
-                                暗黑
-                            </Dropdown.Item>
-                        </>
-                    );
+                    return themes.map((item) => (
+                        <Dropdown.Item
+                            key={item.name}
+                            type="option"
+                            active={theme === item.name}
+                            className="items-center justify-start"
+                            onClick={() => {
+                                setTheme(item.name);
+                                close();
+                            }}
+                        >
+                            <Icon icon={item.icon} />
+                            {item.text}
+                        </Dropdown.Item>
+                    ));
                 }}
                 position="left"
                 align="start"
             >
                 <Button square flat>
-                    <Icon icon={<NightlightTwotone />} size="1.5em" />
+                    <Icon
+                        icon={themes.find((item) => item.name === theme)?.icon}
+                        size="1.5em"
+                    />
                 </Button>
             </Dropdown>
 
