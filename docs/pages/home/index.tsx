@@ -8,62 +8,62 @@ import logoReverse from "/logo-reverse.png";
 import logo from "/logo.png";
 
 export default function Home() {
-	const { theme, setTheme } = useTheme({ listenStorageChange: true });
-	const themeDark = theme === "theme-dark";
-	const gradient = [
-		"30deg",
-		"var(--color-1)",
-		"var(--color-2)",
-		"var(--color-6)",
-	];
+    const { theme, setTheme } = useTheme({ listenStorageChange: true });
+    const themeDark = theme === "theme-dark";
+    const gradient = [
+        "30deg",
+        "var(--color-1)",
+        "var(--color-2)",
+        "var(--color-6)",
+    ];
 
-	useEffect(() => {
-		const ico = document.getElementById("ico");
+    useEffect(() => {
+        const ico = document.getElementById("ico");
 
-		if (ico && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			ico.setAttribute("href", logoReverse);
-		}
-	}, [themeDark]);
+        if (ico && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            ico.setAttribute("href", logoReverse);
+        }
+    }, [themeDark]);
 
-	return (
-		<Flex className='h-100vh justify-center'>
-			<Button.Toggle
-				square
-				flat
-				className='absolute'
-				style={{ right: 12, top: 12 }}
-				after={<Icon icon={<NightlightTwotone />} />}
-				active={themeDark}
-				onToggle={(v) => setTheme(v ? "theme-dark" : "theme-none")}
-			>
-				<Icon icon={<LightModeTwotone />} />
-			</Button.Toggle>
+    return (
+        <Flex className="h-100vh justify-center">
+            <Button.Toggle
+                square
+                flat
+                className="absolute"
+                style={{ right: 12, top: 12 }}
+                after={<Icon icon={<NightlightTwotone />} />}
+                active={themeDark}
+                onToggle={(v) => setTheme(v ? "theme-dark" : "theme-none")}
+            >
+                <Icon icon={<LightModeTwotone />} />
+            </Button.Toggle>
 
-			<Flex
-				direction='column'
-				justify='center'
-				align='center'
-				className='w-30'
-			>
-				<Image
-					src={themeDark ? logoReverse : logo}
-					size={120}
-					className='mb-40'
-				/>
-				<h1 className='home-title'>
-					<Text gradient={gradient}>IOCA</Text>/
-					<Text gradient={gradient}>REACT</Text>
-				</h1>
-				<p>
-					<span className='opacity-5'>ver.</span>
-					<b className='font-lg'>{version}</b>
-				</p>
-				<h2 className='mt-40 hover-text-shadow'>
-					<Link to='/docs/install' className='home-start'>
-						开始
-					</Link>
-				</h2>
-			</Flex>
-		</Flex>
-	);
+            <Flex
+                direction="column"
+                justify="center"
+                align="center"
+                className="w-30"
+            >
+                <Image
+                    src={themeDark ? logoReverse : logo}
+                    size={120}
+                    className="mb-40"
+                />
+                <h1 className="home-title">
+                    <Text gradient={gradient}>IOCA</Text>/
+                    <Text gradient={gradient}>REACT</Text>
+                </h1>
+                <p>
+                    <span className="opacity-5">ver.</span>
+                    <b className="font-lg">{version}</b>
+                </p>
+                <h2 className="mt-40 hover-text-shadow">
+                    <Link to="/docs/install" className="home-start">
+                        开始
+                    </Link>
+                </h2>
+            </Flex>
+        </Flex>
+    );
 }

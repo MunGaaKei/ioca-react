@@ -1,5 +1,5 @@
 import "@d/assets/common.css";
-import "@p/css/index.scss";
+import "@p/css/index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router";

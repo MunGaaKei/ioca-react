@@ -35,6 +35,7 @@ const Number = (props: IInputNumber) => {
 		status = "normal",
 		append,
 		border,
+		underline,
 		prepend,
 		disabled,
 		message,
@@ -168,6 +169,7 @@ const Number = (props: IInputNumber) => {
 				className={classNames("i-input-item", {
 					[`i-input-${status}`]: status !== "normal",
 					"i-input-borderless": !border,
+					"i-input-underline": underline,
 				})}
 			>
 				{prepend && <div className='i-input-prepend'>{prepend}</div>}

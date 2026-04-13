@@ -1,77 +1,73 @@
-.i-video {
-	position: relative;
-	background: #000;
-	border-radius: var(--radius);
-	overflow: hidden;
-	video {
-		width: 100%;
-		height: 100%;
-	}
-}
-
-.i-video-controls {
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	right: 0;
-	display: flex;
-	align-items: center;
-	padding: 4px;
-	gap: 4px;
-	font-size: 0.9em;
-	white-space: nowrap;
-	user-select: none;
-	transition: var(--transition);
-	background: var(--background-opacity);
-	backdrop-filter: var(--blur);
-	.i-btn {
-		flex-shrink: 0;
-	}
-	.i-icon {
-		font-size: 1.2em;
-	}
-	&:hover {
-		opacity: 1;
-		pointer-events: unset;
-	}
-}
-.i-video-controls-hidden {
-	opacity: 0;
-	pointer-events: none;
-}
-
-.i-video-control {
-	display: flex;
-	align-items: center;
-}
-
-.i-video-times {
-	margin-inline: 8px;
-	display: flex;
-	align-items: center;
-	gap: 4px;
-}
-
-.i-video-volume {
-	position: absolute;
-	z-index: 1;
-	bottom: 100%;
-	left: 50%;
-	transform: translate(-50%, 4px);
-	padding: 8px;
-	opacity: 0;
-	pointer-events: none;
-	border-radius: var(--radius);
-	transition: var(--transition);
-	backdrop-filter: var(--blur);
-	background: var(--background-opacity);
-}
-.i-video-control-volume {
-	position: relative;
-	&:hover {
-		& .i-video-volume {
-			opacity: 1;
-			pointer-events: unset;
-		}
-	}
-}
+  .i-video {
+    position: relative;
+    background: #000;
+    border-radius: var(--radius);
+    overflow: hidden;
+    video {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .i-video-controls {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    gap: 4px;
+    font-size: 0.9em;
+    white-space: nowrap;
+    user-select: none;
+    transition: var(--transition);
+    background: var(--background-opacity);
+    backdrop-filter: var(--blur);
+    .i-btn {
+      flex-shrink: 0;
+    }
+    .i-icon {
+      font-size: 1.2em;
+    }
+    &:hover {
+      opacity: 1;
+      pointer-events: unset;
+    }
+  }
+  .i-video-controls-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .i-video-control {
+    display: flex;
+    align-items: center;
+  }
+  .i-video-times {
+    margin-inline: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .i-video-volume {
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, 4px);
+    padding: 8px;
+    opacity: 0;
+    pointer-events: none;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    backdrop-filter: var(--blur);
+    background: var(--background-opacity);
+  }
+  .i-video-control-volume {
+    position: relative;
+    &:hover {
+      & .i-video-volume {
+        opacity: 1;
+        pointer-events: unset;
+      }
+    }
+  }

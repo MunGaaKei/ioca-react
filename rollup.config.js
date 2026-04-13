@@ -1,6 +1,8 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
+import fs from "node:fs/promises";
+import path from "node:path";
 import dts from "rollup-plugin-dts";
 import external from "rollup-plugin-peer-deps-external";
 import scss from "rollup-plugin-scss";
@@ -23,7 +25,7 @@ const input = "./packages/index.ts";
 const plugins = [
 	external(),
 	resolve({
-		extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".scss"],
+		extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
 		preferBuiltins: true,
 		moduleDirectories: ["node_modules"],
 	}),
@@ -49,6 +51,29 @@ const onwarn = (warning, warn) => {
 	warn(warning);
 };
 
+const copyCssAssets = () => ({
+	name: "copy-css-assets",
+	async generateBundle() {
+		const outDir = path.join(process.cwd(), "lib", "css");
+		await fs.mkdir(outDir, { recursive: true });
+		const files = [
+			"tokens.css",
+			"reset.css",
+			"utilities.css",
+			"colors.css",
+			"input.css",
+		];
+		await Promise.all(
+			files.map((file) =>
+				fs.copyFile(
+					path.join(process.cwd(), "packages", "css", file),
+					path.join(outDir, file)
+				)
+			)
+		);
+	},
+});
+
 export default [
 	// CSS 单独打包
 	{
@@ -66,6 +91,7 @@ export default [
 				outputStyle: "compressed",
 				silenceDeprecations: ["legacy-js-api"],
 			}),
+			copyCssAssets(),
 		],
 	},
 	{

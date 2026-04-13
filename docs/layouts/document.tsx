@@ -27,8 +27,7 @@ export default function Document() {
 	const contentRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		contentRef.current?.scrollTo?.({ top: 0 });
-		if (contentRef.current) contentRef.current.scrollTop = 0;
+		contentRef.current?.querySelector(".i-area-scrollview")?.scrollTo?.({ top: 0, behavior: "smooth" });
 	}, [name]);
 
 	return (

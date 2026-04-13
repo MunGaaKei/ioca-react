@@ -1,9 +1,9 @@
 import { Button, Dropdown, Flex, Icon } from "@p";
 import {
-	AllInclusiveRound,
-	KeyboardArrowDownRound,
-	LightModeTwotone,
-	NightlightTwotone,
+    AllInclusiveRound,
+    KeyboardArrowDownRound,
+    LightModeTwotone,
+    NightlightTwotone,
 } from "@ricons/material";
 import { sleep } from "radash";
 import { useRef } from "react";
@@ -39,14 +39,14 @@ export const DBasic = {
 export const DColor = {
 	demo: (
 		<Flex gap={8} wrap>
-			<Button className='bg-blue'>Blue</Button>
-			<Button className='pink' outline>
+			<Button className="bg-blue">Blue</Button>
+			<Button className="pink" outline>
 				Outline Pink
 			</Button>
-			<Button className='brown' flat>
+			<Button className="brown" flat>
 				Flat Brown
 			</Button>
-			<Button className='red bg-yellow'>Mixed Red Yellow</Button>
+			<Button className="red bg-yellow">Mixed Red Yellow</Button>
 		</Flex>
 	),
 	code: `<Button className='bg-blue'>Blue</Button>
@@ -65,17 +65,13 @@ export const DToggle = {
 		const ref = useRef<HTMLElement>(null);
 
 		return (
-			<Flex gap={8} direction='column' align='flex-start'>
-				<Button.Toggle
-					ref={ref}
-					secondary
-					after={<Icon icon={<NightlightTwotone />} />}
-				>
+			<Flex gap={8} direction="column" align="flex-start">
+				<Button.Toggle ref={ref} secondary after={<Icon icon={<NightlightTwotone />} />}>
 					<Icon icon={<LightModeTwotone />} />
 				</Button.Toggle>
 				<Button.Toggle
-					after='Active'
-					activeClass='bg-blue'
+					after="Active"
+					activeClass="bg-blue"
 					onToggle={(v) => {
 						console.log(v);
 					}}
@@ -83,9 +79,9 @@ export const DToggle = {
 					Deactive
 				</Button.Toggle>
 				<Button.Toggle
-					className='bg-red'
-					activeClass='bg-blue'
-					after='Blue'
+					className="bg-red"
+					activeClass="bg-blue"
+					after="Blue"
 					toggable={() =>
 						new Promise((resolve) => {
 							setTimeout(() => {
@@ -141,7 +137,7 @@ export const DConfirm = {
 		};
 
 		return (
-			<Button.Confirm className='bg-error' onOk={handleDelete}>
+			<Button.Confirm className="bg-error" onOk={handleDelete}>
 				删除
 			</Button.Confirm>
 		);
@@ -165,13 +161,13 @@ export const DGroup = {
 			<Flex gap={4}>
 				<Button.Group>
 					<Button>按钮</Button>
-					<Button className='bg-blue'>蓝色</Button>
-					<Button className='bg-yellow'>黄色</Button>
+					<Button className="bg-blue">蓝色</Button>
+					<Button className="bg-yellow">黄色</Button>
 				</Button.Group>
 				<Button.Group>
-					<Button className='bg-grey'>你好</Button>
-					<Dropdown content={<>HELLO</>} align='end'>
-						<Button className='bg-grey px-0'>
+					<Button className="bg-grey">你好</Button>
+					<Dropdown content={<>HELLO</>} align="end">
+						<Button className="bg-grey px-0">
 							<Icon icon={<KeyboardArrowDownRound />} />
 						</Button>
 					</Dropdown>
@@ -205,9 +201,9 @@ export const PButton = [
 		type: [
 			"string",
 			<a
-				className='blue'
-				href='https://reactrouter.com/en/main/components/link#link'
-				target='_blank'
+				className="blue"
+				href="https://reactrouter.com/en/main/components/link#link"
+				target="_blank"
 			>
 				Link
 			</a>,
@@ -316,7 +312,7 @@ export const PButtonConfirm = [
 		name: "okButtonProps",
 		desc: "确定按钮属性",
 		type: [
-			<a className='link' href='#button'>
+			<a className="link" href="#button">
 				IButton
 			</a>,
 		],
@@ -325,7 +321,7 @@ export const PButtonConfirm = [
 		name: "cancelButtonProps",
 		desc: "取消按钮属性",
 		type: [
-			<a className='link' href='#button'>
+			<a className="link" href="#button">
 				IButton
 			</a>,
 		],
@@ -358,7 +354,7 @@ export const PButtonGroup = [
 		name: "buttonProps",
 		desc: "子按钮公用属性",
 		type: [
-			<a className='blue' href='#button'>
+			<a className="blue" href="#button">
 				IButton
 			</a>,
 		],

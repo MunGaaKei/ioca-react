@@ -1,4 +1,4 @@
-import "./css/index.scss";
+import "./css/index.css";
 
 import Affix from "./components/affix";
 import Badge from "./components/badge";

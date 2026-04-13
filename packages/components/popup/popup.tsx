@@ -17,6 +17,18 @@ import Content from "./content";
 import "./index.css";
 import { IPopup } from "./type";
 
+const REACT_FORWARD_REF = Symbol.for("react.forward_ref");
+const REACT_FRAGMENT = Symbol.for("react.fragment");
+
+const canAttachRef = (el: any) => {
+	if (!isValidElement(el)) return false;
+	const t: any = el.type;
+	if (typeof t === "string") return true;
+	if (t?.prototype?.isReactComponent) return true;
+	if (t?.$$typeof === REACT_FORWARD_REF) return true;
+	return false;
+};
+
 export default function Popup(props: IPopup) {
 	const {
 		visible = false,
@@ -337,58 +349,142 @@ export default function Popup(props: IPopup) {
 		[],
 	);
 
-	const eventMaps = useMemo(() => {
-		return {
-			click: {
-				onClick: () => doToggle(true),
-			},
-			hover: {
-				onMouseEnter: () => doToggle(true),
-				onMouseLeave: () => doToggle(false),
-			},
-			focus: {
-				onFocus: () => doToggle(true),
-				onBlur: () => doToggle(false),
-			},
-			contextmenu: {
-				onContextMenu: (e: MouseEvent) => {
-					e.preventDefault();
-					e.stopPropagation();
-
-					pointRef.current = {
-						pageX: (e as any).pageX,
-						pageY: (e as any).pageY,
-					};
-
-					if (showRef.current) {
-						ensureBaseStyle();
-						computePointPosition();
-						return;
+	const mergeRefs = useMemo(() => {
+		return (...refs: Array<Ref<HTMLElement> | undefined>) => {
+			return (node: HTMLElement | null) => {
+				for (const ref of refs) {
+					if (!ref) continue;
+					if (typeof ref === "function") {
+						ref(node);
+					} else {
+						(ref as any).current = node;
 					}
-
-					clearAllTimers();
-					phaseRef.current = "showing";
-					lastPosRef.current = null;
-					lastArrowRef.current = null;
-					arrowElRef.current = null;
-					setShow(true);
-
-					timerRef.current = setTimeout(() => {
-						if (phaseRef.current !== "showing") return;
-						if (!contentRef.current) return;
-
-						ensureBaseStyle();
-						computePointPosition();
-						setContentVisible(true);
-						clearTimer();
-						latestRef.current.onVisibleChange?.(true);
-						phaseRef.current = "";
-					}, latestRef.current.showDelay);
-				},
-			},
-			none: {},
+				}
+			};
 		};
+	}, []);
+
+	const triggerEvents = useMemo(() => {
+		const setTriggerEl = (e: any) => {
+			const el = e?.currentTarget as HTMLElement | null | undefined;
+			if (el) triggerRef.current = el;
+		};
+
+		switch (trigger) {
+			case "click":
+				return {
+					onClick: (e: any) => {
+						setTriggerEl(e);
+						doToggle(true);
+					},
+				};
+			case "hover":
+				return {
+					onMouseEnter: (e: any) => {
+						setTriggerEl(e);
+						doToggle(true);
+					},
+					onMouseLeave: (e: any) => {
+						setTriggerEl(e);
+						doToggle(false);
+					},
+				};
+			case "focus":
+				return {
+					onFocus: (e: any) => {
+						setTriggerEl(e);
+						doToggle(true);
+					},
+					onBlur: (e: any) => {
+						setTriggerEl(e);
+						doToggle(false);
+					},
+				};
+			case "contextmenu":
+				return {
+					onContextMenu: (e: MouseEvent) => {
+						e.preventDefault();
+						e.stopPropagation();
+						setTriggerEl(e);
+
+						pointRef.current = {
+							pageX: (e as any).pageX,
+							pageY: (e as any).pageY,
+						};
+
+						if (showRef.current) {
+							ensureBaseStyle();
+							computePointPosition();
+							return;
+						}
+
+						clearAllTimers();
+						phaseRef.current = "showing";
+						lastPosRef.current = null;
+						lastArrowRef.current = null;
+						arrowElRef.current = null;
+						setShow(true);
+
+						timerRef.current = setTimeout(() => {
+							if (phaseRef.current !== "showing") return;
+							if (!contentRef.current) return;
+
+							ensureBaseStyle();
+							computePointPosition();
+							setContentVisible(true);
+							clearTimer();
+							latestRef.current.onVisibleChange?.(true);
+							phaseRef.current = "";
+						}, latestRef.current.showDelay);
+					},
+				};
+			default:
+				return {};
+		}
 	}, [doToggle]);
+
+	const triggerNode = useMemo(() => {
+		const events = triggerEvents as any;
+		const eventKeys = Object.keys(events);
+		const items = Children.toArray(children);
+
+		let attachedRef = false;
+		let cloned = false;
+
+		const nextItems = items.map((item) => {
+			if (!isValidElement(item)) return item;
+			if ((item as any).type === REACT_FRAGMENT) return item;
+
+			const attachRef = !attachedRef && canAttachRef(item);
+			if (attachRef) attachedRef = true;
+
+			if (!attachRef && eventKeys.length === 0) return item;
+
+			const patchedProps: Record<string, any> = {};
+
+			for (const evt of eventKeys) {
+				const ours = events[evt];
+				const theirs = (item.props as any)?.[evt];
+				patchedProps[evt] =
+					typeof theirs === "function"
+						? (e: any) => {
+								ours(e);
+								theirs(e);
+							}
+						: ours;
+			}
+
+			if (attachRef) {
+				patchedProps.ref = mergeRefs((item as any).ref, triggerRef as any);
+			}
+
+			cloned = true;
+			return cloneElement(item as any, patchedProps);
+		});
+
+		if (!cloned) return children;
+		return nextItems.length === 1 ? nextItems[0] : <>{nextItems}</>;
+	}, [children, triggerEvents, mergeRefs]);
 
 	const contentTouch = useMemo(() => {
 		if (!touchable) return {};
@@ -472,81 +568,9 @@ export default function Popup(props: IPopup) {
 		};
 	}, [show]);
 
-	const mergeRefs = (...refs: Array<Ref<HTMLElement> | undefined>) => {
-		return (node: HTMLElement | null) => {
-			for (const ref of refs) {
-				if (!ref) continue;
-				if (typeof ref === "function") {
-					ref(node);
-				} else {
-					(ref as any).current = node;
-				}
-			}
-		};
-	};
-
 	return (
 		<>
-			{(() => {
-				const events = eventMaps[trigger] as any;
-				const items = Children.toArray(children);
-				const canAttachRef = (el: any) => {
-					if (!isValidElement(el)) return false;
-					const t: any = el.type;
-					if (typeof t === "string") return true;
-					if (t?.prototype?.isReactComponent) return true;
-					if (t?.$$typeof === Symbol.for("react.forward_ref"))
-						return true;
-					return false;
-				};
-
-				if (items.length !== 1) {
-					return (
-						<div
-							ref={triggerRef as any}
-							{...events}
-							className='i-popup-trigger'
-							style={{ display: "inline-block" }}
-						>
-							{children}
-						</div>
-					);
-				}
-
-				const only = items[0] as any;
-				if (!isValidElement(only) || !canAttachRef(only)) {
-					return (
-						<div
-							ref={triggerRef as any}
-							{...events}
-							className='i-popup-trigger'
-							style={{ display: "inline-block" }}
-						>
-							{only}
-						</div>
-					);
-				}
-
-				const { className: childClassName, ...restProps } =
-					only.props as any;
-				const nextProps: Record<string, any> = { ...restProps };
-				for (const evt of Object.keys(events)) {
-					const theirs = restProps[evt];
-					const ours = events[evt];
-					nextProps[evt] =
-						typeof theirs === "function"
-							? (e: any) => {
-									ours(e);
-									theirs(e);
-								}
-							: ours;
-				}
-				return cloneElement(only as any, {
-					ref: mergeRefs((only as any).ref, triggerRef as any),
-					className: childClassName,
-					...nextProps,
-				});
-			})()}
+			{triggerNode}
 
 			{show && (
 				<Content

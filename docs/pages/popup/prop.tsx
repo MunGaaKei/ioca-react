@@ -43,7 +43,7 @@ export const DBasic = {
 export const DVariant = {
 	demo: () => {
 		return (
-			<Flex gap={20}>
+			<Flex gap={20} align="start">
 				<Popup
 					className='bg-blue'
 					trigger='click'

@@ -29,6 +29,7 @@ const Range = (props: IInputRange) => {
 		hideControl,
 		placeholder,
 		border,
+		underline,
 		autoSwitch,
 		onChange,
 		onBlur,
@@ -123,6 +124,7 @@ const Range = (props: IInputRange) => {
 				className={classNames("i-input-item", {
 					[`i-input-${status}`]: status !== "normal",
 					"i-input-borderless": !border,
+					"i-input-underline": underline,
 				})}
 			>
 				{prepend && <div className='i-input-prepend'>{prepend}</div>}

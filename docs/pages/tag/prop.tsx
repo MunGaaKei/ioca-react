@@ -31,7 +31,7 @@ export const DColors = {
 		return (
 			<>
 				<div className='flex flex-wrap gap-12 mt-12 items-center'>
-					<Tag className='bg-blue'>tag</Tag>
+					<Tag className='bg-blue'>标签</Tag>
 					<Tag className='bg-red'>tag</Tag>
 					<Tag className='bg-pink'>tag</Tag>
 					<Tag className='bg-green' dot>

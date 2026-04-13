@@ -1,10 +1,10 @@
-.i-form {
-	display: grid;
-	max-width: 100%;
-}
-.i-form-inline {
-	--label-inline: nowrap;
-	.i-input-label {
-		flex-wrap: nowrap;
-	}
-}
+  .i-form {
+    display: grid;
+    max-width: 100%;
+  }
+  .i-form-inline {
+    --label-inline: nowrap;
+    .i-input-label {
+      flex-wrap: nowrap;
+    }
+  }

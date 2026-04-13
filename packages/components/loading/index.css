@@ -1,17 +1,17 @@
-.i-loading-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 0.5em;
-	font-size: inherit;
-	transform: translateZ(0);
-	border-radius: inherit;
-}
+  .i-loading-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5em;
+      font-size: inherit;
+      transform: translateZ(0);
+      border-radius: inherit;
+  }
 
-.i-loading-icon {
-	stroke: var(--color);
-	width: 1em;
-	height: 1em;
-	animation: rotate 0.628s linear 0s infinite;
-}
+  .i-loading-icon {
+      stroke: var(--color);
+      width: 1em;
+      height: 1em;
+      animation: rotate 0.628s linear 0s infinite;
+  }

@@ -5,7 +5,6 @@
 	pointer-events: none;
 	border-radius: inherit;
 	contain: strict;
-}
 .i-ripple {
 	position: absolute;
 	background: var(--color);
@@ -17,4 +16,5 @@
 .i-ripple-active {
 	opacity: 0;
 	transform: translate(-50%, -50%) scale(1);
+}
 }

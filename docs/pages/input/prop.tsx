@@ -3,9 +3,9 @@ import { PInputCommon, PValidateCommon } from "../components/common";
 
 export const DBasic = {
 	demo: () => {
-		return <Input placeholder='Input' width={240} />;
+		return <Input placeholder='Input' width={240} underline />;
 	},
-	code: `<Input placeholder='Input' width={240} />`,
+	code: `<Input placeholder='Input' width={240} underline />`,
 	lang: "xml",
 };
 
@@ -18,6 +18,7 @@ export const DNumber = {
 				thousand=','
 				max={1200}
 				showMax
+                border
 			/>
 		);
 	},
@@ -27,6 +28,7 @@ export const DNumber = {
 	thousand=','
 	max={1200}
 	showMax
+    border
 />`,
 	lang: "xml",
 };
