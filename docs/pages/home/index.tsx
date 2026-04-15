@@ -1,7 +1,6 @@
 import { version } from "@/package.json";
 import { Button, Flex, Icon, Image, Text, useTheme } from "@p";
 import { LightModeTwotone, NightlightTwotone } from "@ricons/material";
-import { useEffect } from "react";
 import { Link } from "react-router";
 import "./index.css";
 import logoReverse from "/logo-reverse.png";
@@ -9,21 +8,16 @@ import logo from "/logo.png";
 
 export default function Home() {
     const { theme, setTheme } = useTheme({ listenStorageChange: true });
-    const themeDark = theme === "theme-dark";
+    const themeDark =
+        theme === "theme-dark" ||
+        (window.matchMedia("(prefers-color-scheme: dark)") &&
+            theme === "theme-auto");
     const gradient = [
         "30deg",
         "var(--color-1)",
         "var(--color-2)",
         "var(--color-6)",
     ];
-
-    useEffect(() => {
-        const ico = document.getElementById("ico");
-
-        if (ico && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            ico.setAttribute("href", logoReverse);
-        }
-    }, [themeDark]);
 
     return (
         <Flex className="h-100vh justify-center">

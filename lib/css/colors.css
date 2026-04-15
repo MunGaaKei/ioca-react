@@ -755,9 +755,9 @@
         --background-opacity-1: rgba(0, 0, 0, 0.4);
 
         --color: var(--color-0);
-        --color-main: #7a7fff;
-        --color-main-1: #474dee;
-        --color-main-0: #7a7fff1f;
+        --color-main: #265ef8;
+        --color-main-1: #043edf;
+        --color-main-0: #265ef81f;
         --color-main-reverse: var(--white);
 
         --black-0: #00000040;

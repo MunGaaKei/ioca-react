@@ -49,6 +49,6 @@ export const PTheme = [
     {
         name: "defaultValue",
         desc: "当前主题",
-        type: ["string"],
+        type: ["string", "theme-auto", "theme-dark"],
     },
 ];

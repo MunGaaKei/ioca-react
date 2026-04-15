@@ -97,7 +97,10 @@ export default function Sider(props) {
             >
                 <Button square flat>
                     <Icon
-                        icon={themes.find((item) => item.name === theme)?.icon}
+                        icon={
+                            themes.find((item) => item.name === theme)
+                                ?.icon ?? <BrightnessAutoOutlined />
+                        }
                         size="1.5em"
                     />
                 </Button>
