@@ -1,22 +1,23 @@
-  .i-editor {
+.i-editor {
     display: flex;
     flex-direction: column;
+    position: relative;
     &:focus-within,
     &:hover {
-      > .i-editor-controls,
-      > .i-editor-content {
-        border-color: var(--color-8);
-      }
+        > .i-editor-controls,
+        > .i-editor-content {
+            border-color: var(--color-8);
+        }
     }
-  }
-  .i-editor-borderless {
+}
+.i-editor-borderless {
     border-radius: var(--radius);
     & > .i-editor-controls,
     & > .i-editor-content {
-      border: none;
+        border: none;
     }
-  }
-  .i-editor-controls {
+}
+.i-editor-controls {
     display: flex;
     gap: 2px;
     border: 2px solid var(--color-9);
@@ -25,16 +26,16 @@
     border-radius: var(--radius) var(--radius) 0 0;
     transition: var(--transition);
     .i-btn {
-      --color: var(--color-5);
-      &:hover {
-        --color: var(--color);
-        .i-editor-control-tip {
-          opacity: 1;
+        --color: var(--color-5);
+        &:hover {
+            --color: var(--color);
+            .i-editor-control-tip {
+                opacity: 1;
+            }
         }
-      }
     }
-  }
-  .i-editor-control-tip {
+}
+.i-editor-control-tip {
     position: absolute;
     z-index: 1;
     top: 100%;
@@ -47,8 +48,8 @@
     pointer-events: none;
     transition: var(--transition);
     backdrop-filter: var(--blur);
-  }
-  .i-editor-content {
+}
+.i-editor-content {
     flex: 1;
     outline: none;
     padding: var(--padding);
@@ -61,20 +62,47 @@
     word-break: break-all;
     tab-size: 1em;
     &:first-child {
-      border-radius: var(--radius);
+        border-radius: var(--radius);
     }
     &:hover,
     &:focus {
-      border-color: var(--color-8);
+        border-color: var(--color-8);
     }
     a {
-      color: var(--blue);
+        color: var(--blue);
     }
     img {
-      margin: 0;
+        margin: 0;
     }
     &:empty:before {
-      content: attr(data-placeholder);
-      color: var(--color-5);
+        content: attr(data-placeholder);
+        color: var(--color-5);
     }
-  }
+}
+
+.i-editor-memtion {
+    z-index: 1000;
+    margin: 4px 0 0;
+    padding: 4px;
+    min-width: 120px;
+    max-width: 240px;
+    border-radius: var(--radius);
+    background: var(--background-opacity);
+    box-shadow: var(--shadow);
+    backdrop-filter: var(--blur);
+    overflow: auto;
+    .i-list-item {
+        color: var(--color-5);
+    }
+    .i-list-item-active {
+        color: var(--color-main);
+    }
+}
+
+.i-memtion-tag {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    vertical-align: baseline;
+    user-select: none;
+}

@@ -8,7 +8,7 @@ export default function Page() {
             <h2 className="mb-40">Theme</h2>
             <h3 className="mb-12">示例</h3>
             <p className="mb-24">
-                注意：<code>theme-none</code>是用来取消自适应系统主题
+                注意：<code className="code">theme-none</code>是用来取消自适应系统主题
             </p>
             <Demo source={DBasic} />
 

@@ -116,9 +116,7 @@ code {
     background-color: #ffd832a3;
 }
 
-
 @supports not (-webkit-touch-callout: none) {
-
     ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
@@ -136,7 +134,7 @@ code {
 
     ::-webkit-scrollbar-thumb {
         background-color: var(--color-8);
-        border-radius: 12px;
+        border-radius: 2px;
         background-clip: content-box;
     }
 
@@ -149,5 +147,4 @@ code {
         width: 0;
         height: 0;
     }
-
 }

@@ -1,104 +1,120 @@
 import {
-	ClearAllRound,
-	FormatBoldRound,
-	FormatItalicRound,
-	FormatUnderlinedRound,
-	RedoRound,
-	StrikethroughSRound,
-	UndoRound,
+    ClearAllRound,
+    FormatBoldRound,
+    FormatItalicRound,
+    FormatUnderlinedRound,
+    RedoRound,
+    StrikethroughSRound,
+    UndoRound,
 } from "@ricons/material";
-import { Fragment } from "react/jsx-runtime";
-import xss from "xss";
+import { MouseEvent, ReactNode } from "react";
+import { escapeAttrValue, type IFilterXSSOptions } from "xss";
 import Button from "../button";
+import { IButton } from "../button/type";
 import Icon from "../icon";
-
-const { escapeAttrValue } = xss as unknown as {
-	escapeAttrValue: (value: string) => string;
-};
+import { IEditorAddtionControl } from "./type";
 
 export const exec = (a, b?, c?) => {
-	if (typeof document === "undefined") return;
-	return document.execCommand(a, b, c);
+    if (typeof document === "undefined") return;
+    return document.execCommand(a, b, c);
 };
 
-export const xssOptions = {
-	onIgnoreTagAttr: function (tag, name, value) {
-		if (["data-", "style"].includes(name.substr(0, 5))) {
-			return name + '="' + escapeAttrValue(value) + '"';
-		}
-	},
+export const xssOptions: IFilterXSSOptions = {
+    onIgnoreTagAttr(tag, name, value) {
+        if (["class", "contenteditable"].includes(name)) {
+            return name + '="' + escapeAttrValue(value) + '"';
+        }
+        if (["data-", "style"].includes(name.substring(0, 5))) {
+            return name + '="' + escapeAttrValue(value) + '"';
+        }
+    },
+};
+
+const handleMouseDown = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
 };
 
 const fnMap = {
-	bold: {
-		icon: <FormatBoldRound />,
-		onClick: () => exec("bold"),
-		tip: "粗体",
-	},
-	italic: {
-		icon: <FormatItalicRound />,
-		onClick: () => exec("italic"),
-		tip: "斜体",
-	},
-	underline: {
-		icon: <FormatUnderlinedRound />,
-		onClick: () => exec("underline"),
-		tip: "下划线",
-	},
-	strike: {
-		icon: <StrikethroughSRound />,
-		onClick: () => exec("strikeThrough"),
-		tip: "删除线",
-	},
-	redo: {
-		icon: <RedoRound />,
-		onClick: () => exec("redo"),
-		tip: "重做",
-	},
-	undo: {
-		icon: <UndoRound />,
-		onClick: () => exec("undo"),
-		tip: "撤销",
-	},
-	// color: {
-	// 	icon: <FormatColorTextRound />,
-	// 	onClick: () => exec("foreColor", false, ""),
-	// },
-	// backColor: {
-	// 	icon: <FormatColorFillRound />,
-	// 	onClick: () => exec("backColor", false, ""),
-	// },
-	clear: {
-		icon: <ClearAllRound />,
-		onClick: () => exec("removeFormat"),
-		tip: "清除格式",
-	},
+    bold: {
+        icon: <FormatBoldRound />,
+        onClick: () => exec("bold"),
+    },
+    italic: {
+        icon: <FormatItalicRound />,
+        onClick: () => exec("italic"),
+    },
+    underline: {
+        icon: <FormatUnderlinedRound />,
+        onClick: () => exec("underline"),
+    },
+    strike: {
+        icon: <StrikethroughSRound />,
+        onClick: () => exec("strikeThrough"),
+    },
+    redo: {
+        icon: <RedoRound />,
+        onClick: () => exec("redo"),
+    },
+    undo: {
+        icon: <UndoRound />,
+        onClick: () => exec("undo"),
+    },
+    clear: {
+        icon: <ClearAllRound />,
+        onClick: () => exec("removeFormat"),
+    },
 };
 
-const aliasMap = {
-	simple: ["undo", "redo", "bold", "italic", "underline", "strike", "clear"],
-	all: Object.keys(fnMap),
+const defaultKeys = [
+    "undo",
+    "redo",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "clear",
+] as const;
+
+type ControlKey = (typeof defaultKeys)[number];
+type ControlItem = {
+    icon: ReactNode;
+    onClick: () => void;
 };
 
-export default function getControls(fns, options) {
-	const { controlBtnProps } = options;
-	const keys = typeof fns === "string" ? aliasMap[fns] : fns;
+const typedFnMap: Record<ControlKey, ControlItem> = fnMap;
 
-	return keys.map((k) => {
-		if (fnMap[k]) {
-			const { icon, render, tip, onClick } = fnMap[k];
+export default function getControls(options: {
+    controlBtnProps: IButton;
+    addtionControls?: IEditorAddtionControl[];
+    getSelection: () => Range | null;
+}) {
+    const { controlBtnProps, addtionControls, getSelection } = options;
 
-			if (render) {
-				return render(options);
-			}
+    const controls = defaultKeys.map((k) => {
+        const { icon, onClick } = typedFnMap[k];
 
-			return (
-				<Button key={k} {...controlBtnProps} onClick={onClick}>
-					<Icon icon={icon} />
-					{tip && <span className='i-editor-control-tip'>{tip}</span>}
-				</Button>
-			);
-		}
-		return <Fragment key={k} />;
-	});
+        return (
+            <Button
+                key={k}
+                {...controlBtnProps}
+                onMouseDown={handleMouseDown}
+                onClick={onClick}
+            >
+                <Icon icon={icon} />
+            </Button>
+        );
+    });
+
+    const extControls = (addtionControls ?? []).map((item, index) => (
+        <Button
+            key={`addtion-${index}`}
+            {...controlBtnProps}
+            onMouseDown={handleMouseDown}
+            onClick={(e) => item.onClick?.(getSelection(), e)}
+        >
+            {item.icon}
+        </Button>
+    ));
+
+    return [...controls, ...extControls];
 }

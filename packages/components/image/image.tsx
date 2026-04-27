@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { useIntersectionObserver, useReactive } from "../../js/hooks";
 import usePreview from "../../js/usePreview";
 import Loading from "../loading";
@@ -7,141 +7,184 @@ import "./index.css";
 import List from "./list";
 import type { CompositionImage, IImage } from "./type";
 
+const STATUS_LOADING = "loading";
+const STATUS_ERROR = "error";
+
 const Image = (props: IImage) => {
-	const {
-		src,
-		thumb,
-		round,
-		size,
-		height,
-		width,
-		ratio,
-		initSize,
-		lazyload,
-		fallback,
-		fit,
-		style,
-		className,
-		cover,
-		coverClass,
-		usePreview: previewable,
-		onLoad,
-		onError,
-		onClick,
-		...restProps
-	} = props;
+    const {
+        src,
+        thumb,
+        round,
+        size,
+        height,
+        width,
+        ratio,
+        initSize,
+        lazyload,
+        fallback,
+        fit,
+        style,
+        className,
+        cover,
+        coverClass,
+        usePreview: previewable,
+        onLoad,
+        onError,
+        onClick,
+        ...restProps
+    } = props;
 
-	const state = useReactive<{ status?: string }>({
-		status: "loading",
-	});
-	const ref = useRef<HTMLImageElement>(null);
+    const state = useReactive<{ status?: string }>({
+        status: STATUS_LOADING,
+    });
+    const ref = useRef<HTMLImageElement>(null);
 
-	const { observe, unobserve } = useIntersectionObserver();
-	const preview = usePreview();
+    const { observe, unobserve } = useIntersectionObserver();
+    const preview = usePreview();
 
-	const handleError = (err) => {
-		onError?.(err);
-		state.status = "error";
-	};
+    const setStatus = useCallback(
+        (status?: string) => {
+            if (state.status === status) return;
+            state.status = status;
+        },
+        [state],
+    );
 
-	const handleLoad = (e) => {
-		onLoad?.(e);
-		state.status = undefined;
-	};
+    const handleError = useCallback(
+        (err) => {
+            onError?.(err);
+            setStatus(STATUS_ERROR);
+        },
+        [onError, setStatus],
+    );
 
-	const handleClick = (e) => {
-		onClick?.(e);
+    const handleLoad = useCallback(
+        (e) => {
+            onLoad?.(e);
+            setStatus(undefined);
+        },
+        [onLoad, setStatus],
+    );
 
-		if (!previewable || !src) return;
+    const handleClick = useCallback(
+        (e) => {
+            onClick?.(e);
 
-		const previewConfigs =
-			typeof previewable === "boolean" ? {} : previewable;
+            if (!previewable || !src) return;
 
-		preview({
-			...previewConfigs,
-			items: [
-				{
-					src,
-					type: "IMAGE",
-				},
-			],
-		});
-	};
+            const previewConfigs =
+                typeof previewable === "boolean" ? {} : previewable;
 
-	useEffect(() => {
-		if (!src || typeof window === "undefined") return;
+            preview({
+                ...previewConfigs,
+                items: [
+                    {
+                        src,
+                        type: "IMAGE",
+                    },
+                ],
+            });
+        },
+        [onClick, preview, previewable, src],
+    );
 
-		const img = ref.current;
-		const hasSrcAttr = img?.getAttribute("src");
-		const canSyncStatus = Boolean(img && (!lazyload || hasSrcAttr));
-		if (canSyncStatus && img?.complete) {
-			state.status = img.naturalWidth > 0 ? undefined : "error";
-		}
+    useEffect(() => {
+        if (!src || typeof window === "undefined") return;
 
-		if (!ref.current?.complete && observe && lazyload) {
-			state.status = "loading";
-		}
+        const img = ref.current;
+        if (!img) return;
 
-		if (!lazyload || !ref.current || !observe) return;
+        const hasSrcAttr = img?.getAttribute("src");
+        const canSyncStatus = Boolean(img && (!lazyload || hasSrcAttr));
+        if (canSyncStatus && img.complete) {
+            setStatus(img.naturalWidth > 0 ? undefined : STATUS_ERROR);
+        }
 
-		observe(ref.current, (tar: HTMLElement, visible: boolean) => {
-			if (!visible) return;
+        if (!img.complete && observe && lazyload) {
+            setStatus(STATUS_LOADING);
+        }
 
-			tar.setAttribute("src", tar.dataset.src || "");
-			unobserve(tar);
-		});
+        if (!lazyload || !observe) return;
 
-		return () => {
-			ref.current && unobserve(ref.current);
-		};
-	}, [src]);
+        observe(img, (tar: HTMLElement, visible: boolean) => {
+            if (!visible) return;
 
-	restProps[lazyload ? "data-src" : "src"] = thumb ?? src;
-	const iSize = state.status === "loading" ? initSize : undefined;
+            tar.setAttribute("src", tar.dataset.src || "");
+            unobserve(tar);
+        });
 
-	return (
-		<div
-			style={{
-				width: width ?? size ?? iSize,
-				height: height ?? size ?? iSize,
-				aspectRatio: ratio,
-				...style,
-			}}
-			className={classNames("i-image", className, {
-				rounded: round,
-				[`i-image-${state.status}`]: state.status,
-			})}
-			onClick={handleClick}
-		>
-			{state.status === "error" ? (
-				(fallback ?? null)
-			) : (
-				<>
-					{src && (
-						<img
-							ref={ref}
-							style={{ objectFit: fit }}
-							{...restProps}
-							onLoad={handleLoad}
-							onError={handleError}
-						/>
-					)}
+        return () => {
+            unobserve(img);
+        };
+    }, [lazyload, observe, setStatus, src, unobserve]);
 
-					{src && state.status === "loading" && <Loading absolute />}
+    const imageStatus = state.status;
+    const iSize = imageStatus === STATUS_LOADING ? initSize : undefined;
 
-					{cover && (
-						<div
-							className={classNames("i-image-cover", coverClass)}
-						>
-							{cover}
-						</div>
-					)}
-				</>
-			)}
-		</div>
-	);
+    const wrapperStyle = useMemo(
+        () => ({
+            width: width ?? size ?? iSize,
+            height: height ?? size ?? iSize,
+            aspectRatio: ratio,
+            ...style,
+        }),
+        [height, iSize, ratio, size, style, width],
+    );
+
+    const wrapperClassName = useMemo(
+        () =>
+            classNames("i-image", className, {
+                rounded: round,
+                [`i-image-${imageStatus}`]: imageStatus,
+            }),
+        [className, imageStatus, round],
+    );
+
+    const imageStyle = useMemo(() => ({ objectFit: fit }), [fit]);
+    const imageSrcProps = lazyload
+        ? { "data-src": thumb ?? src }
+        : { src: thumb ?? src };
+
+    return (
+        <div
+            style={wrapperStyle}
+            className={wrapperClassName}
+            onClick={handleClick}
+        >
+            {imageStatus === STATUS_ERROR ? (
+                (fallback ?? null)
+            ) : (
+                <>
+                    {src && (
+                        <img
+                            ref={ref}
+                            style={imageStyle}
+                            {...imageSrcProps}
+                            {...restProps}
+                            onLoad={handleLoad}
+                            onError={handleError}
+                        />
+                    )}
+
+                    {src && imageStatus === STATUS_LOADING && (
+                        <Loading absolute />
+                    )}
+
+                    {cover && (
+                        <div
+                            className={classNames("i-image-cover", coverClass)}
+                        >
+                            {cover}
+                        </div>
+                    )}
+                </>
+            )}
+        </div>
+    );
 };
 
-Image.List = List;
+const MemoImage = memo(Image) as unknown as CompositionImage;
 
-export default Image as CompositionImage;
+MemoImage.List = List;
+
+export default MemoImage;

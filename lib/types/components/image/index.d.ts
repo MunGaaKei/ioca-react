@@ -1,5 +1,5 @@
-import _default from './image.js';
+import MemoImage from './image.js';
 
 
 
-export { _default as default };
+export { MemoImage as default };

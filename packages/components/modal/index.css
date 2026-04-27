@@ -1,4 +1,4 @@
-  .i-modal-container {
+.i-modal-container {
     position: fixed;
     inset: 0;
     z-index: 100;
@@ -9,20 +9,20 @@
     display: flex;
     overflow: hidden;
     &.i-modal-active {
-      opacity: 1;
+        opacity: 1;
     }
-  }
-  .i-modal-backdrop {
+}
+.i-modal-backdrop {
     background: var(--color-backdrop);
     backdrop-filter: blur(8px);
     &.i-modal-active {
-      pointer-events: unset;
+        pointer-events: unset;
     }
-  }
-  .i-modal-customized {
+}
+.i-modal-customized {
     overflow: unset;
-  }
-  .i-modal {
+}
+.i-modal {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -35,39 +35,42 @@
     transition: var(--transition);
     background: var(--background);
     &.bounced {
-      animation: bounce 0.4s ease-in-out 0s;
+        animation: bounce 0.4s ease-in-out 0s;
     }
-  }
-  .i-modal-active > .i-modal {
+}
+.i-modal-active > .i-modal {
     opacity: 1;
     transform: none;
     pointer-events: all;
-  }
-  .i-modal-header,
-  .i-modal-footer {
+}
+.i-modal-header,
+.i-modal-footer {
     position: relative;
     display: flex;
     align-items: center;
     padding: 12px;
     gap: 12px;
     &:empty {
-      display: none;
+        display: none;
     }
-  }
-  .i-modal-footer {
+}
+.i-modal-header > b {
+    display: contents;
+}
+.i-modal-footer {
     justify-content: center;
-  }
-  .i-modal-content {
+}
+.i-modal-content {
     overflow-x: hidden;
     flex: 1;
     max-height: 100%;
     line-height: 1.5;
-  }
-  .i-modal {
+}
+.i-modal {
     .i-modal-close {
-      margin: 0 0 0 auto;
-      display: flex;
-      align-self: flex-start;
-      border-radius: var(--radius);
+        margin: 0 0 0 auto;
+        display: flex;
+        align-self: flex-start;
+        border-radius: var(--radius);
     }
-  }
+}

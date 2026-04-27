@@ -68,8 +68,8 @@ export default function Page() {
 
 			<h3 className='mt-80'>黑白</h3>
 			<p className='my-12'>
-				从 0 ～ 9，都有对应字体色类名<code>.color-[i]</code>
-				和背景色类名<code>.bg-[i]</code>。
+				从 0 ～ 9，都有对应字体色类名<code className="code">.color-[i]</code>
+				和背景色类名<code className="code">.bg-[i]</code>。
 			</p>
 			<Flex columns={10} style={{ textAlign: "center" }} gap={4}>
 				{Array.from({ length: 10 }).map((_, i) => {

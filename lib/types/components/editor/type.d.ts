@@ -1,20 +1,33 @@
-import { HTMLAttributes, RefObject, FormEvent } from 'react';
+import { HTMLAttributes, Ref, ReactNode, MouseEvent, SyntheticEvent, KeyboardEvent, FocusEvent } from 'react';
 
-interface IEditor extends Omit<HTMLAttributes<HTMLDivElement>, "onInput"> {
-    ref?: RefObject<RefEditor | null>;
+interface IEditorAddtionControl {
+    icon: ReactNode;
+    onClick?: (selection: Range | null, e: MouseEvent<HTMLElement>) => void;
+}
+interface IEditorMemtionOption {
+    label: ReactNode;
+    value: string | number;
+}
+interface IEditorMemtion {
+    key?: string;
+    options: IEditorMemtionOption[];
+    insert?: (option: IEditorMemtionOption) => ReactNode;
+}
+interface IEditor extends Omit<HTMLAttributes<HTMLDivElement>, "onInput" | "onChange"> {
+    ref?: Ref<HTMLDivElement>;
+    value?: string;
     placeholder?: string;
     width?: string | number;
     height?: string | number;
     autosize?: boolean;
-    richPaste?: boolean;
-    controls?: string[] | "simple" | "all" | "none";
+    mode?: "rich" | "plaintext";
+    hideControl?: boolean;
+    addtionControls?: IEditorAddtionControl[];
+    memtion?: IEditorMemtion;
     border?: boolean;
-    onInput?: (html: string, e: FormEvent<HTMLDivElement>) => void;
-}
-interface RefEditor {
-    input: HTMLDivElement | null;
-    getSafeValue: () => string;
-    setValue: (html: string) => void;
+    onChange?: (value: string, e: SyntheticEvent<HTMLDivElement>) => void;
+    onEnter?: (e: KeyboardEvent<HTMLDivElement>) => void;
+    onFocus?: (e: FocusEvent<HTMLDivElement>) => void;
 }
 
-export type { IEditor, RefEditor };
+export type { IEditor, IEditorAddtionControl, IEditorMemtion, IEditorMemtionOption };

@@ -116,6 +116,10 @@
         caret-color: transparent;
     }
 
+    &[type="password"] {
+        font-family: math;
+    }
+
     &:disabled {
         background: var(--background-opacity-1);
         cursor: not-allowed;
@@ -147,9 +151,12 @@
 
 .i-textarea {
     display: block;
-    transition: var(--transition), width 0s, height 0s;
+    transition:
+        var(--transition),
+        width 0s,
+        height 0s;
     max-width: 100%;
-    min-height: 1.5em;
+    min-height: 2.14em;
 }
 
 .i-input-prepend,
@@ -178,9 +185,8 @@
 }
 
 .i-options-block {
-
-    &>.i-checkbox-item,
-    &>.i-radio-item {
+    & > .i-checkbox-item,
+    & > .i-radio-item {
         flex: 1 1 100%;
     }
 }

@@ -1,20 +1,45 @@
-import { FormEvent, HTMLAttributes, RefObject } from "react";
+import {
+    FocusEvent,
+    HTMLAttributes,
+    KeyboardEvent,
+    MouseEvent,
+    ReactNode,
+    Ref,
+    SyntheticEvent,
+} from "react";
 
-export interface IEditor
-	extends Omit<HTMLAttributes<HTMLDivElement>, "onInput"> {
-	ref?: RefObject<RefEditor | null>;
-	placeholder?: string;
-	width?: string | number;
-	height?: string | number;
-	autosize?: boolean;
-	richPaste?: boolean;
-	controls?: string[] | "simple" | "all" | "none";
-	border?: boolean;
-	onInput?: (html: string, e: FormEvent<HTMLDivElement>) => void;
+export interface IEditorAddtionControl {
+    icon: ReactNode;
+    onClick?: (selection: Range | null, e: MouseEvent<HTMLElement>) => void;
 }
 
-export interface RefEditor {
-	input: HTMLDivElement | null;
-	getSafeValue: () => string;
-	setValue: (html: string) => void;
+export interface IEditorMemtionOption {
+    label: ReactNode;
+    value: string | number;
+}
+
+export interface IEditorMemtion {
+    key?: string;
+    options: IEditorMemtionOption[];
+    insert?: (option: IEditorMemtionOption) => ReactNode;
+}
+
+export interface IEditor extends Omit<
+    HTMLAttributes<HTMLDivElement>,
+    "onInput" | "onChange"
+> {
+    ref?: Ref<HTMLDivElement>;
+    value?: string;
+    placeholder?: string;
+    width?: string | number;
+    height?: string | number;
+    autosize?: boolean;
+    mode?: "rich" | "plaintext";
+    hideControl?: boolean;
+    addtionControls?: IEditorAddtionControl[];
+    memtion?: IEditorMemtion;
+    border?: boolean;
+    onChange?: (value: string, e: SyntheticEvent<HTMLDivElement>) => void;
+    onEnter?: (e: KeyboardEvent<HTMLDivElement>) => void;
+    onFocus?: (e: FocusEvent<HTMLDivElement>) => void;
 }

@@ -7,6 +7,7 @@
     font-size: inherit;
     transform: translateZ(0);
     border-radius: inherit;
+    backdrop-filter: blur(2px);
 }
 
 .i-loading-icon {

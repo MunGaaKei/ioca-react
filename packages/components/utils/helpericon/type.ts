@@ -1,4 +1,9 @@
-import { CSSProperties, MouseEvent, ReactNode } from "react";
+import {
+	CSSProperties,
+	KeyboardEvent,
+	MouseEvent,
+	ReactNode,
+} from "react";
 
 export interface IHelperIcon {
 	as?: string;
@@ -9,4 +14,8 @@ export interface IHelperIcon {
 	style?: CSSProperties;
 	onClick?: (e: MouseEvent) => void;
 	onMouseUp?: (e: MouseEvent) => void;
+	onKeyDown?: (e: KeyboardEvent) => void;
+	tabIndex?: number;
+	role?: string;
+	"aria-label"?: string;
 }

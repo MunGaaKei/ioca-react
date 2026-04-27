@@ -14,6 +14,7 @@ interface ITextarea extends Omit<BaseInput, "ref">, Omit<TextareaHTMLAttributes<
     ref?: RefObject<RefTextarea | null>;
     autoSize?: boolean;
     width?: string | number;
+    resize?: boolean;
 }
 interface RefTextarea {
     input: HTMLTextAreaElement | null;

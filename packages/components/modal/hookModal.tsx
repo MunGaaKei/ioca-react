@@ -5,29 +5,29 @@ import Modal from "./modal";
 import type { IModal, RefHookModal } from "./type";
 
 const HookModal = (
-	props: IModal & { ref?: RefObject<RefHookModal | null> }
+    props: IModal & { ref?: RefObject<RefHookModal | null> },
 ) => {
-	const { ref, ...restProps } = props;
-	const state = useReactive<IModal>({});
+    const { ref, ...restProps } = props;
+    const state = useReactive<IModal>({});
 
-	const mergedProps = Object.assign({}, restProps, state);
+    const mergedProps = Object.assign({}, restProps, state);
 
-	useImperativeHandle(ref, () => ({
-		update: (config: IModal = {}) => {
-			Object.assign(state, config);
-		},
+    useImperativeHandle(ref, () => ({
+        update: (config: IModal = {}) => {
+            Object.assign(state, config);
+        },
 
-		close: () => {
-			state.visible = false;
+        close: () => {
+            state.visible = false;
 
-			if (mergedProps.closable) return;
-			Promise.resolve().then(() => {
-				state.visible = true;
-			});
-		},
-	}));
+            if (mergedProps.closable ?? true) return;
+            Promise.resolve().then(() => {
+                state.visible = true;
+            });
+        },
+    }));
 
-	return <Modal {...mergedProps} />;
+    return <Modal {...mergedProps} />;
 };
 
 export default HookModal;

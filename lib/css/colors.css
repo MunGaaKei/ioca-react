@@ -61,6 +61,7 @@
     --background-opacity: rgba(255, 255, 255, 0.4);
     --background-opacity-1: rgba(211, 211, 211, 0.4);
     --background-opacity-2: rgba(188, 188, 188, 0.15);
+    --color-backdrop: rgba(255, 255, 255, 0.4);
 
     --color: var(--color-2);
     --color-main: var(--color-2);
@@ -709,12 +710,14 @@
     --background-hover: transparent;
     --background-opacity: #1a1a1a66;
     --background-opacity-1: rgba(0, 0, 0, 0.4);
+    --background-opacity-2: rgba(33, 33, 33, 0.4);
+    --color-backdrop: rgba(0, 0, 0, 0.4);
 
     --color: var(--color-0);
-    --color-main: #265ef8;
-    --color-main-1: #043edf;
-    --color-main-0: #265ef81f;
-    --color-main-reverse: var(--white);
+    --color-main: #26f8dd;
+    --color-main-1: #0eddc3;
+    --color-main-0: #0065581f;
+    --color-main-reverse: var(--black);
 
     --black-0: #00000040;
     --white-0: #ffffff40;
@@ -753,12 +756,14 @@
         --background-hover: transparent;
         --background-opacity: #1a1a1a66;
         --background-opacity-1: rgba(0, 0, 0, 0.4);
+        --background-opacity-2: rgba(33, 33, 33, 0.4);
+        --color-backdrop: rgba(0, 0, 0, 0.4);
 
         --color: var(--color-0);
-        --color-main: #265ef8;
-        --color-main-1: #043edf;
-        --color-main-0: #265ef81f;
-        --color-main-reverse: var(--white);
+        --color-main: #26f8dd;
+        --color-main-1: #0eddc3;
+        --color-main-0: #0065581f;
+        --color-main-reverse: var(--black);
 
         --black-0: #00000040;
         --white-0: #ffffff40;

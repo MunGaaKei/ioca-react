@@ -1,5 +1,5 @@
 import { CompositionImage } from './type.js';
 
-declare const _default: CompositionImage;
+declare const MemoImage: CompositionImage;
 
-export { _default as default };
+export { MemoImage as default };

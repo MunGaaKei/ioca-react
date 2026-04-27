@@ -1,9 +1,9 @@
-  .i-pagination {
+.i-pagination {
     display: flex;
     align-items: center;
     gap: 0.2em;
-  }
-  .i-page {
+}
+.i-page {
     --background: transparent;
     --color: var(--color-7);
     position: relative;
@@ -23,25 +23,25 @@
     color: var(--color);
     background: var(--background);
     .i-ripple-container {
-      inset: -2px;
+        inset: -2px;
     }
     .i-loading-container {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background: var(--background-opacity);
-      backdrop-filter: var(--blur);
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: var(--background-opacity);
+        backdrop-filter: var(--blur);
     }
     &:hover {
-      --background: var(--background-opacity-1);
+        --background: var(--background-opacity-2);
     }
     &.i-page-active {
-      --background: var(--color-main);
-      --color: var(--color-main-reverse);
-      cursor: default;
+        --background: var(--color-main);
+        --color: var(--color-main-reverse);
+        cursor: default;
     }
     &.i-page-loading {
-      --background: unset;
-      cursor: default;
+        --background: unset;
+        cursor: default;
     }
-  }
+}
