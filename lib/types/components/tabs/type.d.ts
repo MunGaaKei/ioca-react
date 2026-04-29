@@ -1,9 +1,8 @@
-import { ForwardRefExoticComponent, RefObject, ReactNode, Ref, CSSProperties } from 'react';
+import { ForwardRefExoticComponent, Ref, ReactNode, RefObject, CSSProperties } from 'react';
 import Item from './item.js';
 
 interface ITabItem {
     key?: string;
-    props?: any;
     title?: ReactNode;
     content?: ReactNode;
     closable?: boolean;
@@ -12,7 +11,7 @@ interface ITabItem {
     children?: ReactNode;
 }
 interface ITabs {
-    ref?: RefObject<RefTabs | null>;
+    ref?: Ref<RefTabs>;
     active?: string;
     tabs?: ITabItem[] | string[];
     type?: "default" | "line" | "pane";
@@ -24,6 +23,7 @@ interface ITabs {
     barClass?: string;
     toggable?: boolean;
     navsJustify?: "start" | "center" | "end";
+    navsClass?: string;
     className?: string;
     children?: ReactNode;
     style?: CSSProperties;
@@ -34,7 +34,7 @@ interface RefTabs {
     open: (key: string) => void;
     close: (key: string) => void;
     add: (tab: ITabItem, position?: number) => void;
-    navs: Ref<HTMLDivElement>;
+    navs: RefObject<HTMLDivElement>;
 }
 interface CompositionTabs extends ForwardRefExoticComponent<ITabs> {
     Item: typeof Item;

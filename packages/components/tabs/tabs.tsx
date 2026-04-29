@@ -1,24 +1,26 @@
-import { MoreHorizRound } from "@ricons/material";
 import classNames from "classnames";
 import {
     CSSProperties,
-    Children,
     KeyboardEvent,
     ReactNode,
     useEffect,
     useImperativeHandle,
+    useMemo,
     useRef,
     useState,
 } from "react";
 import { useIntersectionObserver, useSize } from "../../js/hooks";
-import Button from "../button";
-import Icon from "../icon";
-import Popup from "../popup";
-import Helpericon from "../utils/helpericon";
+import TabsContents from "./contents";
+import {
+    defaultRenderMore,
+    emptyBarStyle,
+    getParsedTabs,
+    isSameTabs,
+} from "./helper";
 import "./index.css";
 import TabItem from "./item";
+import TabsNavs from "./navs";
 import { CompositionTabs, ITabItem, ITabs } from "./type";
-
 const Tabs = ((props: ITabs) => {
     const {
         ref,
@@ -32,20 +34,16 @@ const Tabs = ((props: ITabs) => {
         vertical,
         toggable,
         navsJustify = "start",
+        navsClass,
         bar = true,
         hideMore,
         barClass,
-        renderMore = () => (
-            <Button flat square size="small">
-                <Icon icon={<MoreHorizRound />} />
-            </Button>
-        ),
+        renderMore = defaultRenderMore,
         onTabChange,
         ...rest
     } = props;
 
-    const navRefs = useRef<HTMLElement[]>([]);
-    const barRef = useRef<HTMLSpanElement>(null);
+    const navRefs = useRef<(HTMLAnchorElement | null)[]>([]);
     const navsRef = useRef<HTMLDivElement>(null);
     const contentsRef = useRef<Map<string, ReactNode>>(new Map());
     const [activeKey, setActiveKey] = useState<string | undefined>(active);
@@ -65,62 +63,50 @@ const Tabs = ((props: ITabs) => {
     activeKeyRef.current = activeKey;
     const prevActiveKeyRef = useRef<string | undefined>(prevActiveKey);
     prevActiveKeyRef.current = prevActiveKey;
+    const sourceKeysRef = useRef<Set<string>>(new Set());
+    const hiddenSourceKeysRef = useRef<Set<string>>(new Set());
+    const parsedTabs = useMemo(
+        () => getParsedTabs(items, children),
+        [children, items],
+    );
 
     useEffect(() => {
-        contentsRef.current.clear();
+        const prevContents = new Map(contentsRef.current);
+        const nextContents = new Map(parsedTabs.contents);
+        const sourceTabs = parsedTabs.tabs;
+        const sourceKeys = parsedTabs.keys;
 
-        if (!items) {
-            if (!children) {
-                setTabs([]);
-                return;
+        hiddenSourceKeysRef.current.forEach((key) => {
+            if (!sourceKeys.has(key)) {
+                hiddenSourceKeysRef.current.delete(key);
             }
+        });
 
-            setTabs(
-                (Children.map(children, (node, i) => {
-                    const { key, props: nodeProps } = node as {
-                        key?: string;
-                        props?: any;
-                    };
-                    const {
-                        title,
-                        children: tabChildren,
-                        content,
-                        keepDOM,
-                        closable,
-                    } = nodeProps;
-                    const tabKey = String(key ?? i);
-                    contentsRef.current.set(tabKey, tabChildren ?? content);
+        const dynamicTabs = tabsRef.current.filter((tab) => {
+            const key = String(tab.key);
+            return !sourceKeysRef.current.has(key) && !sourceKeys.has(key);
+        });
 
-                    return {
-                        key: tabKey,
-                        title,
-                        keepDOM,
-                        closable,
-                    };
-                }) as ITabItem[]) ?? [],
-            );
+        dynamicTabs.forEach((tab) => {
+            const key = String(tab.key);
+            nextContents.set(key, prevContents.get(key));
+        });
 
-            return;
-        }
+        sourceKeysRef.current = sourceKeys;
+        contentsRef.current = nextContents;
+        const nextTabs = [
+            ...sourceTabs.filter(
+                (tab) => !hiddenSourceKeysRef.current.has(String(tab.key)),
+            ),
+            ...dynamicTabs,
+        ];
 
-        setTabs(
-            items.map((item, i) => {
-                if (["string", "number"].includes(typeof item)) {
-                    const key = String(item);
-                    return { key, title: item };
-                }
-                const key = String(item.key ?? i);
-                contentsRef.current.set(key, item.content);
-                const { content, ...rest } = item;
-                return {
-                    ...rest,
-                    key,
-                };
-            }),
+        setTabs((currentTabs) =>
+            isSameTabs(currentTabs, nextTabs) ? currentTabs : nextTabs,
         );
-    }, [children, items]);
+    }, [parsedTabs]);
 
-    const add = (tab: ITabItem) => {
+    const add = (tab: ITabItem, position?: number) => {
         const currentTabs = tabsRef.current;
         const tkey = String(tab.key ?? currentTabs.length);
         const i = currentTabs.findIndex((t) => t.key === tkey);
@@ -132,7 +118,15 @@ const Tabs = ((props: ITabs) => {
 
         contentsRef.current.set(tkey, tab.content);
         const { content, ...rest } = tab;
-        setTabs((ts) => [...ts, { ...rest, key: tkey }]);
+        setTabs((ts) => {
+            const nextTabs = [...ts];
+            const index =
+                position === undefined
+                    ? nextTabs.length
+                    : Math.max(0, Math.min(position, nextTabs.length));
+            nextTabs.splice(index, 0, { ...rest, key: tkey });
+            return nextTabs;
+        });
         open(tkey);
     };
 
@@ -142,7 +136,11 @@ const Tabs = ((props: ITabs) => {
 
         if (i < 0) return;
 
-        contentsRef.current.delete(key);
+        if (sourceKeysRef.current.has(key)) {
+            hiddenSourceKeysRef.current.add(key);
+        } else {
+            contentsRef.current.delete(key);
+        }
         const nextTabs = [...currentTabs];
         nextTabs.splice(i, 1);
         setTabs(nextTabs);
@@ -163,10 +161,7 @@ const Tabs = ((props: ITabs) => {
             onTabChange?.(undefined, activeKey);
             setPrevActiveKey(activeKey);
             setActiveKey(undefined);
-            setBarStyle({
-                height: 0,
-                width: 0,
-            });
+            setBarStyle(emptyBarStyle);
             return;
         }
 
@@ -175,11 +170,7 @@ const Tabs = ((props: ITabs) => {
 
             onTabChange?.(undefined, key);
             setActiveKey(undefined);
-
-            setBarStyle({
-                height: 0,
-                width: 0,
-            });
+            setBarStyle(emptyBarStyle);
             return;
         }
 
@@ -188,7 +179,10 @@ const Tabs = ((props: ITabs) => {
         setActiveKey(nextKey);
     };
 
-    const handleKeyAction = (e: KeyboardEvent<Element>, action: () => void) => {
+    const handleKeyAction = (
+        e: KeyboardEvent<HTMLElement>,
+        action: () => void,
+    ) => {
         if (!["Enter", " "].includes(e.key)) return;
         e.preventDefault();
         action();
@@ -209,6 +203,12 @@ const Tabs = ((props: ITabs) => {
         open(key);
         scrollToTab(key);
     };
+
+    const setNavRef = (index: number, node: HTMLAnchorElement | null) => {
+        navRefs.current[index] = node;
+    };
+
+    const getContent = (key: string) => contentsRef.current.get(key);
 
     useEffect(() => {
         if (!size || hideMore || !observe || !unobserve) return;
@@ -238,7 +238,7 @@ const Tabs = ((props: ITabs) => {
 
         const observed: HTMLElement[] = [];
 
-        navRefs.current.map((nav, i) => {
+        navRefs.current.forEach((nav, i) => {
             if (!nav) return;
             observed.push(nav);
             observe(nav, (_tar: HTMLElement, visible: boolean) => {
@@ -253,7 +253,7 @@ const Tabs = ((props: ITabs) => {
         });
 
         return () => {
-            observed.map((el) => unobserve(el));
+            observed.forEach((el) => unobserve(el));
         };
     }, [size, hideMore, tabs.length, observe, unobserve]);
 
@@ -280,7 +280,7 @@ const Tabs = ((props: ITabs) => {
             const isLine = type === "line";
 
             setBarStyle({
-                height: !vertical && isLine ? ".25em" : ".8em",
+                height: !vertical && isLine ? ".25em" : offsetHeight * 0.5,
                 width: vertical && isLine ? ".25em" : offsetWidth,
                 transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
             });
@@ -294,7 +294,8 @@ const Tabs = ((props: ITabs) => {
     useEffect(() => {
         if (active === undefined || activeKey === active) return;
 
-        open(active);
+        setPrevActiveKey(activeKey);
+        setActiveKey(active);
     }, [active]);
 
     useEffect(() => {
@@ -328,10 +329,14 @@ const Tabs = ((props: ITabs) => {
         navs: navsRef,
     }));
 
-    const moreTabs =
-        !hideMore && overflow
-            ? tabs.filter((tab) => tab.intersecting === false)
-            : [];
+    const cachedTabKeySet = useMemo(() => new Set(cachedTabs), [cachedTabs]);
+    const moreTabs = useMemo(
+        () =>
+            !hideMore && overflow
+                ? tabs.filter((tab) => tab.intersecting === false)
+                : [],
+        [hideMore, overflow, tabs],
+    );
 
     return (
         <div
@@ -343,142 +348,41 @@ const Tabs = ((props: ITabs) => {
             {...rest}
         >
             <div
-                className={classNames("i-tab-navs-container", {
+                className={classNames("i-tab-navs-container", navsClass, {
                     "i-tab-navs-vertical": vertical,
                 })}
             >
                 {prepend}
 
-                <div
-                    ref={navsRef}
-                    className={classNames(
-                        "i-tab-navs",
-                        `justify-${navsJustify}`,
-                    )}
-                    role="tablist"
-                    aria-orientation={vertical ? "vertical" : "horizontal"}
-                >
-                    {tabs.map((tab, i) => {
-                        const { title, key = `${i}`, closable } = tab;
-                        const isActive = activeKey === key;
-
-                        return (
-                            <a
-                                key={key}
-                                ref={(ref) => (navRefs.current[i] = ref as any)}
-                                className={classNames("i-tab-nav", {
-                                    "i-tab-active": isActive,
-                                })}
-                                role="tab"
-                                tabIndex={isActive ? 0 : -1}
-                                aria-selected={isActive}
-                                onClick={() => open(key)}
-                                onKeyDown={(e) =>
-                                    handleKeyAction(e, () => open(key))
-                                }
-                            >
-                                {title}
-
-                                {closable && (
-                                    <Helpericon
-                                        as="i"
-                                        active
-                                        className="i-tab-nav-close"
-                                        role="button"
-                                        tabIndex={0}
-                                        aria-label="关闭标签页"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            close(key);
-                                        }}
-                                        onKeyDown={(e) =>
-                                            handleKeyAction(e, () => close(key))
-                                        }
-                                    />
-                                )}
-                            </a>
-                        );
-                    })}
-
-                    {bar && (
-                        <span
-                            ref={barRef}
-                            className={classNames("i-tab-navs-bar", barClass)}
-                            style={barStyle}
-                        />
-                    )}
-                </div>
-
-                {!hideMore && overflow && moreTabs.length > 0 && (
-                    <Popup
-                        arrow={false}
-                        position={vertical ? "right" : "bottom"}
-                        align="end"
-                        touchable
-                        hideDelay={500}
-                        content={
-                            <div className="i-tabs-morelist pd-4">
-                                {moreTabs.map((tab, i) => {
-                                    const { key = `${i}`, title } = tab;
-                                    const isActive = activeKey === key;
-
-                                    return (
-                                        <a
-                                            key={key}
-                                            className={classNames("i-tab-nav", {
-                                                "i-tab-active": isActive,
-                                            })}
-                                            role="button"
-                                            tabIndex={0}
-                                            onClick={() =>
-                                                handleMoreTabClick(key)
-                                            }
-                                            onKeyDown={(e) =>
-                                                handleKeyAction(e, () =>
-                                                    handleMoreTabClick(key),
-                                                )
-                                            }
-                                        >
-                                            {title}
-                                        </a>
-                                    );
-                                })}
-                            </div>
-                        }
-                    >
-                        {renderMore(moreTabs)}
-                    </Popup>
-                )}
+                <TabsNavs
+                    tabs={tabs}
+                    moreTabs={moreTabs}
+                    activeKey={activeKey}
+                    vertical={vertical}
+                    overflow={overflow}
+                    hideMore={hideMore}
+                    navsJustify={navsJustify}
+                    bar={bar}
+                    barClass={barClass}
+                    barStyle={barStyle}
+                    navsRef={navsRef}
+                    renderMore={renderMore}
+                    setNavRef={setNavRef}
+                    onOpen={open}
+                    onClose={close}
+                    onMoreTabClick={handleMoreTabClick}
+                    onKeyAction={handleKeyAction}
+                />
 
                 {append}
             </div>
 
-            <div className="i-tab-contents">
-                {tabs.map((tab, i) => {
-                    const key = tab.key ?? `${i}`;
-                    const content = contentsRef.current.get(key);
-                    const isActive = activeKey === key;
-                    const show =
-                        isActive ||
-                        (key !== undefined && cachedTabs.includes(key));
-
-                    return (
-                        show && (
-                            <div
-                                key={key}
-                                className={classNames("i-tab-content", {
-                                    "i-tab-active": isActive,
-                                })}
-                                role="tabpanel"
-                                aria-hidden={!isActive}
-                            >
-                                {content}
-                            </div>
-                        )
-                    );
-                })}
-            </div>
+            <TabsContents
+                tabs={tabs}
+                activeKey={activeKey}
+                cachedTabKeySet={cachedTabKeySet}
+                getContent={getContent}
+            />
         </div>
     );
 }) as CompositionTabs;

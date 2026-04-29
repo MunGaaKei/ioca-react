@@ -156,6 +156,11 @@ export const PTabs = [
         type: ["string"],
     },
     {
+        name: "navsClass",
+        desc: "标签容器样式类",
+        type: ["string"],
+    },
+    {
         name: "navsJustify",
         desc: "标签对齐方式",
         type: ["'start'", "'center'", "'end'"],
