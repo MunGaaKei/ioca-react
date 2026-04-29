@@ -148,19 +148,6 @@
         }
     }
 }
-.i-tab-nav-close {
-    position: absolute;
-    right: 4px;
-    margin: 0;
-    font-size: 0.7em;
-    padding: 0;
-    opacity: 0;
-    background: var(--background);
-    &:hover {
-        color: var(--error);
-        background: var(--background);
-    }
-}
 .i-tab-nav:hover {
     .i-tab-nav-close {
         opacity: 1;
@@ -197,5 +184,21 @@
     display: none;
     &.i-tab-active {
         display: block;
+    }
+}
+
+.i-tabs {
+    .i-tab-nav-close {
+        position: absolute;
+        right: 4px;
+        margin: 0;
+        font-size: 0.7em;
+        padding: 0;
+        opacity: 0;
+        background: var(--background);
+        &:hover {
+            color: var(--error);
+            background: var(--background);
+        }
     }
 }
