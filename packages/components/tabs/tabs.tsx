@@ -280,7 +280,7 @@ const Tabs = ((props: ITabs) => {
             const isLine = type === "line";
 
             setBarStyle({
-                height: !vertical && isLine ? ".25em" : offsetHeight,
+                height: !vertical && isLine ? ".25em" : ".8em",
                 width: vertical && isLine ? ".25em" : offsetWidth,
                 transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
             });

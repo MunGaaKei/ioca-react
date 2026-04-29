@@ -27,8 +27,10 @@ interface ITimePicker extends BaseInput, IInput {
     renderItem?: (number: number, active: boolean, unit: "hour" | "minute" | "second") => ReactNode;
     popupProps?: IPopup;
 }
-interface IColorPicker extends ColorPickerProps {
+interface IColorPicker extends Omit<ColorPickerProps, "value" | "onChange"> {
     value?: any;
+    label?: ReactNode;
+    required?: boolean;
     type?: "HEX" | "RGB" | "HSB";
     children?: ReactNode;
     popupProps?: IPopup;

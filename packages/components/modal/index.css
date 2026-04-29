@@ -34,6 +34,7 @@
     transform: translate(0, 12px);
     transition: var(--transition);
     background: var(--background);
+    line-height: normal;
     &.bounced {
         animation: bounce 0.4s ease-in-out 0s;
     }

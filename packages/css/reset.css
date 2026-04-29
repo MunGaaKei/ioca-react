@@ -133,13 +133,13 @@ code {
     }
 
     ::-webkit-scrollbar-thumb {
-        background-color: var(--color-8);
+        background-color: var(--color-7);
         border-radius: 2px;
         background-clip: content-box;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background-color: var(--color-8);
+        background-color: var(--color-7);
     }
 
     ::-webkit-scrollbar-button {

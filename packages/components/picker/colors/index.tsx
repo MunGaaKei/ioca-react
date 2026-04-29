@@ -1,5 +1,6 @@
 import ColorsPanel from "@rc-component/color-picker";
 import { useEffect, useState } from "react";
+import InputContainer from "../../input/container";
 import Popup from "../../popup";
 import { IColorPicker } from "../type";
 import Footer, { ColorMethods } from "./footer";
@@ -7,112 +8,124 @@ import Handle from "./handle";
 import "./index.css";
 
 export default function ColorPicker(props: IColorPicker) {
-	const {
-		value,
-		type = "HEX",
-		disabledAlpha,
-		children,
-		usePanel,
-		handle = "both",
-		placeholder = "Colors",
-		popupProps,
-		onChange,
-	} = props;
+    const {
+        value,
+        type = "HEX",
+        disabledAlpha,
+        children,
+        usePanel,
+        handle = "both",
+        placeholder = "Colors",
+        popupProps,
+        onChange,
+        label,
+        required,
+        ...restProps
+    } = props;
 
-	const [colorType, setColorType] = useState(type);
-	const [colorValue, setColorValue] = useState(value);
-	const [syncValue, setSyncValue] = useState(value);
-	const [visible, setVisible] = useState<boolean | undefined>(popupProps?.visible);
+    const [colorType, setColorType] = useState(type);
+    const [colorValue, setColorValue] = useState(value);
+    const [syncValue, setSyncValue] = useState(value);
+    const [visible, setVisible] = useState<boolean | undefined>(
+        popupProps?.visible,
+    );
 
-	const handleChange = (target) => {
-		setSyncValue(target);
-	};
+    const handleChange = (target) => {
+        setSyncValue(target);
+    };
 
-	const handleComplete = (target) => {
-		const method = ColorMethods[colorType];
+    const handleComplete = (target) => {
+        const method = ColorMethods[colorType];
 
-		if (target.a !== 1) {
-			target.a = parseFloat(target.a.toFixed(3));
-		}
+        if (target.a !== 1) {
+            target.a = parseFloat(target.a.toFixed(3));
+        }
 
-		setColorValue(target[method]?.());
-	};
+        setColorValue(target[method]?.());
+    };
 
-	const handleVisibleChange = (v: boolean) => {
-		setVisible(v);
-		popupProps?.onVisibleChange?.(v);
-	};
+    const handleVisibleChange = (v: boolean) => {
+        setVisible(v);
+        popupProps?.onVisibleChange?.(v);
+    };
 
-	const handleTypeChange = (t) => {
-		const method = ColorMethods[t];
+    const handleTypeChange = (t) => {
+        const method = ColorMethods[t];
 
-		setColorType(t);
-		setColorValue(syncValue?.[method]?.());
-	};
+        setColorType(t);
+        setColorValue(syncValue?.[method]?.());
+    };
 
-	const handleValueChange = (v) => {
-		setColorValue(v);
-		setSyncValue(v);
-	};
+    const handleValueChange = (v) => {
+        setColorValue(v);
+        setSyncValue(v);
+    };
 
-	const handleOk = () => {
-		onChange?.(colorValue);
-		setVisible(false);
-	};
+    const handleOk = () => {
+        onChange?.(colorValue);
+        setVisible(false);
+    };
 
-	useEffect(() => {
-		setSyncValue(value);
-		setColorValue(value);
-	}, [value]);
+    useEffect(() => {
+        setSyncValue(value);
+        setColorValue(value);
+    }, [value]);
 
-	useEffect(() => {
-		if (popupProps?.visible !== undefined) {
-			setVisible(popupProps.visible);
-		}
-	}, [popupProps?.visible]);
+    useEffect(() => {
+        if (popupProps?.visible !== undefined) {
+            setVisible(popupProps.visible);
+        }
+    }, [popupProps?.visible]);
 
-	if (usePanel) {
-		return <ColorsPanel {...props} />;
-	}
+    if (usePanel) {
+        return (
+            <InputContainer label={label} required={required}>
+                <ColorsPanel {...restProps} value={value} onChange={onChange} />
+            </InputContainer>
+        );
+    }
 
-	return (
-		<Popup
-			trigger='click'
-			touchable
-			position='bottom'
-			{...popupProps}
-			visible={visible}
-			content={
-				<ColorsPanel
-					value={syncValue}
-					disabledAlpha={disabledAlpha}
-					panelRender={(panel) => {
-						return (
-							<>
-								{panel}
-								<Footer
-									value={colorValue}
-									type={colorType}
-									onTypeChange={handleTypeChange}
-									onChange={handleValueChange}
-									onOk={handleOk}
-								/>
-							</>
-						);
-					}}
-					onChange={handleChange}
-					onChangeComplete={handleComplete}
-				/>
-			}
-			onVisibleChange={handleVisibleChange}
-		>
-			{children ?? (
-				<Handle
-					color={value}
-					handle={handle}
-					placeholder={placeholder}
-				/>
-			)}
-		</Popup>
-	);
+    return (
+        <InputContainer label={label} required={required}>
+            <Popup
+                trigger="click"
+                touchable
+                position="bottom"
+                {...popupProps}
+                visible={visible}
+                content={
+                    <ColorsPanel
+                        {...restProps}
+                        value={syncValue}
+                        disabledAlpha={disabledAlpha}
+                        panelRender={(panel) => {
+                            return (
+                                <>
+                                    {panel}
+                                    <Footer
+                                        value={colorValue}
+                                        type={colorType}
+                                        onTypeChange={handleTypeChange}
+                                        onChange={handleValueChange}
+                                        onOk={handleOk}
+                                    />
+                                </>
+                            );
+                        }}
+                        onChange={handleChange}
+                        onChangeComplete={handleComplete}
+                    />
+                }
+                onVisibleChange={handleVisibleChange}
+            >
+                {children ?? (
+                    <Handle
+                        color={value}
+                        handle={handle}
+                        placeholder={placeholder}
+                    />
+                )}
+            </Popup>
+        </InputContainer>
+    );
 }

@@ -172,7 +172,7 @@
     bottom: 0em;
     left: 0;
     height: 0;
-    background: var(--color-main-0);
+    background: var(--background-opacity-1);
     pointer-events: none;
     transition: var(--transition);
     border-radius: 4px;

@@ -129,7 +129,7 @@ export const PEditor = [
     {
         name: "mode",
         desc: "编辑模式",
-        type: ["'rich'", "'plaintext'"],
+        type: ["'rich'", "'plaintext'", "'plaintextOnMemtion'"],
         def: "'rich'",
     },
     {

@@ -11,6 +11,7 @@ import Memtion, {
     getSelectionRect,
     insertMemtionOption,
     removeAdjacentMemtionTag,
+    sanitizePlaintextOnMemtionHtml,
 } from "./memtion";
 import { IEditor, IEditorMemtionOption } from "./type";
 
@@ -49,6 +50,9 @@ const Editor = (props: IEditor) => {
     const selectionRef = useRef<Range | null>(null);
     const memtionTriggerRangeRef = useRef<Range | null>(null);
     const pendingMemtionRef = useRef(false);
+    const isPlaintextMode = mode === "plaintext";
+    const isRichMode = mode === "rich";
+    const isPlaintextOnMemtionMode = mode === "plaintextOnMemtion";
     const [memtionVisible, setMemtionVisible] = useState(false);
     const [memtionRect, setMemtionRect] = useState<DOMRect | null>(null);
     const [memtionKeyword, setMemtionKeyword] = useState("");
@@ -59,13 +63,21 @@ const Editor = (props: IEditor) => {
     );
 
     const sanitizeValue = (nextValue: string) => {
-        if (mode === "plaintext") {
+        if (isPlaintextMode) {
             return nextValue === "\n" ? "" : nextValue;
         }
 
-        const safeHtml = xss(nextValue, xssOptions);
+        const safeHtml = isPlaintextOnMemtionMode
+            ? sanitizePlaintextOnMemtionHtml(xss(nextValue, xssOptions))
+            : xss(nextValue, xssOptions);
 
         return safeHtml === "<br>" ? "" : safeHtml;
+    };
+
+    const syncHeight = () => {
+        if (autosize && editorRef.current) {
+            editorRef.current.style.height = `${editorRef.current.scrollHeight}px`;
+        }
     };
 
     const rememberSelection = () => {
@@ -91,7 +103,7 @@ const Editor = (props: IEditor) => {
 
         const safeValue = sanitizeValue(nextValue);
 
-        if (mode === "plaintext") {
+        if (isPlaintextMode) {
             editorRef.current.textContent = safeValue;
             return;
         }
@@ -100,12 +112,11 @@ const Editor = (props: IEditor) => {
     };
 
     const getEditorValue = (sanitize = false) => {
-        if (!editorRef.current) return "";
-
-        const nextValue =
-            mode === "plaintext"
-                ? (editorRef.current.textContent ?? "")
-                : editorRef.current.innerHTML;
+        const nextValue = !editorRef.current
+            ? ""
+            : isPlaintextMode
+              ? (editorRef.current.textContent ?? "")
+              : editorRef.current.innerHTML;
 
         return sanitize ? sanitizeValue(nextValue) : nextValue;
     };
@@ -148,27 +159,22 @@ const Editor = (props: IEditor) => {
 
         e.preventDefault();
 
-        if (mode === "plaintext") {
-            const text = e.clipboardData.getData("text/plain");
-            exec("insertText", false, text);
-            return;
-        }
-
         const html = e.clipboardData.getData("text/html");
-        if (html) {
-            exec("insertHTML", false, sanitizeValue(html));
-            return;
-        }
-
         const text = e.clipboardData.getData("text/plain");
-        exec("insertText", false, text);
+        const pasteValue = isPlaintextMode
+            ? text
+            : html
+              ? sanitizeValue(html)
+              : text;
+
+        exec(isPlaintextMode ? "insertText" : "insertHTML", false, pasteValue);
     };
 
     const handleKeyDown = (e) => {
         onKeyDown?.(e);
 
         if (
-            mode === "rich" &&
+            !isPlaintextMode &&
             (e.key === "Backspace" || e.key === "Delete") &&
             removeAdjacentMemtionTag(editorRef.current, e.key)
         ) {
@@ -219,9 +225,9 @@ const Editor = (props: IEditor) => {
             case "Tab":
                 e.preventDefault();
                 exec(
-                    mode === "plaintext" ? "insertText" : "insertHTML",
+                    isRichMode ? "insertHTML" : "insertText",
                     false,
-                    mode === "plaintext" ? "\t" : "&#09;",
+                    isRichMode ? "&#09;" : "\t",
                 );
                 break;
             case "Enter":
@@ -240,10 +246,7 @@ const Editor = (props: IEditor) => {
         if (getEditorValue(true) === nextValue) return;
 
         setEditorValue(nextValue);
-
-        if (autosize) {
-            editorRef.current.style.height = `${editorRef.current.scrollHeight}px`;
-        }
+        syncHeight();
     }, [autosize, mode, value]);
 
     useEffect(() => {
@@ -260,6 +263,14 @@ const Editor = (props: IEditor) => {
     const handleInput = (e) => {
         const rawValue = getEditorValue();
         let nextValue = sanitizeValue(rawValue);
+
+        if (
+            isPlaintextOnMemtionMode &&
+            rawValue !== nextValue &&
+            editorRef.current
+        ) {
+            setEditorValue(nextValue);
+        }
 
         if (!nextValue && rawValue && editorRef.current) {
             nextValue = "";
@@ -287,9 +298,7 @@ const Editor = (props: IEditor) => {
             }
         }
 
-        if (autosize && editorRef.current) {
-            editorRef.current.style.height = `${editorRef.current.scrollHeight}px`;
-        }
+        syncHeight();
 
         onChange?.(nextValue, e);
     };
@@ -372,7 +381,7 @@ const Editor = (props: IEditor) => {
                 ref={handleRef}
                 className="i-editor-content"
                 data-placeholder={placeholder}
-                contentEditable={mode === "plaintext" ? "plaintext-only" : true}
+                contentEditable={isPlaintextMode ? "plaintext-only" : true}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 onMouseUp={handleMouseUp}

@@ -1,10 +1,50 @@
 import { memo, ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { renderToStaticMarkup } from "react-dom/server";
-import { escapeAttrValue } from "xss";
 import List from "../list";
 import { IEditorMemtion, IEditorMemtionOption } from "./type";
 
 export const MEMTION_TAG_CLASS_NAME = "i-memtion-tag";
+
+const blockTags = new Set([
+    "ADDRESS",
+    "ARTICLE",
+    "ASIDE",
+    "BLOCKQUOTE",
+    "DIV",
+    "DL",
+    "FIELDSET",
+    "FIGCAPTION",
+    "FIGURE",
+    "FOOTER",
+    "FORM",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "HEADER",
+    "LI",
+    "MAIN",
+    "NAV",
+    "OL",
+    "P",
+    "PRE",
+    "SECTION",
+    "TABLE",
+    "TD",
+    "TH",
+    "TR",
+    "UL",
+]);
+
+const escapeHtmlAttr = (value: string) =>
+    value
+        .replaceAll("&", "&amp;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
 
 interface IMemtionProps {
     visible?: boolean;
@@ -18,7 +58,7 @@ interface IMemtionProps {
 interface IInsertMemtionOptionParams {
     editor: HTMLDivElement | null;
     range: Range | null;
-    mode: "rich" | "plaintext";
+    mode: "rich" | "plaintext" | "plaintextOnMemtion";
     memtion?: IEditorMemtion;
     option: IEditorMemtionOption;
     sanitizeValue: (value: string) => string;
@@ -57,7 +97,7 @@ const getInsertHtml = (
         renderToStaticMarkup(<>{nextNode as ReactNode}</>),
     );
 
-    return `<span class="${MEMTION_TAG_CLASS_NAME}" contenteditable="false" data-memtion-value="${escapeAttrValue(String(option.value))}">${content}</span>`;
+    return `<span class="${MEMTION_TAG_CLASS_NAME}" contenteditable="false" data-memtion-value="${escapeHtmlAttr(String(option.value))}">${content}</span>`;
 };
 
 export const getSelectionRect = (range: Range | null) => {
@@ -99,7 +139,6 @@ export const insertMemtionOption = ({
         const html = getInsertHtml(memtion, option, sanitizeValue);
         const fragment = nextRange.createContextualFragment(html);
         const lastNode = fragment.lastChild;
-        const spacing = document.createTextNode(" ");
 
         nextRange.insertNode(fragment);
 
@@ -107,9 +146,6 @@ export const insertMemtionOption = ({
             nextRange.setStartAfter(lastNode);
             nextRange.collapse(true);
         }
-
-        nextRange.insertNode(spacing);
-        nextRange.setStartAfter(spacing);
     }
 
     nextRange.collapse(true);
@@ -161,6 +197,84 @@ export const filterMemtionOptions = (
 const isMemtionTag = (node: Node | null) =>
     node instanceof HTMLElement &&
     node.classList.contains(MEMTION_TAG_CLASS_NAME);
+
+const appendBreak = (container: HTMLElement) => {
+    if (!container.lastChild || container.lastChild.nodeName === "BR") {
+        return;
+    }
+
+    container.appendChild(document.createElement("br"));
+};
+
+const appendPlaintextOnMemtionNode = (
+    container: HTMLElement,
+    node: Node | null,
+) => {
+    if (!node) return;
+
+    if (node.nodeType === Node.TEXT_NODE) {
+        container.appendChild(
+            document.createTextNode(
+                (node.textContent ?? "").replaceAll("\r", ""),
+            ),
+        );
+        return;
+    }
+
+    if (!(node instanceof HTMLElement)) {
+        return;
+    }
+
+    if (isMemtionTag(node)) {
+        const tag = document.createElement("span");
+        const memtionValue = node.getAttribute("data-memtion-value");
+
+        tag.className = MEMTION_TAG_CLASS_NAME;
+        tag.setAttribute("contenteditable", "false");
+
+        if (memtionValue !== null) {
+            tag.setAttribute("data-memtion-value", memtionValue);
+        }
+
+        tag.innerHTML = node.innerHTML;
+        container.appendChild(tag);
+        return;
+    }
+
+    if (node.tagName === "BR") {
+        appendBreak(container);
+        return;
+    }
+
+    Array.from(node.childNodes).forEach((child) => {
+        appendPlaintextOnMemtionNode(container, child);
+    });
+
+    if (blockTags.has(node.tagName)) {
+        appendBreak(container);
+    }
+};
+
+export const sanitizePlaintextOnMemtionHtml = (value: string) => {
+    if (typeof document === "undefined") {
+        return value;
+    }
+
+    const source = document.createElement("div");
+    const result = document.createElement("div");
+
+    source.innerHTML = value;
+
+    Array.from(source.childNodes).forEach((child) => {
+        appendPlaintextOnMemtionNode(result, child);
+    });
+
+    while (result.lastChild?.nodeName === "BR") {
+        result.lastChild.remove();
+    }
+
+    return result.innerHTML;
+};
 
 const getAdjacentMemtionTag = (
     range: Range,
@@ -247,7 +361,7 @@ const Memtion = (props: IMemtionProps) => {
         return null;
     }
 
-    return (
+    const content = (
         <List
             className="i-editor-memtion"
             type="option"
@@ -271,6 +385,12 @@ const Memtion = (props: IMemtionProps) => {
             ))}
         </List>
     );
+
+    if (typeof document === "undefined") {
+        return content;
+    }
+
+    return createPortal(content, document.body);
 };
 
 export default memo(Memtion);

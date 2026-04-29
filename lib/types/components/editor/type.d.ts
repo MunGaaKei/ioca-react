@@ -20,7 +20,7 @@ interface IEditor extends Omit<HTMLAttributes<HTMLDivElement>, "onInput" | "onCh
     width?: string | number;
     height?: string | number;
     autosize?: boolean;
-    mode?: "rich" | "plaintext";
+    mode?: "rich" | "plaintext" | "plaintextOnMemtion";
     hideControl?: boolean;
     addtionControls?: IEditorAddtionControl[];
     memtion?: IEditorMemtion;

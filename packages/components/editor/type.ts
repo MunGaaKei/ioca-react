@@ -34,7 +34,7 @@ export interface IEditor extends Omit<
     width?: string | number;
     height?: string | number;
     autosize?: boolean;
-    mode?: "rich" | "plaintext";
+    mode?: "rich" | "plaintext" | "plaintextOnMemtion";
     hideControl?: boolean;
     addtionControls?: IEditorAddtionControl[];
     memtion?: IEditorMemtion;

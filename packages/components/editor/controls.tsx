@@ -8,7 +8,7 @@ import {
     UndoRound,
 } from "@ricons/material";
 import { MouseEvent, ReactNode } from "react";
-import { escapeAttrValue, type IFilterXSSOptions } from "xss";
+import { type IFilterXSSOptions } from "xss";
 import Button from "../button";
 import { IButton } from "../button/type";
 import Icon from "../icon";
@@ -19,13 +19,20 @@ export const exec = (a, b?, c?) => {
     return document.execCommand(a, b, c);
 };
 
+const escapeHtmlAttr = (value: string) =>
+    value
+        .replaceAll("&", "&amp;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+
 export const xssOptions: IFilterXSSOptions = {
     onIgnoreTagAttr(tag, name, value) {
         if (["class", "contenteditable"].includes(name)) {
-            return name + '="' + escapeAttrValue(value) + '"';
+            return name + '="' + escapeHtmlAttr(value) + '"';
         }
         if (["data-", "style"].includes(name.substring(0, 5))) {
-            return name + '="' + escapeAttrValue(value) + '"';
+            return name + '="' + escapeHtmlAttr(value) + '"';
         }
     },
 };
@@ -34,54 +41,33 @@ const handleMouseDown = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
 };
 
-const fnMap = {
-    bold: {
-        icon: <FormatBoldRound />,
-        onClick: () => exec("bold"),
-    },
-    italic: {
-        icon: <FormatItalicRound />,
-        onClick: () => exec("italic"),
-    },
-    underline: {
-        icon: <FormatUnderlinedRound />,
-        onClick: () => exec("underline"),
-    },
-    strike: {
-        icon: <StrikethroughSRound />,
-        onClick: () => exec("strikeThrough"),
-    },
-    redo: {
-        icon: <RedoRound />,
-        onClick: () => exec("redo"),
-    },
-    undo: {
-        icon: <UndoRound />,
-        onClick: () => exec("undo"),
-    },
-    clear: {
-        icon: <ClearAllRound />,
-        onClick: () => exec("removeFormat"),
-    },
-};
-
-const defaultKeys = [
-    "undo",
-    "redo",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "clear",
-] as const;
-
-type ControlKey = (typeof defaultKeys)[number];
 type ControlItem = {
+    key: string;
     icon: ReactNode;
     onClick: () => void;
 };
 
-const typedFnMap: Record<ControlKey, ControlItem> = fnMap;
+const defaultControls: ControlItem[] = [
+    { key: "undo", icon: <UndoRound />, onClick: () => exec("undo") },
+    { key: "redo", icon: <RedoRound />, onClick: () => exec("redo") },
+    { key: "bold", icon: <FormatBoldRound />, onClick: () => exec("bold") },
+    { key: "italic", icon: <FormatItalicRound />, onClick: () => exec("italic") },
+    {
+        key: "underline",
+        icon: <FormatUnderlinedRound />,
+        onClick: () => exec("underline"),
+    },
+    {
+        key: "strike",
+        icon: <StrikethroughSRound />,
+        onClick: () => exec("strikeThrough"),
+    },
+    {
+        key: "clear",
+        icon: <ClearAllRound />,
+        onClick: () => exec("removeFormat"),
+    },
+];
 
 export default function getControls(options: {
     controlBtnProps: IButton;
@@ -90,20 +76,16 @@ export default function getControls(options: {
 }) {
     const { controlBtnProps, addtionControls, getSelection } = options;
 
-    const controls = defaultKeys.map((k) => {
-        const { icon, onClick } = typedFnMap[k];
-
-        return (
-            <Button
-                key={k}
-                {...controlBtnProps}
-                onMouseDown={handleMouseDown}
-                onClick={onClick}
-            >
-                <Icon icon={icon} />
-            </Button>
-        );
-    });
+    const controls = defaultControls.map(({ key, icon, onClick }) => (
+        <Button
+            key={key}
+            {...controlBtnProps}
+            onMouseDown={handleMouseDown}
+            onClick={onClick}
+        >
+            <Icon icon={icon} />
+        </Button>
+    ));
 
     const extControls = (addtionControls ?? []).map((item, index) => (
         <Button
