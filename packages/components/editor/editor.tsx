@@ -130,6 +130,11 @@ const Editor = (props: IEditor) => {
         setMemtionActiveIndex(0);
     };
 
+    const syncEditorState = () => {
+        selectionRef.current = null;
+        hideMemtion();
+    };
+
     const insertMemtion = (option: IEditorMemtionOption) => {
         const replaceRange = getMemtionReplaceRange(
             memtionTriggerRangeRef.current,
@@ -246,6 +251,7 @@ const Editor = (props: IEditor) => {
         if (getEditorValue(true) === nextValue) return;
 
         setEditorValue(nextValue);
+        syncEditorState();
         syncHeight();
     }, [autosize, mode, value]);
 

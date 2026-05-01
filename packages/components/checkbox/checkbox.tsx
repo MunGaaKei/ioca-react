@@ -7,94 +7,94 @@ import CheckboxItem from "./item";
 import type { ICheckbox } from "./type";
 
 function Checkbox(props: ICheckbox) {
-	const {
-		label,
-		name,
-		options = [],
-		value = "",
-		type = "default",
-		optionInline = true,
-		labelInline,
-		disabled,
-		status = "normal",
-		message,
-		required,
-		className,
-		renderItem,
-		onChange,
-		...restProps
-	} = props;
+    const {
+        label,
+        name,
+        options = [],
+        value = "",
+        type = "default",
+        optionInline = true,
+        labelInline,
+        disabled,
+        status = "normal",
+        message,
+        required,
+        className,
+        renderItem,
+        onChange,
+        ...restProps
+    } = props;
 
-	const [selectedValues, setSelectedValues] = useState<any>(value);
+    const [selectedValues, setSelectedValues] = useState<any>(value);
 
-	const formattedOptions = useMemo(() => formatOption(options), [options]);
+    const formattedOptions = useMemo(() => formatOption(options), [options]);
 
-	const handleChange = (checked, opt, e) => {
-		const group = [...selectedValues];
-		const i = group.findIndex((item) => item === opt.value);
+    const handleChange = (checked, opt, e) => {
+        const group = [...selectedValues];
+        const i = group.findIndex((item) => item === opt.value);
 
-		if (checked && i < 0) {
-			group.push(opt.value);
-		} else if (!checked && i > -1) {
-			group.splice(i, 1);
-		}
+        if (checked && i < 0) {
+            group.push(opt.value);
+        } else if (!checked && i > -1) {
+            group.splice(i, 1);
+        }
 
-		setSelectedValues(group);
-		onChange?.(group, opt, e);
-	};
+        setSelectedValues(group);
+        onChange?.(group, opt, e);
+    };
 
-	useEffect(() => {
-		setSelectedValues(value);
-	}, [value]);
+    useEffect(() => {
+        setSelectedValues(value);
+    }, [value]);
 
-	return (
-		<div
-			className={classNames(
-				"i-checkbox i-input-label",
-				{
-					[`i-checkbox-${status}`]: status !== "normal",
-					"i-input-inline": labelInline,
-				},
+    return (
+        <div
+            className={classNames(
+                "i-checkbox i-input-label",
+                {
+                    [`i-checkbox-${status}`]: status !== "normal",
+                    "i-input-inline": labelInline,
+                },
 
-				className
-			)}
-			{...restProps}
-		>
-			{label && (
-				<span className='i-input-label-text'>
-					{required && <span className='error'>*</span>}
-					{label}
+                className,
+            )}
+            {...restProps}
+        >
+            {label && (
+                <span className="i-input-label-text">
+                    {required && <span className="error">*</span>}
+                    {label}
 
-					{message && <p className='i-checkbox-message'>{message}</p>}
-				</span>
-			)}
+                    {message && <p className="i-checkbox-message">{message}</p>}
+                </span>
+            )}
 
-			<div
-				className={classNames("i-checkbox-options", {
-					"i-options-block": !optionInline,
-					"i-checkbox-options-button": type === "button",
-				})}
-			>
-				{formattedOptions.map((option) => {
-					return (
-						<CheckboxItem
-							key={option.value as string}
-							name={name}
-							value={selectedValues.includes(option.value)}
-							optionValue={option.value}
-							type={type}
-							disabled={disabled || option.disabled}
-							onChange={(checked, e) =>
-								handleChange(checked, option, e)
-							}
-						>
-							{renderItem ?? option.label}
-						</CheckboxItem>
-					);
-				})}
-			</div>
-		</div>
-	);
+            <div
+                className={classNames("i-checkbox-options", {
+                    "i-options-block": !optionInline,
+                    "i-checkbox-options-button": type === "button",
+                })}
+            >
+                {formattedOptions.map((option) => {
+                    return (
+                        <CheckboxItem
+                            key={option.value as string}
+                            name={name}
+                            value={selectedValues.includes(option.value)}
+                            optionValue={option.value}
+                            type={type}
+                            disabled={disabled || option.disabled}
+                            onChange={(checked, e) =>
+                                handleChange(checked, option, e)
+                            }
+                        >
+                            {renderItem ?? option.label}
+                        </CheckboxItem>
+                    );
+                })}
+            </div>
+        </div>
+    );
 }
 
 Checkbox.Item = CheckboxItem;
