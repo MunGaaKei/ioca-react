@@ -1,59 +1,60 @@
-  .i-input-label-file {
-    display: inline-flex;
+.i-input-label-file {
+    display: flex;
     width: unset;
     &:has(.i-upload-list:empty) {
-      align-items: center;
+        align-items: center;
     }
-  }
-  .i-input-file-hidden {
+}
+.i-input-file-hidden {
     display: none;
-  }
-  .i-upload-inner {
+}
+.i-upload-inner {
     flex: 1 1 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
-  }
-  .i-upload-card {
+}
+.i-upload-card {
     &:has(.i-upload-list:not(:empty)) {
-      align-self: flex-start;
+        align-self: flex-start;
     }
     .i-upload-list {
-      display: contents;
+        display: contents;
     }
-  }
-  .i-upload-list {
+}
+.i-upload-list {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     gap: inherit;
     user-select: none;
     &:empty {
-      display: none;
+        display: none;
     }
-  }
-  .i-upload-delete {
+}
+.i-upload-delete {
     opacity: 0;
     margin: 0;
     z-index: 1;
     right: -0.825em;
     top: -0.825em;
     box-shadow: var(--shadow);
-  }
-  .i-upload-btn {
+}
+.i-upload-btn {
     align-self: center;
-  }
-  .i-upload-card-btn {
+}
+.i-upload-card-btn {
     border-style: dashed;
     width: var(--upload-card-size);
     height: var(--upload-card-size);
     opacity: 0.6;
     font-size: 1em;
+    background: var(--background-opacity);
     &:hover {
-      opacity: 1;
+        opacity: 1;
     }
-  }
-  .i-upload-item {
+}
+.i-upload-item {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -65,67 +66,109 @@
     transition: var(--transition);
     font-size: 0.8em;
     .i-upload-delete {
-      position: absolute;
-      background-color: var(--error);
-      color: #fff;
-      &:hover {
+        position: absolute;
         background-color: var(--error);
         color: #fff;
-      }
+        &:hover {
+            background-color: var(--error);
+            color: #fff;
+        }
     }
     &:hover {
-      background-color: var(--background-opacity-1);
-      .i-upload-delete {
-        opacity: 1;
-      }
+        background-color: var(--background-opacity-1);
+        .i-upload-delete {
+            opacity: 1;
+        }
     }
-  }
-  .i-upload-item-card {
+}
+.i-upload-item-card {
     position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.25em;
-    width: var(--upload-card-size);
+    /* width: var(--upload-card-size); */
     height: var(--upload-card-size);
     border-radius: var(--radius);
-    background: var(--background-opacity-1);
+    background: var(--background-opacity);
     cursor: pointer;
     .i-image,
     video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .i-upload-file-name {
-      max-width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      font-size: 0.8em;
-      padding-inline: 4px;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 0.8em;
     }
     .i-upload-delete {
-      font-size: 0.72em;
-      position: absolute;
-      background-color: var(--error);
-      color: #fff;
-      &:hover {
+        font-size: 0.72em;
+        position: absolute;
         background-color: var(--error);
         color: #fff;
-      }
+        &:hover {
+            background-color: var(--error);
+            color: #fff;
+        }
     }
     &:hover {
-      .i-upload-delete {
-        opacity: 1;
-      }
+        .i-upload-delete {
+            opacity: 1;
+        }
+        .i-upload-tip {
+            opacity: 1;
+        }
     }
-  }
-  .i-upload-size {
+}
+.i-upload-size {
     font-size: 0.8em;
     color: var(--color-6);
-  }
-  .i-upload-item-dragged {
+}
+.i-upload-item-dragged {
     z-index: 1000;
-  }
+}
+
+.i-upload-tip {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, 0.5em);
+    z-index: 1;
+    background: var(--background-opacity);
+    border-radius: var(--radius);
+    backdrop-filter: var(--blur);
+    box-shadow: var(--shadow);
+    font-size: 0.86em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
+    white-space: pre;
+}
+
+.i-upload-dropbox {
+    width: 100%;
+    border: 2px dashed var(--color-5);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--color-5);
+    padding: 1em;
+
+    &:hover {
+        border-color: var(--color-main);
+        color: var(--color-main);
+    }
+}
+.i-upload-dropbox-active {
+    border-color: var(--color-main);
+    background: var(--background-opacity-1);
+    color: var(--color-main);
+}

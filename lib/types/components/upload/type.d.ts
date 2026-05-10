@@ -1,11 +1,9 @@
-import { InputHTMLAttributes, RefObject, ReactNode, ChangeEvent } from 'react';
+import { InputHTMLAttributes, ReactNode, ChangeEvent } from 'react';
 import { BaseInput } from '../../type/index.js';
 import { IButton } from '../button/type.js';
 
 interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
-    ref?: RefObject<RefUpload | null>;
     files?: IFile[];
-    initialFiles?: IFile[] | File[];
     accept?: string;
     multiple?: boolean;
     directory?: boolean;
@@ -13,6 +11,7 @@ interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLI
     sortable?: boolean;
     mode?: "default" | "card";
     droppable?: boolean;
+    dropbox?: (dragging?: boolean) => ReactNode;
     cardSize?: string;
     defaultButtonProps?: IButton;
     shouldUpload?: (file: IFile) => boolean;
@@ -29,9 +28,5 @@ interface IFile extends File {
     url?: string;
     [key: string]: any;
 }
-interface RefUpload {
-    getFileList: () => IFile[];
-    setFileList: (files?: IFile[] | File[]) => void;
-}
 
-export type { IFile, IUpload, RefUpload };
+export type { IFile, IUpload };

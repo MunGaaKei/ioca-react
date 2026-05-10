@@ -2,15 +2,21 @@ import { Upload } from "@p";
 import { Link } from "react-router";
 
 export const DBasic = {
-	demo: <Upload />,
-	code: `<Upload />`,
-	lang: "xml",
+    demo: <Upload />,
+    code: `<Upload />`,
+    lang: "xml",
 };
 
 export const DUploadCard = {
-	demo: <Upload mode='card' limit={3} multiple sortable />,
-	code: `<Upload mode='card' limit={3} multiple sortable />`,
-	lang: "xml",
+    demo: <Upload mode="card" limit={3} multiple sortable />,
+    code: `<Upload mode='card' limit={3} multiple sortable />`,
+    lang: "xml",
+};
+
+export const DUploadDrop = {
+    demo: <Upload mode="card" limit={3} multiple droppable />,
+    code: `<Upload mode='card' limit={3} multiple droppable />`,
+    lang: "xml",
 };
 
 export const PFile = `interface IFile extends File {
@@ -24,110 +30,108 @@ export const PFile = `interface IFile extends File {
 }
 `;
 
-export const PRefFile = `interface RefUpload {
-	getFileList: () => IFile[];
-
-	setFileList: (files?: IFile[] | File[]) => void;
-}
-`;
-
 export const PUpload = [
-	{
-		name: "files",
-		desc: "文件列表",
-		type: [
-			<a href='#ifile' className='blue'>
-				IFile[]
-			</a>,
-		],
-	},
-	{
-		name: "accept",
-		desc: "接受文件类型",
-		type: ["string"],
-	},
-	{
-		name: "multiple",
-		desc: "可选择多文件",
-		type: ["boolean"],
-		def: "false",
-	},
-	{
-		name: "directory",
-		desc: "选择文件夹",
-		type: ["boolean"],
-		def: "false",
-	},
-	{
-		name: "limit",
-		desc: "多选时，最多可选多少个文件",
-		type: ["number"],
-	},
-	{
-		name: "mode",
-		desc: "显示模式",
-		type: ["'default'", "'card'"],
-		def: "'default'",
-	},
-	{
-		name: "sortable",
-		desc: "上传子项支持排序",
-		type: ["boolean"],
-	},
-	{
-		name: "droppable",
-		desc: "可以通过拖动上传",
-		type: ["boolean"],
-		def: "false",
-	},
-	{
-		name: "cardSize",
-		desc: "卡片模式下，卡片大小",
-		type: ["string"],
-	},
-	{
-		name: "defaultButtonProps",
-		desc: "默认上传按钮属性",
-		type: [
-			<Link className='link' to='/docs/button#button'>
-				IButton
-			</Link>,
-		],
-	},
-	{
-		name: "renderItem",
-		desc: "渲染文件列表项，如果使用了 sortable 属性，请保证返回的元素有 ref 属性",
-		type: ["(file: IFile, index: number) => ReactNode"],
-	},
-	{
-		name: "shouldUpload",
-		desc: "判断文件是否可以上传",
-		type: ["(file: IFile) => boolean"],
-		def: "() => true",
-	},
-	{
-		name: "uploader",
-		desc: "文件上传动作",
-		type: ["(file: IFile) => Promise<IFile>"],
-	},
-	{
-		name: "onUpload",
-		desc: "上传文件时触发",
-		type: ["(result: any[]) => void | Promise<any>"],
-		event: true,
-	},
-	{
-		name: "onFilesChange",
-		desc: "文件列表改变时触发",
-		type: [
-			"(files: IFile[], changed: IFile[], e: ChangeEvent<HTMLInputElement>) => void",
-		],
-		event: true,
-	},
-	{
-		name: "onRemove",
-		desc: "删除文件时触发",
-		type: ["(file: IFile) => void"],
-		event: true,
-	},
+    {
+        name: "files",
+        desc: "文件列表",
+        type: [
+            <a href="#ifile" className="blue">
+                IFile[]
+            </a>,
+        ],
+    },
+    {
+        name: "accept",
+        desc: "接受文件类型",
+        type: ["string"],
+    },
+    {
+        name: "multiple",
+        desc: "可选择多文件",
+        type: ["boolean"],
+        def: "false",
+    },
+    {
+        name: "directory",
+        desc: "选择文件夹",
+        type: ["boolean"],
+        def: "false",
+    },
+    {
+        name: "limit",
+        desc: "多选时，最多可选多少个文件",
+        type: ["number"],
+    },
+    {
+        name: "mode",
+        desc: "显示模式",
+        type: ["'default'", "'card'"],
+        def: "'default'",
+    },
+    {
+        name: "sortable",
+        desc: "上传子项支持排序",
+        type: ["boolean"],
+    },
+    {
+        name: "droppable",
+        desc: "可以通过拖动上传",
+        type: ["boolean"],
+        def: "false",
+    },
+    {
+        name: "dropbox",
+        desc: "自定义拖动上传区域",
+        type: ["(dragging?: boolean) => ReactNode"],
+    },
+    {
+        name: "cardSize",
+        desc: "卡片模式下，卡片大小",
+        type: ["string"],
+    },
+    {
+        name: "defaultButtonProps",
+        desc: "默认上传按钮属性",
+        type: [
+            <Link className="link" to="/docs/button#button">
+                IButton
+            </Link>,
+        ],
+    },
+    {
+        name: "renderItem",
+        desc: "渲染文件列表项，如果使用了 sortable 属性，请保证返回的元素有 ref 属性",
+        type: ["(file: IFile, index: number) => ReactNode"],
+    },
+    {
+        name: "shouldUpload",
+        desc: "判断文件是否可以上传",
+        type: ["(file: IFile) => boolean"],
+        def: "() => true",
+    },
+    {
+        name: "uploader",
+        desc: "文件上传动作",
+        type: ["(file: IFile) => Promise<IFile>"],
+    },
+    {
+        name: "onUpload",
+        desc: "上传文件时触发",
+        type: ["(result: any[]) => void | Promise<any>"],
+        event: true,
+    },
+    {
+        name: "onFilesChange",
+        desc: "文件列表改变时触发",
+        type: [
+            "(files: IFile[], changed: IFile[], e: ChangeEvent<HTMLInputElement>) => void",
+        ],
+        event: true,
+    },
+    {
+        name: "onRemove",
+        desc: "删除文件时触发",
+        type: ["(file: IFile) => void"],
+        event: true,
+    },
 ];

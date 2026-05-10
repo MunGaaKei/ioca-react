@@ -1,6 +1,5 @@
-import { ListAltRound } from "@ricons/material";
-import { title } from "radash";
-import { RefObject } from "react";
+import { FilePresentOutlined } from "@ricons/material";
+import { memo, MouseEvent, RefObject, useCallback, useMemo } from "react";
 import SortableContainer from "react-easy-sort";
 import { TFileType } from "../../js/usePreview/type";
 import { formatBytes, getFileType } from "../../js/utils";
@@ -9,112 +8,131 @@ import Image from "../image";
 import Helpericon from "../utils/helpericon";
 import { IUploadItem } from "./type";
 
-export const ListContainer = (props) => {
-	const { sortable, onSortEnd, itemProps, ...restProps } = props;
-	const customProps = {
-		className: "i-upload-list",
-		onClick: (e) => {
-			e.stopPropagation();
-			e.preventDefault();
-		},
-	};
+interface ListContainerProps {
+    sortable?: boolean;
+    onSortEnd: (oldIndex: number, newIndex: number) => void;
+    [key: string]: any;
+}
 
-	if (!sortable) {
-		return <div {...customProps} {...restProps} />;
-	}
-	return (
-		<SortableContainer
-			draggedItemClassName='i-upload-item-dragged'
-			onSortEnd={onSortEnd}
-			{...customProps}
-			{...restProps}
-		/>
-	);
-};
+export const ListContainer = memo((props: ListContainerProps) => {
+    const { sortable, onSortEnd, children, ...restProps } = props;
 
-const FileListItem = (
-	props: IUploadItem & { ref?: RefObject<HTMLDivElement | null> }
-) => {
-	const { ref, mode, index, file, renderItem, onRemove, onPreview } = props;
+    if (!sortable) {
+        return (
+            <div
+                className="i-upload-list"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }}
+                {...restProps}
+            >
+                {children}
+            </div>
+        );
+    }
+    return (
+        <SortableContainer
+            draggedItemClassName="i-upload-item-dragged"
+            onSortEnd={onSortEnd}
+            className="i-upload-list"
+            {...restProps}
+        >
+            {children}
+        </SortableContainer>
+    );
+});
 
-	if (!file) return "";
+const CloseBtn = memo(
+    ({ index, onRemove }: { index: number; onRemove: (i: number) => void }) => (
+        <Helpericon
+            active
+            className="i-upload-delete"
+            onClick={(e: MouseEvent<HTMLElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                onRemove(index);
+            }}
+        />
+    ),
+);
 
-	const { id, name, size, url, src } = file;
-	const type = getFileType(name, file.type);
+const FileListItem = memo(
+    (props: IUploadItem & { ref?: RefObject<HTMLDivElement | null> }) => {
+        const { ref, mode, index, file, renderItem, onRemove, onPreview } =
+            props;
 
-	if (renderItem) {
-		return renderItem(file, index);
-	}
+        if (!file) return null;
 
-	const CloseBtn = (
-		<Helpericon
-			active
-			className='i-upload-delete'
-			onClick={(e) => {
-				e.stopPropagation();
-				e.preventDefault();
-				onRemove(index);
-			}}
-		/>
-	);
+        const { name, size, url, src } = file;
+        const type = getFileType(name, file.type);
 
-	switch (mode) {
-		case "card":
-			let node = <></>;
+        const handleClick = useCallback(() => {
+            onPreview?.(index);
+        }, [onPreview, index]);
 
-			switch (type) {
-				case TFileType.IMAGE:
-					node = (
-						<Image
-							lazyload
-							src={url || src}
-							fit='cover'
-							onMouseDown={(e) => e.preventDefault()}
-						/>
-					);
-					break;
-				case TFileType.VIDEO:
-					node = <video src={url || src} preload='none' />;
-					break;
-				default:
-					node = (
-						<>
-							<Icon icon={<ListAltRound />} />
-							<span className='i-upload-file-name'>
-								{title(name)}
-							</span>
-						</>
-					);
-					break;
-			}
+        if (renderItem) {
+            return renderItem(file, index);
+        }
 
-			return (
-				<div
-					ref={ref}
-					title={name}
-					className='i-upload-item-card'
-					onClick={() => onPreview?.(index)}
-				>
-					{node}
-					{CloseBtn}
-				</div>
-			);
-		default:
-			return (
-				<div
-					ref={ref}
-					key={id}
-					className='i-upload-item'
-					onClick={() => onPreview?.(index)}
-				>
-					<span>{name}</span>
+        const node = useMemo(() => {
+            switch (type) {
+                case TFileType.IMAGE:
+                    return (
+                        <Image
+                            lazyload
+                            src={url || src}
+                            fit="cover"
+                            onMouseDown={(e: MouseEvent<HTMLImageElement>) =>
+                                e.preventDefault()
+                            }
+                        />
+                    );
+                case TFileType.VIDEO:
+                    return <video src={url || src} preload="none" />;
+                default:
+                    return (
+                        <>
+                            <Icon icon={<FilePresentOutlined />} size="1.5em" />
+                            <span className="i-upload-file-name">{name}</span>
+                        </>
+                    );
+            }
+        }, [type, url, src, name]);
 
-					<i className='i-upload-size'>{formatBytes(size ?? 0)}</i>
-
-					{CloseBtn}
-				</div>
-			);
-	}
-};
+        switch (mode) {
+            case "card":
+                return (
+                    <div
+                        ref={ref}
+                        className="i-upload-item-card"
+                        onClick={handleClick}
+                    >
+                        {node}
+                        <CloseBtn index={index} onRemove={onRemove} />
+                        {name && (
+                            <span className="px-12 py-8 i-upload-tip">
+                                {name}
+                            </span>
+                        )}
+                    </div>
+                );
+            default:
+                return (
+                    <div
+                        ref={ref}
+                        className="i-upload-item"
+                        onClick={handleClick}
+                    >
+                        <span>{name}</span>
+                        <i className="i-upload-size">
+                            {formatBytes(size ?? 0)}
+                        </i>
+                        <CloseBtn index={index} onRemove={onRemove} />
+                    </div>
+                );
+        }
+    },
+);
 
 export default FileListItem;
