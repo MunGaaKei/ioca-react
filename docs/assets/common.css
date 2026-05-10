@@ -24,6 +24,7 @@
 
 html body {
 	font-family: "NunitoSans_10pt";
+	scrollbar-width: 0;
 }
 
 .apis {
@@ -35,5 +36,34 @@ html body {
 .i-drawer {
 	.i-tree {
 		min-width: 240px;
+	}
+}
+
+.g-menus {
+	width: 240px;
+	height: 100vh;
+	position: sticky;
+	top: 0;
+	flex-shrink: 0;
+	overflow: auto;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.g-menus::-webkit-scrollbar {
+	display: none;
+}
+
+.g-content {
+	min-width: 0;
+	flex: 1;
+	margin: 60px auto 0;
+	padding: 0 12px;
+	max-width: 1000px;
+}
+
+@media (max-width: 799px) {
+	.g-menus {
+		display: none;
 	}
 }

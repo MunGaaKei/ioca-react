@@ -2,85 +2,73 @@ import { Button, Datagrid, Icon, Tag } from "@p";
 import { IColumn } from "@p/components/datagrid/type";
 import { FemaleRound, MaleRound, PhoneAndroidRound } from "@ricons/material";
 import { mock } from "mockjs";
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+
+const columns = [
+	{
+		id: "id",
+		width: 40,
+		render: (a, b, index) => index,
+	},
+	{
+		id: "name",
+		fixed: "left",
+	},
+	{
+		id: "email",
+	},
+	{
+		id: "phone",
+		title: (
+			<>
+				Phone
+				<Icon icon={<PhoneAndroidRound />} size='1em' />
+			</>
+		),
+	},
+	{
+		id: "gender",
+		justify: "center",
+		sorter: true,
+		render: (value: number) => {
+			return value > 0 ? (
+				<Icon icon={<MaleRound />} className='blue' size='1.2em' />
+			) : (
+				<Icon icon={<FemaleRound />} className='pink' size='1.2em' />
+			);
+		},
+	},
+	{
+		id: "birth",
+		title: "Birth",
+		sorter: (a, b) =>
+			new Date(b.birth).getTime() - new Date(a.birth).getTime(),
+	},
+	{
+		id: "address",
+		title: "Address",
+	},
+	{
+		id: "active",
+		justify: "center",
+		render: (value: boolean) => {
+			return value ? (
+				<Tag className='bg-blue'>是</Tag>
+			) : (
+				<Tag className='bg-grey'>否</Tag>
+			);
+		},
+	},
+	{
+		id: "action",
+		fixed: "right",
+		justify: "center",
+		render: () => <Button size='small'>操作</Button>,
+	},
+] as IColumn[];
 
 export const DBasic = {
 	demo: () => {
-		const columns = [
-			{
-				id: "id",
-				width: 40,
-				render: (a, b, index) => index,
-			},
-			{
-				id: "name",
-				fixed: "left",
-			},
-			{
-				id: "email",
-			},
-			{
-				id: "phone",
-				title: (
-					<>
-						Phone
-						<Icon icon={<PhoneAndroidRound />} size='1em' />
-					</>
-				),
-			},
-			{
-				id: "gender",
-				justify: "center",
-				sorter: true,
-				render: (value: number) => {
-					return value > 0 ? (
-						<Icon
-							icon={<MaleRound />}
-							className='blue'
-							size='1.2em'
-						/>
-					) : (
-						<Icon
-							icon={<FemaleRound />}
-							className='pink'
-							size='1.2em'
-						/>
-					);
-				},
-			},
-			{
-				id: "birth",
-				title: "Birth",
-				sorter: (a, b) =>
-					new Date(b.birth).getTime() - new Date(a.birth).getTime(),
-			},
-			{
-				id: "address",
-				title: "Address",
-			},
-			{
-				id: "active",
-				justify: "center",
-				render: (value: boolean) => {
-					return value ? (
-						<Tag className='bg-blue'>是</Tag>
-					) : (
-						<Tag className='bg-black-0'>否</Tag>
-					);
-				},
-			},
-			{
-				id: "action",
-				fixed: "right",
-				justify: "center",
-				render: () => (
-					<Button className='bg-grey' size='small'>
-						操作
-					</Button>
-				),
-			},
-		] as IColumn[];
-
 		const { list } = useMemo(
 			() =>
 				mock({
@@ -96,7 +84,7 @@ export const DBasic = {
 						},
 					],
 				}),
-			[]
+			[],
 		);
 
 		return (
@@ -157,6 +145,124 @@ return (
     />
 );
     `,
+	lang: "javascript",
+};
+
+export const DVirtual = {
+	demo: () => {
+		const pageSize = 40;
+		const max = 5000;
+
+		const createRows = useCallback((count: number, start: number) => {
+			return Array.from({ length: count }).map((_, i) => {
+				const row = mock({
+					name: "@cname",
+					email: "@email",
+					phone: /^1[385][1-9]\d{8}/,
+					"gender|0-1": 0,
+					birth: "@date",
+					address: "@county(true)",
+					active: "@boolean",
+				}) as any;
+				row.id = start + i + 1;
+				return row;
+			});
+		}, []);
+
+		const [list, setList] = useState<any[]>(() => createRows(pageSize, 0));
+		const loadingMoreRef = useRef(false);
+		const hasMore = list.length < max;
+
+		const append = useCallback(() => {
+			if (loadingMoreRef.current) return;
+			if (!hasMore) return;
+
+			loadingMoreRef.current = true;
+			setTimeout(() => {
+				setList((prev) => {
+					const remain = max - prev.length;
+					const nextCount = Math.min(pageSize, remain);
+					if (nextCount <= 0) return prev;
+					return [...prev, ...createRows(nextCount, prev.length)];
+				});
+				loadingMoreRef.current = false;
+			}, 1000);
+		}, [createRows, hasMore]);
+
+		return (
+			<Datagrid
+				data={list}
+				columns={columns}
+				resizable
+				border
+				cellEllipsis
+				height={400}
+				virtual={{
+					rowHeight: 40,
+					hasMore,
+					threshold: 8,
+					pageSize,
+					onReachEnd: append,
+				}}
+			/>
+		);
+	},
+	code: `const pageSize = 40;
+const max = 5000;
+
+const createRows = useCallback((count: number, start: number) => {
+	return Array.from({ length: count }).map((_, i) => {
+		const row = mock({
+			name: "@cname",
+			email: "@email",
+			phone: /^1[385][1-9]\d{8}/,
+			"gender|0-1": 0,
+			birth: "@date",
+			address: "@county(true)",
+			active: "@boolean",
+		}) as any;
+		row.id = start + i + 1;
+		return row;
+	});
+}, []);
+
+const [list, setList] = useState<any[]>(() => createRows(pageSize, 0));
+const loadingMoreRef = useRef(false);
+const hasMore = list.length < max;
+
+const append = useCallback(() => {
+	if (loadingMoreRef.current) return;
+	if (!hasMore) return;
+
+	loadingMoreRef.current = true;
+	setTimeout(() => {
+		setList((prev) => {
+			const remain = max - prev.length;
+			const nextCount = Math.min(pageSize, remain);
+			if (nextCount <= 0) return prev;
+			return [...prev, ...createRows(nextCount, prev.length)];
+		});
+		loadingMoreRef.current = false;
+	}, 1000);
+}, [createRows, hasMore]);
+
+return (
+	<Datagrid
+		data={list}
+		columns={columns}
+		resizable
+		border
+		cellEllipsis
+		height={400}
+		virtual={{
+			rowHeight: 40,
+			hasMore,
+			threshold: 8,
+			pageSize,
+			onReachEnd: append,
+		}}
+	/>
+);`,
 	lang: "javascript",
 };
 
@@ -228,6 +334,27 @@ export const PDatagrid = [
 		desc: "表格最大高度，内容超出时显示滚动条",
 		type: ["string", "number"],
 		def: "'unset'",
+	},
+	{
+		name: "virtual",
+		desc: "虚拟滚动配置；启用后在接近底部时通过 virtual.onReachEnd 触发加载更多数据",
+		type: [
+			<div style={{ whiteSpace: "pre", fontFamily: "monospace" }}>
+				{"{\n  "}
+				<span className='blue'>rowHeight</span>
+				{": number;\n  "}
+				<span className='blue'>hasMore</span>
+				{"?: boolean;\n  "}
+				<span className='blue'>threshold</span>
+				{"?: number;\n  "}
+				<span className='blue'>pageSize</span>
+				{"?: number;\n  "}
+				<span className='blue'>loader</span>
+				{"?: ReactNode;\n  "}
+				<span className='blue'>onReachEnd</span>
+				{"?: () => void;\n}"}
+			</div>,
+		],
 	},
 	{
 		name: "renderLoading",

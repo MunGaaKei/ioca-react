@@ -5,27 +5,34 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import dts from "rollup-plugin-dts";
 import external from "rollup-plugin-peer-deps-external";
-import scss from "rollup-plugin-scss";
+import postcss from "rollup-plugin-postcss";
 
 const externals = [
 	"react",
 	"react-dom",
-	"react-router",
-	"react-easy-sort",
 	"react/jsx-runtime",
-	"@types/react",
+	"react-router",
+
+	"@rc-component/color-picker",
+	"@ricons/material",
 	"classnames",
 	"dayjs",
-	"@rc-component/color-picker",
+	"highlight-words-core",
+	"pubsub-js",
+	"radash",
+	"react-easy-sort",
+	"react-window",
 	"xss",
+
 	/node_modules/,
 ];
 
 const input = "./packages/index.ts";
+
 const plugins = [
 	external(),
 	resolve({
-		extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
+		extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css"],
 		preferBuiltins: true,
 		moduleDirectories: ["node_modules"],
 	}),
@@ -56,6 +63,7 @@ const copyCssAssets = () => ({
 	async generateBundle() {
 		const outDir = path.join(process.cwd(), "lib", "css");
 		await fs.mkdir(outDir, { recursive: true });
+
 		const files = [
 			"tokens.css",
 			"reset.css",
@@ -63,13 +71,14 @@ const copyCssAssets = () => ({
 			"colors.css",
 			"input.css",
 		];
+
 		await Promise.all(
 			files.map((file) =>
 				fs.copyFile(
 					path.join(process.cwd(), "packages", "css", file),
-					path.join(outDir, file)
-				)
-			)
+					path.join(outDir, file),
+				),
+			),
 		);
 	},
 });
@@ -85,15 +94,17 @@ export default [
 		external: externals,
 		plugins: [
 			...plugins,
-			scss({
-				fileName: "css/index.css",
+			postcss({
+				extract: "css/index.css",
+				minimize: true,
 				sourceMap: true,
-				outputStyle: "compressed",
-				silenceDeprecations: ["legacy-js-api"],
+				extensions: [".css"],
 			}),
 			copyCssAssets(),
 		],
 	},
+
+	// JS 打包：ESM + CJS
 	{
 		input,
 		output: [
@@ -120,9 +131,14 @@ export default [
 		external: externals,
 		plugins: [
 			...plugins,
-			scss({ output: false, silenceDeprecations: ["legacy-js-api"] }),
+			postcss({
+				inject: false,
+				extract: false,
+				extensions: [".css"],
+			}),
 		],
 	},
+
 	// 类型声明文件
 	{
 		input,
@@ -132,9 +148,8 @@ export default [
 			preserveModulesRoot: "packages",
 		},
 		onwarn,
-		external: [...externals, /\.scss$/, /\.css$/],
+		external: [...externals, /\.css$/],
 		plugins: [
-			scss({ output: false, silenceDeprecations: ["legacy-js-api"] }),
 			dts({
 				respectExternal: true,
 				compilerOptions: {

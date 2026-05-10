@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties, MouseEvent } from 'react';
+import { ReactNode, Key, CSSProperties, MouseEvent } from 'react';
 
 type IData = Record<string, any>;
 interface IColumn {
@@ -16,6 +16,7 @@ interface IColumn {
 interface IDatagrid {
     data: IData[];
     columns?: IColumn[];
+    rowKey?: string | ((row: IData, index: number) => Key);
     border?: boolean;
     striped?: boolean;
     header?: boolean;
@@ -27,6 +28,14 @@ interface IDatagrid {
     height?: number | string;
     style?: CSSProperties;
     className?: string;
+    virtual?: {
+        rowHeight: number;
+        hasMore?: boolean;
+        threshold?: number;
+        pageSize?: number;
+        loader?: ReactNode;
+        onReachEnd?: () => void;
+    };
     renderLoading?: () => ReactNode;
     onRowClick?: (data?: IData, row?: number) => void;
     onCellClick?: (data?: IData, column?: IColumn, row?: number, col?: number, e?: MouseEvent) => void;

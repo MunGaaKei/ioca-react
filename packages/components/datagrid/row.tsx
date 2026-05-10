@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { useCallback, useMemo } from "react";
 import { Cell, getCellStyle } from "./cell";
 import Resize from "./resize";
 import Sorter from "./sorter";
@@ -15,8 +16,12 @@ export default function Row(props: IRow) {
 		onCellDoubleClick,
 	} = props;
 
+	const handleRowClick = useCallback(() => {
+		onRowClick?.(data, row);
+	}, [data, onRowClick, row]);
+
 	return (
-		<div className='i-datagrid-row' onClick={() => onRowClick?.(data, row)}>
+		<div className='i-datagrid-row' onClick={handleRowClick}>
 			{columns.map((col, i) => (
 				<Cell
 					key={i}
@@ -44,8 +49,25 @@ export function Header(props: IHeader) {
 		onHeaderClick,
 	} = props;
 
+	const columnById = useMemo(() => {
+		const map = new Map<string, IHeader["columns"][number]>();
+		columns.forEach((c) => map.set(c.id, c));
+		return map;
+	}, [columns]);
+
+	const handleClick = useCallback(
+		(e: any) => {
+			const el = (e.target as HTMLElement | null)?.closest?.(
+				".i-datagrid-cell[data-col]",
+			) as HTMLElement | null;
+			const id = el?.dataset?.col;
+			onHeaderClick?.(id ? columnById.get(id) : undefined, e);
+		},
+		[columnById, onHeaderClick],
+	);
+
 	return (
-		<div className='i-datagrid-header i-datagrid-row'>
+		<div className='i-datagrid-header i-datagrid-row' onClick={handleClick}>
 			{columns.map((column, col) => {
 				const {
 					id,
@@ -74,7 +96,6 @@ export function Header(props: IHeader) {
 							"i-datagrid-cell-fixed": fixed,
 						})}
 						style={{ ...style, insetBlockStart: 0 }}
-						onClick={(e) => onHeaderClick?.(column, e)}
 					>
 						{renderHeader?.(column, col) ?? (
 							<div
@@ -83,7 +104,7 @@ export function Header(props: IHeader) {
 									{
 										"i-datagrid-cell-content-ellipsis":
 											cellEllipsis,
-									}
+									},
 								)}
 							>
 								{title || id}

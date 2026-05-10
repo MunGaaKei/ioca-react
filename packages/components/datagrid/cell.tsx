@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { useCallback, useMemo } from "react";
 import { ICell, IColumn } from "./type";
 
 export function getCellStyle({
@@ -36,7 +37,19 @@ export function Cell(props: ICell) {
 		onCellDoubleClick,
 	} = props;
 	const { id, fixed, justify, rowSpan, render } = column;
-	const style = getCellStyle({ justify, fixed, col, row, rowSpan });
+	const style = useMemo(
+		() => getCellStyle({ justify, fixed, col, row, rowSpan }),
+		[col, fixed, justify, row, rowSpan],
+	);
+
+	const handleClick = useCallback(
+		(e: any) => onCellClick?.(data, column, row, col, e),
+		[col, column, data, onCellClick, row],
+	);
+	const handleDoubleClick = useCallback(
+		(e: any) => onCellDoubleClick?.(data, column, row, col, e),
+		[col, column, data, onCellDoubleClick, row],
+	);
 
 	return (
 		<div
@@ -45,10 +58,8 @@ export function Cell(props: ICell) {
 			})}
 			data-col={id}
 			style={style}
-			onClick={(e) => onCellClick?.(data, column, row, col, e)}
-			onDoubleClick={(e) =>
-				onCellDoubleClick?.(data, column, row, col, e)
-			}
+			onClick={handleClick}
+			onDoubleClick={handleDoubleClick}
 		>
 			{render?.(data[id], data, row, col) ?? (
 				<div

@@ -5,6 +5,9 @@
 	flex: 1;
 	border: 1px solid var(--color-9);
 	overflow: hidden;
+	pre {
+		min-height: 2.25em;
+	}
 	code {
 		background: unset;
 	}

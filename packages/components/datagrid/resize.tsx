@@ -1,6 +1,16 @@
+import { memo, useCallback, useEffect, useRef } from "react";
 import { useMouseMove, useMouseUp, useReactive } from "../../js/hooks";
 
-export default function Resize(props) {
+type ResizeProps = {
+	index: number;
+	onWidthChange: (
+		index: number,
+		width: number,
+		phase?: "preview" | "commit",
+	) => void;
+};
+
+const Resize = memo(function Resize(props: ResizeProps) {
 	const { index, onWidthChange } = props;
 	const state = useReactive({
 		resizing: false,
@@ -8,7 +18,31 @@ export default function Resize(props) {
 		width: 0,
 	});
 
-	const handleMouseDown = (e) => {
+	const rafId = useRef<number | null>(null);
+	const nextWidth = useRef<number | null>(null);
+
+	useEffect(() => {
+		return () => {
+			if (rafId.current != null) cancelAnimationFrame(rafId.current);
+		};
+	}, []);
+
+	const flush = useCallback(() => {
+		rafId.current = null;
+		if (nextWidth.current == null) return;
+		onWidthChange(index, nextWidth.current, "preview");
+	}, [index, onWidthChange]);
+
+	const schedule = useCallback(
+		(w: number) => {
+			nextWidth.current = w;
+			if (rafId.current != null) return;
+			rafId.current = requestAnimationFrame(flush);
+		},
+		[flush],
+	);
+
+	const handleMouseDown = (e: any) => {
 		const tar = e.target as HTMLElement;
 		const width = (tar.offsetParent as HTMLElement).offsetWidth;
 
@@ -19,22 +53,30 @@ export default function Resize(props) {
 		});
 	};
 
-	const handleMouseMove = (e) => {
-		if (!state.resizing) return;
+	const handleMouseMove = useCallback(
+		(e: any) => {
+			if (!state.resizing) return;
 
-		e.preventDefault();
+			e.preventDefault();
 
-		const after = state.width + e.pageX - state.x;
-		if (after <= 24) return;
+			const after = state.width + e.pageX - state.x;
+			if (after <= 24) return;
 
-		onWidthChange(index, after);
-	};
+			schedule(after);
+		},
+		[index, schedule, state],
+	);
 
-	const handleMouseUp = () => {
+	const handleMouseUp = useCallback(() => {
 		if (!state.resizing) return;
 
 		state.resizing = false;
-	};
+		const w = nextWidth.current;
+		if (rafId.current != null) cancelAnimationFrame(rafId.current);
+		rafId.current = null;
+		if (w != null) onWidthChange(index, w, "commit");
+		nextWidth.current = null;
+	}, [index, onWidthChange, state]);
 
 	useMouseMove(handleMouseMove);
 	useMouseUp(handleMouseUp);
@@ -46,4 +88,6 @@ export default function Resize(props) {
 			onClick={(e) => e.stopPropagation()}
 		/>
 	);
-}
+});
+
+export default Resize;

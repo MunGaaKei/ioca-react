@@ -1,11 +1,11 @@
 import { name } from "@/package.json";
 
 export const PInstall = `npm install ${name}
-// or yarn add ${name}
 `;
 
-export const Cimport = `import { Button } from '${name}'
-import '${name}/index.css'
+export const Cimport = `import '${name}/index.css'
+
+import { Button } from '${name}'
 
 const App = () => {
 	return <Button>Hello 👋</Button>
