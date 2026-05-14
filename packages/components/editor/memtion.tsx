@@ -1,6 +1,7 @@
-import { memo, ReactNode } from "react";
+import { memo, ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { renderToStaticMarkup } from "react-dom/server";
+import { getPosition } from "../../js/utils";
 import List from "../list";
 import { IEditorMemtion, IEditorMemtionOption } from "./type";
 
@@ -353,9 +354,55 @@ export const removeAdjacentMemtionTag = (
     return true;
 };
 
+const makeRectSource = (rect: DOMRect): HTMLElement => {
+    const { left, top, width, height } = rect;
+
+    return {
+        offsetParent: null,
+        offsetLeft: left,
+        offsetTop: top,
+        getBoundingClientRect: () => ({
+            left,
+            top,
+            right: left + width,
+            bottom: top + height,
+            width,
+            height,
+            x: left,
+            y: top,
+            toJSON: () => ({}),
+        }),
+    } as HTMLElement;
+};
+
 const Memtion = (props: IMemtionProps) => {
     const { visible, rect, options, activeIndex, onActiveChange, onSelect } =
         props;
+
+    const containerRef = useRef<HTMLUListElement | null>(null);
+    const [pos, setPos] = useState({ left: 0, top: 0 });
+    const [ready, setReady] = useState(false);
+
+    useLayoutEffect(() => {
+        if (!visible || !rect || !options?.length) {
+            setReady(false);
+            return;
+        }
+
+        const el = containerRef.current;
+        if (!el) return;
+
+        const [left, top] = getPosition(makeRectSource(rect), el, {
+            position: "bottom",
+            gap: 4,
+            offset: 0,
+            align: "start",
+            refWindow: true,
+        });
+
+        setPos({ left, top });
+        setReady(true);
+    }, [visible, rect, options]);
 
     if (!visible || !rect || !options?.length) {
         return null;
@@ -363,12 +410,14 @@ const Memtion = (props: IMemtionProps) => {
 
     const content = (
         <List
+            ref={containerRef}
             className="i-editor-memtion"
             type="option"
             style={{
                 position: "fixed",
-                top: rect.bottom,
-                left: rect.left,
+                left: pos.left,
+                top: pos.top,
+                opacity: ready ? 1 : 0,
             }}
         >
             {options.map((option, i) => (

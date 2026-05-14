@@ -85,6 +85,11 @@ export const PUpload = [
         type: ["(dragging?: boolean) => ReactNode"],
     },
     {
+        name: "getDropboxContainer",
+        desc: "指定拖拽上传区域的挂载容器节点，将 Dropbox 渲染到组件外部",
+        type: ["() => HTMLElement"],
+    },
+    {
         name: "cardSize",
         desc: "卡片模式下，卡片大小",
         type: ["string"],

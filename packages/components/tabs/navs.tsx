@@ -16,7 +16,7 @@ interface ITabsNavsProps {
     bar?: boolean;
     barClass?: string;
     barStyle?: CSSProperties;
-    navsRef: RefObject<HTMLDivElement>;
+    navsRef: RefObject<HTMLDivElement | null>;
     renderMore: (moreTabs: ITabItem[]) => ReactNode;
     setNavRef: (index: number, node: HTMLAnchorElement | null) => void;
     onOpen: (key: string) => void;

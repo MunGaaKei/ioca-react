@@ -1,4 +1,5 @@
 import ColorsPanel from "@rc-component/color-picker";
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import InputContainer from "../../input/container";
 import Popup from "../../popup";
@@ -20,6 +21,8 @@ export default function ColorPicker(props: IColorPicker) {
         onChange,
         label,
         required,
+        className,
+        style,
         ...restProps
     } = props;
 
@@ -86,7 +89,12 @@ export default function ColorPicker(props: IColorPicker) {
     }
 
     return (
-        <InputContainer label={label} required={required}>
+        <InputContainer
+            label={label}
+            required={required}
+            className={classNames("i-colorpicker", className)}
+            style={style}
+        >
             <Popup
                 trigger="click"
                 touchable
@@ -118,13 +126,15 @@ export default function ColorPicker(props: IColorPicker) {
                 }
                 onVisibleChange={handleVisibleChange}
             >
-                {children ?? (
-                    <Handle
-                        color={value}
-                        handle={handle}
-                        placeholder={placeholder}
-                    />
-                )}
+                {typeof children === "function"
+                    ? children({ type: colorType, value: colorValue })
+                    : (children ?? (
+                        <Handle
+                            color={value}
+                            handle={handle}
+                            placeholder={placeholder}
+                        />
+                    ))}
             </Popup>
         </InputContainer>
     );

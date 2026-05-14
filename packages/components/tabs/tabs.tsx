@@ -301,7 +301,7 @@ const Tabs = ((props: ITabs) => {
     useEffect(() => {
         if (!navsRef.current || vertical) return;
 
-        const handleMouseWheel = (e) => {
+        const handleMouseWheel = (e: WheelEvent) => {
             e.stopPropagation();
             e.preventDefault();
 

@@ -178,6 +178,8 @@ const Editor = (props: IEditor) => {
     const handleKeyDown = (e) => {
         onKeyDown?.(e);
 
+        if (e.defaultPrevented) return;
+
         if (
             !isPlaintextMode &&
             (e.key === "Backspace" || e.key === "Delete") &&
@@ -236,6 +238,9 @@ const Editor = (props: IEditor) => {
                 );
                 break;
             case "Enter":
+                if (e.shiftKey) {
+                    break;
+                }
                 if (!onEnter) break;
                 e.preventDefault();
                 onEnter(e);

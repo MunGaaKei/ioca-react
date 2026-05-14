@@ -44,7 +44,7 @@ export interface RefTabs {
     open: (key: string) => void;
     close: (key: string) => void;
     add: (tab: ITabItem, position?: number) => void;
-    navs: RefObject<HTMLDivElement>;
+    navs: RefObject<HTMLDivElement | null>;
 }
 
 export interface CompositionTabs extends ForwardRefExoticComponent<ITabs> {

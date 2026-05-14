@@ -12,6 +12,7 @@ interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLI
     mode?: "default" | "card";
     droppable?: boolean;
     dropbox?: (dragging?: boolean) => ReactNode;
+    getDropboxContainer?: () => HTMLElement;
     cardSize?: string;
     defaultButtonProps?: IButton;
     shouldUpload?: (file: IFile) => boolean;

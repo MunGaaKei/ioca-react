@@ -10,6 +10,7 @@ import {
     useState,
 } from "react";
 import { SortableItem } from "react-easy-sort";
+import { createPortal } from "react-dom";
 import usePreview from "../../js/usePreview";
 import { TPreviewItem } from "../../js/usePreview/type";
 import { arrayMove } from "../../js/utils";
@@ -56,6 +57,7 @@ const Upload = (props: IUpload) => {
         children,
         droppable,
         dropbox,
+        getDropboxContainer,
         defaultButtonProps,
         mode = "default",
         cardSize = "3.2em",
@@ -287,15 +289,22 @@ const Upload = (props: IUpload) => {
 
                 {fileList.length < limit &&
                     (droppable ? (
-                        <Dropbox
-                            multiple={multiple}
-                            accept={restProps.accept}
-                            disabled={disabled}
-                            onChange={handleChange}
-                            onDropFiles={handleDropFiles}
-                        >
-                            {dropbox}
-                        </Dropbox>
+                        (() => {
+                            const node = (
+                                <Dropbox
+                                    multiple={multiple}
+                                    accept={restProps.accept}
+                                    disabled={disabled}
+                                    onChange={handleChange}
+                                    onDropFiles={handleDropFiles}
+                                >
+                                    {dropbox}
+                                </Dropbox>
+                            );
+                            return getDropboxContainer
+                                ? createPortal(node, getDropboxContainer())
+                                : node;
+                        })()
                     ) : (
                         <label>
                             <input

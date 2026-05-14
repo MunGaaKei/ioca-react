@@ -43,7 +43,7 @@ export interface IColorPicker extends Omit<
     label?: ReactNode;
     required?: boolean;
     type?: "HEX" | "RGB" | "HSB";
-    children?: ReactNode;
+    children?: ReactNode | ((params: { type: string; value: any }) => ReactNode);
     popupProps?: IPopup;
     usePanel?: boolean;
     handle?: "text" | "square" | "both";
