@@ -7,5 +7,5 @@ export interface IAffix extends HTMLAttributes<HTMLElement> {
 	right?: string | number;
 	bottom?: string | number;
 	offset?: number;
-	getContainer?: () => HTMLElement | null;
+	getContainer?: () => HTMLElement | Window | null;
 }

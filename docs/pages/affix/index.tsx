@@ -8,6 +8,9 @@ export default function Page() {
 			<h2 className='mb-40'>Affix</h2>
 			<h3>示例</h3>
 			<p className='color-5 mt-8'>页面滚动到一定位置会显示置顶按钮</p>
+			<p className='color-5 mt-8'>
+				通过 <code className="code">i-affix-target</code> 类标记需要根据滚动显隐的节点，未标记的节点始终可见
+			</p>
 			<Demo source={DBasic} />
 
 			<h3 className='mt-80 mb-20'>Api 参考</h3>

@@ -41,7 +41,7 @@ export default function Home() {
             >
                 <Image
                     src={themeDark ? logoReverse : logo}
-                    size={120}
+                    size={80}
                     className="mb-40"
                 />
                 <h1 className="home-title">
