@@ -31,21 +31,24 @@ export const DBasic = {
                     value={value}
                     onChange={setValue}
                     height={300}
-                    memtion={{
-                        options: [
-                            {
-                                label: "Ioca React",
-                                value: "@ioca-react",
-                            },
-                            {
-                                label: "Editor",
-                                value: "@editor",
-                            },
-                        ],
-                        insert: (option) => (
-                            <a className="blue px-4">{option.label}</a>
-                        ),
-                    }}
+                    memtion={[
+                        {
+                            key: "@",
+                            options: [
+                                {
+                                    label: "Ioca React",
+                                    value: "@ioca-react",
+                                },
+                                {
+                                    label: "Editor",
+                                    value: "@editor",
+                                },
+                            ],
+                            insert: (option) => (
+                                <a className="blue px-4">{option.label}</a>
+                            ),
+                        },
+                    ]}
                 />
             </>
         );
@@ -78,26 +81,29 @@ return (
 			value={value}
 			onChange={setValue}
 			height={300}
-			memtion={{
-				options: [
-					{
-						label: "Ioca React",
-						value: "@ioca-react",
-					},
-					{
-						label: "Editor",
-						value: "@editor",
-					},
-				],
-				insert: (option) => (
-					<span
-						className='bg-blue-subtle color-blue px-4 round-4'
-						data-value={option.value}
-					>
-						{option.label}
-					</span>
-				),
-			}}
+			memtion={[
+				{
+					key: "@",
+					options: [
+						{
+							label: "Ioca React",
+							value: "@ioca-react",
+						},
+						{
+							label: "Editor",
+							value: "@editor",
+						},
+					],
+					insert: (option) => (
+						<span
+							className='bg-blue-subtle color-blue px-4 round-4'
+							data-value={option.value}
+						>
+							{option.label}
+						</span>
+					),
+				},
+			]}
 		/>
 	</>
 );`,
@@ -147,9 +153,9 @@ export const PEditor = [
     },
     {
         name: "memtion",
-        desc: "提及配置，输入触发键后展示选项，选中后会在当前 selection 位置插入节点",
+        desc: "提及配置，输入触发键后展示选项，选中后会在当前 selection 位置插入节点。支持传入数组配置多个触发键，每个触发键可绑定独立的选项列表",
         type: [
-            "{ key?: string; options: Array<{ label: ReactNode; value: string | number }>; insert?: (option) => ReactNode }",
+            "IEditorMemtion[]",
         ],
     },
     {

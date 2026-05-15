@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import List from "../list";
 import Popup from "../popup";
 import "./index.css";
 import Item from "./item";
 import { IDropdown } from "./type";
+
+export const DropdownCloseCtx = createContext<(() => void) | null>(null);
 
 const Dropdown = (props: IDropdown) => {
 	const { visible, width, content, children, ...restProps } = props;
@@ -12,6 +14,8 @@ const Dropdown = (props: IDropdown) => {
 	if (!content) {
 		return children;
 	}
+
+	const close = () => setActive(false);
 
 	const handleVisibleChange = (v: boolean) => {
 		setActive(v);
@@ -29,14 +33,16 @@ const Dropdown = (props: IDropdown) => {
 			trigger='click'
 			position='bottom'
 			content={
-				<List
-					className='i-dropdown-content'
-					style={{ minWidth: width }}
-				>
-					{typeof content === "function"
-						? content(() => setActive(false))
-						: content}
-				</List>
+				<DropdownCloseCtx.Provider value={close}>
+					<List
+						className='i-dropdown-content'
+						style={{ minWidth: width }}
+					>
+						{typeof content === "function"
+							? content(close)
+							: content}
+					</List>
+				</DropdownCloseCtx.Provider>
 			}
 			{...restProps}
 			touchable

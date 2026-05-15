@@ -23,7 +23,7 @@ interface IEditor extends Omit<HTMLAttributes<HTMLDivElement>, "onInput" | "onCh
     mode?: "rich" | "plaintext" | "plaintextOnMemtion";
     hideControl?: boolean;
     addtionControls?: IEditorAddtionControl[];
-    memtion?: IEditorMemtion;
+    memtion?: IEditorMemtion[];
     border?: boolean;
     onChange?: (value: string, e: SyntheticEvent<HTMLDivElement>) => void;
     onEnter?: (e: KeyboardEvent<HTMLDivElement>) => void;

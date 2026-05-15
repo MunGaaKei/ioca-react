@@ -95,6 +95,11 @@ export const PUpload = [
         type: ["string"],
     },
     {
+        name: "icon",
+        desc: "图标",
+        type: ["ReactNode"],
+    },
+    {
         name: "defaultButtonProps",
         desc: "默认上传按钮属性",
         type: [

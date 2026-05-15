@@ -28,6 +28,7 @@ import Progress from "./components/progress";
 import Radio from "./components/radio";
 import Resizable from "./components/resizable";
 import River from "./components/river";
+import Scroll from "./components/scroll";
 import Select from "./components/select";
 import Step from "./components/step";
 import Swiper from "./components/swiper";
@@ -70,6 +71,7 @@ export {
 	Radio,
 	Resizable,
 	River,
+	Scroll,
 	Select,
 	Step,
 	Swiper,

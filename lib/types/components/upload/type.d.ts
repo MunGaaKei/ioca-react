@@ -14,6 +14,7 @@ interface IUpload extends Omit<BaseInput, "ref">, Omit<InputHTMLAttributes<HTMLI
     dropbox?: (dragging?: boolean) => ReactNode;
     getDropboxContainer?: () => HTMLElement;
     cardSize?: string;
+    icon?: ReactNode;
     defaultButtonProps?: IButton;
     shouldUpload?: (file: IFile) => boolean;
     uploader?: (file: IFile) => Promise<IFile>;

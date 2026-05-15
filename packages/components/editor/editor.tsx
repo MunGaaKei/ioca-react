@@ -57,9 +57,14 @@ const Editor = (props: IEditor) => {
     const [memtionRect, setMemtionRect] = useState<DOMRect | null>(null);
     const [memtionKeyword, setMemtionKeyword] = useState("");
     const [memtionActiveIndex, setMemtionActiveIndex] = useState(0);
+    const [activeMemtionIndex, setActiveMemtionIndex] = useState(-1);
     const memtionOptions = useMemo(
-        () => filterMemtionOptions(memtion?.options ?? [], memtionKeyword),
-        [memtion?.options, memtionKeyword],
+        () => {
+            if (activeMemtionIndex < 0 || !memtion?.length) return [];
+            const active = memtion?.[activeMemtionIndex];
+            return filterMemtionOptions(active?.options ?? [], memtionKeyword);
+        },
+        [memtion, memtionKeyword, activeMemtionIndex],
     );
 
     const sanitizeValue = (nextValue: string) => {
@@ -128,6 +133,7 @@ const Editor = (props: IEditor) => {
         setMemtionRect(null);
         setMemtionKeyword("");
         setMemtionActiveIndex(0);
+        setActiveMemtionIndex(-1);
     };
 
     const syncEditorState = () => {
@@ -136,6 +142,7 @@ const Editor = (props: IEditor) => {
     };
 
     const insertMemtion = (option: IEditorMemtionOption) => {
+        const activeMemtion = memtion?.[activeMemtionIndex];
         const replaceRange = getMemtionReplaceRange(
             memtionTriggerRangeRef.current,
             selectionRef.current,
@@ -145,7 +152,7 @@ const Editor = (props: IEditor) => {
             editor: editorRef.current,
             range: replaceRange,
             mode,
-            memtion,
+            memtion: activeMemtion,
             option,
             sanitizeValue,
         });
@@ -193,7 +200,6 @@ const Editor = (props: IEditor) => {
             return;
         }
 
-        const memtionKey = memtion?.key ?? "@";
         if (memtionVisible && e.key === " ") {
             hideMemtion();
         }
@@ -221,11 +227,15 @@ const Editor = (props: IEditor) => {
             }
         }
 
-        if (memtion && e.key === memtionKey) {
-            rememberSelection();
-            memtionTriggerRangeRef.current =
-                selectionRef.current?.cloneRange() ?? null;
-            pendingMemtionRef.current = true;
+        if (memtion?.length) {
+            const matchedIndex = memtion.findIndex((m) => e.key === m.key);
+            if (matchedIndex >= 0) {
+                rememberSelection();
+                memtionTriggerRangeRef.current =
+                    selectionRef.current?.cloneRange() ?? null;
+                pendingMemtionRef.current = true;
+                setActiveMemtionIndex(matchedIndex);
+            }
         }
 
         switch (e.key) {
@@ -290,8 +300,10 @@ const Editor = (props: IEditor) => {
 
         rememberSelection();
 
-        if (memtion && (pendingMemtionRef.current || memtionVisible)) {
-            const memtionKey = memtion?.key ?? "@";
+        if (activeMemtionIndex >= 0 && (pendingMemtionRef.current || memtionVisible)) {
+            const active = memtion?.[activeMemtionIndex];
+            if (!active) { hideMemtion(); return; }
+            const memtionKey = active.key ?? "@";
             const memtionText = getMemtionText(
                 memtionTriggerRangeRef.current,
                 selectionRef.current,
@@ -377,7 +389,7 @@ const Editor = (props: IEditor) => {
                 <div className="i-editor-controls">{controls}</div>
             )}
 
-            {memtion && (
+            {memtion?.length && (
                 <Memtion
                     visible={memtionVisible}
                     rect={memtionRect}

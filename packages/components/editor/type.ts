@@ -37,7 +37,7 @@ export interface IEditor extends Omit<
     mode?: "rich" | "plaintext" | "plaintextOnMemtion";
     hideControl?: boolean;
     addtionControls?: IEditorAddtionControl[];
-    memtion?: IEditorMemtion;
+    memtion?: IEditorMemtion[];
     border?: boolean;
     onChange?: (value: string, e: SyntheticEvent<HTMLDivElement>) => void;
     onEnter?: (e: KeyboardEvent<HTMLDivElement>) => void;

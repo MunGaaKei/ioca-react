@@ -1,0 +1,5 @@
+.i-scroll {
+    overflow: hidden;
+    user-select: none;
+    -webkit-overflow-scrolling: touch;
+}

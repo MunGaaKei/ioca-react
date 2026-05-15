@@ -1,4 +1,4 @@
-import { DriveFolderUploadOutlined, PlusSharp } from "@ricons/material";
+import { DriveFolderUploadOutlined } from "@ricons/material";
 import classNames from "classnames";
 import { uid } from "radash";
 import {
@@ -9,8 +9,8 @@ import {
     useRef,
     useState,
 } from "react";
-import { SortableItem } from "react-easy-sort";
 import { createPortal } from "react-dom";
+import { SortableItem } from "react-easy-sort";
 import usePreview from "../../js/usePreview";
 import { TPreviewItem } from "../../js/usePreview/type";
 import { arrayMove } from "../../js/utils";
@@ -52,6 +52,7 @@ const Upload = (props: IUpload) => {
         placeholder,
         status = "normal",
         message,
+        icon = <Icon icon={<DriveFolderUploadOutlined />} />,
         className,
         style,
         children,
@@ -89,11 +90,7 @@ const Upload = (props: IUpload) => {
     const preview = usePreview();
     const defBtnProps = useMemo(
         () => ({
-            children: (
-                <>
-                    <Icon icon={<DriveFolderUploadOutlined />} /> 上传
-                </>
-            ),
+            children: <>{icon} 上传</>,
             ...defaultButtonProps,
         }),
         [defaultButtonProps],
@@ -112,7 +109,7 @@ const Upload = (props: IUpload) => {
                         outline
                         disabled={disabled}
                     >
-                        <Icon icon={<PlusSharp />} />
+                        {icon}
                     </Button>
                 );
             default:
@@ -127,7 +124,7 @@ const Upload = (props: IUpload) => {
                     />
                 );
         }
-    }, [mode, children, disabled, defBtnProps]);
+    }, [mode, children, disabled, defBtnProps, icon]);
 
     const handleUpload = useCallback(
         async (files: IFile[]) => {

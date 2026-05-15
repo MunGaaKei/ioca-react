@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button, Drawer, Dropdown, Icon, Image, Popup, useTheme } from "@p";
 import { useReactive } from "@p/js/hooks";
 import {
@@ -34,7 +35,15 @@ export default function Sider(props) {
     const { theme, setTheme } = useTheme({ listenStorageChange: true });
     const state = useReactive({
         menuVisible: false,
+        systemDark: window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false,
     });
+
+    useEffect(() => {
+        const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        const handler = (e) => { state.systemDark = e.matches; };
+        mq.addEventListener("change", handler);
+        return () => mq.removeEventListener("change", handler);
+    }, []);
 
     return (
         <div
@@ -46,7 +55,7 @@ export default function Sider(props) {
         >
             <Link to="/" className="mt-12 mb-8">
                 <Image
-                    src={theme === "theme-dark" ? logoReverse : logo}
+                    src={theme === "theme-dark" || (theme === "theme-auto" && state.systemDark) ? logoReverse : logo}
                     size={24}
                 />
             </Link>
