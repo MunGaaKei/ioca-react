@@ -13,12 +13,14 @@ type TEventOption = {
 	disabled?: boolean;
 };
 
-const os = window.navigator.platform;
+if (typeof window !== "undefined" && typeof document !== "undefined") {
+	const os = window.navigator.platform;
 
-if (os.toLowerCase().includes("mac")) {
-	document.documentElement.classList.add("os-mac");
-} else if (os.toLowerCase().includes("win")) {
-	document.documentElement.classList.add("os-windows");
+	if (os.toLowerCase().includes("mac")) {
+		document.documentElement.classList.add("os-mac");
+	} else if (os.toLowerCase().includes("win")) {
+		document.documentElement.classList.add("os-windows");
+	}
 }
 
 const MouseMoveEvents = new Set<TMouseEvent>();
