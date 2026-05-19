@@ -29,6 +29,7 @@ export default function TimePicker(props: ITimePicker) {
 
 	const handleChange = (v) => {
 		setTimeValue(v);
+		onChange?.(v);
 	};
 
 	const handleFallback = (v) => {
