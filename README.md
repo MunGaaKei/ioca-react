@@ -15,6 +15,11 @@
 npm install @ioca/react
 ```
 
+```node
+npx skills add mungaakei/skills --skill ioca-components
+// 技能辅助
+```
+
 ### 使用
 
 ```js

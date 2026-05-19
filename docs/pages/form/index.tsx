@@ -4,30 +4,31 @@ import Demo from "../components/demo";
 import { DBasic, DUseConfig, PField, PForm, PFormInstance } from "./prop";
 
 export default function Page() {
-	return (
-		<>
-			<h2 className='mb-40'>Form</h2>
-			<h3 className='mb-12'>示例</h3>
-			<Demo source={DBasic} />
+    return (
+        <>
+            <h2 className="mb-40">Form</h2>
 
-			<h3 className='mt-80 mb-12'>
-				<span className='opacity-5'>Form.</span>useConfig
-			</h3>
-			<Demo source={DUseConfig} />
+            <h3 className="mb-12">示例</h3>
+            <Demo source={DBasic} />
 
-			<h3 className='mt-80 mb-20'>Api 参考</h3>
-			<h4 className='mb-12 blue'>Form</h4>
-			<Api apis={PForm} />
+            <h3 className="mt-80 mb-12">
+                <span className="opacity-5">Form.</span>useConfig
+            </h3>
+            <Demo source={DUseConfig} />
 
-			<h4 className='mt-40 mb-12 blue'>
-				<span className='opacity-5'>Form.</span>Field
-			</h4>
-			<Api apis={PField} />
+            <h3 className="mt-80 mb-20">Api 参考</h3>
+            <h4 className="mb-12 blue">Form</h4>
+            <Api apis={PForm} />
 
-			<h4 id='formInstance' className='mt-40 mb-12 blue'>
-				IFormInstance
-			</h4>
-			<CodeView lang='typescript'>{PFormInstance}</CodeView>
-		</>
-	);
+            <h4 className="mt-40 mb-12 blue">
+                <span className="opacity-5">Form.</span>Field
+            </h4>
+            <Api apis={PField} />
+
+            <h4 id="formInstance" className="mt-40 mb-12 blue">
+                IFormInstance
+            </h4>
+            <CodeView lang="typescript">{PFormInstance}</CodeView>
+        </>
+    );
 }

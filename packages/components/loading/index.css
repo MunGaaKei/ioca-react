@@ -8,6 +8,7 @@
     transform: translateZ(0);
     border-radius: inherit;
     backdrop-filter: blur(2px);
+    contain: paint;
 }
 
 .i-loading-icon {

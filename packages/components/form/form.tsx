@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import PubSub from "pubsub-js";
-import { CSSProperties, useEffect, useMemo } from "react";
+import { crush } from "radash";
+import { CSSProperties, useEffect, useMemo, useRef } from "react";
 import Context from "./context";
 import Field from "./field";
 import "./index.css";
@@ -51,22 +52,31 @@ const Form = (props: IForm) => {
 		return columns;
 	}, [columns]);
 
-	useEffect(() => {
-		Object.assign(form, {
-			data: { ...initialValues },
-			rules,
-		});
-	}, [form]);
+	const initialAppliedRef = useRef(false);
 
 	useEffect(() => {
-		PubSub.subscribe(`${form.id}:change`, (evt, v) => {
+		if (!initialAppliedRef.current && initialValues) {
+			const flat = crush(initialValues);
+			Object.keys(flat).forEach((key) => {
+				form.set(key, flat[key]);
+			});
+			initialAppliedRef.current = true;
+		}
+
+		if (rules) {
+			form.rules = rules;
+		}
+	}, [initialValues, rules, form]);
+
+	useEffect(() => {
+		const token = PubSub.subscribe(`${form.id}:change`, (_evt, v) => {
 			onChange?.(v.name, v.value);
 		});
 
 		return () => {
-			PubSub.unsubscribe(`${form.id}:change`);
+			PubSub.unsubscribe(token);
 		};
-	}, []);
+	}, [form.id, onChange]);
 
 	return (
 		<Context value={form}>

@@ -760,7 +760,7 @@
         --background-opacity: #1a1a1a66;
         --background-opacity-1: rgba(0, 0, 0, 0.4);
         --background-opacity-2: rgba(66, 66, 66, 0.4);
-        --color-backdrop: rgba(0, 0, 0, 0.4);
+        --color-backdrop: rgba(0, 0, 0, 0.6);
 
         --color: var(--color-0);
         --color-main: #fff;

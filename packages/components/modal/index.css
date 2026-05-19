@@ -14,7 +14,8 @@
 }
 .i-modal-backdrop {
     background: var(--color-backdrop);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(4px);
+    contain: paint;
     &.i-modal-active {
         pointer-events: unset;
     }

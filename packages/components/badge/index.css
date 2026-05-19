@@ -1,11 +1,11 @@
-  .i-badge {
+.i-badge {
     position: relative;
     display: inline-flex;
     align-self: center;
     flex-shrink: 0;
     border-radius: var(--radius);
-  }
-  .i-badge-content {
+}
+.i-badge-content {
     position: absolute;
     z-index: 1;
     inset: 0 0 auto auto;
@@ -19,15 +19,15 @@
     font-size: 0.86em;
     pointer-events: none;
     &.i-badge-dot {
-      height: 1em;
-      width: 1em;
-      padding: 0;
-      border-radius: 1em;
-      overflow: hidden;
-      color: transparent;
+        height: 1em;
+        width: 1em;
+        padding: 0;
+        border-radius: 1em;
+        overflow: hidden;
+        color: transparent;
     }
     &:empty,
     &.i-badge-hidden {
-      transform: translate(50%, -50%) scale(0);
+        transform: translate(50%, -50%) scale(0);
     }
-  }
+}

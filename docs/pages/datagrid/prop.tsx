@@ -93,6 +93,7 @@ export const DBasic = {
                 columns={columns}
                 resizable
                 border
+                loading
                 cellEllipsis
                 height={400}
             />

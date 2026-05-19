@@ -1,14 +1,14 @@
-import { IForm } from './type.js';
+import { TValidator, TRule } from './type.js';
 
 declare class IFormInstance {
     readonly id?: string;
     data: Record<string, any>;
     cacheData: Record<string, any>;
-    rules?: Pick<IForm, "rules">;
+    rules?: Record<string, boolean | TValidator | TRule>;
     constructor();
     get(field?: string): any;
     set(field: any, value?: any): void;
-    delete(field: any): void;
+    delete(field: string): void;
     clear(): void;
     validate(field?: string): Promise<boolean | Record<string, any>>;
 }

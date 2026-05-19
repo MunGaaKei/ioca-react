@@ -83,6 +83,10 @@ function Drawer(props: IDrawer) {
 
 	if (!state.show) return null;
 
+	const container =
+		typeof document === "undefined" ? null : document.body;
+	if (!container) return null;
+
 	return createPortal(
 		<div
 			className={classNames("i-backdrop-drawer", className, {
@@ -113,7 +117,7 @@ function Drawer(props: IDrawer) {
 				{footer && <div className='i-drawer-footer'>{footer}</div>}
 			</div>
 		</div>,
-		document.body
+		container
 	);
 }
 

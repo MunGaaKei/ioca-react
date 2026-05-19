@@ -1,0 +1,27 @@
+export function getDeep(obj: any, path: string): any {
+	if (!path.includes(".")) return obj[path];
+	return path.split(".").reduce((acc, key) => (acc != null ? acc[key] : undefined), obj);
+}
+
+export function setDeep(obj: any, path: string, value: any) {
+	const parts = path.split(".");
+	let current = obj;
+	for (let i = 0; i < parts.length - 1; i++) {
+		const key = parts[i];
+		if (current[key] == null || typeof current[key] !== "object") {
+			current[key] = {};
+		}
+		current = current[key];
+	}
+	current[parts[parts.length - 1]] = value;
+}
+
+export function deleteDeep(obj: any, path: string) {
+	const parts = path.split(".");
+	const parent = parts
+		.slice(0, -1)
+		.reduce((acc, key) => (acc != null ? acc[key] : undefined), obj);
+	if (parent != null) {
+		delete parent[parts[parts.length - 1]];
+	}
+}

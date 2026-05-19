@@ -53,25 +53,29 @@ function Field(props: IField) {
 	useEffect(() => {
 		if (!name) return;
 
-		PubSub.subscribe(`${id}:set:${name}`, (evt, v) => {
+		PubSub.subscribe(`${id}:set:${name}`, (_evt, v) => {
 			setFieldValue(v);
 		});
-		PubSub.subscribe(`${id}:invalid:${name}`, (evt, v) => {
+		PubSub.subscribe(`${id}:invalid:${name}`, (_evt, v) => {
 			if (v?.value !== undefined) setFieldValue(v.value);
 			if (v?.status) setFieldStatus(v.status);
 			if ("message" in (v ?? {})) setFieldMessage(v.message);
 		});
 
 		Promise.resolve().then(() => {
-			form.set(name, form.cacheData[name] ?? undefined);
+			if (name in form.cacheData) {
+				form.set(name, form.cacheData[name]);
+			}
 		});
 
 		return () => {
 			PubSub.unsubscribe(`${id}:set:${name}`);
 			PubSub.unsubscribe(`${id}:invalid:${name}`);
-			form.delete(name);
+			if (name && !name.includes(".")) {
+				form.data[name] = undefined;
+			}
 		};
-	}, [name, children]);
+	}, [name]);
 
 	if (!name) return children;
 

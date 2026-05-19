@@ -26,7 +26,6 @@ export default function useConfig(configs: IFormItem[], formProps?: IForm) {
 						componentProps = {},
 						colspan = 1,
 						render,
-						shouldUpdate,
 						shouldRender,
 					} = config;
 					const { className, style } = componentProps;

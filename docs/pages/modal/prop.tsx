@@ -119,7 +119,7 @@ export const DUseModal = {
                 children: (
                     <div className="px-12">
                         通过<b>hook</b>方式打开对话框
-                        <div className="my-8">
+                        <div className="my-12 flex gap-12">
                             <Button onClick={close}>关闭</Button>
                         </div>
                     </div>
