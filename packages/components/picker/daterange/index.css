@@ -1,0 +1,20 @@
+.i-daterange-grids {
+    display: flex;
+
+    .i-datepicker-ym {
+        justify-content: center;
+    }
+    .i-datepicker-months {
+        margin-top: 0;
+        max-width: 160px;
+    }
+}
+.i-daterange-col {
+    flex: 1;
+    min-width: 0;
+}
+
+.i-daterange-between {
+    --background: var(--background-opacity-1);
+    opacity: 1;
+}

@@ -3,6 +3,8 @@
 }
 .i-datepicker {
     padding: 8px;
+    user-select: none;
+
     .i-datepicker-item {
         cursor: pointer;
     }

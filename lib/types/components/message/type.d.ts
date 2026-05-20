@@ -1,21 +1,34 @@
-import { ReactNode } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 
-interface IMessage {
-    id?: string;
+/** User-facing callable config for message() */
+interface IMessageConfig {
     content?: ReactNode;
-    active?: boolean;
     duration?: number;
-    gap?: number;
-    offset?: string;
-    max?: number;
-    align?: "center" | "left" | "right";
+    style?: CSSProperties;
+    className?: string;
     unshift?: boolean;
     closable?: boolean;
-    timer?: ReturnType<typeof setTimeout>;
-    className?: string;
-    close?: () => void;
     onShow?: () => void;
     onHide?: () => void;
 }
+/** Internal runtime message (extends user config with system fields) */
+interface IMessage extends IMessageConfig {
+    id: string;
+    active: boolean;
+    align?: string;
+    timer?: ReturnType<typeof setTimeout>;
+    close?: () => void;
+}
+/** Props for <Message.Container /> */
+interface IMessageContainerProps {
+    align?: "center" | "left" | "right";
+    fromBottom?: boolean;
+    unshift?: boolean;
+    gap?: number;
+    offset?: string;
+    duration?: number;
+    className?: string;
+    style?: CSSProperties;
+}
 
-export type { IMessage };
+export type { IMessage, IMessageConfig, IMessageContainerProps };

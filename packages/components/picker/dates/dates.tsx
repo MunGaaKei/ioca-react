@@ -6,15 +6,21 @@ import { IBaseDates } from "../type";
 const Dates = (
 	props: IBaseDates & {
 		month: any;
+		rangeEnd?: Dayjs | null;
+		hoverDate?: Dayjs | null;
+		onDateHover?: (date: Dayjs | null) => void;
 	}
 ) => {
 	const {
 		value,
 		month,
+		rangeEnd,
+		hoverDate,
 		weeks = ["一", "二", "三", "四", "五", "六", "日"],
 		renderDate = (date: Dayjs) => date.date(),
 		disabledDate,
 		onDateClick,
+		onDateHover,
 	} = props;
 	const today = dayjs();
 
@@ -57,6 +63,11 @@ const Dates = (
 		onDateClick?.(date);
 	};
 
+	const handleMouseEnter = (date: Dayjs) => {
+		if (disabledDate?.(date)) return;
+		onDateHover?.(date);
+	};
+
 	return (
 		<>
 			<div className='i-datepicker-weeks'>
@@ -66,12 +77,19 @@ const Dates = (
 					</span>
 				))}
 			</div>
-			<div className='i-datepicker-dates'>
+			<div
+				className='i-datepicker-dates'
+				onMouseLeave={() => onDateHover?.(null)}
+			>
 				{dates.map((date, i: number) => {
-					const active = date.isSame(value, "day");
+					const active = date.isSame(value, "day") || (rangeEnd && date.isSame(rangeEnd, "day"));
 					const isSameMonth = date.isSame(month, "month");
 					const isToday = date.isSame(today, "day");
 					const disabled = disabledDate?.(date);
+					const isBetween = hoverDate && value && (
+						(date.isAfter(value, "day") && date.isBefore(hoverDate, "day")) ||
+						(date.isAfter(hoverDate, "day") && date.isBefore(value, "day"))
+					);
 
 					return (
 						<div
@@ -81,7 +99,9 @@ const Dates = (
 								"i-datepicker-same-month": isSameMonth,
 								"i-datepicker-today": isToday,
 								"i-datepicker-disabled": disabled,
+								"i-daterange-between": isBetween,
 							})}
+							onMouseEnter={() => handleMouseEnter(date)}
 							onClick={() => handleDateClick(date)}
 						>
 							{renderDate(date)}

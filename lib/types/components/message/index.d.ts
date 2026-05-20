@@ -1,5 +1,7 @@
-import message from './message.js';
+import message, { MessageContainer } from './message.js';
 
+declare const Message: typeof message & {
+    Container: typeof MessageContainer;
+};
 
-
-export { message as default };
+export { MessageContainer, Message as default };

@@ -37,9 +37,20 @@ const YearMonth = (
 	);
 };
 
-const Panel = (props: IBaseDates) => {
+const Panel = (props: IBaseDates & {
+	month?: Dayjs;
+	rangeEnd?: Dayjs | null;
+	hoverDate?: Dayjs | null;
+	onDateHover?: (date: Dayjs | null) => void;
+	onOperateMonth?: (next: boolean) => void;
+}) => {
 	const {
 		value,
+		month: controlledMonth,
+		rangeEnd,
+		hoverDate,
+		onDateHover,
+		onOperateMonth: onOperateMonthProp,
 		unitYear,
 		unitMonth,
 		renderDate,
@@ -50,21 +61,21 @@ const Panel = (props: IBaseDates) => {
 	} = props;
 
 	const [today, setToday] = useState(value);
-	const [month, setMonth] = useState(value || dayjs());
+	const [month, setMonth] = useState(controlledMonth || value || dayjs());
 	const [selectedYear, setSelectedYear] = useState(dayjs());
 	const [years, setYears] = useState<number[]>([]);
 	const [selectable, setSelectable] = useState(false);
 
 	const $years = useRef<HTMLDivElement>(null);
 
-	const handleOperateMonth = (next: boolean) => {
+	const handleOperateMonth = onOperateMonthProp || ((next: boolean) => {
 		setMonth((m) => m[next ? "add" : "subtract"](1, "month"));
-	};
+	});
 
 	const handleChangeDate = (date: Dayjs) => {
 		if (date.isSame(today, "day")) return;
 
-		if (!date.isSame(month, "month")) {
+		if (controlledMonth === undefined && !date.isSame(month, "month")) {
 			setMonth(date);
 		}
 
@@ -95,8 +106,24 @@ const Panel = (props: IBaseDates) => {
 
 	useEffect(() => {
 		setToday(value);
-		setMonth(value || dayjs());
-	}, [value]);
+		if (controlledMonth === undefined) {
+			setMonth(value || dayjs());
+		}
+	}, [value, controlledMonth]);
+
+	useEffect(() => {
+		const el = $years.current;
+		if (!el) return;
+
+		const onWheel = (e: WheelEvent) => {
+			e.preventDefault();
+			getMoreYears(e);
+		};
+
+		el.addEventListener("wheel", onWheel, { passive: false });
+
+		return () => el.removeEventListener("wheel", onWheel);
+	}, []);
 
 	return (
 		<div className='i-datepicker'>
@@ -142,7 +169,6 @@ const Panel = (props: IBaseDates) => {
 				<div
 					ref={$years}
 					className='i-datepicker-years'
-					onWheel={getMoreYears}
 				>
 					{years.map((y) => (
 						<a
@@ -179,6 +205,9 @@ const Panel = (props: IBaseDates) => {
 			<Dates
 				value={today}
 				month={month}
+				rangeEnd={rangeEnd}
+				hoverDate={hoverDate}
+				onDateHover={onDateHover}
 				disabledDate={disabledDate}
 				onDateClick={handleChangeDate}
 				renderDate={renderDate}

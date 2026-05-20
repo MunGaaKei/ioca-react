@@ -31,12 +31,15 @@ const Datepicker = (props: IDatePicker) => {
 		onDateClick,
 		onChange,
 		onBlur,
+		clear,
+		onClear: onClearProp,
 		...restProps
 	} = props;
 
 	const [inputValue, setInputValue] = useState(value);
 
 	const [active, setActive] = useState<boolean>(false);
+
 
 	const dayJsValue = useMemo(() => {
 		if (!inputValue) return null;
@@ -80,6 +83,11 @@ const Datepicker = (props: IDatePicker) => {
 		setActive(v);
 	};
 
+	const handleClear = () => {
+		setActive(false);
+		onClearProp?.();
+	};
+
 	useEffect(() => {
 		setInputValue(value);
 	}, [value]);
@@ -115,6 +123,8 @@ const Datepicker = (props: IDatePicker) => {
 					/>
 				}
 				placeholder={placeholder}
+				clear={clear}
+				onClear={handleClear}
 				onChange={handleChange}
 				onBlur={handleBlur}
 				onEnter={handleSetDate}

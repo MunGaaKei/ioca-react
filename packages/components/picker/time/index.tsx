@@ -21,11 +21,14 @@ export default function TimePicker(props: ITimePicker) {
 		onChange,
 		onBlur,
 		popupProps,
+		clear,
+		onClear: onClearProp,
 		...restProps
 	} = props;
 	const [timeValue, setTimeValue] = useState(value);
 	const [safeValue, setSafeValue] = useState(undefined);
 	const [active, setActive] = useState<boolean>(false);
+
 
 	const handleChange = (v) => {
 		setTimeValue(v);
@@ -50,6 +53,11 @@ export default function TimePicker(props: ITimePicker) {
 	const handleVisibleChange = (v) => {
 		popupProps?.onVisibleChange?.(v);
 		setActive(v);
+	};
+
+	const handleClear = () => {
+		setActive(false);
+		onClearProp?.();
 	};
 
 	useEffect(() => {
@@ -86,6 +94,8 @@ export default function TimePicker(props: ITimePicker) {
 						size='1em'
 					/>
 				}
+				clear={clear}
+				onClear={handleClear}
 				onChange={handleChange}
 				onBlur={handleBlur}
 				className={classNames("i-timepicker-label", className)}

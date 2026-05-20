@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import { IMessage } from './type.js';
+import { IMessageConfig, IMessage, IMessageContainerProps } from './type.js';
 
-declare function message(config: IMessage | ReactNode): {
+declare function message(config: IMessageConfig | ReactNode): {
     instance: IMessage;
     close: any;
 };
@@ -22,7 +22,8 @@ declare namespace message {
         instance: IMessage;
         close: any;
     };
-    var one: (config: IMessage) => void;
+    var one: (config: IMessageConfig) => void;
 }
+declare function MessageContainer({ align, fromBottom, unshift, gap, offset, duration, }: IMessageContainerProps): any;
 
-export { message as default };
+export { MessageContainer, message as default };

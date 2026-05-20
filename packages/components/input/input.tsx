@@ -105,6 +105,7 @@ const Input = ((props: IInput) => {
 
 	const clearable = clear && inputValue;
 	const showHelper = type === "password" && !!inputValue;
+	const isClearBtn = clearable && !showHelper;
 
 	return (
 		<InputContainer
@@ -118,6 +119,7 @@ const Input = ((props: IInput) => {
 		>
 			<div
 				className={classNames("i-input-item", {
+						"i-input-clearable": clearable,
 					[`i-input-${status}`]: status !== "normal",
 					"i-input-borderless": !border,
 					"i-input-underline": underline,
@@ -136,6 +138,7 @@ const Input = ((props: IInput) => {
 				<Helpericon
 					active={!!clearable || showHelper}
 					icon={HelperIcon}
+					className={classNames({ "i-helpericon-clear": isClearBtn })}
 					onClick={handleHelperClick}
 				/>
 

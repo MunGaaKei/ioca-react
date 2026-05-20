@@ -1,4 +1,5 @@
 import { ColorPickerProps } from "@rc-component/color-picker";
+import { CSSProperties } from "react";
 import { Dayjs } from "dayjs";
 import { ReactNode } from "react";
 import { BaseInput } from "../../type";
@@ -21,6 +22,17 @@ export interface IBaseDates {
     renderYear?: (year: number) => ReactNode;
     onDateClick?: (date: Dayjs) => void;
     disabledDate?: (date: Dayjs) => boolean;
+}
+
+export interface IDateRange
+    extends Omit<IBaseDates, "value" | "onDateClick"> {
+    value?: [string | undefined, string | undefined];
+    placeholder?: string;
+    className?: string;
+    style?: CSSProperties;
+    clear?: boolean;
+    onChange?: (value: [string | undefined, string | undefined]) => void;
+    onClear?: () => void;
 }
 
 export interface ITimePicker extends BaseInput, IInput {

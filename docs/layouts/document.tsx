@@ -7,44 +7,44 @@ import Footer from "./footer";
 import Sider from "./sider";
 
 configResponsive({
-	sm: 800,
+    sm: 800,
 });
 
 export default function Document() {
-	const { pathname } = useLocation();
-	const name = pathname.split("/").at(-1);
-	const { sm: staticSider } = useResponsive();
-	const menus = (
-		<Tree
-			data={menu}
-			selected={`/docs/${name}`}
-			nodeProps={{
-				key: "href",
-			}}
-			className='pd-8'
-		/>
-	);
+    const { pathname } = useLocation();
+    const name = pathname.split("/").at(-1);
+    const { sm: staticSider } = useResponsive();
+    const menus = (
+        <Tree
+            data={menu}
+            selected={`/docs/${name}`}
+            nodeProps={{
+                key: "href",
+            }}
+            className="pd-8"
+        />
+    );
 
-	useEffect(() => {
-		document.documentElement?.scrollTo?.({ top: 0, behavior: "smooth" });
-	}, [name]);
+    useEffect(() => {
+        document.documentElement?.scrollTo?.({ top: 0, behavior: "smooth" });
+    }, [name]);
 
-	return (
-		<div className='flex'>
-			{staticSider && <div className='g-menus'>{menus}</div>}
+    return (
+        <div className="flex">
+            {staticSider && <div className="g-menus">{menus}</div>}
 
-			<div className='g-content'>
-				<Suspense
-					key={pathname}
-					fallback={<Loading className='my-40' size={20} />}
-				>
-					<Outlet />
-				</Suspense>
+            <div className="g-content">
+                <Suspense
+                    key={pathname}
+                    fallback={<Loading className="my-40" />}
+                >
+                    <Outlet />
+                </Suspense>
 
-				<Footer />
-			</div>
+                <Footer />
+            </div>
 
-			<Sider useDrawer={!staticSider} menus={menus} />
-		</div>
-	);
+            <Sider useDrawer={!staticSider} menus={menus} />
+        </div>
+    );
 }

@@ -1,21 +1,36 @@
 import { CSSProperties, MouseEvent, ReactNode, RefObject } from "react";
 
-export interface IMessage {
-	id?: string;
+/** User-facing callable config for message() */
+export interface IMessageConfig {
 	content?: ReactNode;
-	active?: boolean;
 	duration?: number;
-	gap?: number;
-	offset?: string;
-	max?: number;
-	align?: "center" | "left" | "right";
+	style?: CSSProperties;
+	className?: string;
 	unshift?: boolean;
 	closable?: boolean;
-	timer?: ReturnType<typeof setTimeout>;
-	className?: string;
-	close?: () => void;
 	onShow?: () => void;
 	onHide?: () => void;
+}
+
+/** Internal runtime message (extends user config with system fields) */
+export interface IMessage extends IMessageConfig {
+	id: string;
+	active: boolean;
+	align?: string;
+	timer?: ReturnType<typeof setTimeout>;
+	close?: () => void;
+}
+
+/** Props for <Message.Container /> */
+export interface IMessageContainerProps {
+	align?: "center" | "left" | "right";
+	fromBottom?: boolean;
+	unshift?: boolean;
+	gap?: number;
+	offset?: string;
+	duration?: number;
+	className?: string;
+	style?: CSSProperties;
 }
 
 export interface IMessageItem {
@@ -23,6 +38,7 @@ export interface IMessageItem {
 	active?: boolean;
 	content?: ReactNode;
 	top?: number;
+	bottom?: number;
 	className?: string;
 	style?: CSSProperties;
 	onClick?: (e: MouseEvent<Element>) => void;

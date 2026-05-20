@@ -3,7 +3,7 @@ import { PInputCommon, PValidateCommon } from "../components/common";
 
 export const DBasic = {
     demo: () => {
-        return <Input placeholder="Input" width={240} underline />;
+        return <Input placeholder="Input" width={240} underline clear />;
     },
     code: `<Input placeholder='Input' width={240} underline />`,
     lang: "xml",

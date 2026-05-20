@@ -8,6 +8,7 @@ import {
     BedtimeTwotone,
     BlurOnFilled,
     BuildCircleTwotone,
+    CalendarMonthTwotone,
     ChatBubbleOutlineRound,
     CheckBoxOutlined,
     ColorLensTwotone,
@@ -174,6 +175,12 @@ export default [
                         href: "/docs/pickers",
                         as: Link,
                         icon: <Icon icon={<MarginOutlined />} />,
+                    },
+                    {
+                        title: "DateRange",
+                        href: "/docs/daterange",
+                        as: Link,
+                        icon: <Icon icon={<CalendarMonthTwotone />} />,
                     },
                     {
                         title: "Progress",

@@ -21,7 +21,7 @@ import Loading from "./components/loading";
 import Message from "./components/message";
 import Modal from "./components/modal";
 import Pagination from "./components/pagination";
-import { ColorPicker, DatePicker, TimePicker } from "./components/picker";
+import { ColorPicker, DatePicker, DateRange, TimePicker } from "./components/picker";
 import Popconfirm from "./components/popconfirm";
 import Popup from "./components/popup";
 import Progress from "./components/progress";
@@ -51,6 +51,7 @@ export {
 	ColorPicker,
 	Datagrid,
 	DatePicker,
+	DateRange,
 	Description,
 	Drawer,
 	Dropdown,

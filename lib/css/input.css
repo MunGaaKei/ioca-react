@@ -184,6 +184,18 @@
     border-bottom-right-radius: inherit;
 }
 
+.i-helpericon.i-helpericon-clear {
+	display: none;
+}
+
+.i-input-clearable:hover .i-input-append {
+	display: none;
+}
+
+.i-input-item:hover .i-helpericon-clear {
+	display: flex;
+}
+
 .i-options-block {
     & > .i-checkbox-item,
     & > .i-radio-item {

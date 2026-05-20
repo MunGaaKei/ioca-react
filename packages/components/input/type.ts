@@ -35,6 +35,7 @@ export interface IInput
     prepend?: ReactNode;
     append?: ReactNode;
     hideVisible?: boolean;
+    clear?: boolean;
     onClear?: () => void;
 }
 

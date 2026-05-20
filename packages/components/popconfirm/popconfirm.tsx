@@ -1,10 +1,8 @@
-import { InfoOutlined } from "@ricons/material";
 import { MouseEvent } from "react";
 import { useReactive } from "../../js/hooks";
 import Button from "../button";
 import { IButton } from "../button/type";
 import Flex from "../flex";
-import Icon from "../icon";
 import Popup from "../popup";
 import "./index.css";
 import { IPopconfirm } from "./type";
@@ -22,7 +20,7 @@ const Popconfirm = (props: IPopconfirm) => {
     const {
         trigger = "click",
         visible,
-        icon = <Icon icon={<InfoOutlined />} className="error" size="1.2em" />,
+        icon,
         content,
         okButtonProps,
         cancelButtonProps,
