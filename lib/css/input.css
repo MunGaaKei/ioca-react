@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     align-content: flex-start;
     gap: 0.5em;
     width: 100%;
@@ -20,6 +20,10 @@
     &:has(.i-input-error) {
         --color: var(--error);
     }
+}
+
+.i-textarea-label {
+    align-items: baseline;
 }
 
 .i-input-inline {
@@ -185,15 +189,15 @@
 }
 
 .i-helpericon.i-helpericon-clear {
-	display: none;
+    display: none;
 }
 
 .i-input-clearable:hover .i-input-append {
-	display: none;
+    display: none;
 }
 
 .i-input-item:hover .i-helpericon-clear {
-	display: flex;
+    display: flex;
 }
 
 .i-options-block {
