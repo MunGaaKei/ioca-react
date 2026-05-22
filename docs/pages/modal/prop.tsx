@@ -163,7 +163,7 @@ export const DMultiModal = {
                     visible={v1}
                     title="第一层"
                     width={400}
-                    onClose={() => setV1(false)}
+                    onVisibleChange={setV1}
                 >
                     <div className="px-12 pb-12">
                         <Button onClick={() => setV2(true)}>打开第二层</Button>
@@ -172,8 +172,13 @@ export const DMultiModal = {
                     <Modal
                         visible={v2}
                         title="第二层"
-                        width={320}
-                        onClose={() => setV2(false)}
+                        width={400}
+                        onOk={async () => {
+                            await new Promise((resolve) => {
+                                setTimeout(() => resolve(true), 600);
+                            });
+                        }}
+                        onVisibleChange={setV2}
                     >
                         <div className="px-12">
                             这是第二层对话框，共用同一个 backdrop
@@ -194,7 +199,7 @@ return (
             visible={v1}
             title="第一层"
             width={400}
-            onClose={() => setV1(false)}
+            onVisibleChange={setV1}
         >
             <div className="px-12 pb-12">
                 <Button onClick={() => setV2(true)}>打开第二层</Button>
@@ -203,8 +208,13 @@ return (
             <Modal
                 visible={v2}
                 title="第二层"
-                width={320}
-                onClose={() => setV2(false)}
+                width={400}
+                onOk={async () => {
+                    await new Promise((resolve) => {
+                        setTimeout(() => resolve(true), 600);
+                    });
+                }}
+                onVisibleChange={setV2}
             >
                 <div className="px-12">
                     这是第二层对话框，共用同一个 backdrop

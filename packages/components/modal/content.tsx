@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Button from "../button";
 import Helpericon from "../utils/helpericon";
 import "./index.css";
@@ -18,12 +18,19 @@ export default function Content(props: IModalContent) {
 	} = props;
 	const showHeader = title || !hideCloseButton;
 
+	const [loading, setLoading] = useState(false);
+
 	const handleOk = async () => {
-		const ret = await onOk?.();
+		setLoading(true);
+		try {
+			const ret = await onOk?.();
 
-		if (ret === false) return;
+			if (ret === false) return;
 
-		onClose?.();
+			onClose?.();
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const renderFooter = useMemo(() => {
@@ -34,7 +41,8 @@ export default function Content(props: IModalContent) {
 				children: "确定",
 				onClick: handleOk,
 			},
-			okButtonProps
+			okButtonProps,
+			{ loading }
 		);
 		const propsCancel = Object.assign(
 			{
@@ -52,7 +60,7 @@ export default function Content(props: IModalContent) {
 				<Button {...propsCancel} />
 			</>
 		);
-	}, [footer, okButtonProps, cancelButtonProps]);
+	}, [footer, okButtonProps, cancelButtonProps, loading]);
 
 	return (
 		<>
