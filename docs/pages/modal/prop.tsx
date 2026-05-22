@@ -150,6 +150,74 @@ return <Button onClick={handleOpen}>Open</Button>;`,
     lang: "javascript",
 };
 
+export const DMultiModal = {
+    demo: () => {
+        const [v1, setV1] = useState(false);
+        const [v2, setV2] = useState(false);
+
+        return (
+            <>
+                <Button onClick={() => setV1(true)}>打开多层</Button>
+
+                <Modal
+                    visible={v1}
+                    title="第一层"
+                    width={400}
+                    onClose={() => setV1(false)}
+                >
+                    <div className="px-12 pb-12">
+                        <p className="mb-12">这是第一层对话框</p>
+                        <Button onClick={() => setV2(true)}>打开第二层</Button>
+                    </div>
+
+                    <Modal
+                        visible={v2}
+                        title="第二层"
+                        width={320}
+                        onClose={() => setV2(false)}
+                    >
+                        <div className="px-12">
+                            这是第二层对话框，共用同一个 backdrop
+                        </div>
+                    </Modal>
+                </Modal>
+            </>
+        );
+    },
+    code: `const [v1, setV1] = useState(false);
+const [v2, setV2] = useState(false);
+
+return (
+    <>
+        <Button onClick={() => setV1(true)}>打开多层</Button>
+
+        <Modal
+            visible={v1}
+            title="第一层"
+            width={400}
+            onClose={() => setV1(false)}
+        >
+            <div className="px-12 pb-12">
+                <p className="mb-12">这是第一层对话框</p>
+                <Button onClick={() => setV2(true)}>打开第二层</Button>
+            </div>
+
+            <Modal
+                visible={v2}
+                title="第二层"
+                width={320}
+                onClose={() => setV2(false)}
+            >
+                <div className="px-12">
+                    这是第二层对话框，共用同一个 backdrop
+                </div>
+            </Modal>
+        </Modal>
+    </>
+);`,
+    lang: "javascript",
+};
+
 export const PModal = [
     {
         name: "visible",

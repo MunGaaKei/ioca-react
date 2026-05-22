@@ -43,6 +43,10 @@ export const DBasic = {
                                     label: "Editor",
                                     value: "@editor",
                                 },
+                                {
+                                    label: "组件库",
+                                    value: "组件库",
+                                },
                             ],
                             insert: (option) => (
                                 <a className="blue px-4">{option.label}</a>
@@ -154,9 +158,7 @@ export const PEditor = [
     {
         name: "memtion",
         desc: "提及配置，输入触发键后展示选项，选中后会在当前 selection 位置插入节点。支持传入数组配置多个触发键，每个触发键可绑定独立的选项列表",
-        type: [
-            "IEditorMemtion[]",
-        ],
+        type: ["IEditorMemtion[]"],
     },
     {
         name: "autosize",

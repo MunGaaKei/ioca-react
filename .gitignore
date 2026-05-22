@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 todo.md
+.codegraph
+
 
 # Editor directories and files
 .vscode/*

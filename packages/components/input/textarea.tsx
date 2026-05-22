@@ -89,7 +89,7 @@ const Textarea = (props: ITextarea) => {
         <InputContainer
             label={label}
             labelInline={labelInline}
-            className={className}
+            className={classNames("i-textarea-label", className)}
             style={{ width, ...style }}
             tip={message ?? tip}
             status={status}

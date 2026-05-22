@@ -140,6 +140,7 @@ export const DBasic = {
                         label="说明"
                         rows={3}
                         autoSize
+                        labelInline
                         resize={false}
                     />
                 </Field>
