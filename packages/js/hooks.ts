@@ -96,12 +96,16 @@ export function useMouseUp(listener: TMouseEvent, options?: TEventOption) {
 export function useKeydown(listener: TKeyboardEvent, options?: TEventOption) {
 	initEventsOnce();
 
+	const listenerRef = useRef(listener);
+	listenerRef.current = listener;
+
 	useEffect(() => {
 		if (options?.disabled) return;
 
-		KeydownEvents.add(listener);
+		const handler = (e: KeyboardEvent) => listenerRef.current(e);
+		KeydownEvents.add(handler);
 		return () => {
-			KeydownEvents.delete(listener);
+			KeydownEvents.delete(handler);
 		};
 	}, []);
 }

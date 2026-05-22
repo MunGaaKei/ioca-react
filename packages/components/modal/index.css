@@ -2,26 +2,37 @@
     position: fixed;
     inset: 0;
     z-index: 100;
-    padding: 12px;
-    transition: var(--transition);
-    opacity: 0;
     pointer-events: none;
-    display: flex;
-    overflow: hidden;
-    &.i-modal-active {
-        opacity: 1;
-    }
 }
 .i-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
     background: var(--color-backdrop);
     backdrop-filter: blur(4px);
     contain: paint;
-    &.i-modal-active {
-        pointer-events: unset;
-    }
+    pointer-events: none;
+    transition: var(--transition);
+    opacity: 0;
 }
-.i-modal-customized {
-    overflow: unset;
+.i-modal-backdrop.i-modal-backdrop-active {
+    opacity: 1;
+}
+.i-modal-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    padding: 12px;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    pointer-events: none;
+    z-index: 101;
+}
+.i-modal-layer.i-modal-active {
+    pointer-events: auto;
+}
+.i-modal-layer.i-modal-hide-backdrop {
+    pointer-events: none;
 }
 .i-modal {
     position: relative;
@@ -36,14 +47,19 @@
     transition: var(--transition);
     background: var(--background);
     line-height: normal;
-    &.bounced {
-        animation: bounce 0.4s ease-in-out 0s;
-    }
+    opacity: 0;
+    pointer-events: none;
 }
-.i-modal-active > .i-modal {
+.i-modal-layer.i-modal-active .i-modal {
     opacity: 1;
     transform: none;
     pointer-events: all;
+}
+.i-modal.bounced {
+    animation: bounce 0.4s ease-in-out 0s;
+}
+.i-modal-customized {
+    overflow: unset;
 }
 .i-modal-header,
 .i-modal-footer {

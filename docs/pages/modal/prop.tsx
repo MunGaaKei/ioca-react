@@ -166,7 +166,6 @@ export const DMultiModal = {
                     onClose={() => setV1(false)}
                 >
                     <div className="px-12 pb-12">
-                        <p className="mb-12">这是第一层对话框</p>
                         <Button onClick={() => setV2(true)}>打开第二层</Button>
                     </div>
 
@@ -198,7 +197,6 @@ return (
             onClose={() => setV1(false)}
         >
             <div className="px-12 pb-12">
-                <p className="mb-12">这是第一层对话框</p>
                 <Button onClick={() => setV2(true)}>打开第二层</Button>
             </div>
 
