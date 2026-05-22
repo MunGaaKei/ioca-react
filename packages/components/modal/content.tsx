@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import Button from "../button";
 import Helpericon from "../utils/helpericon";
 import "./index.css";
 import { IModalContent } from "./type";
 
-export default function Content(props: IModalContent) {
+const Content = (props: IModalContent) => {
 	const {
 		title,
 		footer,
@@ -81,4 +81,6 @@ export default function Content(props: IModalContent) {
 			<footer className='i-modal-footer'>{renderFooter}</footer>
 		</>
 	);
-}
+};
+
+export default memo(Content);

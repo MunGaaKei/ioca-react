@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useKeydown } from "../../js/hooks";
 import Content from "./content";
@@ -57,7 +57,7 @@ function Modal(props: IModal) {
     const toggable = useRef(true);
     const layerRef = useRef(null);
 
-    const handleShow = () => {
+    const handleShow = useCallback(() => {
         if (!toggable.current) return;
 
         if (!keepDOM || !show) setShow(true);
@@ -80,9 +80,9 @@ function Modal(props: IModal) {
         });
 
         return () => cancelAnimationFrame(raf);
-    };
+    }, [keepDOM, show, onVisibleChange]);
 
-    const handleHide = () => {
+    const handleHide = useCallback(() => {
         if (!toggable.current) return;
         toggable.current = false;
 
@@ -105,7 +105,7 @@ function Modal(props: IModal) {
         }, 240);
 
         return () => clearTimeout(timer);
-    };
+    }, [closable, keepDOM, onClose, onVisibleChange]);
 
     const handleBackdropClick = () => {
         backdropClosable && handleHide();
