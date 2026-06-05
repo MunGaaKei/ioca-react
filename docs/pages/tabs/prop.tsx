@@ -13,10 +13,7 @@ export const DBasic = {
                     </Tabs.Item>
                 ))}
                 <Tabs.Item title="keepDOM" keepDOM>
-                    <Image
-                        src="https://via.placeholder.com/150"
-                        initSize={40}
-                    />
+                    <Image src="https://via.placeholder.com/150" initSize={40} />
                 </Tabs.Item>
             </Tabs>
         );
@@ -59,13 +56,7 @@ export const DDynamic = {
                     新增
                 </Button>
 
-                <Tabs
-                    ref={tabRef}
-                    tabs={tabs}
-                    active="标签页"
-                    type="pane"
-                    style={{ maxHeight: 120 }}
-                />
+                <Tabs ref={tabRef} tabs={tabs} active="标签页" type="line" />
             </>
         );
     },

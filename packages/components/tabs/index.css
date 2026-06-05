@@ -14,6 +14,7 @@
     }
     .i-tab-navs-bar {
         background: var(--color-main);
+        border-radius: 1.5px;
     }
     .i-tab-navs-vertical > .i-tab-navs {
         gap: 0.5em;
@@ -49,37 +50,21 @@
 }
 .i-tabs-pane {
     .i-tab-navs-container {
-        position: relative;
-        &:before {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            border-top: 1px solid var(--color-8);
-            content: "";
-            z-index: 1;
-        }
+        padding: 4px;
+        background: var(--background-opacity-2);
     }
     .i-tab-navs {
         gap: 4px;
         .i-tab-nav {
-            border-radius: var(--radius) var(--radius) 0 0;
-            border: 1px solid transparent;
+            border-radius: var(--radius);
             &:hover {
-                border-color: var(--color-8);
-                border-bottom-color: var(--background);
+                background: var(--background);
             }
         }
         .i-tab-active {
             z-index: 2;
-            background: transparent;
-            border-color: var(--color-8);
-            border-bottom: 1px solid var(--background);
-            box-shadow: 1px 2px 0 1px var(--color-8);
-            &:hover {
-                background-color: transparent;
-            }
+            background: var(--background);
+            box-shadow: 0 1px 3px 0 rgba(38, 38, 38, 0.1);
         }
     }
     .i-tab-navs-vertical {

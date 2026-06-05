@@ -1,22 +1,8 @@
 import classNames from "classnames";
-import {
-    CSSProperties,
-    KeyboardEvent,
-    ReactNode,
-    useEffect,
-    useImperativeHandle,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import { CSSProperties, KeyboardEvent, ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { useIntersectionObserver, useSize } from "../../js/hooks";
 import TabsContents from "./contents";
-import {
-    defaultRenderMore,
-    emptyBarStyle,
-    getParsedTabs,
-    isSameTabs,
-} from "./helper";
+import { defaultRenderMore, emptyBarStyle, getParsedTabs, isSameTabs } from "./helper";
 import "./index.css";
 import TabItem from "./item";
 import TabsNavs from "./navs";
@@ -47,9 +33,7 @@ const Tabs = ((props: ITabs) => {
     const navsRef = useRef<HTMLDivElement>(null);
     const contentsRef = useRef<Map<string, ReactNode>>(new Map());
     const [activeKey, setActiveKey] = useState<string | undefined>(active);
-    const [prevActiveKey, setPrevActiveKey] = useState<string | undefined>(
-        undefined,
-    );
+    const [prevActiveKey, setPrevActiveKey] = useState<string | undefined>(undefined);
     const [barStyle, setBarStyle] = useState<CSSProperties>({});
     const [cachedTabs, setCachedTabs] = useState<string[]>([]);
     const [overflow, setOverflow] = useState(false);
@@ -65,10 +49,7 @@ const Tabs = ((props: ITabs) => {
     prevActiveKeyRef.current = prevActiveKey;
     const sourceKeysRef = useRef<Set<string>>(new Set());
     const hiddenSourceKeysRef = useRef<Set<string>>(new Set());
-    const parsedTabs = useMemo(
-        () => getParsedTabs(items, children),
-        [children, items],
-    );
+    const parsedTabs = useMemo(() => getParsedTabs(items, children), [children, items]);
 
     useEffect(() => {
         const prevContents = new Map(contentsRef.current);
@@ -94,16 +75,9 @@ const Tabs = ((props: ITabs) => {
 
         sourceKeysRef.current = sourceKeys;
         contentsRef.current = nextContents;
-        const nextTabs = [
-            ...sourceTabs.filter(
-                (tab) => !hiddenSourceKeysRef.current.has(String(tab.key)),
-            ),
-            ...dynamicTabs,
-        ];
+        const nextTabs = [...sourceTabs.filter((tab) => !hiddenSourceKeysRef.current.has(String(tab.key))), ...dynamicTabs];
 
-        setTabs((currentTabs) =>
-            isSameTabs(currentTabs, nextTabs) ? currentTabs : nextTabs,
-        );
+        setTabs((currentTabs) => (isSameTabs(currentTabs, nextTabs) ? currentTabs : nextTabs));
     }, [parsedTabs]);
 
     const add = (tab: ITabItem, position?: number) => {
@@ -120,10 +94,7 @@ const Tabs = ((props: ITabs) => {
         const { content, ...rest } = tab;
         setTabs((ts) => {
             const nextTabs = [...ts];
-            const index =
-                position === undefined
-                    ? nextTabs.length
-                    : Math.max(0, Math.min(position, nextTabs.length));
+            const index = position === undefined ? nextTabs.length : Math.max(0, Math.min(position, nextTabs.length));
             nextTabs.splice(index, 0, { ...rest, key: tkey });
             return nextTabs;
         });
@@ -149,8 +120,7 @@ const Tabs = ((props: ITabs) => {
 
         const next = nextTabs[i] || nextTabs[i - 1];
         const prev = prevActiveKeyRef.current;
-        const nextKey =
-            prev && nextTabs.some((t) => t.key === prev) ? prev : next?.key;
+        const nextKey = prev && nextTabs.some((t) => t.key === prev) ? prev : next?.key;
         open(nextKey ?? "");
     };
 
@@ -179,10 +149,7 @@ const Tabs = ((props: ITabs) => {
         setActiveKey(nextKey);
     };
 
-    const handleKeyAction = (
-        e: KeyboardEvent<HTMLElement>,
-        action: () => void,
-    ) => {
+    const handleKeyAction = (e: KeyboardEvent<HTMLElement>, action: () => void) => {
         if (!["Enter", " "].includes(e.key)) return;
         e.preventDefault();
         action();
@@ -222,10 +189,7 @@ const Tabs = ((props: ITabs) => {
             setTabs((ts) => {
                 let changed = false;
                 const next = ts.map((t) => {
-                    if (
-                        t.intersecting === undefined ||
-                        t.intersecting === true
-                    ) {
+                    if (t.intersecting === undefined || t.intersecting === true) {
                         return t;
                     }
                     changed = true;
@@ -245,9 +209,7 @@ const Tabs = ((props: ITabs) => {
                 setTabs((ts) => {
                     if (!ts[i]) return ts;
                     if (ts[i]?.intersecting === visible) return ts;
-                    return ts.map((t, idx) =>
-                        idx === i ? { ...t, intersecting: visible } : t,
-                    );
+                    return ts.map((t, idx) => (idx === i ? { ...t, intersecting: visible } : t));
                 });
             });
         });
@@ -280,8 +242,8 @@ const Tabs = ((props: ITabs) => {
             const isLine = type === "line";
 
             setBarStyle({
-                height: !vertical && isLine ? ".25em" : offsetHeight * 0.5,
-                width: vertical && isLine ? ".25em" : offsetWidth,
+                height: !vertical && isLine ? "5px" : offsetHeight * 0.5,
+                width: vertical && isLine ? "5px" : offsetWidth,
                 transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
             });
         }, 16);
@@ -330,23 +292,10 @@ const Tabs = ((props: ITabs) => {
     }));
 
     const cachedTabKeySet = useMemo(() => new Set(cachedTabs), [cachedTabs]);
-    const moreTabs = useMemo(
-        () =>
-            !hideMore && overflow
-                ? tabs.filter((tab) => tab.intersecting === false)
-                : [],
-        [hideMore, overflow, tabs],
-    );
+    const moreTabs = useMemo(() => (!hideMore && overflow ? tabs.filter((tab) => tab.intersecting === false) : []), [hideMore, overflow, tabs]);
 
     return (
-        <div
-            className={classNames(
-                "i-tabs",
-                { flex: vertical, [`i-tabs-${type}`]: type !== "default" },
-                className,
-            )}
-            {...rest}
-        >
+        <div className={classNames("i-tabs", { flex: vertical, [`i-tabs-${type}`]: type !== "default" }, className)} {...rest}>
             <div
                 className={classNames("i-tab-navs-container", navsClass, {
                     "i-tab-navs-vertical": vertical,
@@ -377,12 +326,7 @@ const Tabs = ((props: ITabs) => {
                 {append}
             </div>
 
-            <TabsContents
-                tabs={tabs}
-                activeKey={activeKey}
-                cachedTabKeySet={cachedTabKeySet}
-                getContent={getContent}
-            />
+            <TabsContents tabs={tabs} activeKey={activeKey} cachedTabKeySet={cachedTabKeySet} getContent={getContent} />
         </div>
     );
 }) as CompositionTabs;
