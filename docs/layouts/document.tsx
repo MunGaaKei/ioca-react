@@ -34,10 +34,7 @@ export default function Document() {
             {staticSider && <div className="g-menus">{menus}</div>}
 
             <div className="g-content">
-                <Suspense
-                    key={pathname}
-                    fallback={<Loading className="my-40" />}
-                >
+                <Suspense key={pathname} fallback={<Loading className="my-40" />}>
                     <Outlet />
                 </Suspense>
 

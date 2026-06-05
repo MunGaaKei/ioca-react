@@ -120,10 +120,6 @@
         caret-color: transparent;
     }
 
-    &[type="password"] {
-        font-family: math;
-    }
-
     &:disabled {
         background: var(--background-opacity-1);
         cursor: not-allowed;

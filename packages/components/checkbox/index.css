@@ -69,7 +69,7 @@
     &:hover {
         &:after {
             box-shadow: 0 0 0 2px var(--color-7);
-            background-color: var(--color-main-0);
+            background-color: var(--background);
         }
     }
 }

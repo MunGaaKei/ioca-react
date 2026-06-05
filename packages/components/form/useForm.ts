@@ -77,7 +77,7 @@ export class IFormInstance {
 		const { id, rules, data } = this;
 		if (!rules) return data;
 
-		const names = field ? [field] : Object.keys(this.cacheData);
+		const names = field ? [field] : [...new Set([...Object.keys(this.cacheData), ...Object.keys(rules)])];
 		let isAllValid = true;
 
 		names.forEach((name) => {

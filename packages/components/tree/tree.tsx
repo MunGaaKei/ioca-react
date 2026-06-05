@@ -1,13 +1,37 @@
-import { useEffect, useImperativeHandle, useRef, useState } from "react";
+import { useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import "./index.css";
 import { TreeList } from "./item";
-import { ITree, ITreeItem } from "./type";
+import { ITree, ITreeItem, FlatNode } from "./type";
+import VirtualTree from "./virtual";
 
 const defaultNodeProps = {
 	key: "key",
 	title: "title",
 	children: "children",
 };
+
+function flattenTree(
+	nodes: ITreeItem[],
+	expandedMap: Record<string, boolean>,
+	nodeProps: { key: string; title: string; children: string },
+	depth = 0,
+	parentItem?: ITreeItem,
+): FlatNode[] {
+	const result: FlatNode[] = [];
+	nodes.forEach((item, i) => {
+		const mapKey = item[nodeProps.key];
+		item.key = mapKey || `${parentItem?.key ?? ""}-${i}`;
+		item.parent = parentItem;
+		const isExpanded = !!expandedMap[item.key];
+		result.push({ node: item, depth, isExpanded });
+		const children = item[nodeProps.children];
+		if (children?.length) {
+			const childNodes = flattenTree(children, expandedMap, nodeProps, depth + 1, item);
+			if (isExpanded) result.push(...childNodes);
+		}
+	});
+	return result;
+}
 
 const Tree = (props: ITree) => {
 	const {
@@ -17,6 +41,8 @@ const Tree = (props: ITree) => {
 		checked = [],
 		disabledRelated,
 		nodeProps,
+		height,
+		useVirtual,
 		onItemSelect,
 		onItemCheck,
 		...restProps
@@ -25,14 +51,45 @@ const Tree = (props: ITree) => {
 	const [checkedKeys, setCheckedKeys] = useState(checked);
 	const [partofs, setPartofs] = useState<Record<string, boolean>>({});
 	const nodeMapsRef = useRef<Map<any, any>>(new Map());
-	const oNodeProps = Object.assign({}, defaultNodeProps, nodeProps);
+	const oNodeProps = useMemo(
+		() => ({ ...defaultNodeProps, ...nodeProps }),
+		[nodeProps],
+	);
+
+	const [expandedMap, setExpandedMap] = useState<Record<string, boolean>>(
+		() => {
+			const map: Record<string, boolean> = {};
+			const walk = (nodes: ITreeItem[]) => {
+				nodes.forEach((item) => {
+					const mapKey = item[oNodeProps.key] as string | undefined;
+					if (item.expanded && mapKey) map[mapKey] = true;
+					const children = item[oNodeProps.children];
+					if (children?.length) walk(children);
+				});
+			};
+			walk(data);
+			return map;
+		},
+	);
+
+	const handleExpand = (key: string) => {
+		setExpandedMap((prev) => ({
+			...prev,
+			[key]: !prev[key],
+		}));
+	};
+
+	const flatNodes = useMemo(
+		() => flattenTree(data, expandedMap, oNodeProps),
+		[data, expandedMap, oNodeProps],
+	);
 
 	const isChecked = (key?: string) => checkedKeys.includes(key || "");
 
 	const checkItem = (
 		item: ITreeItem,
 		checked: boolean,
-		direction?: "root" | "leaf"
+		direction?: "root" | "leaf",
 	) => {
 		const { key = "", parent, children } = item;
 		const shouldChanged = { [key]: checked };
@@ -43,7 +100,7 @@ const Tree = (props: ITree) => {
 		if (checked) {
 			if (parent && direction !== "leaf") {
 				const hasUnchecked = parent.children?.some(
-					(o) => o.key !== key && !isChecked(o.key)
+					(o) => o.key !== key && !isChecked(o.key),
 				);
 
 				const [changes, parts] = checkItem(parent, true, "root");
@@ -77,7 +134,7 @@ const Tree = (props: ITree) => {
 			Object.assign(shouldChanged, changes);
 
 			const hasChecked = parent.children?.some(
-				(o) => isChecked(o.key) && o.key !== key
+				(o) => isChecked(o.key) && o.key !== key,
 			);
 
 			Object.assign(partofs, hasChecked ? {} : parts, {
@@ -129,7 +186,7 @@ const Tree = (props: ITree) => {
 		nodeMapsRef.current.clear();
 
 		const { key, children } = oNodeProps;
-		const recursive = (nodes) => {
+		const recursive = (nodes: any[]) => {
 			nodes.map((o) => {
 				nodeMapsRef.current.set(o[key], o);
 
@@ -138,7 +195,7 @@ const Tree = (props: ITree) => {
 		};
 
 		recursive(data);
-	}, [data]);
+	}, [data, oNodeProps]);
 
 	useImperativeHandle(ref, () => {
 		return {
@@ -172,9 +229,28 @@ const Tree = (props: ITree) => {
 		};
 	});
 
+	if (useVirtual) {
+		return (
+			<VirtualTree
+				flatNodes={flatNodes}
+				onExpand={handleExpand}
+				height={height}
+				useVirtual={useVirtual}
+				selected={selectedKey}
+				checked={checkedKeys}
+				partofs={partofs}
+				nodeProps={oNodeProps}
+				onItemCheck={handleCheck}
+				onItemSelect={handleSelect}
+				{...restProps}
+			/>
+		);
+	}
+
 	return (
 		<TreeList
-			data={data}
+			flatNodes={flatNodes}
+			onExpand={handleExpand}
 			selected={selectedKey}
 			checked={checkedKeys}
 			partofs={partofs}

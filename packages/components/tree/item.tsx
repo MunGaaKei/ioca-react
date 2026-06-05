@@ -1,83 +1,18 @@
 import { KeyboardArrowDownRound } from "@ricons/material";
 import classNames from "classnames";
-import { MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
 import Checkbox from "../checkbox";
 import Icon from "../icon";
-import { ITree, ITreeHeader, PropsTreeItem } from "./type";
+import { FlatNode, ITreeItem } from "./type";
 
-interface ITreeList extends Omit<ITree, "nodeProps"> {
-	nodeProps: {
-		key: string;
-		title: string;
-		children: string;
-	};
-}
-
-export function TreeList(props: ITreeList) {
-	const {
-		data = [],
-		depth = 0,
-		round,
-		style,
-		className,
-		parent,
-		nodeProps,
-		...restProps
-	} = props;
-
-	const contents = data.map((item, i) => {
-		const { type } = item;
-		const title = item[nodeProps.title];
-		const itemKey =
-			item[nodeProps.key] ||
-			(parent?.key !== undefined ? `${parent.key}-${i}` : `${i}`);
-
-		item.key = itemKey;
-		item.parent = parent;
-
-		if (type === "title") {
-			return (
-				<div key={i} className='i-tree-group-title'>
-					{title}
-				</div>
-			);
-		}
-
-		if (type && type !== "item") {
-			return (
-				<div key={i} className={`i-tree-type-${type}`}>
-					{title}
-				</div>
-			);
-		}
-
-		return (
-			<TreeItem
-				key={itemKey}
-				index={i}
-				item={item}
-				depth={depth}
-				nodeProps={nodeProps}
-				{...restProps}
-			/>
-		);
-	});
-
-	if (depth > 0) return <>{contents}</>;
-
-	return (
-		<div
-			className={classNames("i-tree", className, {
-				"i-tree-round": round,
-			})}
-			style={style}
-		>
-			{contents}
-		</div>
-	);
-}
-
-const Header = (props: ITreeHeader) => {
+export const TreeItemHeader = (props: {
+	as?: ITreeItem["as"];
+	href?: string;
+	selected?: boolean;
+	style?: React.CSSProperties;
+	children: React.ReactNode;
+	onClick?: (e: MouseEvent<HTMLElement>) => void;
+}) => {
 	const { as: Tag = "a", href, selected, children, ...restProps } = props;
 
 	const className = classNames("i-tree-item-header", {
@@ -99,111 +34,139 @@ const Header = (props: ITreeHeader) => {
 	);
 };
 
-export const TreeItem = (props: PropsTreeItem) => {
+interface TreeListProps {
+	flatNodes: FlatNode[];
+	onExpand: (key: string) => void;
+	selected?: string;
+	checked?: string[];
+	partofs?: Record<string, boolean>;
+	checkable?: boolean;
+	nodeProps: { key: string; title: string; children: string };
+	renderExtra?: (item: ITreeItem) => React.ReactNode;
+	round?: boolean;
+	className?: string;
+	style?: React.CSSProperties;
+	onItemClick?: (item: ITreeItem, e: MouseEvent<HTMLElement>) => void;
+	onItemSelect?: (key: string, item: ITreeItem) => void;
+	onItemCheck?: (
+		item: ITreeItem,
+		checked: boolean,
+		checkedKeys: string[],
+	) => void;
+}
+
+export function TreeList(props: TreeListProps) {
 	const {
-		item,
-		depth = 0,
-		index,
+		flatNodes,
+		onExpand,
 		selected,
 		checked = [],
 		partofs = {},
 		checkable,
 		nodeProps,
 		renderExtra,
+		round,
+		className,
+		style,
 		onItemClick,
 		onItemSelect,
 		onItemCheck,
-		...restProps
 	} = props;
-
-	const { as, key = "", href, icon, title, expanded, disabled } = item;
-	const children = item[nodeProps.children];
-
-	const [expand, setExpand] = useState(expanded);
-
-	const handleExpand = (e: MouseEvent<HTMLElement>, fromToggle?: boolean) => {
-		if (fromToggle) {
-			e.preventDefault();
-			e.stopPropagation();
-		}
-
-		if (disabled || !children?.length) return;
-
-		setExpand((v) => !v);
-	};
-
-	const handleItemClick = (e: MouseEvent<HTMLElement>) => {
-		if (disabled) {
-			e.preventDefault();
-			e.stopPropagation();
-			return;
-		}
-
-		handleExpand(e);
-		onItemClick?.(item, e);
-		onItemSelect?.(key, item);
-	};
-
-	const handleItemCheck = (checked) => onItemCheck?.(item, checked, []);
-	const itemChecked = checked.includes(key);
 
 	return (
 		<div
-			className={classNames("i-tree-item", {
-				"i-tree-expand": expand,
+			className={classNames("i-tree", className, {
+				"i-tree-round": round,
 			})}
+			style={style}
 		>
-			<Header
-				as={as}
-				href={href}
-				style={{ paddingLeft: `${depth * 1.5 + 0.5}em` }}
-				selected={selected === key}
-				onClick={handleItemClick}
-			>
-				{checkable && (
-					<Checkbox.Item
-						value={itemChecked}
-						partof={!itemChecked && partofs[key]}
-						className='i-tree-checkbox'
-						onChange={handleItemCheck}
-						onClick={(e) => e.stopPropagation()}
-					/>
-				)}
+			{flatNodes.map(({ node, depth, isExpanded }) => {
+				const { key = "", as, href, icon, title, disabled, type } = node;
+				const children = node[nodeProps.children];
+				const hasChildren = children?.length > 0;
 
-				{icon && <span className='i-tree-item-icon'>{icon}</span>}
+				if (type === "title") {
+					return (
+						<div key={key} className="i-tree-group-title">
+							{title}
+						</div>
+					);
+				}
 
-				<span className='i-tree-item-title'>{title}</span>
+				if (type && type !== "item") {
+					return (
+						<div key={key} className={`i-tree-type-${type}`}>
+							{title}
+						</div>
+					);
+				}
 
-				{renderExtra?.(item)}
+				return (
+					<div
+						key={key}
+						className={classNames("i-tree-item", {
+							"i-tree-expand": isExpanded,
+						})}
+					>
+						<TreeItemHeader
+							as={as}
+							href={href}
+							style={{ paddingLeft: `${depth * 1.5 + 0.5}em` }}
+							selected={selected === key}
+							onClick={(e) => {
+								if (disabled) {
+									e.preventDefault();
+									e.stopPropagation();
+									return;
+								}
+								if (hasChildren) onExpand(key);
+								onItemClick?.(node, e);
+								onItemSelect?.(key, node);
+							}}
+						>
+							{checkable && (
+								<Checkbox.Item
+									value={checked.includes(key)}
+									partof={
+										!checked.includes(key) && partofs[key]
+									}
+									className="i-tree-checkbox"
+									onChange={() =>
+										onItemCheck?.(
+											node,
+											!checked.includes(key),
+											[],
+										)
+									}
+									onClick={(e: MouseEvent) =>
+										e.stopPropagation()
+									}
+								/>
+							)}
 
-				{children && (
-					<Icon
-						icon={<KeyboardArrowDownRound />}
-						className='i-tree-toggle'
-						onClick={(e) => handleExpand(e, true)}
-					/>
-				)}
-			</Header>
+							{icon && (
+								<span className="i-tree-item-icon">{icon}</span>
+							)}
 
-			{children?.length && (
-				<div className='i-tree-item-content'>
-					<TreeList
-						data={children}
-						depth={depth + 1}
-						selected={selected}
-						checkable={checkable}
-						parent={item}
-						partofs={partofs}
-						checked={checked}
-						nodeProps={nodeProps}
-						renderExtra={renderExtra}
-						onItemClick={onItemClick}
-						onItemSelect={onItemSelect}
-						onItemCheck={onItemCheck}
-						{...restProps}
-					/>
-				</div>
-			)}
+							<span className="i-tree-item-title">{title}</span>
+
+							{renderExtra?.(node)}
+
+							{hasChildren && (
+								<Icon
+									icon={<KeyboardArrowDownRound />}
+									className="i-tree-toggle"
+									onClick={(e: MouseEvent<HTMLElement>) => {
+										e.preventDefault();
+										e.stopPropagation();
+										onExpand(key);
+									}}
+								/>
+							)}
+						</TreeItemHeader>
+					</div>
+				);
+			})}
 		</div>
 	);
-};
+}

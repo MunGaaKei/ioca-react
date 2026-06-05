@@ -35,14 +35,15 @@ export interface ITreeItem {
 	[key: string]: any;
 }
 
-export interface PropsTreeItem extends Omit<ITree, "data" | "nodeProps"> {
-	index?: number;
-	item: ITreeItem;
-	nodeProps: {
-		key: string;
-		title: string;
-		children: string;
-	};
+export interface FlatNode {
+	node: ITreeItem;
+	depth: number;
+	isExpanded: boolean;
+}
+
+export interface TVirtual {
+	rowHeight: number;
+	threshold?: number;
 }
 
 export interface ITree {
@@ -62,6 +63,8 @@ export interface ITree {
 	disabledRelated?: boolean;
 	partofs?: Record<string, boolean>;
 	round?: boolean;
+	height?: number | string;
+	useVirtual?: TVirtual;
 	style?: CSSProperties;
 	className?: string;
 	renderExtra?: (item: ITreeItem) => ReactNode;
