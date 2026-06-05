@@ -25,7 +25,7 @@ export enum TFileType {
 export interface IPreview {
 	items: (TPreviewItem | string)[];
 	initial?: number;
-	controls?: boolean;
+	hideControl?: boolean;
 	loop?: boolean;
 	className?: string;
 	style?: CSSProperties;

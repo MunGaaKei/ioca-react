@@ -22,6 +22,7 @@ export default function Content(props: IPreview) {
 	const {
 		items = [],
 		initial = 0,
+		hideControl,
 		renderFile = DefaultRenderFile,
 		onRotate,
 		onChange,
@@ -192,6 +193,7 @@ export default function Content(props: IPreview) {
 				{content}
 			</div>
 
+			{!hideControl && (
 			<div
 				className={classNames("i-preview-controls", {
 					"i-preview-controls-hidden": state.controlHidden,
@@ -245,6 +247,7 @@ export default function Content(props: IPreview) {
 					</>
 				)}
 			</div>
+			)}
 		</>
 	);
 }

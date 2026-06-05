@@ -13,7 +13,8 @@ export const DBasic = {
                     </Tabs.Item>
                 ))}
                 <Tabs.Item title="keepDOM" keepDOM>
-                    <Image src="https://via.placeholder.com/150" initSize={40} />
+                    <Image src="https://picsum.photos/200/200" initSize={40} />
+                    <p className="mt-20">首次打开后将会保持DOM存在</p>
                 </Tabs.Item>
             </Tabs>
         );
@@ -56,7 +57,7 @@ export const DDynamic = {
                     新增
                 </Button>
 
-                <Tabs ref={tabRef} tabs={tabs} active="标签页" type="line" />
+                <Tabs ref={tabRef} tabs={tabs} active="标签页" type="pane" />
             </>
         );
     },
@@ -110,7 +111,7 @@ export const PTabs = [
     {
         name: "type",
         desc: "样式类型",
-        type: ["'default'", "'line'", "'pane'"],
+        type: ["'default'", "'pane'"],
         def: '"default"',
     },
     {

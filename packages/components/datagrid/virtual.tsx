@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import type { ReactNode } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 // @ts-ignore
 import { List as VirtualList, getScrollbarSize } from "react-window";
 import { useResizeObserver } from "../../js/hooks";
@@ -8,6 +8,235 @@ import Loading from "../loading";
 import Resize from "./resize";
 import Sorter from "./sorter";
 import type { IColumn, IData, VirtualDatagridProps } from "./type";
+
+// ---------------------------------------------------------------------------
+// VirtualCell — memoized cell for virtual grid rows
+// ---------------------------------------------------------------------------
+
+type VirtualCellProps = {
+	column: IColumn;
+	data?: IData;
+	row: number;
+	col: number;
+	isHeader?: boolean;
+	cellEllipsis?: boolean;
+	sortBy: string;
+	sortType: string;
+	resizable?: boolean;
+	onWidthChange?: (i: number, w: number, phase?: "preview" | "commit") => void;
+};
+
+const VirtualCell = memo(function VirtualCell({
+	column,
+	data,
+	row,
+	col,
+	isHeader,
+	cellEllipsis,
+	sortBy,
+	sortType,
+	resizable,
+	onWidthChange,
+}: VirtualCellProps) {
+	const { id, fixed, justify, colSpan, render, title, sorter, renderHeader } =
+		column;
+
+	const style = useMemo(
+		() =>
+			({
+				"--datagrid-justify": justify,
+				gridColumn: `${col + 1} / span ${colSpan ?? 1}`,
+				insetInline: `var(--datagrid-cell-inset-${col})`,
+				...(isHeader ? { insetBlockStart: 0 } : null),
+				position: !isHeader && !fixed ? ("static" as const) : undefined,
+			}) as any,
+		[col, colSpan, fixed, isHeader, justify],
+	);
+
+	const order = isHeader && sortBy === id ? sortType : "";
+
+	return (
+		<div
+			data-col={id}
+			className={classNames("i-datagrid-cell", {
+				[`i-datagrid-cell-fixed-${fixed}`]: fixed,
+				"i-datagrid-has-sorter": isHeader && sorter,
+			})}
+			style={style}
+		>
+			{isHeader
+				? (renderHeader?.(column, col) ?? (
+						<div
+							className={classNames("i-datagrid-cell-content", {
+								"i-datagrid-cell-content-ellipsis": cellEllipsis,
+							})}
+						>
+							{title || id}
+						</div>
+					))
+				: (render?.(data?.[id], data, row, col) ?? (
+						<div
+							className={classNames("i-datagrid-cell-content", {
+								"i-datagrid-cell-content-ellipsis": cellEllipsis,
+							})}
+						>
+							{data?.[id]}
+						</div>
+					))}
+
+			{isHeader && sorter && <Sorter type={order} />}
+			{isHeader && resizable && (
+				<Resize index={col} onWidthChange={onWidthChange} />
+			)}
+		</div>
+	);
+});
+
+// ---------------------------------------------------------------------------
+// Row-level data carried through react-window's rowProps
+// ---------------------------------------------------------------------------
+
+type RowCustomProps = {
+	rows: IData[];
+	columns: IColumn[];
+	columnById: Map<string, IColumn>;
+	columnIndexById: Map<string, number>;
+	contentWidthPx: string;
+	virtualRowHeight: number;
+	header: boolean;
+	striped?: boolean;
+	cellEllipsis?: boolean;
+	loaderNode: ReactNode;
+	sortBy: string;
+	sortType: string;
+	resizable?: boolean;
+	onWidthChange?: (i: number, w: number, phase?: "preview" | "commit") => void;
+	onRowClick?: (data?: IData, row?: number) => void;
+	onCellClick?: VirtualDatagridProps["onCellClick"];
+	onCellDoubleClick?: VirtualDatagridProps["onCellDoubleClick"];
+};
+
+// ---------------------------------------------------------------------------
+// VirtualRow — memoised row rendered by react-window
+// ---------------------------------------------------------------------------
+
+const VirtualRow = memo(function VirtualRow({
+	index,
+	style: itemStyle,
+	rows,
+	columns,
+	columnById,
+	columnIndexById,
+	contentWidthPx,
+	virtualRowHeight,
+	header,
+	striped,
+	cellEllipsis,
+	loaderNode,
+	sortBy,
+	sortType,
+	resizable,
+	onWidthChange,
+	onRowClick,
+	onCellClick,
+	onCellDoubleClick,
+}: { index: number; style: any } & RowCustomProps) {
+	if (index >= rows.length) {
+		return (
+			<div
+				style={{
+					...itemStyle,
+					width: contentWidthPx,
+					minWidth: "100%",
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				{loaderNode}
+			</div>
+		);
+	}
+
+	const rowData = rows[index];
+	const rowNum = index + (header ? 1 : 0);
+	const bg =
+		striped && index % 2 === 0 ? "var(--background-1)" : undefined;
+
+	const handleCellClick = useCallback(
+		(e: any) => {
+			if (!onCellClick) return;
+			const el = (e.target as HTMLElement | null)?.closest?.(
+				".i-datagrid-cell[data-col]",
+			) as HTMLElement | null;
+			const id = el?.dataset?.col;
+			if (!id) return;
+			const column = columnById.get(id);
+			const col = columnIndexById.get(id);
+			if (!column || col == null) return;
+			onCellClick(rowData, column, rowNum, col, e);
+		},
+		[columnById, columnIndexById, onCellClick, rowData, rowNum],
+	);
+
+	const handleCellDoubleClick = useCallback(
+		(e: any) => {
+			if (!onCellDoubleClick) return;
+			const el = (e.target as HTMLElement | null)?.closest?.(
+				".i-datagrid-cell[data-col]",
+			) as HTMLElement | null;
+			const id = el?.dataset?.col;
+			if (!id) return;
+			const column = columnById.get(id);
+			const col = columnIndexById.get(id);
+			if (!column || col == null) return;
+			onCellDoubleClick(rowData, column, rowNum, col, e);
+		},
+		[columnById, columnIndexById, onCellDoubleClick, rowData, rowNum],
+	);
+
+	const handleRowClick = useCallback(
+		() => onRowClick?.(rowData, rowNum),
+		[onRowClick, rowData, rowNum],
+	);
+
+	return (
+		<div
+			style={{
+				...itemStyle,
+				width: contentWidthPx,
+				minWidth: "100%",
+				display: "grid",
+				gridTemplateColumns: "var(--grid-template-columns)",
+				height: virtualRowHeight,
+				"--datagrid-cell-background": bg,
+			}}
+			className='i-datagrid-row'
+			onClick={handleRowClick}
+			onClickCapture={handleCellClick}
+			onDoubleClickCapture={handleCellDoubleClick}
+		>
+			{columns.map((c, col) => (
+				<VirtualCell
+					key={c.id}
+					column={c}
+					data={rowData}
+					row={rowNum}
+					col={col}
+					cellEllipsis={cellEllipsis}
+					sortBy={sortBy}
+					sortType={sortType}
+					resizable={resizable}
+					onWidthChange={onWidthChange}
+				/>
+			))}
+		</div>
+	);
+});
+
+// ---------------------------------------------------------------------------
+// VirtualDatagrid
+// ---------------------------------------------------------------------------
 
 export default function VirtualDatagrid(props: VirtualDatagridProps) {
 	const {
@@ -43,6 +272,7 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
 	const rafRef = useRef({
 		viewport: 0 as number | 0,
 		contentWidth: 0 as number | 0,
+		scrollSync: 0 as number | 0,
 	});
 
 	const columnById = useMemo(() => {
@@ -56,108 +286,6 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
 		columns.forEach((c, i) => map.set(c.id, i));
 		return map;
 	}, [columns]);
-
-	const getVirtualCellStyle = useCallback(
-		({
-			justify,
-			col,
-			colSpan = 1,
-		}: Pick<IColumn, "justify"> & { col: number; colSpan?: number }) => {
-			return {
-				"--datagrid-justify": justify,
-				gridColumn: `${col + 1} / span ${colSpan}`,
-				insetInline: `var(--datagrid-cell-inset-${col})`,
-			} as any;
-		},
-		[],
-	);
-
-	const renderVirtualCell = useCallback(
-		({
-			column,
-			data,
-			row,
-			col,
-			isHeader,
-		}: {
-			column: IColumn;
-			data?: IData;
-			row: number;
-			col: number;
-			isHeader?: boolean;
-		}) => {
-			const {
-				id,
-				fixed,
-				justify,
-				colSpan,
-				render,
-				title,
-				sorter,
-				renderHeader,
-			} = column;
-
-			const style = {
-				...getVirtualCellStyle({ justify, col, colSpan }),
-				...(isHeader ? { insetBlockStart: 0 } : null),
-			};
-
-			const order = isHeader && sortBy === id ? sortType : "";
-
-			return (
-				<div
-					key={id}
-					data-col={id}
-					className={classNames("i-datagrid-cell", {
-						[`i-datagrid-cell-fixed-${fixed}`]: fixed,
-						"i-datagrid-has-sorter": isHeader && sorter,
-					})}
-					style={style}
-				>
-					{isHeader
-						? (renderHeader?.(column, col) ?? (
-								<div
-									className={classNames(
-										"i-datagrid-cell-content",
-										{
-											"i-datagrid-cell-content-ellipsis":
-												cellEllipsis,
-										},
-									)}
-								>
-									{title || id}
-								</div>
-							))
-						: (render?.(data?.[id], data, row, col) ?? (
-								<div
-									className={classNames(
-										"i-datagrid-cell-content",
-										{
-											"i-datagrid-cell-content-ellipsis":
-												cellEllipsis,
-										},
-									)}
-								>
-									{data?.[id]}
-								</div>
-							))}
-
-					{isHeader && sorter && <Sorter type={order} />}
-					{isHeader && resizable && (
-						<Resize index={col} onWidthChange={onWidthChange} />
-					)}
-				</div>
-			);
-		},
-		[
-			cellEllipsis,
-			getVirtualCellStyle,
-			onWidthChange,
-			resizable,
-			sortBy,
-			sortType,
-		],
-	);
 
 	const handleHeaderClick = useCallback(
 		(e: any) => {
@@ -174,12 +302,15 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
 		const el = e.currentTarget as HTMLDivElement | null;
 		if (!el) return;
 
-		if (
-			headerRef.current &&
-			headerRef.current.scrollLeft !== el.scrollLeft
-		) {
-			headerRef.current.scrollLeft = el.scrollLeft;
-		}
+		if (rafRef.current.scrollSync) return;
+		rafRef.current.scrollSync = requestAnimationFrame(() => {
+			rafRef.current.scrollSync = 0;
+			if (!headerRef.current) return;
+			const target = el.scrollLeft;
+			if (headerRef.current.scrollLeft !== target) {
+				headerRef.current.scrollLeft = target;
+			}
+		});
 	}, []);
 
 	const handleReachEnd = useCallback(() => {
@@ -211,38 +342,6 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
 			listEl.scrollLeft = el.scrollLeft;
 		}
 	}, []);
-
-	const handleBodyClickCapture = useCallback(
-		(e: any, rowData: IData, rowNum: number) => {
-			if (!onCellClick) return;
-			const el = (e.target as HTMLElement | null)?.closest?.(
-				".i-datagrid-cell[data-col]",
-			) as HTMLElement | null;
-			const id = el?.dataset?.col;
-			if (!id) return;
-			const column = columnById.get(id);
-			const col = columnIndexById.get(id);
-			if (!column || col == null) return;
-			onCellClick(rowData, column, rowNum, col, e);
-		},
-		[columnById, columnIndexById, onCellClick],
-	);
-
-	const handleBodyDoubleClickCapture = useCallback(
-		(e: any, rowData: IData, rowNum: number) => {
-			if (!onCellDoubleClick) return;
-			const el = (e.target as HTMLElement | null)?.closest?.(
-				".i-datagrid-cell[data-col]",
-			) as HTMLElement | null;
-			const id = el?.dataset?.col;
-			if (!id) return;
-			const column = columnById.get(id);
-			const col = columnIndexById.get(id);
-			if (!column || col == null) return;
-			onCellDoubleClick(rowData, column, rowNum, col, e);
-		},
-		[columnById, columnIndexById, onCellDoubleClick],
-	);
 
 	useEffect(() => {
 		const el = wrapRef.current;
@@ -325,15 +424,28 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
 
 	const headerCells = useMemo(
 		() =>
-			columns.map((c, col) =>
-				renderVirtualCell({
-					column: c,
-					row: 0,
-					col,
-					isHeader: true,
-				}),
-			),
-		[columns, renderVirtualCell],
+			columns.map((c, col) => (
+				<VirtualCell
+					key={c.id}
+					column={c}
+					row={0}
+					col={col}
+					isHeader
+					cellEllipsis={cellEllipsis}
+					sortBy={sortBy}
+					sortType={sortType}
+					resizable={resizable}
+					onWidthChange={onWidthChange}
+				/>
+			)),
+		[
+			cellEllipsis,
+			columns,
+			onWidthChange,
+			resizable,
+			sortBy,
+			sortType,
+		],
 	);
 
 	const headerInnerStyle = useMemo(
@@ -372,73 +484,45 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
 		[virtual.loader],
 	);
 
-	const rowComponent = useCallback(
-		({ index, style: itemStyle }: any) => {
-			if (index >= rows.length) {
-				return (
-					<div
-						style={{
-							...itemStyle,
-							width: contentWidthPx,
-							minWidth: "100%",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-						}}
-					>
-						{loaderNode}
-					</div>
-				);
-			}
-
-			const rowData = rows[index];
-			const rowNum = index + (header ? 1 : 0);
-			const bg =
-				striped && index % 2 === 0 ? "var(--background-1)" : undefined;
-
-			return (
-				<div
-					style={{
-						...itemStyle,
-						width: contentWidthPx,
-						minWidth: "100%",
-						display: "grid",
-						gridTemplateColumns: "var(--grid-template-columns)",
-						height: virtual.rowHeight,
-						"--datagrid-cell-background": bg,
-					}}
-					className='i-datagrid-row'
-					onClickCapture={(e) =>
-						handleBodyClickCapture(e, rowData, rowNum)
-					}
-					onDoubleClickCapture={(e) =>
-						handleBodyDoubleClickCapture(e, rowData, rowNum)
-					}
-					onClick={() => onRowClick?.(rowData, rowNum)}
-				>
-					{columns.map((c, col) =>
-						renderVirtualCell({
-							column: c,
-							data: rowData,
-							row: rowNum,
-							col,
-						}),
-					)}
-				</div>
-			);
-		},
-		[
-			columns,
-			contentWidthPx,
-			handleBodyClickCapture,
-			handleBodyDoubleClickCapture,
-			header,
-			loaderNode,
-			onRowClick,
-			renderVirtualCell,
+	// Stable row-component reference so react-window can memoise rows.
+	const rowProps = useMemo<RowCustomProps>(
+		() => ({
 			rows,
+			columns,
+			columnById,
+			columnIndexById,
+			contentWidthPx,
+			virtualRowHeight: virtual.rowHeight,
+			header,
 			striped,
+			cellEllipsis,
+			loaderNode,
+			sortBy,
+			sortType,
+			resizable,
+			onWidthChange,
+			onRowClick,
+			onCellClick,
+			onCellDoubleClick,
+		}),
+		[
+			rows,
+			columns,
+			columnById,
+			columnIndexById,
+			contentWidthPx,
 			virtual.rowHeight,
+			header,
+			striped,
+			cellEllipsis,
+			loaderNode,
+			sortBy,
+			sortType,
+			resizable,
+			onWidthChange,
+			onRowClick,
+			onCellClick,
+			onCellDoubleClick,
 		],
 	);
 
@@ -473,11 +557,11 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
 				rowCount={rows.length + (virtual.hasMore ? 1 : 0)}
 				rowHeight={virtual.rowHeight}
 				overscanCount={Math.max(3, virtual.threshold ?? 8)}
-				rowProps={{}}
+				rowProps={rowProps as any}
 				style={listStyle}
 				onScroll={handleBodyScroll}
 				onRowsRendered={handleRowsRendered}
-				rowComponent={rowComponent}
+				rowComponent={VirtualRow}
 			/>
 			{rows.length < 1 && !virtual.hasMore && empty}
 		</div>

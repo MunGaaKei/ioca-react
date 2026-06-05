@@ -239,11 +239,10 @@ const Tabs = ((props: ITabs) => {
             }
 
             const { offsetHeight, offsetLeft, offsetTop, offsetWidth } = nav;
-            const isLine = type === "line";
 
             setBarStyle({
-                height: !vertical && isLine ? "5px" : offsetHeight * 0.5,
-                width: vertical && isLine ? "5px" : offsetWidth,
+                height: offsetHeight * 0.5,
+                width: offsetWidth,
                 transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
             });
         }, 16);

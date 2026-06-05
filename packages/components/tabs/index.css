@@ -2,27 +2,6 @@
     max-width: 100%;
     gap: 0.5em;
 }
-.i-tabs-line {
-    .i-tab-navs {
-        gap: 1em;
-    }
-    .i-tab-nav {
-        padding: 0.4em 0;
-        &.i-tab-active {
-            --color: var(--color-main);
-        }
-    }
-    .i-tab-navs-bar {
-        background: var(--color-main);
-        border-radius: 1.5px;
-    }
-    .i-tab-navs-vertical > .i-tab-navs {
-        gap: 0.5em;
-        > .i-tab-nav {
-            padding: 0.25em 1em;
-        }
-    }
-}
 .i-tab-navs-container {
     display: flex;
     border-radius: var(--radius);
@@ -102,7 +81,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.4em 0.5em;
+    padding: 0.4em 0.625em;
     user-select: none;
     flex-shrink: 0;
     gap: 0.25em;
@@ -126,7 +105,6 @@
 .i-tab-closable {
     .i-tab-nav {
         padding-right: 0;
-        border-radius: var(--radius) var(--radius) 0 0;
         &.i-tab-active {
             box-shadow: 2px 0 8px #0000000d;
             background-color: var(--background);
