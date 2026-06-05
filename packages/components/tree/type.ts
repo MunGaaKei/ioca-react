@@ -48,9 +48,7 @@ export interface TVirtual {
 
 export interface ITree {
 	data: ITreeItem[];
-	parent?: ITreeItem;
 	ref?: RefObject<RefTree | null>;
-	depth?: number;
 	nodeProps?: {
 		key?: string;
 		title?: string;
@@ -61,7 +59,6 @@ export interface ITree {
 	checkable?: boolean;
 	checked?: string[];
 	disabledRelated?: boolean;
-	partofs?: Record<string, boolean>;
 	round?: boolean;
 	height?: number | string;
 	useVirtual?: TVirtual;

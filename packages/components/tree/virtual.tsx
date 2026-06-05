@@ -8,13 +8,13 @@ import Icon from "../icon";
 import Loading from "../loading";
 import { useResizeObserver } from "../../js/hooks";
 import { FlatNode, ITreeItem, TVirtual } from "./type";
-import { TreeItemHeader } from "./item";
+import { TreeRow } from "./item";
 
 interface VirtualTreeProps {
 	flatNodes: FlatNode[];
 	onExpand: (key: string) => void;
 	selected?: string;
-	checked?: string[];
+	checkedSet: Set<string>;
 	partofs?: Record<string, boolean>;
 	checkable?: boolean;
 	nodeProps: { key: string; title: string; children: string };
@@ -38,7 +38,7 @@ export default function VirtualTree(props: VirtualTreeProps) {
 		flatNodes,
 		onExpand,
 		selected,
-		checked = [],
+		checkedSet,
 		partofs = {},
 		checkable,
 		nodeProps,
@@ -75,118 +75,40 @@ export default function VirtualTree(props: VirtualTreeProps) {
 		(typeof height === "number" ? height : viewportHeight || 360),
 	);
 
+	const propsRef = useRef(props);
+	propsRef.current = props;
+
 	const rowComponent = useCallback(
 		({
 			index,
-			style: itemStyle,
+			style,
 		}: {
 			index: number;
 			style: React.CSSProperties;
 		}) => {
-			const flatNode = flatNodes[index];
+			const p = propsRef.current;
+			const flatNode = p.flatNodes[index];
 			if (!flatNode) return null;
-
-			const { node, depth, isExpanded } = flatNode;
-			const { key = "", as, href, icon, title, disabled, type } = node;
-			const children = node[nodeProps.children];
-			const hasChildren = children instanceof Promise || (Array.isArray(children) && children.length > 0);
-			const loading = loadingKeys?.includes(key);
-
-			if (type === "title") {
-				return (
-					<div style={itemStyle} className="i-tree-group-title">
-						{title}
-					</div>
-				);
-			}
-
-			if (type && type !== "item") {
-				return (
-					<div style={itemStyle} className={`i-tree-type-${type}`}>
-						{title}
-					</div>
-				);
-			}
-
 			return (
-				<div style={itemStyle}>
-					<TreeItemHeader
-						as={as}
-						href={href}
-						style={{
-							paddingLeft: `${depth * 1.5 + 0.5}em`,
-						}}
-						selected={selected === key}
-						onClick={(e) => {
-							if (disabled) {
-								e.preventDefault();
-								e.stopPropagation();
-								return;
-							}
-							if (hasChildren) onExpand(key);
-							onItemClick?.(node, e);
-							onItemSelect?.(key, node);
-						}}
-					>
-						{checkable && (
-							<Checkbox.Item
-								value={checked.includes(key)}
-								partof={
-									!checked.includes(key) && partofs[key]
-								}
-								className="i-tree-checkbox"
-								onChange={() =>
-									onItemCheck?.(
-										node,
-										!checked.includes(key),
-										[],
-									)
-								}
-								onClick={(e: React.MouseEvent) =>
-									e.stopPropagation()
-								}
-							/>
-						)}
-
-						{icon && (
-							<span className="i-tree-item-icon">{icon}</span>
-						)}
-
-						<span className="i-tree-item-title">{title}</span>
-
-						{renderExtra?.(node)}
-
-						{hasChildren && (
-							<Icon
-								icon={loading ? <Loading size=".86em" /> : <KeyboardArrowDownRound />}
-								className={classNames("i-tree-toggle", {
-									"i-tree-expand": isExpanded,
-								})}
-								onClick={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-									onExpand(key);
-								}}
-							/>
-						)}
-					</TreeItemHeader>
-				</div>
+				<TreeRow
+					flatNode={flatNode}
+					wrapperStyle={style}
+					virtualMode
+					selected={p.selected}
+					checkedSet={p.checkedSet}
+					partofs={p.partofs}
+					checkable={p.checkable}
+					nodeProps={p.nodeProps}
+					renderExtra={p.renderExtra}
+					loadingKeys={p.loadingKeys}
+					onExpand={p.onExpand}
+					onItemClick={p.onItemClick}
+					onItemSelect={p.onItemSelect}
+					onItemCheck={p.onItemCheck}
+				/>
 			);
 		},
-		[
-			flatNodes,
-			selected,
-			checked,
-			partofs,
-			checkable,
-			nodeProps,
-			renderExtra,
-			loadingKeys,
-			onExpand,
-			onItemClick,
-			onItemSelect,
-			onItemCheck,
-		],
+		[],
 	);
 
 	return (

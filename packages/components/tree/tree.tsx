@@ -54,11 +54,12 @@ const Tree = (props: ITree) => {
 	const [partofs, setPartofs] = useState<Record<string, boolean>>({});
 	const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>({});
 	const [asyncChildrenMap, setAsyncChildrenMap] = useState<Record<string, ITreeItem[]>>({});
-	const nodeMapsRef = useRef<Map<any, any>>(new Map());
+	const nodeMapsRef = useRef<Map<string, ITreeItem>>(new Map());
 	const oNodeProps = useMemo(
 		() => ({ ...defaultNodeProps, ...nodeProps }),
 		[nodeProps],
 	);
+	const checkedSet = useMemo(() => new Set(checkedKeys), [checkedKeys]);
 
 	const [expandedMap, setExpandedMap] = useState<Record<string, boolean>>(
 		() => {
@@ -123,7 +124,6 @@ const Tree = (props: ITree) => {
 		[loadingMap],
 	);
 
-	const isChecked = (key?: string) => checkedKeys.includes(key || "");
 
 	const checkItem = (
 		item: ITreeItem,
@@ -140,7 +140,7 @@ const Tree = (props: ITree) => {
 			if (parent && direction !== "leaf") {
 				const hasUnchecked = Array.isArray(parent.children)
 					? parent.children.some(
-						(o) => o.key !== key && !isChecked(o.key),
+						(o) => o.key !== key && !checkedSet.has(o.key),
 					)
 					: false;
 
@@ -157,7 +157,7 @@ const Tree = (props: ITree) => {
 
 			if (Array.isArray(children) && children.length && direction !== "root") {
 				children.map((o) => {
-					if (isChecked(o.key)) return;
+					if (checkedSet.has(o.key)) return;
 
 					const [changes] = checkItem(o, true, "leaf");
 
@@ -176,7 +176,7 @@ const Tree = (props: ITree) => {
 
 			const hasChecked = Array.isArray(parent.children)
 				? parent.children.some(
-					(o) => isChecked(o.key) && o.key !== key,
+					(o) => checkedSet.has(o.key) && o.key !== key,
 				)
 				: false;
 
@@ -189,7 +189,7 @@ const Tree = (props: ITree) => {
 			children.map((o) => {
 				const [changes] = checkItem(o, false, "leaf");
 
-				if (!isChecked(o.key)) return;
+				if (!checkedSet.has(o.key)) return;
 
 				Object.assign(shouldChanged, changes);
 				partofs[o.key as string] = false;
@@ -203,9 +203,10 @@ const Tree = (props: ITree) => {
 		const [shouldChanged, partofs] = checkItem(item, checked);
 		const changedKeys = Object.keys(shouldChanged);
 
+		const changedKeysSet = new Set(changedKeys);
 		const nextChecked = checked
 			? Array.from(new Set([...checkedKeys, ...changedKeys]))
-			: checkedKeys.filter((k) => !changedKeys.includes(k));
+			: checkedKeys.filter((k) => !changedKeysSet.has(k));
 
 		setCheckedKeys(nextChecked);
 		setPartofs((p) => ({ ...p, ...partofs }));
@@ -227,17 +228,19 @@ const Tree = (props: ITree) => {
 
 	useEffect(() => {
 		nodeMapsRef.current.clear();
-
-		const { children } = oNodeProps;
-		const recursive = (nodes: any[]) => {
-			nodes.map((o) => {
-				nodeMapsRef.current.set(o.key, o);
-
-				o[children]?.length > 0 && recursive(o[children]);
+		const { key: keyProp, children: childrenProp } = oNodeProps;
+		const walk = (nodes: ITreeItem[], parentKey = "") => {
+			nodes.forEach((item, i) => {
+				const mapKey = item[keyProp];
+				const key = (mapKey || `${parentKey}-${i}`) as string;
+				nodeMapsRef.current.set(key, item);
+				const itemChildren = item[childrenProp];
+				if (Array.isArray(itemChildren) && itemChildren.length) {
+					walk(itemChildren, key);
+				}
 			});
 		};
-
-		recursive(data);
+		walk(data);
 	}, [data, oNodeProps, asyncChildrenMap]);
 
 	useEffect(() => {
@@ -298,7 +301,7 @@ const Tree = (props: ITree) => {
 				height={height}
 				useVirtual={useVirtual}
 				selected={selectedKey}
-				checked={checkedKeys}
+				checkedSet={checkedSet}
 				partofs={partofs}
 				nodeProps={oNodeProps}
 				loadingKeys={loadingKeys}
@@ -314,7 +317,7 @@ const Tree = (props: ITree) => {
 			flatNodes={flatNodes}
 			onExpand={handleExpand}
 			selected={selectedKey}
-			checked={checkedKeys}
+			checkedSet={checkedSet}
 			partofs={partofs}
 			nodeProps={oNodeProps}
 			loadingKeys={loadingKeys}
