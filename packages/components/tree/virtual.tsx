@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { List as VirtualList } from "react-window";
 import Checkbox from "../checkbox";
 import Icon from "../icon";
+import Loading from "../loading";
 import { useResizeObserver } from "../../js/hooks";
 import { FlatNode, ITreeItem, TVirtual } from "./type";
 import { TreeItemHeader } from "./item";
@@ -18,6 +19,7 @@ interface VirtualTreeProps {
 	checkable?: boolean;
 	nodeProps: { key: string; title: string; children: string };
 	renderExtra?: (item: ITreeItem) => React.ReactNode;
+	loadingKeys?: string[];
 	height?: number | string;
 	useVirtual: TVirtual;
 	className?: string;
@@ -41,6 +43,7 @@ export default function VirtualTree(props: VirtualTreeProps) {
 		checkable,
 		nodeProps,
 		renderExtra,
+		loadingKeys,
 		height,
 		useVirtual,
 		className,
@@ -86,7 +89,8 @@ export default function VirtualTree(props: VirtualTreeProps) {
 			const { node, depth, isExpanded } = flatNode;
 			const { key = "", as, href, icon, title, disabled, type } = node;
 			const children = node[nodeProps.children];
-			const hasChildren = children?.length > 0;
+			const hasChildren = children instanceof Promise || (Array.isArray(children) && children.length > 0);
+			const loading = loadingKeys?.includes(key);
 
 			if (type === "title") {
 				return (
@@ -154,7 +158,7 @@ export default function VirtualTree(props: VirtualTreeProps) {
 
 						{hasChildren && (
 							<Icon
-								icon={<KeyboardArrowDownRound />}
+								icon={loading ? <Loading size=".86em" /> : <KeyboardArrowDownRound />}
 								className={classNames("i-tree-toggle", {
 									"i-tree-expand": isExpanded,
 								})}
@@ -177,6 +181,7 @@ export default function VirtualTree(props: VirtualTreeProps) {
 			checkable,
 			nodeProps,
 			renderExtra,
+			loadingKeys,
 			onExpand,
 			onItemClick,
 			onItemSelect,

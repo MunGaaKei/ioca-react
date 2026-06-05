@@ -1,6 +1,6 @@
 import { Button, Flex, Tag, Tree } from "@p";
-import { RefTree } from "@p/components/tree/type";
-import { useRef, useState } from "react";
+import { ITreeItem, RefTree } from "@p/components/tree/type";
+import { useMemo, useRef, useState } from "react";
 
 export const DBasic = {
     demo: () => {
@@ -232,6 +232,61 @@ return (
     lang: "javascript",
 };
 
+export const DAsyncLoad = {
+    demo: () => {
+        const data = useMemo<ITreeItem[]>(
+            () => [
+                {
+                    title: "C",
+                    children: new Promise<ITreeItem[]>((resolve) => {
+                        setTimeout(() => {
+                            resolve([
+                                { title: "C-0" },
+                                {
+                                    title: "C-1",
+                                    children: new Promise<ITreeItem[]>((resolve) => {
+                                        setTimeout(() => {
+                                            resolve([{ title: "C-1-0" }, { title: "C-1-1" }]);
+                                        }, 2000);
+                                    }),
+                                },
+                                { title: "C-2" },
+                            ]);
+                        }, 2000);
+                    }),
+                },
+            ],
+            [],
+        );
+
+        return <Tree data={data} nodeProps={{ key: "title" }} />;
+    },
+    code: `const data = [
+    {
+        title: "C",
+        children: new Promise<ITreeItem[]>((resolve) => {
+            setTimeout(() => {
+                resolve([
+                    { title: "C-0" },
+                    {
+                        title: "C-1",
+                        children: new Promise<ITreeItem[]>((resolve) => {
+                            setTimeout(() => {
+                                resolve([{ title: "C-1-0" }, { title: "C-1-1" }]);
+                            }, 2000);
+                        }),
+                    },
+                    { title: "C-2" },
+                ]);
+            }, 2000);
+        }),
+    },
+];
+
+return <Tree data={data} nodeProps={{ key: "title" }} />;`,
+    lang: "javascript",
+};
+
 export const PTree = [
     {
         name: "data",
@@ -344,8 +399,8 @@ export const PTreeItem = [
     },
     {
         name: "children",
-        desc: "子节点列表。默认属性，可通过nodeMap设置",
-        type: ["ITreeItem[]"],
+        desc: "子节点列表。默认属性，可通过nodeMap设置。支持 Promise 异步加载",
+        type: ["ITreeItem[]", "Promise<ITreeItem[]>"],
     },
     {
         name: "expanded",

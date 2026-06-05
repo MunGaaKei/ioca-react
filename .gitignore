@@ -13,7 +13,8 @@ dist-ssr
 *.local
 todo.md
 .codegraph
-
+.playwright
+.playwright-mcp
 
 # Editor directories and files
 .vscode/*

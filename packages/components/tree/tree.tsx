@@ -1,3 +1,4 @@
+import { flushSync } from "react-dom";
 import { useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import "./index.css";
 import { TreeList } from "./item";
@@ -16,6 +17,7 @@ function flattenTree(
 	nodeProps: { key: string; title: string; children: string },
 	depth = 0,
 	parentItem?: ITreeItem,
+	asyncChildrenMap: Record<string, ITreeItem[]> = {},
 ): FlatNode[] {
 	const result: FlatNode[] = [];
 	nodes.forEach((item, i) => {
@@ -24,9 +26,9 @@ function flattenTree(
 		item.parent = parentItem;
 		const isExpanded = !!expandedMap[item.key];
 		result.push({ node: item, depth, isExpanded });
-		const children = item[nodeProps.children];
-		if (children?.length) {
-			const childNodes = flattenTree(children, expandedMap, nodeProps, depth + 1, item);
+		const children = asyncChildrenMap[item.key as string] || item[nodeProps.children];
+		if (Array.isArray(children) && children.length) {
+			const childNodes = flattenTree(children, expandedMap, nodeProps, depth + 1, item, asyncChildrenMap);
 			if (isExpanded) result.push(...childNodes);
 		}
 	});
@@ -50,6 +52,8 @@ const Tree = (props: ITree) => {
 	const [selectedKey, setSelectedKey] = useState(selected);
 	const [checkedKeys, setCheckedKeys] = useState(checked);
 	const [partofs, setPartofs] = useState<Record<string, boolean>>({});
+	const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>({});
+	const [asyncChildrenMap, setAsyncChildrenMap] = useState<Record<string, ITreeItem[]>>({});
 	const nodeMapsRef = useRef<Map<any, any>>(new Map());
 	const oNodeProps = useMemo(
 		() => ({ ...defaultNodeProps, ...nodeProps }),
@@ -59,12 +63,13 @@ const Tree = (props: ITree) => {
 	const [expandedMap, setExpandedMap] = useState<Record<string, boolean>>(
 		() => {
 			const map: Record<string, boolean> = {};
-			const walk = (nodes: ITreeItem[]) => {
-				nodes.forEach((item) => {
+			const walk = (nodes: ITreeItem[], parentKey = "") => {
+				nodes.forEach((item, i) => {
 					const mapKey = item[oNodeProps.key] as string | undefined;
-					if (item.expanded && mapKey) map[mapKey] = true;
+					const key = mapKey || `${parentKey}-${i}`;
+					if (item.expanded) map[key] = true;
 					const children = item[oNodeProps.children];
-					if (children?.length) walk(children);
+					if (Array.isArray(children) && children.length) walk(children, key);
 				});
 			};
 			walk(data);
@@ -73,15 +78,49 @@ const Tree = (props: ITree) => {
 	);
 
 	const handleExpand = (key: string) => {
-		setExpandedMap((prev) => ({
-			...prev,
-			[key]: !prev[key],
-		}));
+		if (loadingMap[key]) return;
+
+		const item = nodeMapsRef.current.get(key);
+		if (!item) return;
+
+		const rawChildren = item[oNodeProps.children];
+		const isAsync = rawChildren instanceof Promise;
+		const isExpanded = !!expandedMap[key];
+
+		if (isAsync && !isExpanded) {
+			flushSync(() => {
+				setLoadingMap((prev) => ({ ...prev, [key]: true }));
+				setExpandedMap((prev) => ({ ...prev, [key]: true }));
+			});
+
+			rawChildren
+				.then((resolved: ITreeItem[]) => {
+					item[oNodeProps.children] = resolved;
+					setAsyncChildrenMap((prev) => ({ ...prev, [key]: resolved }));
+				})
+				.finally(() => {
+					setLoadingMap((prev) => {
+						const next = { ...prev };
+						delete next[key];
+						return next;
+					});
+				});
+		} else {
+			setExpandedMap((prev) => ({
+				...prev,
+				[key]: !prev[key],
+			}));
+		}
 	};
 
 	const flatNodes = useMemo(
-		() => flattenTree(data, expandedMap, oNodeProps),
-		[data, expandedMap, oNodeProps],
+		() => flattenTree(data, expandedMap, oNodeProps, 0, undefined, asyncChildrenMap),
+		[data, expandedMap, oNodeProps, asyncChildrenMap],
+	);
+
+	const loadingKeys = useMemo(
+		() => Object.keys(loadingMap).filter((k) => loadingMap[k]),
+		[loadingMap],
 	);
 
 	const isChecked = (key?: string) => checkedKeys.includes(key || "");
@@ -99,9 +138,11 @@ const Tree = (props: ITree) => {
 
 		if (checked) {
 			if (parent && direction !== "leaf") {
-				const hasUnchecked = parent.children?.some(
-					(o) => o.key !== key && !isChecked(o.key),
-				);
+				const hasUnchecked = Array.isArray(parent.children)
+					? parent.children.some(
+						(o) => o.key !== key && !isChecked(o.key),
+					)
+					: false;
 
 				const [changes, parts] = checkItem(parent, true, "root");
 
@@ -114,7 +155,7 @@ const Tree = (props: ITree) => {
 				});
 			}
 
-			if (children?.length && direction !== "root") {
+			if (Array.isArray(children) && children.length && direction !== "root") {
 				children.map((o) => {
 					if (isChecked(o.key)) return;
 
@@ -133,16 +174,18 @@ const Tree = (props: ITree) => {
 
 			Object.assign(shouldChanged, changes);
 
-			const hasChecked = parent.children?.some(
-				(o) => isChecked(o.key) && o.key !== key,
-			);
+			const hasChecked = Array.isArray(parent.children)
+				? parent.children.some(
+					(o) => isChecked(o.key) && o.key !== key,
+				)
+				: false;
 
 			Object.assign(partofs, hasChecked ? {} : parts, {
 				[parent.key as string]: hasChecked,
 				[key]: false,
 			});
 		}
-		if (children?.length && direction !== "root") {
+		if (Array.isArray(children) && children.length && direction !== "root") {
 			children.map((o) => {
 				const [changes] = checkItem(o, false, "leaf");
 
@@ -185,17 +228,35 @@ const Tree = (props: ITree) => {
 	useEffect(() => {
 		nodeMapsRef.current.clear();
 
-		const { key, children } = oNodeProps;
+		const { children } = oNodeProps;
 		const recursive = (nodes: any[]) => {
 			nodes.map((o) => {
-				nodeMapsRef.current.set(o[key], o);
+				nodeMapsRef.current.set(o.key, o);
 
 				o[children]?.length > 0 && recursive(o[children]);
 			});
 		};
 
 		recursive(data);
-	}, [data, oNodeProps]);
+	}, [data, oNodeProps, asyncChildrenMap]);
+
+	useEffect(() => {
+		if (!props.selected) return;
+
+		const node = nodeMapsRef.current.get(props.selected);
+		if (!node) return;
+
+		const toExpand: Record<string, boolean> = {};
+		let p = node.parent;
+		while (p) {
+			if (p.key) toExpand[p.key] = true;
+			p = p.parent;
+		}
+
+		if (Object.keys(toExpand).length > 0) {
+			setExpandedMap((prev) => ({ ...prev, ...toExpand }));
+		}
+	}, [props.selected]);
 
 	useImperativeHandle(ref, () => {
 		return {
@@ -240,6 +301,7 @@ const Tree = (props: ITree) => {
 				checked={checkedKeys}
 				partofs={partofs}
 				nodeProps={oNodeProps}
+				loadingKeys={loadingKeys}
 				onItemCheck={handleCheck}
 				onItemSelect={handleSelect}
 				{...restProps}
@@ -255,6 +317,7 @@ const Tree = (props: ITree) => {
 			checked={checkedKeys}
 			partofs={partofs}
 			nodeProps={oNodeProps}
+			loadingKeys={loadingKeys}
 			onItemCheck={handleCheck}
 			onItemSelect={handleSelect}
 			{...restProps}

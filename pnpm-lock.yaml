@@ -30,10 +30,10 @@ importers:
         specifier: ^12.1.0
         version: 12.1.1
       react:
-        specifier: '>=16.8.0'
+        specifier: ^19.0.0
         version: 19.2.6
       react-dom:
-        specifier: '>=16.8.0'
+        specifier: ^19.0.0
         version: 19.2.6(react@19.2.6)
       react-easy-sort:
         specifier: ^1.6.0

@@ -27,7 +27,7 @@ export interface ITreeItem {
 	title: string | ReactNode;
 	icon?: ReactNode;
 	href?: string;
-	children?: ITreeItem[];
+	children?: ITreeItem[] | Promise<ITreeItem[]>;
 	expanded?: boolean;
 	disabled?: boolean;
 	checked?: boolean;
