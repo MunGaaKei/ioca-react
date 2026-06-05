@@ -14,7 +14,7 @@ interface ITabs {
     ref?: Ref<RefTabs>;
     active?: string;
     tabs?: ITabItem[] | string[];
-    type?: "default" | "line" | "pane";
+    type?: "default" | "pane";
     prepend?: ReactNode;
     append?: ReactNode;
     vertical?: boolean;

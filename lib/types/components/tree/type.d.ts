@@ -8,18 +8,20 @@ interface ITreeItem {
     title: string | ReactNode;
     icon?: ReactNode;
     href?: string;
-    children?: ITreeItem[];
+    children?: ITreeItem[] | Promise<ITreeItem[]>;
     expanded?: boolean;
     disabled?: boolean;
     checked?: boolean;
     parent?: ITreeItem;
     [key: string]: any;
 }
+interface TVirtual {
+    rowHeight: number;
+    threshold?: number;
+}
 interface ITree {
     data: ITreeItem[];
-    parent?: ITreeItem;
     ref?: RefObject<RefTree | null>;
-    depth?: number;
     nodeProps?: {
         key?: string;
         title?: string;
@@ -30,8 +32,9 @@ interface ITree {
     checkable?: boolean;
     checked?: string[];
     disabledRelated?: boolean;
-    partofs?: Record<string, boolean>;
     round?: boolean;
+    height?: number | string;
+    useVirtual?: TVirtual;
     style?: CSSProperties;
     className?: string;
     renderExtra?: (item: ITreeItem) => ReactNode;
@@ -45,4 +48,4 @@ interface RefTree {
     getPartofs: () => [string[], ITreeItem[]];
 }
 
-export type { ITree, ITreeItem, RefTree };
+export type { ITree, ITreeItem, RefTree, TVirtual };

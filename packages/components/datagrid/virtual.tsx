@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 // @ts-ignore
 import { List as VirtualList, getScrollbarSize } from "react-window";
@@ -123,6 +123,7 @@ type RowCustomProps = {
 const VirtualRow = memo(function VirtualRow({
 	index,
 	style: itemStyle,
+	ariaAttributes,
 	rows,
 	columns,
 	columnById,
@@ -140,10 +141,15 @@ const VirtualRow = memo(function VirtualRow({
 	onRowClick,
 	onCellClick,
 	onCellDoubleClick,
-}: { index: number; style: any } & RowCustomProps) {
+}: {
+		index: number;
+		style: CSSProperties;
+		ariaAttributes: Record<string, unknown>;
+	} & RowCustomProps) {
 	if (index >= rows.length) {
 		return (
 			<div
+				{...ariaAttributes}
 				style={{
 					...itemStyle,
 					width: contentWidthPx,
@@ -151,7 +157,7 @@ const VirtualRow = memo(function VirtualRow({
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-				}}
+				} as React.CSSProperties}
 			>
 				{loaderNode}
 			</div>
@@ -210,7 +216,7 @@ const VirtualRow = memo(function VirtualRow({
 				gridTemplateColumns: "var(--grid-template-columns)",
 				height: virtualRowHeight,
 				"--datagrid-cell-background": bg,
-			}}
+			} as React.CSSProperties}
 			className='i-datagrid-row'
 			onClick={handleRowClick}
 			onClickCapture={handleCellClick}
@@ -561,7 +567,7 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
 				style={listStyle}
 				onScroll={handleBodyScroll}
 				onRowsRendered={handleRowsRendered}
-				rowComponent={VirtualRow}
+				rowComponent={VirtualRow as any}
 			/>
 			{rows.length < 1 && !virtual.hasMore && empty}
 		</div>
