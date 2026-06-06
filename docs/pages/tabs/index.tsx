@@ -1,6 +1,6 @@
 import Api from "../components/api";
 import Demo from "../components/demo";
-import { DBasic, DDynamic, PTabItem, PTabs } from "./prop";
+import { DAsync, DBasic, DDynamic, PTabItem, PTabs } from "./prop";
 
 export default function Page() {
 	return (
@@ -11,6 +11,9 @@ export default function Page() {
 
 			<h3 className='mt-80 mb-12'>动态增删</h3>
 			<Demo source={DDynamic} />
+
+			<h3 className='mt-80 mb-12'>异步加载</h3>
+			<Demo source={DAsync} />
 
 			<h3 className='mt-80 mb-20'>Api 参考</h3>
 			<h4 className='blue mb-20'>Tabs</h4>

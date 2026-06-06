@@ -1,10 +1,12 @@
-import { ForwardRefExoticComponent, Ref, ReactNode, RefObject, CSSProperties } from 'react';
+import { ForwardRefExoticComponent, Ref, ReactNode, ComponentType, RefObject, CSSProperties } from 'react';
 import Item from './item.js';
 
 interface ITabItem {
     key?: string;
     title?: ReactNode;
-    content?: ReactNode;
+    content?: ReactNode | (() => Promise<{
+        default: ComponentType<any>;
+    }>);
     closable?: boolean;
     keepDOM?: boolean;
     intersecting?: boolean;
@@ -28,6 +30,7 @@ interface ITabs {
     children?: ReactNode;
     style?: CSSProperties;
     renderMore?: (moreTabs: ITabItem[]) => ReactNode;
+    loader?: ReactNode;
     onTabChange?: (to?: string, from?: string) => void;
 }
 interface RefTabs {

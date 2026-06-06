@@ -1,7 +1,7 @@
-import { Button, Image, Tabs } from "@p";
+import { Button, Image, Loading, Tabs } from "@p";
 import { RefTabs } from "@p/components/tabs/type";
 import { draw, uid } from "radash";
-import { useRef } from "react";
+import { ComponentType, useRef } from "react";
 
 export const DBasic = {
     demo: () => {
@@ -93,6 +93,45 @@ return (
     lang: "javascript",
 };
 
+const loadAsyncComp = (ms: number) => {
+    return () =>
+        new Promise<{ default: ComponentType<any> }>((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    default: () => <div className="pd-8">{Date.now()}</div>,
+                });
+            }, ms);
+        });
+};
+
+export const DAsync = {
+    demo: () => (
+        <Tabs active="1" loader={<Loading />}>
+            <Tabs.Item title="Sync" key="1">
+                <div className="pd-8">Static content</div>
+            </Tabs.Item>
+            <Tabs.Item title="Async 1s" key="2" content={loadAsyncComp(1000)} />
+            <Tabs.Item title="Async 2s" key="3" content={loadAsyncComp(2000)} />
+        </Tabs>
+    ),
+    code: `<Tabs active='1' loader={<div className='pd-8'>Loading...</div>}>
+    <Tabs.Item title='Sync' key='1'>
+        <div className='pd-8'>Static content</div>
+    </Tabs.Item>
+    <Tabs.Item
+        title='Async 1s'
+        key='2'
+        content={() => import('./MyComponent')}
+    />
+    <Tabs.Item
+        title='Async 2s'
+        key='3'
+        content={() => import('./MyComponent')}
+    />
+</Tabs>`,
+    lang: "xml",
+};
+
 export const PTabs = [
     {
         name: "tabs",
@@ -165,6 +204,11 @@ export const PTabs = [
         def: "false",
     },
     {
+        name: "loader",
+        desc: "异步加载时 content 区域的加载占位",
+        type: ["ReactNode"],
+    },
+    {
         name: "renderMore",
         desc: "渲染更多显示方式",
         type: [
@@ -205,7 +249,7 @@ export const PTabItem = [
     {
         name: "content",
         desc: "标签页内容",
-        type: ["ReactNode"],
+        type: ["ReactNode", "() => Promise<{ default: ComponentType }>"],
     },
     {
         name: "keepDOM",

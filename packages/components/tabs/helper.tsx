@@ -1,12 +1,17 @@
 import { MoreHorizRound } from "@ricons/material";
-import { Children, ReactNode } from "react";
+import { Children, ComponentType, ReactNode } from "react";
 import Button from "../button";
 import Icon from "../icon";
 import { ITabItem, ITabs } from "./type";
 
+type TLazyLoader = {
+    load: () => Promise<{ default: ComponentType<any> }>;
+};
+
 export type TParsedTabs = {
     tabs: ITabItem[];
     contents: Map<string, ReactNode>;
+    lazyLoaders: Map<string, TLazyLoader>;
     keys: Set<string>;
 };
 
@@ -49,6 +54,7 @@ export const getParsedTabs = (
     };
 
     if (!items) {
+        const lazyLoaders = new Map<string, TLazyLoader>();
         const tabs =
             (Children.map(children, (node, i) => {
                 const { key, props: nodeProps } = node as TTabChildNode;
@@ -61,7 +67,11 @@ export const getParsedTabs = (
                 } = nodeProps;
                 const tabKey = String(key ?? i);
 
-                contents.set(tabKey, tabChildren ?? content);
+                if (typeof content === "function") {
+                    lazyLoaders.set(tabKey, { load: content });
+                } else {
+                    contents.set(tabKey, tabChildren ?? content);
+                }
 
                 return {
                     key: tabKey,
@@ -74,10 +84,12 @@ export const getParsedTabs = (
         return {
             tabs,
             contents,
+            lazyLoaders,
             keys: new Set(tabs.map((tab) => String(tab.key))),
         };
     }
 
+    const lazyLoaders = new Map<string, TLazyLoader>();
     const tabs = items.map((item, i) => {
         if (["string", "number"].includes(typeof item)) {
             const key = String(item);
@@ -85,7 +97,13 @@ export const getParsedTabs = (
         }
 
         const key = String(item.key ?? i);
-        contents.set(key, item.content);
+
+        if (typeof item.content === "function") {
+            lazyLoaders.set(key, { load: item.content });
+        } else {
+            contents.set(key, item.content);
+        }
+
         const { content, ...rest } = item;
 
         return {
@@ -97,6 +115,7 @@ export const getParsedTabs = (
     return {
         tabs,
         contents,
+        lazyLoaders,
         keys: new Set(tabs.map((tab) => String(tab.key))),
     };
 };

@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { CSSProperties, KeyboardEvent, ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { useIntersectionObserver, useSize } from "../../js/hooks";
+import AsyncContent from "./async-content";
 import TabsContents from "./contents";
 import { defaultRenderMore, emptyBarStyle, getParsedTabs, isSameTabs } from "./helper";
 import "./index.css";
@@ -19,6 +20,7 @@ const Tabs = ((props: ITabs) => {
         className,
         vertical,
         toggable,
+        loader,
         navsJustify = "start",
         navsClass,
         bar = true,
@@ -57,6 +59,16 @@ const Tabs = ((props: ITabs) => {
         const sourceTabs = parsedTabs.tabs;
         const sourceKeys = parsedTabs.keys;
 
+        parsedTabs.lazyLoaders.forEach((lazyLoader, key) => {
+            nextContents.set(
+                key,
+                <AsyncContent
+                    load={lazyLoader.load}
+                    loader={loader}
+                />,
+            );
+        });
+
         hiddenSourceKeysRef.current.forEach((key) => {
             if (!sourceKeys.has(key)) {
                 hiddenSourceKeysRef.current.delete(key);
@@ -90,7 +102,11 @@ const Tabs = ((props: ITabs) => {
             return;
         }
 
-        contentsRef.current.set(tkey, tab.content);
+        if (typeof tab.content === "function") {
+            contentsRef.current.set(tkey, <AsyncContent load={tab.content} loader={loader} />);
+        } else {
+            contentsRef.current.set(tkey, tab.content);
+        }
         const { content, ...rest } = tab;
         setTabs((ts) => {
             const nextTabs = [...ts];

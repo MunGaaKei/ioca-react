@@ -1,4 +1,5 @@
 import {
+    ComponentType,
     CSSProperties,
     ForwardRefExoticComponent,
     ReactNode,
@@ -12,7 +13,7 @@ export type TTabKey = string;
 export interface ITabItem {
     key?: string;
     title?: ReactNode;
-    content?: ReactNode;
+    content?: ReactNode | (() => Promise<{ default: ComponentType<any> }>);
     closable?: boolean;
     keepDOM?: boolean;
     intersecting?: boolean;
@@ -37,6 +38,7 @@ export interface ITabs {
     children?: ReactNode;
     style?: CSSProperties;
     renderMore?: (moreTabs: ITabItem[]) => ReactNode;
+    loader?: ReactNode;
     onTabChange?: (to?: string, from?: string) => void;
 }
 
