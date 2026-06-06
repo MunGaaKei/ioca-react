@@ -28,6 +28,7 @@ const Tabs = ((props: ITabs) => {
         barClass,
         renderMore = defaultRenderMore,
         onTabChange,
+        onClose,
         ...rest
     } = props;
 
@@ -122,6 +123,7 @@ const Tabs = ((props: ITabs) => {
         const i = currentTabs.findIndex((t) => t.key === key);
 
         if (i < 0) return;
+        onClose?.(key);
 
         if (sourceKeysRef.current.has(key)) {
             hiddenSourceKeysRef.current.add(key);

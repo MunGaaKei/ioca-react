@@ -32,6 +32,7 @@ interface ITabs {
     renderMore?: (moreTabs: ITabItem[]) => ReactNode;
     loader?: ReactNode;
     onTabChange?: (to?: string, from?: string) => void;
+    onClose?: (key: string) => void;
 }
 interface RefTabs {
     open: (key: string) => void;

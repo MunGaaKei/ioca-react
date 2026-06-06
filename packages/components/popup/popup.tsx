@@ -534,7 +534,9 @@ export default function Popup(props: IPopup) {
         const contentEl = contentRef.current;
         if (!triggerEl || !contentEl) return;
         const tar = e.target as HTMLElement;
-        if (triggerEl.contains(tar) || contentEl.contains(tar)) return;
+        if (contentEl.contains(tar)) return;
+        if (triggerEl.contains(tar) && latestRef.current.trigger !== "contextmenu") return;
+        if (triggerEl.contains(tar) && e.button !== 0) return;
         doHide();
     };
     const onGlobalMouseUp = useMemo(

@@ -40,6 +40,7 @@ export interface ITabs {
     renderMore?: (moreTabs: ITabItem[]) => ReactNode;
     loader?: ReactNode;
     onTabChange?: (to?: string, from?: string) => void;
+    onClose?: (key: string) => void;
 }
 
 export interface RefTabs {
