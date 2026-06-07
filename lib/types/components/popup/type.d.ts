@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties } from 'react';
+import { ReactNode, MouseEvent, CSSProperties } from 'react';
 import { TPosition } from '../../type/index.js';
 
 interface IPopup {
@@ -15,6 +15,7 @@ interface IPopup {
     touchable?: boolean;
     fitSize?: boolean;
     disabled?: boolean;
+    match?: (e: MouseEvent) => boolean;
     style?: CSSProperties;
     children?: ReactNode;
     className?: string;

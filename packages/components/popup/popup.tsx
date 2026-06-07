@@ -47,6 +47,7 @@ export default function Popup(props: IPopup) {
         style,
         className,
         children,
+        match,
         onVisibleChange,
     } = props;
 
@@ -72,6 +73,7 @@ export default function Popup(props: IPopup) {
         offset,
         align,
         fitSize,
+        match,
         onVisibleChange,
     };
 
@@ -360,10 +362,16 @@ export default function Popup(props: IPopup) {
             if (el) triggerRef.current = el;
         };
 
+        const checkMatch = (e: any) => {
+            const fn = latestRef.current.match;
+            return fn ? fn(e) : true;
+        };
+
         switch (trigger) {
             case "click":
                 return {
                     onClick: (e: any) => {
+                        if (!checkMatch(e)) return;
                         setTriggerEl(e);
                         doToggle(true);
                     },
@@ -371,6 +379,7 @@ export default function Popup(props: IPopup) {
             case "hover":
                 return {
                     onMouseEnter: (e: any) => {
+                        if (!checkMatch(e)) return;
                         setTriggerEl(e);
                         doToggle(true);
                     },
@@ -382,6 +391,7 @@ export default function Popup(props: IPopup) {
             case "focus":
                 return {
                     onFocus: (e: any) => {
+                        if (!checkMatch(e)) return;
                         setTriggerEl(e);
                         doToggle(true);
                     },
@@ -393,6 +403,7 @@ export default function Popup(props: IPopup) {
             case "contextmenu":
                 return {
                     onContextMenu: (e: MouseEvent) => {
+                        if (!checkMatch(e)) return;
                         e.preventDefault();
                         e.stopPropagation();
                         setTriggerEl(e);

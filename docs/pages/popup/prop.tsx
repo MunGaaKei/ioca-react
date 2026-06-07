@@ -8,11 +8,8 @@ export const DBasic = {
                     <div className="pd-20" style={{ width: 360 }}>
                         <h4>Lorem</h4>
                         <p className="mt-12">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Eveniet, dolorum praesentium. Iste praesentium
-                            unde ea facilis eos et sint. Vero, neque corrupti
-                            reprehenderit cum explicabo libero autem mollitia
-                            doloremque culpa?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, dolorum praesentium. Iste praesentium unde ea facilis eos et sint. Vero, neque
+                            corrupti reprehenderit cum explicabo libero autem mollitia doloremque culpa?
                         </p>
                     </div>
                 }
@@ -53,11 +50,8 @@ export const DVariant = {
                         <div className="pd-20" style={{ width: 400 }}>
                             <h4>Lorem</h4>
                             <p className="mt-12">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Eveniet, dolorum praesentium.
-                                Iste praesentium unde ea facilis eos et sint.
-                                Vero, neque corrupti reprehenderit cum explicabo
-                                libero autem mollitia doloremque culpa?
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, dolorum praesentium. Iste praesentium unde ea facilis eos et sint. Vero, neque
+                                corrupti reprehenderit cum explicabo libero autem mollitia doloremque culpa?
                             </p>
                         </div>
                     }
@@ -65,13 +59,9 @@ export const DVariant = {
                     <Button>Click Me</Button>
                 </Popup>
 
-                <Popup
-                    content="content"
-                    trigger="contextmenu"
-                    className="pd-12"
-                >
+                <Popup content="content" trigger="contextmenu" className="pd-12">
                     <div className="pd-40 ml-40 bg-grey round-0">
-                        contextmenu
+                        <span>contextmenu</span>
                     </div>
                 </Popup>
             </Flex>
@@ -191,6 +181,11 @@ export const PPopup = [
         desc: "禁用状态",
         type: ["boolean"],
         def: "false",
+    },
+    {
+        name: "match",
+        desc: "事件触发时的匹配函数，仅在返回 true 时才触发弹出。常用于 trigger 元素为容器时，筛选只有点击容器内特定子元素才弹出。仅当 trigger = 'click' | 'contextmenu' 时生效。",
+        type: ["(e: MouseEvent) => boolean"],
     },
     {
         name: "style",
