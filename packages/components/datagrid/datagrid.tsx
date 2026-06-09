@@ -1,22 +1,10 @@
 import classNames from "classnames";
-import {
-    CSSProperties,
-    Key,
-    MouseEvent,
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-} from "react";
+import { CSSProperties, Key, MouseEvent, useCallback, useEffect, useMemo, useRef } from "react";
 import { useReactive } from "../../js/hooks";
 import { getNextSorter } from "../../js/utils";
 import Loading from "../loading";
 import Empty from "../utils/empty";
-import {
-    applyFixedInsets,
-    buildCssWidths,
-    buildGridTemplateColumns,
-} from "./helper";
+import { applyFixedInsets, buildCssWidths, buildGridTemplateColumns, hasArrayChanged } from "./helper";
 import "./index.css";
 import Row, { Header } from "./row";
 import type { IColumn, IData, IDatagrid, TDatagridState } from "./type";
@@ -61,22 +49,8 @@ const Datagrid = (props: IDatagrid) => {
     const previewRef = useRef({ index: -1, width: -1, template: "" });
 
     useEffect(() => {
-        const next = columns.map((col, i) => {
-            if (col.width != null) return col.width;
-            return state.widths[i] ?? "min-content";
-        });
-
-        let changed = next.length !== state.widths.length;
-        if (!changed) {
-            for (let i = 0; i < next.length; i++) {
-                if (next[i] !== state.widths[i]) {
-                    changed = true;
-                    break;
-                }
-            }
-        }
-
-        if (changed) state.widths = next;
+        const next = columns.map((col, i) => (col.width != null ? col.width : (state.widths[i] ?? "min-content")));
+        if (hasArrayChanged(next, state.widths)) state.widths = next;
     }, [columns, state]);
 
     const styles = useMemo(() => {
@@ -107,10 +81,7 @@ const Datagrid = (props: IDatagrid) => {
             if (phase === "preview") {
                 const el = wrapRef.current;
                 if (!el) return;
-                if (
-                    previewRef.current.index === i &&
-                    previewRef.current.width === w
-                ) {
+                if (previewRef.current.index === i && previewRef.current.width === w) {
                     return;
                 }
 
@@ -118,11 +89,7 @@ const Datagrid = (props: IDatagrid) => {
                 if (previewRef.current.template !== template) {
                     el.style.setProperty("--grid-template-columns", template);
                     const cssWidths = buildCssWidths(state.widths, i, w);
-                    applyFixedInsets(
-                        (k, v) => el.style.setProperty(k, v),
-                        columns,
-                        cssWidths,
-                    );
+                    applyFixedInsets((k, v) => el.style.setProperty(k, v), columns, cssWidths);
                     previewRef.current.template = template;
                 }
                 previewRef.current.index = i;
@@ -147,11 +114,7 @@ const Datagrid = (props: IDatagrid) => {
     const handleHeaderClick = useCallback(
         (column?: IColumn, e?: MouseEvent) => {
             if (column?.sorter) {
-                const [sortBy, sortType] = getNextSorter(
-                    state.sortBy,
-                    state.sortType,
-                    column.id,
-                );
+                const [sortBy, sortType] = getNextSorter(state.sortBy, state.sortType, column.id);
 
                 Object.assign(state, {
                     sortBy,
@@ -171,10 +134,7 @@ const Datagrid = (props: IDatagrid) => {
 
         if (sortBy && !onSort) {
             const sorter = columns.find((col) => col.id === sortBy)?.sorter;
-            const sortFn =
-                typeof sorter === "function"
-                    ? sorter
-                    : (a: IData, b: IData) => b[sortBy] - a[sortBy];
+            const sortFn = typeof sorter === "function" ? sorter : (a: IData, b: IData) => b[sortBy] - a[sortBy];
             const sorted = [...data].sort(sortFn);
 
             return sortType === "desc" ? sorted : sorted.reverse();
@@ -190,25 +150,15 @@ const Datagrid = (props: IDatagrid) => {
     }, [virtual]);
 
     useEffect(() => {
-        if (!resizable) return;
         if (!container.current) return;
-        if (
-            !columns.some(
-                (col, i) =>
-                    col.width == null && typeof state.widths[i] !== "number",
-            )
-        ) {
-            return;
-        }
 
-        let rafId: number | null = null;
-        let tries = 0;
+        const hasUnmeasured = columns.some(
+            (col, i) => col.width == null && typeof state.widths[i] !== "number",
+        );
+        if (!hasUnmeasured) return;
 
-        const run = () => {
-            rafId = null;
-            const div = container.current;
-            if (!div) return;
-
+        const div = container.current;
+        const rafId = requestAnimationFrame(() => {
             const headerRow = div.querySelector(
                 ".i-datagrid-header.i-datagrid-row",
             ) as HTMLElement | null;
@@ -220,46 +170,23 @@ const Datagrid = (props: IDatagrid) => {
             const bodyCells = bodyRow ? Array.from(bodyRow.children) : [];
 
             const cellCount = Math.max(headerCells.length, bodyCells.length);
-            if (cellCount < 1) {
-                tries++;
-                if (tries < 10) rafId = requestAnimationFrame(run);
-                return;
-            }
-
-            const measured = new Array<number | null>(cellCount).fill(null);
-            for (let i = 0; i < cellCount; i++) {
-                const hw = (headerCells[i] as HTMLElement | undefined)
-                    ?.offsetWidth;
-                const bw = (bodyCells[i] as HTMLElement | undefined)
-                    ?.offsetWidth;
-                const w = Math.max(hw ?? 0, bw ?? 0);
-                measured[i] = w > 0 ? w : null;
-            }
+            if (cellCount < 1) return;
 
             const next = columns.map((col, i) => {
                 if (col.width != null) return col.width;
-                const cur = state.widths[i];
-                if (typeof cur === "number") return cur;
-                return measured[i] ?? cur ?? "min-content";
+                const prev = state.widths[i];
+                if (typeof prev === "number") return prev;
+                const hw = (headerCells[i] as HTMLElement)?.offsetWidth ?? 0;
+                const bw = (bodyCells[i] as HTMLElement)?.offsetWidth ?? 0;
+                const w = Math.max(hw, bw);
+                return w > 0 ? w : "min-content";
             });
 
-            let changed = next.length !== state.widths.length;
-            if (!changed) {
-                for (let i = 0; i < next.length; i++) {
-                    if (next[i] !== state.widths[i]) {
-                        changed = true;
-                        break;
-                    }
-                }
-            }
-            if (changed) state.widths = next;
-        };
+            if (hasArrayChanged(next, state.widths)) state.widths = next;
+        });
 
-        rafId = requestAnimationFrame(run);
-        return () => {
-            if (rafId != null) cancelAnimationFrame(rafId);
-        };
-    }, [columns, resizable, state, useVirtual]);
+        return () => cancelAnimationFrame(rafId);
+    }, [columns, state]);
 
     useEffect(() => {
         if (!loading) return;
@@ -290,9 +217,7 @@ const Datagrid = (props: IDatagrid) => {
             ref={wrapRef}
             style={{
                 maxHeight: height,
-                ...(useVirtual
-                    ? { overflowX: "visible", overflowY: "hidden" }
-                    : null),
+                ...(useVirtual ? { overflowX: "visible", overflowY: "hidden" } : null),
                 ...mergedStyle,
             }}
             className={classNames("i-datagrid-container", className, {
@@ -332,29 +257,10 @@ const Datagrid = (props: IDatagrid) => {
                     })}
                     onWheel={onScroll}
                 >
-                    {header && (
-                        <Header
-                            columns={columns}
-                            resizable={resizable}
-                            sortType={state.sortType}
-                            sortBy={state.sortBy}
-                            cellEllipsis={cellEllipsis}
-                            onWidthChange={handleWidthChange}
-                            onHeaderClick={handleHeaderClick}
-                        />
-                    )}
+                    {header && <Header columns={columns} resizable={resizable} sortType={state.sortType} sortBy={state.sortBy} cellEllipsis={cellEllipsis} onWidthChange={handleWidthChange} onHeaderClick={handleHeaderClick} />}
 
                     {rows.map((row, i) => (
-                        <Row
-                            key={getRowKey(row, i) ?? i}
-                            row={i + (header ? 1 : 0)}
-                            data={row}
-                            cellEllipsis={cellEllipsis}
-                            columns={columns}
-                            onCellClick={onCellClick}
-                            onRowClick={onRowClick}
-                            onCellDoubleClick={onCellDoubleClick}
-                        />
+                        <Row key={getRowKey(row, i) ?? i} row={i + (header ? 1 : 0)} data={row} cellEllipsis={cellEllipsis} columns={columns} onCellClick={onCellClick} onRowClick={onRowClick} onCellDoubleClick={onCellDoubleClick} />
                     ))}
 
                     {rows.length < 1 && empty}

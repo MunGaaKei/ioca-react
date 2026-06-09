@@ -21,7 +21,7 @@ interface VirtualTreeProps {
 	renderExtra?: (item: ITreeItem) => React.ReactNode;
 	loadingKeys?: string[];
 	height?: number | string;
-	useVirtual: TVirtual;
+	virtual: TVirtual;
 	className?: string;
 	style?: React.CSSProperties;
 	onItemClick?: (item: ITreeItem, e: React.MouseEvent<HTMLElement>) => void;
@@ -45,7 +45,7 @@ export default function VirtualTree(props: VirtualTreeProps) {
 		renderExtra,
 		loadingKeys,
 		height,
-		useVirtual,
+		virtual,
 		className,
 		style,
 		onItemClick,
@@ -120,8 +120,8 @@ export default function VirtualTree(props: VirtualTreeProps) {
 			<VirtualList
 				listRef={listRef}
 				rowCount={flatNodes.length}
-				rowHeight={useVirtual.rowHeight}
-				overscanCount={Math.max(3, useVirtual.threshold ?? 8)}
+				rowHeight={virtual.rowHeight}
+				overscanCount={Math.max(3, virtual.threshold ?? 8)}
 				rowProps={{} as any}
 				style={{
 					width: "100%",

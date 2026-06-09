@@ -8,10 +8,11 @@ interface ITreeItem {
     title: string | ReactNode;
     icon?: ReactNode;
     href?: string;
-    children?: ITreeItem[] | Promise<ITreeItem[]>;
+    children?: ITreeItem[] | Promise<ITreeItem[]> | (() => Promise<ITreeItem[]>);
     expanded?: boolean;
     disabled?: boolean;
     checked?: boolean;
+    attrs?: Record<string, any>;
     parent?: ITreeItem;
     [key: string]: any;
 }
@@ -34,7 +35,7 @@ interface ITree {
     disabledRelated?: boolean;
     round?: boolean;
     height?: number | string;
-    useVirtual?: TVirtual;
+    virtual?: TVirtual;
     style?: CSSProperties;
     className?: string;
     renderExtra?: (item: ITreeItem) => ReactNode;

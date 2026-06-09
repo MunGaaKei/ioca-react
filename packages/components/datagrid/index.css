@@ -28,8 +28,6 @@
 
 .i-datagrid {
 	display: grid;
-	contain: content;
-	content-visibility: auto;
 	width: fit-content;
 	grid-template-columns: var(--grid-template-columns);
 	grid-template-rows: var(--grid-template-rows);

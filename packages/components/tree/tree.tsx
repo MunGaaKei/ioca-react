@@ -44,7 +44,7 @@ const Tree = (props: ITree) => {
 		disabledRelated,
 		nodeProps,
 		height,
-		useVirtual,
+		virtual,
 		onItemSelect,
 		onItemCheck,
 		...restProps
@@ -85,7 +85,8 @@ const Tree = (props: ITree) => {
 		if (!item) return;
 
 		const rawChildren = item[oNodeProps.children];
-		const isAsync = rawChildren instanceof Promise;
+		const isLazy = typeof rawChildren === "function";
+		const isAsync = rawChildren instanceof Promise || isLazy;
 		const isExpanded = !!expandedMap[key];
 
 		if (isAsync && !isExpanded) {
@@ -94,7 +95,8 @@ const Tree = (props: ITree) => {
 				setExpandedMap((prev) => ({ ...prev, [key]: true }));
 			});
 
-			rawChildren
+			const promise = isLazy ? rawChildren() : rawChildren;
+			promise
 				.then((resolved: ITreeItem[]) => {
 					item[oNodeProps.children] = resolved;
 					setAsyncChildrenMap((prev) => ({ ...prev, [key]: resolved }));
@@ -293,13 +295,13 @@ const Tree = (props: ITree) => {
 		};
 	});
 
-	if (useVirtual) {
+	if (virtual) {
 		return (
 			<VirtualTree
 				flatNodes={flatNodes}
 				onExpand={handleExpand}
 				height={height}
-				useVirtual={useVirtual}
+				virtual={virtual}
 				selected={selectedKey}
 				checkedSet={checkedSet}
 				partofs={partofs}

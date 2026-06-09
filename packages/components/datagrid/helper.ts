@@ -29,17 +29,12 @@ export const buildGridTemplateColumns = (
 	widths: (number | string)[],
 	overrideIndex?: number,
 	overrideWidth?: number,
-) => {
-	let out = "";
-	for (let i = 0; i < widths.length; i++) {
-		const w =
-			i === overrideIndex && overrideWidth != null
-				? overrideWidth
-				: widths[i];
-		out += (i ? " " : "") + toCssWidth(w);
-	}
-	return out;
-};
+) => buildCssWidths(widths, overrideIndex, overrideWidth).join(" ");
+
+export const hasArrayChanged = (
+	a: (number | string)[],
+	b: (number | string)[],
+): boolean => a.length !== b.length || a.some((v, i) => v !== b[i]);
 
 export const buildCssWidths = (
 	widths: (number | string)[],

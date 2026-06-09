@@ -25,3 +25,4 @@ todo.md
 *.njsproj
 *.sln
 *.sw?
+.claude

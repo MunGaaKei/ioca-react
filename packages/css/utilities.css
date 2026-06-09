@@ -180,7 +180,7 @@
     }
 
     .h-100vh {
-        height: 100vh;
+        height: 100dvh;
     }
 
     .bg-blur {
@@ -193,7 +193,7 @@
     }
 
     .round {
-        border-radius: 50vw;
+        border-radius: 50dvw;
     }
 
     .round-0 {

@@ -238,22 +238,24 @@ export const DAsyncLoad = {
             () => [
                 {
                     title: "C",
-                    children: new Promise<ITreeItem[]>((resolve) => {
-                        setTimeout(() => {
-                            resolve([
-                                { title: "C-0" },
-                                {
-                                    title: "C-1",
-                                    children: new Promise<ITreeItem[]>((resolve) => {
-                                        setTimeout(() => {
-                                            resolve([{ title: "C-1-0" }, { title: "C-1-1" }]);
-                                        }, 2000);
-                                    }),
-                                },
-                                { title: "C-2" },
-                            ]);
-                        }, 2000);
-                    }),
+                    children: () =>
+                        new Promise<ITreeItem[]>((resolve) => {
+                            setTimeout(() => {
+                                resolve([
+                                    { title: "C-0" },
+                                    {
+                                        title: "C-1",
+                                        children: () =>
+                                            new Promise<ITreeItem[]>((resolve) => {
+                                                setTimeout(() => {
+                                                    resolve([{ title: "C-1-0" }, { title: "C-1-1" }]);
+                                                }, 2000);
+                                            }),
+                                    },
+                                    { title: "C-2" },
+                                ]);
+                            }, 2000);
+                        }),
                 },
             ],
             [],
@@ -264,13 +266,13 @@ export const DAsyncLoad = {
     code: `const data = [
     {
         title: "C",
-        children: new Promise<ITreeItem[]>((resolve) => {
+        children: () => new Promise<ITreeItem[]>((resolve) => {
             setTimeout(() => {
                 resolve([
                     { title: "C-0" },
                     {
                         title: "C-1",
-                        children: new Promise<ITreeItem[]>((resolve) => {
+                        children: () => new Promise<ITreeItem[]>((resolve) => {
                             setTimeout(() => {
                                 resolve([{ title: "C-1-0" }, { title: "C-1-1" }]);
                             }, 2000);
@@ -337,6 +339,19 @@ export const PTree = [
         desc: "节点圆角",
         type: ["boolean"],
         def: "false",
+    },
+    {
+        name: "virtual",
+        desc: "虚拟滚动配置",
+        type: [
+            <div style={{ whiteSpace: "pre", fontFamily: "monospace" }}>
+                {"{\n  "}
+                <span className="blue">rowHeight</span>
+                {": number;\n  "}
+                <span className="blue">threshold</span>
+                {"?: number;\n}"}
+            </div>,
+        ],
     },
     {
         name: "renderExtra",
@@ -419,6 +434,11 @@ export const PTreeItem = [
         desc: "节点勾选状态",
         type: ["boolean"],
         def: "false",
+    },
+    {
+        name: "attrs",
+        desc: "节点附加属性，将添加到节点 DOM 元素上",
+        type: ["Record<string, any>"],
     },
 ];
 

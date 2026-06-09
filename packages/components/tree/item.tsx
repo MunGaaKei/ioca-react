@@ -11,10 +11,11 @@ export const TreeItemHeader = (props: {
     href?: string;
     selected?: boolean;
     style?: React.CSSProperties;
+    attrs?: Record<string, any>;
     children: React.ReactNode;
     onClick?: (e: MouseEvent<HTMLElement>) => void;
 }) => {
-    const { as: Tag = "a", href, selected, children, ...restProps } = props;
+    const { as: Tag = "a", href, selected, children, attrs, ...restProps } = props;
 
     const className = classNames("i-tree-item-header", {
         "i-tree-item-selected": selected,
@@ -22,14 +23,14 @@ export const TreeItemHeader = (props: {
 
     if (typeof Tag === "string") {
         return (
-            <Tag href={href} className={className} {...restProps}>
+            <Tag href={href} className={className} {...attrs} {...restProps}>
                 {children}
             </Tag>
         );
     }
 
     return (
-        <Tag to={href || ""} className={className} {...restProps}>
+        <Tag to={href || ""} className={className} {...attrs} {...restProps}>
             {children}
         </Tag>
     );
@@ -71,9 +72,9 @@ export function TreeRow(props: TreeRowProps) {
 	} = props;
 
 	const { node, depth, isExpanded } = flatNode;
-	const { key = "", as, href, icon, title, disabled, type } = node;
+	const { key = "", as, href, icon, title, disabled, type, attrs } = node;
 	const children = node[nodeProps.children];
-	const hasChildren = children instanceof Promise || (Array.isArray(children) && children.length > 0);
+	const hasChildren = children instanceof Promise || typeof children === "function" || (Array.isArray(children) && children.length > 0);
 	const loading = loadingKeys?.includes(key);
 
 	if (type === "title") {
@@ -91,6 +92,7 @@ export function TreeRow(props: TreeRowProps) {
 		>
 			<TreeItemHeader
 				as={as}
+				attrs={attrs}
 				href={href}
 				style={{ paddingLeft: `${depth * 1.5 + 0.5}em` }}
 				selected={selected === key}

@@ -47,16 +47,22 @@ const Select = (props: ISelect) => {
 
     const [active, setActive] = useState<boolean>(false);
 
-    const formattedOptions = useMemo(() => formatOption(options), [options]);
+    const formattedOptions = useMemo(() => {
+        return formatOption(options).map((opt) => {
+            const label = typeof opt.label === "string" ? opt.label : String(opt.value ?? "");
+            return { ...opt, _label: label.toLowerCase(), _value: String(opt.value ?? "").toLowerCase() };
+        });
+    }, [options]);
 
     const filterOptions = useMemo(() => {
         const fv = filterValue;
         if (!fv || !filter) return formattedOptions;
 
+        const lowerFv = fv.toLowerCase();
         const filterFn =
             typeof filter === "function"
                 ? filter
-                : (opt) => opt.value.includes(fv) || opt.label.includes(fv);
+                : (opt) => opt._value.includes(lowerFv) || opt._label.includes(lowerFv);
 
         return formattedOptions.filter(filterFn);
     }, [formattedOptions, filter, filterValue]);

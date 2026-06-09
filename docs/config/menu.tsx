@@ -1,4 +1,5 @@
 import { Icon } from "@p";
+import type { ITreeItem } from "@p/components/tree/type";
 import {
     AccountTreeTwotone,
     AnnouncementTwotone,
@@ -27,6 +28,7 @@ import {
     LinearScaleRound,
     LooksOneOutlined,
     MarginOutlined,
+    MenuBookTwotone,
     MoveToInboxTwotone,
     MultipleStopRound,
     NoiseControlOffRound,
@@ -58,8 +60,15 @@ export default [
         href: "/docs/install",
     },
     {
+        title: "Skill",
+        as: Link,
+        icon: <Icon icon={<MenuBookTwotone />} />,
+        href: "/docs/skill",
+    },
+    {
         title: "Style & Colors",
         icon: <Icon icon={<StyleTwotone />} />,
+        expanded: true,
         children: [
             {
                 title: "Colors",
@@ -132,13 +141,7 @@ export default [
                 title: "Dropdown",
                 href: "/docs/dropdown",
                 as: Link,
-                icon: (
-                    <Icon
-                        icon={<ArrowDropDownCircleTwotone />}
-                        size="1.2em"
-                        style={{ marginInline: ".15em" }}
-                    />
-                ),
+                icon: <Icon icon={<ArrowDropDownCircleTwotone />} size="1.2em" style={{ marginInline: ".15em" }} />,
             },
             {
                 title: "Editor",
@@ -192,13 +195,7 @@ export default [
                         title: "Radio",
                         href: "/docs/radio",
                         as: Link,
-                        icon: (
-                            <Icon
-                                icon={<RadioButtonCheckedRound />}
-                                size="1.2em"
-                                style={{ marginInline: ".15em" }}
-                            />
-                        ),
+                        icon: <Icon icon={<RadioButtonCheckedRound />} size="1.2em" style={{ marginInline: ".15em" }} />,
                     },
                     {
                         title: "Select",
@@ -348,4 +345,4 @@ export default [
         icon: <Icon icon={<TipsAndUpdatesTwotone />} />,
         href: "/docs/updates",
     },
-];
+] as ITreeItem[];
