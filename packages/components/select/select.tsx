@@ -2,7 +2,6 @@ import { UnfoldMoreRound } from "@ricons/material";
 import classNames from "classnames";
 import { debounce } from "radash";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import "../../css/input.css";
 import { formatOption } from "../../js/utils";
 import { TOption } from "../../type";
 import Popup from "../popup";

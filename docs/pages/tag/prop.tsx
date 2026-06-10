@@ -48,7 +48,6 @@ export const DColors = {
                     </Tag>
                     <Tag
                         className="bg-aqua"
-                        hoverShowClose
                         onClose={() => null}
                         onClick={() => null}
                     >

@@ -40,7 +40,7 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.625em;
+    gap: 0.825em;
     align-self: baseline;
 }
 .i-radio-options-button {

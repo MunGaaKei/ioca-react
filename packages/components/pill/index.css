@@ -1,0 +1,35 @@
+.i-pill-list {
+    flex: 1 1 100%;
+    align-self: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em;
+    --background-hover: var(--color-8);
+}
+
+.i-pill {
+    flex-shrink: 0;
+    white-space: nowrap;
+    outline: 1.5px solid transparent;
+    font-size: 1em;
+    gap: 0;
+}
+
+.i-pill-create {
+    padding: 0.25em;
+    cursor: pointer;
+    align-self: stretch;
+}
+
+.i-pill-editing {
+    min-width: 2.25em;
+    cursor: text;
+    outline: 1.5px solid var(--background-hover);
+    outline-offset: -2px;
+
+    &::before {
+        content: "\200b";
+        opacity: 0;
+    }
+}

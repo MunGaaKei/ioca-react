@@ -16,6 +16,7 @@ import {
     Crop75Round,
     DashboardTwotone,
     DataUsageRound,
+    DiscountTwotone,
     DownhillSkiingRound,
     DriveFolderUploadOutlined,
     FormatListNumberedRound,
@@ -168,6 +169,12 @@ export default [
                         icon: <Icon icon={<CheckBoxOutlined />} />,
                     },
                     {
+                        title: "Pill",
+                        href: "/docs/pill",
+                        as: Link,
+                        icon: <Icon icon={<LabelTwotone />} />,
+                    },
+                    {
                         title: "Input",
                         href: "/docs/input",
                         as: Link,
@@ -311,7 +318,7 @@ export default [
                 title: "Tag",
                 href: "/docs/tag",
                 as: Link,
-                icon: <Icon icon={<LabelTwotone />} />,
+                icon: <Icon icon={<DiscountTwotone />} />,
             },
             {
                 title: "Text",

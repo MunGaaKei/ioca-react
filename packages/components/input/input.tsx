@@ -7,7 +7,6 @@ import {
 	useState,
 	type KeyboardEvent,
 } from "react";
-import "../../css/input.css";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
 import Number from "./number";

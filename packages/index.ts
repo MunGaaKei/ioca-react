@@ -6,6 +6,7 @@ import Button from "./components/button";
 import Card from "./components/card";
 import Checkbox from "./components/checkbox";
 import Collapse from "./components/collapse";
+import Pill from "./components/pill";
 import Datagrid from "./components/datagrid";
 import Description from "./components/description";
 import Drawer from "./components/drawer";
@@ -66,6 +67,7 @@ export {
 	Message,
 	Modal,
 	Pagination,
+	Pill,
 	Popconfirm,
 	Popup,
 	Progress,

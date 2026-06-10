@@ -193,6 +193,7 @@
     }
 
     .round {
+        --radius: 50dvw;
         border-radius: 50dvw;
     }
 

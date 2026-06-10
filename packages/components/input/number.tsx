@@ -11,7 +11,6 @@ import {
 	type FocusEvent,
 	type KeyboardEvent,
 } from "react";
-import "../../css/input.css";
 import { clamp, formatNumber } from "../../js/utils";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";

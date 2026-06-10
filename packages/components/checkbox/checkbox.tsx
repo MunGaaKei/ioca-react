@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { useEffect, useMemo, useState } from "react";
-import "../../css/input.css";
 import { formatOption } from "../../js/utils";
 import "./index.css";
 import CheckboxItem from "./item";

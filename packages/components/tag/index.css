@@ -16,6 +16,20 @@
     font-size: 0.81em;
     line-height: 1;
 
+    &.i-tag-large {
+        font-size: 1em;
+    }
+
+    &.i-tag-extreme {
+        font-size: 1.5em;
+        height: 2em;
+    }
+
+    &.i-tag-small {
+        font-size: 0.72em;
+        padding: 0.125em 0.4em;
+    }
+
     .i-tag-close {
         position: absolute;
         right: 0;
@@ -25,7 +39,7 @@
         background: var(--error);
         color: var(--white);
         transform: translate(50%, -50%);
-        font-size: 0.81em;
+        font-size: 0.72em;
         transition: all 0.16s;
 
         &:hover {
@@ -40,20 +54,6 @@
             transform: translate(50%, -50%) scale(1);
         }
     }
-}
-
-.i-tag-large {
-    font-size: 1em;
-}
-
-.i-tag-extreme {
-    font-size: 1.5em;
-    height: 2em;
-}
-
-.i-tag-small {
-    font-size: 0.72em;
-    padding: 0.125em 0.4em;
 }
 
 .i-tag-dot {

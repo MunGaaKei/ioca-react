@@ -4,50 +4,36 @@ import "./index.css";
 import { ITag } from "./type";
 
 const Tag = (props: ITag) => {
-	const {
-		dot,
-		dotClass,
-		outline,
-		round,
-		size = "normal",
-		hoverShowClose,
-		className,
-		children,
-		onClose,
-		onClick,
-		...restProps
-	} = props;
+    const { dot, dotClass, outline, round, size = "normal", className, children, onClose, onClick, ...restProps } = props;
 
-	return (
-		<span
-			className={classNames(
-				"i-tag",
-				{
-					"i-tag-outline": outline,
-					"i-tag-clickable": onClick,
-					[`i-tag-${size}`]: size !== "normal",
-					round,
-				},
-				className
-			)}
-			onClick={onClick}
-			{...restProps}
-		>
-			{dot && <span className={classNames("i-tag-dot", dotClass)}></span>}
+    return (
+        <span
+            className={classNames(
+                "i-tag",
+                {
+                    "i-tag-outline": outline,
+                    "i-tag-clickable": onClick,
+                    [`i-tag-${size}`]: size !== "normal",
+                    round,
+                },
+                className,
+            )}
+            onClick={onClick}
+            {...restProps}
+        >
+            {dot && <span className={classNames("i-tag-dot", dotClass)}></span>}
 
-			{children}
+            {children}
 
-			{onClose && (
-				<Helpericon
-					active
-					className={classNames("i-tag-close", {
-						"i-tag-hover-close": hoverShowClose,
-					})}
-					onClick={onClose}
-				/>
-			)}
-		</span>
-	);
+            {onClose && (
+                <Helpericon
+                    active
+                    className="i-tag-close i-tag-hover-close"
+                    onClick={onClose}
+                />
+            )}
+        </span>
+    );
 };
 
 export default Tag;

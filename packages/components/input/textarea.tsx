@@ -7,7 +7,6 @@ import {
     useState,
     type KeyboardEvent,
 } from "react";
-import "../../css/input.css";
 import InputContainer from "./container";
 import type { ITextarea } from "./type";
 

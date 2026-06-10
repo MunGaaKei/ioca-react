@@ -101,7 +101,6 @@ export const displayValue = (config) => {
 			return (
 				<Tag
 					key={value as string}
-					hoverShowClose
 					onClose={(e) => {
 						e?.stopPropagation();
 						onSelect?.(value, opt);

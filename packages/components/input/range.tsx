@@ -1,7 +1,6 @@
 import { MinusRound, PlusRound, SyncAltRound } from "@ricons/material";
 import classNames from "classnames";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import "../../css/input.css";
 import { clamp, formatNumber } from "../../js/utils";
 import Helpericon from "../utils/helpericon";
 import InputContainer from "./container";
