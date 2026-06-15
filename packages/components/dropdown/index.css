@@ -1,9 +1,9 @@
-  .i-dropdown-content {
+.i-dropdown-content {
     display: flex;
     flex-direction: column;
-    max-height: 40vh;
+    max-height: 32dvh;
     padding: 8px;
     gap: 2px;
     overflow-x: hidden;
     border-radius: inherit;
-  }
+}

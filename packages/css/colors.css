@@ -45,7 +45,7 @@
     --success-0: #acf899;
     --success-1: #8dfa72;
 
-    --color-0: #020202;
+    --color-0: #000;
     --color-1: #1b1b1b;
     --color-2: #363636;
     --color-3: #505050;
@@ -55,6 +55,7 @@
     --color-7: #bbbbbb;
     --color-8: #d6d6d6;
     --color-9: #f1f1f1;
+    --color-10: #fff;
 
     --background: #fff;
     --background-1: #f1f1f1;
@@ -64,10 +65,10 @@
     --background-opacity-2: rgba(188, 188, 188, 0.15);
     --color-backdrop: rgba(255, 255, 255, 0.4);
 
-    --color: var(--color-2);
+    --color: var(--color-1);
     --color-main: var(--color-2);
     --color-main-1: var(--color-0);
-    --color-main-0: var(--color-9);
+    --color-main-0: #eff1ff;
     --color-main-reverse: var(--white);
 
     --shadow: 0 0 8px rgba(0, 0, 0, 0.15);
@@ -379,6 +380,11 @@
         color: var(--color-9);
     }
 
+    .color-10 {
+        --color: var(--color-10);
+        color: var(--color-10);
+    }
+
     .bg-white {
         --background: var(--white);
         --color: var(--black);
@@ -644,6 +650,10 @@
         --color-hover: var(--white);
     }
 
+    .bg {
+        background: var(--background);
+    }
+
     .bg-0 {
         --background: var(--color-0);
         --color: var(--color-9);
@@ -693,6 +703,11 @@
         --background: var(--color-9);
         --color: var(--color-0);
     }
+
+    .bg-10 {
+        --background: var(--color-10);
+        --color: var(--color-0);
+    }
 }
 
 .theme-dark {
@@ -706,6 +721,7 @@
     --color-7: #525252;
     --color-8: #3a3a3a;
     --color-9: #212121;
+    --color-10: #000;
 
     --background: #1a1a1a;
     --background-1: #2a2a2a;
@@ -753,6 +769,7 @@
         --color-7: #525252;
         --color-8: #3a3a3a;
         --color-9: #212121;
+        --color-10: #000;
 
         --background: #1a1a1a;
         --background-1: #2a2a2a;

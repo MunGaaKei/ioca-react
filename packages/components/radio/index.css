@@ -45,6 +45,7 @@
 }
 .i-radio-options-button {
     flex: none;
+    gap: 0.5em;
 }
 .i-radio-text {
     display: inline-flex;

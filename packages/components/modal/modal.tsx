@@ -5,46 +5,14 @@ import { useKeydown } from "../../js/hooks";
 import Content from "./content";
 import ModalContext from "./context";
 import "./index.css";
-import {
-    getContainer,
-    isTop,
-    register,
-    subscribe,
-    updateVisible,
-} from "./modalManager";
+import { getContainer, isTop, register, subscribe, updateVisible } from "./modalManager";
 import { CompositionModal, IModal } from "./type";
 import useModal from "./useModal";
 
 let midCounter = 0;
 
 function Modal(props: IModal) {
-    const {
-        visible,
-        title,
-        footer,
-        okButtonProps,
-        cancelButtonProps,
-        closable = true,
-        hideBackdrop,
-        backdropClosable = true,
-        hideCloseButton,
-        disableEsc,
-        width,
-        height,
-        customized,
-        fixed,
-        hideShadow,
-        children,
-        style,
-        className,
-        keepDOM,
-        footerLeft,
-        onClick,
-        onVisibleChange,
-        onClose,
-        onOk,
-        ...restProps
-    } = props;
+    const { visible, title, footer, okButtonProps, cancelButtonProps, closable = true, hideBackdrop, backdropClosable = true, hideCloseButton, disableEsc, width, height, customized, fixed, hideShadow, children, style, className, keepDOM, footerLeft, onClick, onVisibleChange, onClose, onOk, ...restProps } = props;
 
     const midRef = useRef(`modal-${++midCounter}`);
     const mid = midRef.current;
@@ -197,19 +165,7 @@ function Modal(props: IModal) {
                 <ModalContext.Provider value={true}>
                     {customized && children}
 
-                    {!customized && (
-                        <Content
-                            title={title}
-                            hideCloseButton={hideCloseButton}
-                            footer={footer}
-                            okButtonProps={okButtonProps}
-                            cancelButtonProps={cancelButtonProps}
-                            children={children}
-                            footerLeft={footerLeft}
-                            onOk={onOk}
-                            onClose={handleHide}
-                        />
-                    )}
+                    {!customized && <Content title={title} hideCloseButton={hideCloseButton} footer={footer} okButtonProps={okButtonProps} cancelButtonProps={cancelButtonProps} children={children} footerLeft={footerLeft} onOk={onOk} onClose={handleHide} />}
                 </ModalContext.Provider>
             </div>
         </div>,

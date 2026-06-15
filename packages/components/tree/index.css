@@ -9,9 +9,7 @@
     position: relative;
     font-size: 1em;
     display: flex;
-    font-weight: 300;
-    font-style: italic;
-    font-size: 0.9em;
+    font-weight: 500;
     &:after {
         content: "\20";
         margin-left: 0.5em;
@@ -25,7 +23,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.25em;
+    gap: 0.5em;
     padding: 0.4em;
     user-select: none;
     border-radius: var(--radius);

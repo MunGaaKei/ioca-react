@@ -32,6 +32,9 @@
     gap: 0.825em;
     align-self: baseline;
 }
+.i-checkbox-options-button {
+    gap: 0.5em;
+}
 .i-checkbox-text {
     display: inline-flex;
     transition: var(--transition);
