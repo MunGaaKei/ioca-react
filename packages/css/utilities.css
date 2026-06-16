@@ -184,7 +184,7 @@
     }
 
     .bg-blur {
-        background: var(--background-opacity);
+        --background: var(--background);
         backdrop-filter: var(--blur);
     }
 
@@ -274,6 +274,10 @@
 
     .font-lg {
         font-size: 1.2em;
+    }
+
+    .pd {
+        padding: var(--padding);
     }
 
     .mg-auto {

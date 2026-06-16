@@ -11,16 +11,7 @@ export const DBasic = {
 
 export const DNumber = {
     demo: () => {
-        return (
-            <Input.Number
-                placeholder="Number"
-                width={160}
-                thousand=","
-                max={1200}
-                showMax
-                border
-            />
-        );
+        return <Input.Number placeholder="Number" width={160} thousand="," max={1200} showMax border={false} />;
     },
     code: `<Input.Number
 	placeholder='Number'
@@ -35,9 +26,7 @@ export const DNumber = {
 
 export const DRange = {
     demo: () => {
-        return (
-            <Input.Range placeholder={["min", "max"]} width={240} autoSwitch />
-        );
+        return <Input.Range placeholder={["min", "max"]} width={240} autoSwitch />;
     },
     code: `<Input.Range placeholder={["min", "max"]} width={240} autoSwitch />`,
     lang: "xml",
@@ -45,13 +34,7 @@ export const DRange = {
 
 export const DTextarea = {
     demo: () => {
-        return (
-            <Input.Textarea
-                style={{ width: 400 }}
-                autoSize
-                placeholder="TextArea"
-            />
-        );
+        return <Input.Textarea style={{ width: 400 }} autoSize placeholder="TextArea" />;
     },
     code: `<Input.Textarea
 	style={{ width: 400 }}

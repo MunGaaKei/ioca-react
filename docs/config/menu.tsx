@@ -42,14 +42,12 @@ import {
     StyleTwotone,
     SwipeTwotone,
     TextFormatRound,
-    TipsAndUpdatesTwotone,
     UnfoldMoreRound,
     ViewCarouselTwotone,
     ViewDayTwotone,
     ViewSidebarTwotone,
     WaterRound,
     WebAssetTwotone,
-    WysiwygTwotone,
 } from "@ricons/material";
 import { Link } from "react-router";
 
@@ -107,12 +105,6 @@ export default [
                 href: "/docs/button",
                 as: Link,
                 icon: <Icon icon={<Crop75Round />} />,
-            },
-            {
-                title: "Card",
-                href: "/docs/card",
-                as: Link,
-                icon: <Icon icon={<WysiwygTwotone />} />,
             },
             {
                 title: "Collapse",
@@ -346,10 +338,10 @@ export default [
             },
         ],
     },
-    {
-        title: "Updates",
-        as: Link,
-        icon: <Icon icon={<TipsAndUpdatesTwotone />} />,
-        href: "/docs/updates",
-    },
+    // {
+    //     title: "Updates",
+    //     as: Link,
+    //     icon: <Icon icon={<TipsAndUpdatesTwotone />} />,
+    //     href: "/docs/updates",
+    // },
 ] as ITreeItem[];

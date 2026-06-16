@@ -1,15 +1,4 @@
-import {
-    Button,
-    Checkbox,
-    DatePicker,
-    Flex,
-    Form,
-    Input,
-    Message,
-    Radio,
-    Select,
-    Upload,
-} from "@p";
+import { Button, Checkbox, DatePicker, Flex, Form, Input, Message, Radio, Select, Upload } from "@p";
 
 export const DBasic = {
     demo: () => {
@@ -51,13 +40,7 @@ export const DBasic = {
         };
 
         return (
-            <Form
-                form={form}
-                rules={rules}
-                width={420}
-                initialValues={{ site: { name: "name" } }}
-                onEnter={handleSubmit}
-            >
+            <Form form={form} rules={rules} width={420} initialValues={{ site: { name: "name" } }} onEnter={handleSubmit}>
                 <Field name="name" required>
                     <Input labelInline label="名字" maxLength={4} />
                 </Field>
@@ -80,30 +63,23 @@ export const DBasic = {
                     />
                 </Field>
 
-                <Field name="age">
-                    <Input.Number label="年龄" max={150} min={1} />
-                </Field>
-                <Field name="weight">
-                    <Input.Range label="体重范围" min={0} />
-                </Field>
+                <Flex>
+                    <Field name="age">
+                        <Input.Number label="年龄" max={150} min={1} width={160} />
+                    </Field>
+                    <Field name="weight">
+                        <Input.Range label="体重范围" min={0} />
+                    </Field>
+                </Flex>
 
                 <Field name="gender" required>
-                    <Radio
-                        label="性别"
-                        options={["男", "女", "无"]}
-                        labelInline
-                    />
+                    <Radio label="性别" options={["男", "女", "无"]} labelInline />
                 </Field>
                 <Field name="birth">
                     <DatePicker label="生日" labelInline />
                 </Field>
                 <Field name="hobby">
-                    <Checkbox
-                        label="兴趣"
-                        options={["足球", "篮球", "棒球", "排球", "橄榄球"]}
-                        type="switch"
-                        labelInline
-                    />
+                    <Checkbox label="兴趣" options={["足球", "篮球", "棒球", "排球", "橄榄球"]} type="switch" labelInline />
                 </Field>
                 <Field name="files">
                     <Upload label="文件" mode="card" multiple />
@@ -136,13 +112,7 @@ export const DBasic = {
                     </Field>
                 </Flex>
                 <Field name="desc">
-                    <Input.Textarea
-                        label="说明"
-                        rows={3}
-                        autoSize
-                        labelInline
-                        resize={false}
-                    />
+                    <Input.Textarea label="说明" rows={3} autoSize labelInline resize={false} />
                 </Field>
 
                 <Flex className="gap-12 colspan-full">
@@ -221,7 +191,7 @@ return (
         </Field>
         <Flex>
             <Field name='age'>
-                <Input.Number label='年龄' max={150} min={1} />
+                <Input.Number label='年龄' max={150} min={1} width={160} />
             </Field>
             <Field name='weight'>
                 <Input.Range label='体重范围' min={0} />

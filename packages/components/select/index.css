@@ -5,13 +5,17 @@
 
 .i-select-multiple {
     flex-wrap: wrap;
-    padding: 0.225em 0.628em;
+    padding: var(--padding);
 
     .i-tag {
         position: relative;
         padding: 0 0.5em;
-        line-height: 1.425em;
-        background: var(--background-opacity-1);
+        line-height: 1.36em;
+        background: var(--color-main-0);
+    }
+
+    .i-tag-close {
+        border-radius: 2px;
     }
 }
 

@@ -6,23 +6,7 @@ import CheckboxItem from "./item";
 import type { ICheckbox } from "./type";
 
 function Checkbox(props: ICheckbox) {
-    const {
-        label,
-        name,
-        options = [],
-        value = "",
-        type = "default",
-        optionInline = true,
-        labelInline,
-        disabled,
-        status = "normal",
-        message,
-        required,
-        className,
-        renderItem,
-        onChange,
-        ...restProps
-    } = props;
+    const { label, name, options = [], value = "", type = "default", optionInline = true, labelInline, disabled, status = "normal", message, required, className, renderItem, onChange, ...restProps } = props;
 
     const [selectedValues, setSelectedValues] = useState<any>(value);
 
@@ -71,22 +55,12 @@ function Checkbox(props: ICheckbox) {
             <div
                 className={classNames("i-checkbox-options", {
                     "i-options-block": !optionInline,
-                    "i-checkbox-options-button": type === "button",
+                    [`i-checkbox-options-${type}`]: true,
                 })}
             >
                 {formattedOptions.map((option) => {
                     return (
-                        <CheckboxItem
-                            key={option.value as string}
-                            name={name}
-                            value={selectedValues.includes(option.value)}
-                            optionValue={option.value}
-                            type={type}
-                            disabled={disabled || option.disabled}
-                            onChange={(checked, e) =>
-                                handleChange(checked, option, e)
-                            }
-                        >
+                        <CheckboxItem key={option.value as string} name={name} value={selectedValues.includes(option.value)} optionValue={option.value} type={type} disabled={disabled || option.disabled} onChange={(checked, e) => handleChange(checked, option, e)}>
                             {renderItem ?? option.label}
                         </CheckboxItem>
                     );

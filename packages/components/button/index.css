@@ -8,8 +8,8 @@
     align-items: center;
     justify-content: center;
     gap: var(--gap);
-    padding: 0 0.6em;
-    height: 2.25em;
+    padding: 0 0.628em;
+    height: 2.46em;
     border-radius: var(--radius);
     border: 2px solid transparent;
     transition: var(--transition);
@@ -74,7 +74,7 @@
 
 .i-btn-square {
     padding: 0;
-    width: 2.25em;
+    width: 2.46em;
 
     &.i-btn-extreme,
     &.i-btn-small {

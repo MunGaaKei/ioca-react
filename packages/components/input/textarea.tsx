@@ -1,35 +1,10 @@
 import classNames from "classnames";
-import {
-    ChangeEvent,
-    useEffect,
-    useImperativeHandle,
-    useRef,
-    useState,
-    type KeyboardEvent,
-} from "react";
+import { ChangeEvent, useEffect, useImperativeHandle, useRef, useState, type KeyboardEvent } from "react";
 import InputContainer from "./container";
 import type { ITextarea } from "./type";
 
 const Textarea = (props: ITextarea) => {
-    const {
-        ref,
-        label,
-        name,
-        value = "",
-        labelInline,
-        className,
-        status = "normal",
-        message,
-        tip,
-        autoSize,
-        border,
-        width,
-        style,
-        resize,
-        onChange,
-        onEnter,
-        ...restProps
-    } = props;
+    const { ref, label, name, value = "", labelInline, className, status = "normal", message, tip, autoSize, border = true, width, style, resize, onChange, onEnter, ...restProps } = props;
 
     const [textareaValue, setTextareaValue] = useState(value);
     const refTextarea = useRef<HTMLTextAreaElement>(null);
@@ -42,9 +17,7 @@ const Textarea = (props: ITextarea) => {
         ta.style.height = `${ta.scrollHeight}px`;
     };
 
-    const handleChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const v = e.target.value;
 
         setTextareaValue(v);
@@ -85,14 +58,7 @@ const Textarea = (props: ITextarea) => {
     };
 
     return (
-        <InputContainer
-            label={label}
-            labelInline={labelInline}
-            className={classNames("i-textarea-label", className)}
-            style={{ width, ...style }}
-            tip={message ?? tip}
-            status={status}
-        >
+        <InputContainer label={label} labelInline={labelInline} className={classNames("i-textarea-label", className)} style={{ width, ...style }} tip={message ?? tip} status={status}>
             <div
                 className={classNames("i-input-item", {
                     [`i-input-${status}`]: status !== "normal",

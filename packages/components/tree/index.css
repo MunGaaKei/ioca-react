@@ -23,17 +23,17 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.5em;
-    padding: 0.4em;
+    gap: 1em;
+    padding: var(--padding);
     user-select: none;
     border-radius: var(--radius);
     overflow: hidden;
-    color: var(--color-6);
+    opacity: 0.4;
 }
 .i-tree-item-header.i-tree-item-selected,
 .i-tree-item-header:hover {
-    background: var(--color-main-0);
-    color: var(--color-main);
+    background: var(--background-opacity-1);
+    opacity: 1;
 }
 .i-tree-round {
     --radius: 100px;

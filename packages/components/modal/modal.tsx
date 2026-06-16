@@ -54,26 +54,37 @@ function Modal(props: IModal) {
         if (!toggable.current) return;
         toggable.current = false;
 
-        if (!closable) {
-            setBounced(true);
+        const canClose = typeof closable === 'function' ? closable() : closable;
+
+        const exec = (result: boolean) => {
+            if (!result) {
+                setBounced(true);
+                const timer = setTimeout(() => {
+                    setBounced(false);
+                    toggable.current = true;
+                }, 400);
+                return () => clearTimeout(timer);
+            }
+
+            setActive(false);
+            updateVisible(mid, false);
             const timer = setTimeout(() => {
-                setBounced(false);
+                if (!keepDOM) setShow(false);
                 toggable.current = true;
-            }, 400);
+                onVisibleChange?.(false);
+                onClose?.();
+            }, 240);
+
             return () => clearTimeout(timer);
+        };
+
+        if (canClose instanceof Promise) {
+            canClose.then(exec);
+            return;
         }
 
-        setActive(false);
-        updateVisible(mid, false);
-        const timer = setTimeout(() => {
-            if (!keepDOM) setShow(false);
-            toggable.current = true;
-            onVisibleChange?.(false);
-            onClose?.();
-        }, 240);
-
-        return () => clearTimeout(timer);
-    }, [closable, keepDOM, onClose, onVisibleChange]);
+        return exec(canClose);
+    }, [closable, keepDOM, mid, onClose, onVisibleChange]);
 
     const handleBackdropClick = () => {
         backdropClosable && handleHide();

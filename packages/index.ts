@@ -3,10 +3,8 @@ import "./css/index.css";
 import Affix from "./components/affix";
 import Badge from "./components/badge";
 import Button from "./components/button";
-import Card from "./components/card";
 import Checkbox from "./components/checkbox";
 import Collapse from "./components/collapse";
-import Pill from "./components/pill";
 import Datagrid from "./components/datagrid";
 import Description from "./components/description";
 import Drawer from "./components/drawer";
@@ -23,6 +21,7 @@ import Message from "./components/message";
 import Modal from "./components/modal";
 import Pagination from "./components/pagination";
 import { ColorPicker, DatePicker, DateRange, TimePicker } from "./components/picker";
+import Pill from "./components/pill";
 import Popconfirm from "./components/popconfirm";
 import Popup from "./components/popup";
 import Progress from "./components/progress";
@@ -43,48 +42,47 @@ import usePreview from "./js/usePreview";
 import useTheme from "./js/useTheme";
 
 export {
-	Affix,
-	Badge,
-	Button,
-	Card,
-	Checkbox,
-	Collapse,
-	ColorPicker,
-	Datagrid,
-	DatePicker,
-	DateRange,
-	Description,
-	Drawer,
-	Dropdown,
-	Editor,
-	Flex,
-	Form,
-	Icon,
-	Image,
-	Input,
-	List,
-	Loading,
-	Message,
-	Modal,
-	Pagination,
-	Pill,
-	Popconfirm,
-	Popup,
-	Progress,
-	Radio,
-	Resizable,
-	River,
-	Scroll,
-	Select,
-	Step,
-	Swiper,
-	Tabs,
-	Tag,
-	Text,
-	TimePicker,
-	Tree,
-	Upload,
-	usePreview,
-	useTheme,
-	Video,
+    Affix,
+    Badge,
+    Button,
+    Checkbox,
+    Collapse,
+    ColorPicker,
+    Datagrid,
+    DatePicker,
+    DateRange,
+    Description,
+    Drawer,
+    Dropdown,
+    Editor,
+    Flex,
+    Form,
+    Icon,
+    Image,
+    Input,
+    List,
+    Loading,
+    Message,
+    Modal,
+    Pagination,
+    Pill,
+    Popconfirm,
+    Popup,
+    Progress,
+    Radio,
+    Resizable,
+    River,
+    Scroll,
+    Select,
+    Step,
+    Swiper,
+    Tabs,
+    Tag,
+    Text,
+    TimePicker,
+    Tree,
+    Upload,
+    usePreview,
+    useTheme,
+    Video,
 };

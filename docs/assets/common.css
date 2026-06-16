@@ -1,69 +1,69 @@
 @font-face {
-	font-family: "NunitoSans_10pt";
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
-	src: url("./NunitoSans_10pt-Regular.ttf") format("truetype");
+    font-family: "NunitoSans_10pt";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./NunitoSans_10pt-Regular.ttf") format("truetype");
 }
 
 @font-face {
-	font-family: "NunitoSans_10pt";
-	font-style: normal;
-	font-weight: 600;
-	font-display: swap;
-	src: url("./NunitoSans_10pt-SemiBold.ttf") format("truetype");
+    font-family: "NunitoSans_10pt";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("./NunitoSans_10pt-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
-	font-family: "jaini";
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
-	src: url("./Jaini-Regular.ttf");
+    font-family: "jaini";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./Jaini-Regular.ttf");
 }
 
 html body {
-	font-family: "NunitoSans_10pt";
-	scrollbar-width: 0;
+    font-family: "NunitoSans_10pt";
+    scrollbar-width: none;
 }
 
 .apis {
-	display: flex;
-	flex-direction: column;
-	gap: 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
 }
 
 .i-drawer {
-	.i-tree {
-		min-width: 240px;
-	}
+    .i-tree {
+        min-width: 240px;
+    }
 }
 
 .g-menus {
-	width: 240px;
-	height: 100vh;
-	position: sticky;
-	top: 0;
-	flex-shrink: 0;
-	overflow: auto;
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+    width: 240px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    flex-shrink: 0;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .g-menus::-webkit-scrollbar {
-	display: none;
+    display: none;
 }
 
 .g-content {
-	min-width: 0;
-	flex: 1;
-	margin: 60px auto 0;
-	padding: 0 12px;
-	max-width: 1000px;
+    min-width: 0;
+    flex: 1;
+    margin: 60px auto 0;
+    padding: 0 12px;
+    max-width: 1000px;
 }
 
 @media (max-width: 799px) {
-	.g-menus {
-		display: none;
-	}
+    .g-menus {
+        display: none;
+    }
 }

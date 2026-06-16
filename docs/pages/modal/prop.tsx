@@ -19,13 +19,7 @@ export const DBasic = {
                     }}
                     onClose={() => setVisible(false)}
                 >
-                    <div className="px-12">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Quidem dicta impedit, suscipit dignissimos
-                        corporis illum repellendus labore aperiam nisi. Itaque
-                        cum sit error ab. Libero deleniti eligendi nobis
-                        perspiciatis maxime?
-                    </div>
+                    <div className="px-12">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem dicta impedit, suscipit dignissimos corporis illum repellendus labore aperiam nisi. Itaque cum sit error ab. Libero deleniti eligendi nobis perspiciatis maxime?</div>
                 </Modal>
             </>
         );
@@ -66,17 +60,12 @@ export const DCustom = {
             <>
                 <Button onClick={() => setVisible(true)}>打开</Button>
 
-                <Modal
-                    visible={visible}
-                    customized
-                    onClose={() => setVisible(false)}
-                >
+                <Modal visible={visible} customized onClose={() => setVisible(false)}>
                     <div
                         style={{
                             width: 250,
                             height: 250,
-                            backgroundImage:
-                                "linear-gradient(-225deg, #2f72e7 0%, #a167f9 48%, #ff3bc1 100%)",
+                            backgroundImage: "linear-gradient(-225deg, #2f72e7 0%, #a167f9 48%, #ff3bc1 100%)",
                         }}
                     ></div>
                 </Modal>
@@ -159,12 +148,7 @@ export const DMultiModal = {
             <>
                 <Button onClick={() => setV1(true)}>打开多层</Button>
 
-                <Modal
-                    visible={v1}
-                    title="第一层"
-                    width={400}
-                    onVisibleChange={setV1}
-                >
+                <Modal visible={v1} title="第一层" width={400} onVisibleChange={setV1}>
                     <div className="px-12 pb-12">
                         <Button onClick={() => setV2(true)}>打开第二层</Button>
                     </div>
@@ -180,9 +164,7 @@ export const DMultiModal = {
                         }}
                         onVisibleChange={setV2}
                     >
-                        <div className="px-12">
-                            这是第二层对话框，共用同一个 backdrop
-                        </div>
+                        <div className="px-12">这是第二层对话框，共用同一个 backdrop</div>
                     </Modal>
                 </Modal>
             </>
@@ -273,9 +255,9 @@ export const PModal = [
     },
     {
         name: "closable",
-        desc: "对话框是否可以关闭",
-        type: ["boolean"],
-        def: "false",
+        desc: "对话框是否可以关闭，支持返回 Promise 的异步函数",
+        type: ["boolean", "() => boolean | Promise<boolean>"],
+        def: "true",
     },
     {
         name: "hideCloseButton",

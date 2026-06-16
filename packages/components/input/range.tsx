@@ -7,184 +7,104 @@ import InputContainer from "./container";
 import type { IInputRange } from "./type";
 
 const Range = (props: IInputRange) => {
-	const {
-		label,
-		name,
-		value,
-		labelInline,
-		min = -Infinity,
-		max = Infinity,
-		type,
-		className,
-		status = "normal",
-		message,
-		tip,
-		append,
-		prepend,
-		step = 1,
-		width,
-		thousand,
-		precision,
-		hideControl,
-		placeholder,
-		border,
-		underline,
-		autoSwitch,
-		onChange,
-		onBlur,
-		style,
-		...restProps
-	} = props;
+    const { label, name, value, labelInline, min = -Infinity, max = Infinity, type, className, status = "normal", message, tip, append, prepend, step = 1, width, thousand, precision, hideControl, placeholder, border = true, underline, autoSwitch, onChange, onBlur, style, ...restProps } = props;
 
-	const [rangeValue, setRangeValue] = useState(value);
+    const [rangeValue, setRangeValue] = useState(value);
 
-	const getRangeNumber = (v: number) => clamp(v, min, max);
+    const getRangeNumber = (v: number) => clamp(v, min, max);
 
-	const getFormatNumber = (v: number) =>
-		formatNumber(v, { precision, thousand });
+    const getFormatNumber = (v: number) => formatNumber(v, { precision, thousand });
 
-	const formatInputValue = (v?: string | number) => {
-		if (!v) return "";
-		if (typeof v === "number" || !thousand) return v;
+    const formatInputValue = (v?: string | number) => {
+        if (!v) return "";
+        if (typeof v === "number" || !thousand) return v;
 
-		return v.replaceAll(thousand, "");
-	};
+        return v.replaceAll(thousand, "");
+    };
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>, i: number) => {
-		const { value } = e.target;
-		const v = formatInputValue(value.replace(/[^\d\.-]/g, ""));
-		const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
+    const handleChange = (e: ChangeEvent<HTMLInputElement>, i: number) => {
+        const { value } = e.target;
+        const v = formatInputValue(value.replace(/[^\d\.-]/g, ""));
+        const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
 
-		range[i] = v;
-		setRangeValue(range);
-		onChange?.(range, e);
-	};
+        range[i] = v;
+        setRangeValue(range);
+        onChange?.(range, e);
+    };
 
-	const handleOperate = (
-		e: MouseEvent<Element>,
-		param: number,
-		i: number
-	) => {
-		e.preventDefault();
-		e.stopPropagation();
+    const handleOperate = (e: MouseEvent<Element>, param: number, i: number) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-		const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
-		const value = formatInputValue(range[i]) ?? 0;
-		const result = getRangeNumber(+value + param);
+        const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
+        const value = formatInputValue(range[i]) ?? 0;
+        const result = getRangeNumber(+value + param);
 
-		range[i] = getFormatNumber(result);
+        range[i] = getFormatNumber(result);
 
-		setRangeValue(range);
-		onChange?.(range, e);
-	};
+        setRangeValue(range);
+        onChange?.(range, e);
+    };
 
-	const handleSwitch = (e?: MouseEvent) => {
-		e?.preventDefault();
-		e?.stopPropagation();
-		const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
-		[range[0], range[1]] = [range[1], range[0]];
+    const handleSwitch = (e?: MouseEvent) => {
+        e?.preventDefault();
+        e?.stopPropagation();
+        const range = Array.isArray(rangeValue) ? [...rangeValue] : [];
+        [range[0], range[1]] = [range[1], range[0]];
 
-		setRangeValue(range);
-		onChange?.(range);
-	};
+        setRangeValue(range);
+        onChange?.(range);
+    };
 
-	useEffect(() => {
-		setRangeValue(value);
-	}, [value]);
+    useEffect(() => {
+        setRangeValue(value);
+    }, [value]);
 
-	const inputProps = {
-		name,
-		className: "i-input i-input-number",
-		...restProps,
-	};
+    const inputProps = {
+        name,
+        className: "i-input i-input-number",
+        ...restProps,
+    };
 
-	const handleBlur = () => {
-		if (!autoSwitch) return;
-		const range = Array.isArray(rangeValue) ? rangeValue : [];
+    const handleBlur = () => {
+        if (!autoSwitch) return;
+        const range = Array.isArray(rangeValue) ? rangeValue : [];
 
-		if (range.length < 2) return;
+        if (range.length < 2) return;
 
-		const [left, right] = range.map(Number);
-		if (left > right) {
-			handleSwitch();
-		}
-	};
+        const [left, right] = range.map(Number);
+        if (left > right) {
+            handleSwitch();
+        }
+    };
 
-	return (
-		<InputContainer
-			label={label}
-			labelInline={labelInline}
-			className={className}
-			style={{ width, ...style }}
-			tip={message ?? tip}
-			status={status}
-		>
-			<div
-				className={classNames("i-input-item", {
-					[`i-input-${status}`]: status !== "normal",
-					"i-input-borderless": !border,
-					"i-input-underline": underline,
-				})}
-			>
-				{prepend && <div className='i-input-prepend'>{prepend}</div>}
+    return (
+        <InputContainer label={label} labelInline={labelInline} className={className} style={{ width, ...style }} tip={message ?? tip} status={status}>
+            <div
+                className={classNames("i-input-item", {
+                    [`i-input-${status}`]: status !== "normal",
+                    "i-input-borderless": !border,
+                    "i-input-underline": underline,
+                })}
+            >
+                {prepend && <div className="i-input-prepend">{prepend}</div>}
 
-				{!hideControl && (
-					<Helpericon
-						active
-						icon={<MinusRound />}
-						onClick={(e) => handleOperate(e, -step, 0)}
-					/>
-				)}
+                {!hideControl && <Helpericon active icon={<MinusRound />} onClick={(e) => handleOperate(e, -step, 0)} />}
 
-				<input
-					value={rangeValue?.[0] || ""}
-					placeholder={placeholder?.[0]}
-					{...inputProps}
-					onBlur={handleBlur}
-					onChange={(e) => handleChange(e, 0)}
-				/>
+                <input value={rangeValue?.[0] || ""} placeholder={placeholder?.[0]} {...inputProps} onBlur={handleBlur} onChange={(e) => handleChange(e, 0)} />
 
-				{!hideControl && (
-					<Helpericon
-						active
-						icon={<PlusRound />}
-						onClick={(e) => handleOperate(e, step, 0)}
-					/>
-				)}
-				<Helpericon
-					active
-					icon={<SyncAltRound />}
-					style={{ margin: 0 }}
-					onClick={handleSwitch}
-				/>
-				{!hideControl && (
-					<Helpericon
-						active
-						icon={<MinusRound />}
-						onClick={(e) => handleOperate(e, -step, 1)}
-					/>
-				)}
+                {!hideControl && <Helpericon active icon={<PlusRound />} onClick={(e) => handleOperate(e, step, 0)} />}
+                <Helpericon active icon={<SyncAltRound />} style={{ margin: 0 }} onClick={handleSwitch} />
+                {!hideControl && <Helpericon active icon={<MinusRound />} onClick={(e) => handleOperate(e, -step, 1)} />}
 
-				<input
-					value={rangeValue?.[1] || ""}
-					placeholder={placeholder?.[1]}
-					{...inputProps}
-					onBlur={handleBlur}
-					onChange={(e) => handleChange(e, 1)}
-				/>
+                <input value={rangeValue?.[1] || ""} placeholder={placeholder?.[1]} {...inputProps} onBlur={handleBlur} onChange={(e) => handleChange(e, 1)} />
 
-				{!hideControl && (
-					<Helpericon
-						active
-						icon={<PlusRound />}
-						onClick={(e) => handleOperate(e, step, 1)}
-					/>
-				)}
+                {!hideControl && <Helpericon active icon={<PlusRound />} onClick={(e) => handleOperate(e, step, 1)} />}
 
-				{append && <div className='i-input-append'>{append}</div>}
-			</div>
-		</InputContainer>
-	);
+                {append && <div className="i-input-append">{append}</div>}
+            </div>
+        </InputContainer>
+    );
 };
 
 export default Range;

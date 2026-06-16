@@ -6,7 +6,7 @@ export interface IModal extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
 	visible?: boolean;
 	title?: ReactNode;
 	footer?: ReactNode;
-	closable?: boolean;
+	closable?: boolean | (() => boolean | Promise<boolean>);
 	hideCloseButton?: boolean;
 	hideBackdrop?: boolean;
 	backdropClosable?: boolean;

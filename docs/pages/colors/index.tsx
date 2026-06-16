@@ -30,8 +30,8 @@ export default function Page() {
             <p className="my-12">每个颜色都有 4 种类名提供使用：</p>
             <Flex gap={4} columns={"repeat(4, auto)"} className="text-center" style={{ fontSize: ".9em" }}>
                 <Button className="yellow-0">.yellow-0</Button>
-                <Button className="yellow">.yellow</Button>
-                <Button className="bg-yellow-0 color-1">.bg-yellow-0 .color-1</Button>
+                <Button className="yellow bg-blue">.bg-blue .yellow</Button>
+                <Button className="bg-yellow-0 color-0">.bg-yellow-0 .color-0</Button>
                 <Button className="bg-yellow">.bg-yellow</Button>
 
                 <div className="blue-0 pd-8 round-0">.blue-0</div>

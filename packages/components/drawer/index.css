@@ -3,7 +3,7 @@
     inset: 0;
     z-index: 100;
     pointer-events: none;
-    background: var(--color-backdrop);
+    background: var(--background-opacity);
     backdrop-filter: var(--blur);
     contain: paint;
     transition: var(--transition);

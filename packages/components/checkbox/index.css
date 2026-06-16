@@ -29,7 +29,7 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.825em;
+    gap: 1em;
     align-self: baseline;
 }
 .i-checkbox-options-button {

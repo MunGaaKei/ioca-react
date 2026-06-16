@@ -6,7 +6,7 @@ export const DBasic = {
         <Affix bottom={20} right={20} offset={20}>
             <Affix.ToTop className="bg-blue" />
 
-            <Button square className="bg-green">
+            <Button square className="bg-yellow">
                 <Icon icon={<AdUnitsTwotone />} />
             </Button>
         </Affix>
@@ -14,7 +14,7 @@ export const DBasic = {
     code: `<Affix bottom={20} right={20} offset={20}>
     <Affix.ToTop className="bg-blue" />
 
-    <Button square className="bg-green">
+    <Button square className="bg-yellow">
         <Icon icon={<AdUnitsTwotone />} />
     </Button>
 </Affix>`,

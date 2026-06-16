@@ -31,7 +31,7 @@ const Select = (props: ISelect) => {
         hideClear,
         hideArrow,
         maxDisplay,
-        border,
+        border = true,
         filter,
         tip,
         filterPlaceholder = "...",
@@ -58,10 +58,7 @@ const Select = (props: ISelect) => {
         if (!fv || !filter) return formattedOptions;
 
         const lowerFv = fv.toLowerCase();
-        const filterFn =
-            typeof filter === "function"
-                ? filter
-                : (opt) => opt._value.includes(lowerFv) || opt._label.includes(lowerFv);
+        const filterFn = typeof filter === "function" ? filter : (opt) => opt._value.includes(lowerFv) || opt._label.includes(lowerFv);
 
         return formattedOptions.filter(filterFn);
     }, [formattedOptions, filter, filterValue]);
@@ -76,9 +73,7 @@ const Select = (props: ISelect) => {
             return "";
         }
 
-        const option = formattedOptions.find(
-            (opt) => opt.value === selectedValue,
-        );
+        const option = formattedOptions.find((opt) => opt.value === selectedValue);
         return option ? option.label : selectedValue;
     }, [selectedValue, formattedOptions]);
 
@@ -115,13 +110,10 @@ const Select = (props: ISelect) => {
         changeValue(multiple ? [] : "");
     };
 
-    const handleFilterChange = debounce(
-        { delay: 400 },
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const v = e.target.value;
-            setFilterValue(v);
-        },
-    );
+    const handleFilterChange = debounce({ delay: 400 }, (e: ChangeEvent<HTMLInputElement>) => {
+        const v = e.target.value;
+        setFilterValue(v);
+    });
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFilterValue(e.target.value);
@@ -131,9 +123,7 @@ const Select = (props: ISelect) => {
         setSelectedValue(value);
     }, [value]);
 
-    const hasValue = multiple
-        ? (selectedValue as any[]).length > 0
-        : !!selectedValue;
+    const hasValue = multiple ? (selectedValue as any[]).length > 0 : !!selectedValue;
     const clearable = !hideClear && active && hasValue;
     const text = message ?? tip;
 
@@ -160,17 +150,7 @@ const Select = (props: ISelect) => {
                 visible={active}
                 trigger="none"
                 onVisibleChange={handleVisibleChange}
-                content={
-                    <Options
-                        options={filterOptions}
-                        value={selectedValue}
-                        multiple={multiple}
-                        filter={!!filter}
-                        filterPlaceholder={filterPlaceholder}
-                        onSelect={handleSelect}
-                        onFilter={handleFilterChange}
-                    />
-                }
+                content={<Options options={filterOptions} value={selectedValue} multiple={multiple} filter={!!filter} filterPlaceholder={filterPlaceholder} onSelect={handleSelect} onFilter={handleFilterChange} />}
             >
                 <div
                     className={classNames("i-input-item", {
@@ -182,12 +162,7 @@ const Select = (props: ISelect) => {
                 >
                     {prepend}
 
-                    <input
-                        ref={ref}
-                        type="hidden"
-                        value={selectedValue}
-                        {...restProps}
-                    />
+                    <input ref={ref} type="hidden" value={selectedValue} {...restProps} />
 
                     {multiple ? (
                         hasValue ? (
@@ -205,29 +180,13 @@ const Select = (props: ISelect) => {
                                 })}
                             </div>
                         ) : (
-                            <input
-                                className="i-input i-select"
-                                placeholder={placeholder}
-                                readOnly
-                            />
+                            <input className="i-input i-select" placeholder={placeholder} readOnly />
                         )
                     ) : null}
 
-                    {!multiple && (
-                        <input
-                            value={active ? filterValue : displayLabel}
-                            className="i-input i-select"
-                            placeholder={displayLabel || placeholder}
-                            onChange={handleInputChange}
-                            readOnly={!filter}
-                        />
-                    )}
+                    {!multiple && <input value={active ? filterValue : displayLabel} className="i-input i-select" placeholder={displayLabel || placeholder} onChange={handleInputChange} readOnly={!filter} />}
 
-                    <Helpericon
-                        active={!hideArrow}
-                        icon={clearable ? undefined : <UnfoldMoreRound />}
-                        onClick={handleHelperClick}
-                    />
+                    <Helpericon active={!hideArrow} icon={clearable ? undefined : <UnfoldMoreRound />} onClick={handleHelperClick} />
 
                     {append}
                 </div>

@@ -89,7 +89,7 @@ export default function Sider(props) {
                 align="start"
             >
                 <Button square flat>
-                    <Icon icon={themes.find((item) => item.name === theme)?.icon ?? <BrightnessAutoOutlined />} size="1.5em" />
+                    <Icon icon={themes.find((item) => item.name === theme)?.icon ?? <BrightnessAutoOutlined />} />
                 </Button>
             </Dropdown>
 

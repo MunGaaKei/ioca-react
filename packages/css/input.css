@@ -20,6 +20,10 @@
     &:has(.i-input-error) {
         --color: var(--error);
     }
+
+    &:has(:disabled) {
+        opacity: 0.4;
+    }
 }
 
 .i-textarea-label {
@@ -86,11 +90,17 @@
     &.i-input-error {
         border-color: var(--error-0);
     }
+
+    &:has(:disabled) {
+        border-color: transparent;
+        background: var(--background-opacity-1);
+        cursor: not-allowed;
+    }
 }
 
 .i-input-borderless {
     border-color: transparent;
-    background: var(--background-opacity-2);
+    background: var(--background-opacity-1);
 }
 
 .i-input-underline {
@@ -121,7 +131,6 @@
     }
 
     &:disabled {
-        background: var(--background-opacity-1);
         cursor: not-allowed;
     }
 }

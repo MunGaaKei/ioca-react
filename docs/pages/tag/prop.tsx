@@ -3,8 +3,9 @@ import { Button, Flex, Tag } from "@p";
 export const DBasic = {
     demo: () => {
         return (
-            <Flex gap={12}>
-                <Button>
+            <Flex gap={12} align="center">
+                <Button>hello tag</Button>
+                <Button className="bg-blue">
                     <span>tag</span>
                     <Tag>tag</Tag>
                 </Button>
@@ -15,7 +16,7 @@ export const DBasic = {
         );
     },
     code: `<Flex gap={12}>
-	<Button>
+	<Button className='bg-blue'>
 		<span>tag</span>
 		<Tag>tag</Tag>
 	</Button>
@@ -46,11 +47,7 @@ export const DColors = {
                     <Tag className="brown" outline onClick={() => null}>
                         tag
                     </Tag>
-                    <Tag
-                        className="bg-aqua"
-                        onClose={() => null}
-                        onClick={() => null}
-                    >
+                    <Tag className="bg-aqua" onClose={() => null} onClick={() => null}>
                         hover me
                     </Tag>
                     <Tag className="orange">tag</Tag>

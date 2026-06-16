@@ -20,7 +20,19 @@ const HookModal = (
         close: () => {
             state.visible = false;
 
-            if (mergedProps.closable ?? true) return;
+            const canClose = typeof mergedProps.closable === 'function'
+                ? mergedProps.closable()
+                : (mergedProps.closable ?? true);
+
+            if (canClose instanceof Promise) {
+                canClose.then((result) => {
+                    if (!result) state.visible = true;
+                });
+                return;
+            }
+
+            if (canClose) return;
+
             Promise.resolve().then(() => {
                 state.visible = true;
             });
