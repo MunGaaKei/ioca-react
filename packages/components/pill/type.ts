@@ -15,6 +15,7 @@ export interface IPill
 	validator?: (value: any) => boolean | Promise<boolean>;
 	format?: (value: any) => any;
 	onUpdate?: (newValue: any, oldValue: any, type: "delete" | "create" | "update") => void | Promise<boolean>;
+	hideCreate?: boolean;
 	renderItem?: (context: {
 		value: any;
 		index: number;

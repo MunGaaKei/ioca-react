@@ -7,7 +7,7 @@ import TagItem from "./item";
 import type { IPill } from "./type";
 
 function Pill(props: IPill) {
-    const { value = [], tagProps, max, icon = <AddRound />, className, label, labelInline, readonly, editable, onChange, onUpdate, validator, format, renderItem, ...restProps } = props;
+    const { value = [], tagProps, max, icon = <AddRound />, className, label, labelInline, readonly, editable, onChange, onUpdate, validator, format, renderItem, hideCreate, ...restProps } = props;
 
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const [loadingSet, setLoadingSet] = useState<Set<number>>(new Set());
@@ -188,7 +188,7 @@ function Pill(props: IPill) {
         inst.setEditingIndex(-1);
     }, []);
 
-    const canCreate = !readonly && (max === undefined || value.length < max);
+    const canCreate = !hideCreate && !readonly && (max === undefined || value.length < max);
 
     return (
         <div className={classNames("i-pills i-input-label", { "i-input-inline": labelInline }, className)} {...restProps}>

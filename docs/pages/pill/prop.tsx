@@ -104,6 +104,12 @@ export const PPill = [
         def: "false",
     },
     {
+        name: "hideCreate",
+        desc: "隐藏新增按钮",
+        type: ["boolean"],
+        def: "false",
+    },
+    {
         name: "label",
         desc: "标签",
         type: ["ReactNode"],
