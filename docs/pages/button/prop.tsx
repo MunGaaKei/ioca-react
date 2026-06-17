@@ -1,10 +1,5 @@
 import { Button, Dropdown, Flex, Icon } from "@p";
-import {
-    AllInclusiveRound,
-    KeyboardArrowDownRound,
-    LightModeTwotone,
-    NightlightTwotone,
-} from "@ricons/material";
+import { AllInclusiveRound, KeyboardArrowDownRound, LightModeTwotone, NightlightTwotone } from "@ricons/material";
 import { sleep } from "radash";
 import { useRef } from "react";
 
@@ -66,11 +61,7 @@ export const DToggle = {
 
         return (
             <Flex gap={8} direction="column" align="flex-start">
-                <Button.Toggle
-                    ref={ref}
-                    secondary
-                    after={<Icon icon={<NightlightTwotone />} />}
-                >
+                <Button.Toggle ref={ref} secondary after={<Icon icon={<NightlightTwotone />} />}>
                     <Icon icon={<LightModeTwotone />} />
                 </Button.Toggle>
                 <Button.Toggle
@@ -170,7 +161,14 @@ export const DGroup = {
                 </Button.Group>
                 <Button.Group>
                     <Button className="bg-grey">你好</Button>
-                    <Dropdown content={<>HELLO</>} align="end">
+                    <Dropdown
+                        content={
+                            <div className="px-4">
+                                <Button secondary>世界</Button>
+                            </div>
+                        }
+                        align="end"
+                    >
                         <Button className="bg-grey px-0">
                             <Icon icon={<KeyboardArrowDownRound />} />
                         </Button>
@@ -187,7 +185,9 @@ export const DGroup = {
 	</Button.Group>
 	<Button.Group>
 		<Button className='bg-grey'>你好</Button>
-		<Dropdown content={<>HELLO</>} align='end'>
+		<Dropdown content={<div className="px-4">
+            <Button secondary>世界</Button>
+        </div>} align='end'>
 			<Button className='bg-grey px-0'>
 				<Icon icon={<KeyboardArrowDownRound />} />
 			</Button>
@@ -204,11 +204,7 @@ export const PButton = [
         desc: "标签名",
         type: [
             "string",
-            <a
-                className="blue"
-                href="https://reactrouter.com/en/main/components/link#link"
-                target="_blank"
-            >
+            <a className="blue" href="https://reactrouter.com/en/main/components/link#link" target="_blank">
                 Link
             </a>,
         ],

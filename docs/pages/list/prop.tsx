@@ -48,7 +48,7 @@ export const DDividers = {
         <Flex justify="space-evenly">
             <List type="option">
                 <List.Item>管理质量</List.Item>
-                <List.Item>团队协作</List.Item>
+                <List.Item active>团队协作</List.Item>
                 <Divider />
                 <List.Item>发送反馈</List.Item>
                 <List.Item>报告问题</List.Item>
@@ -58,13 +58,6 @@ export const DDividers = {
         </Flex>
     ),
     code: `<Flex justify='space-evenly'>
-	<List type='option'>
-		<List.Item>管理质量</List.Item>
-		<List.Item>团队协作</List.Item>
-		<Divider />
-		<List.Item>发送反馈</List.Item>
-		<List.Item>报告问题</List.Item>
-	</List>
 	<List type='option'>
 		<List.Item>账户设置</List.Item>
 		<Divider />

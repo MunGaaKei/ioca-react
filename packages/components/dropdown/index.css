@@ -1,7 +1,6 @@
 .i-dropdown-content {
     display: flex;
     flex-direction: column;
-    gap: var(--option-gap, 2px);
     max-height: 32dvh;
     overflow-x: hidden;
     border-radius: inherit;

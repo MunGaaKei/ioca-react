@@ -24,7 +24,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 1em;
+    gap: 0.5em;
     padding: var(--padding);
     user-select: none;
     border-radius: var(--radius);

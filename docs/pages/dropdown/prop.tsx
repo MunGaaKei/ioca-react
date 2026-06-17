@@ -58,7 +58,7 @@ export const DBasic = {
                         <Icon icon={<MoreHorizRound />} />
                     </Dropdown.Item>
 
-                    <Button className="bg-grey mx-4 mt-4" size="small" onClick={close}>
+                    <Button className="bg-grey mx-4 mt-2" size="small" onClick={close}>
                         取消
                     </Button>
                 </>
@@ -97,6 +97,9 @@ export const DBasic = {
                     <span>V</span>
                 </Tag>
             </Dropdown.Item>
+
+            <Divider />
+
             <Dropdown.Item
                 more={
                     <>
@@ -137,9 +140,8 @@ export const DBasic = {
                 <span>更多</span>
                 <Icon icon={<MoreHorizRound />} />
             </Dropdown.Item>
-            <Divider />
             <Button
-                className="bg-grey mt-12"
+                className="bg-grey px-4 mt-2"
                 size="small"
                 onClick={close}
             >

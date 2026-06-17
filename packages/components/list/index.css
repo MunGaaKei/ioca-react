@@ -24,13 +24,13 @@
     }
 }
 .i-list-option {
-    --padding: 0.425em 0.825em;
     position: relative;
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
     justify-content: space-between;
     align-items: center;
+
     &:not(.i-list-item-bordered) {
         margin: 0 var(--option-gap, 4px);
     }
@@ -45,11 +45,17 @@
     align-self: flex-start;
 }
 .i-list-option-type {
+    --option-gap: 4px;
+    --padding: 0.425em 0.825em;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     border-radius: var(--radius);
     border: 1px solid var(--background-opacity-2);
-    padding: var(--option-gap, 4px) 0;
+    padding: var(--option-gap) 0;
 }
+
 .i-list-option-type > .i-divider {
-    margin-block: var(--option-gap, 4px);
-    padding-inline: 0;
+    margin-block: calc(var(--option-gap) - 2px);
 }
