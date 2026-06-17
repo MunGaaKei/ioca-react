@@ -1,63 +1,58 @@
 .home-title {
-	font-family: "jaini";
-	font-size: 4em;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	color: var(--color-6);
+    font-family: "jaini";
+    font-size: 4em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-6);
 }
 
 .g-logo {
-	position: relative;
-	height: 120px;
-	width: 120px;
-	background: var(--black);
-	border-radius: 12px;
-	color: var(--white);
-	line-height: 60px;
-	overflow: hidden;
+    padding: 4px;
+    background-color: var(--white);
+    border-radius: 2px;
 }
 .g-logo-text {
-	position: absolute;
-	top: 0;
-	left: 10%;
-	font-size: 80px;
-	font-weight: 900;
-	font-family: jaini;
+    position: absolute;
+    top: 0;
+    left: 10%;
+    font-size: 80px;
+    font-weight: 900;
+    font-family: jaini;
 }
 
 .home-start {
-	position: relative;
-	white-space: nowrap;
-	&:before {
-		content: "\20";
-		position: absolute;
-		z-index: -1;
-		bottom: 4px;
-		left: 40%;
-		right: 40%;
-		height: 1em;
-		border-radius: 4px;
-		background-color: var(--color-8);
-		transition: inherit;
-		transform: rotate(-4deg);
-		opacity: 0;
-	}
-	&:hover:before {
-		opacity: 1;
-		left: -0.25em;
-		right: -0.25em;
-		transform: rotate(-12deg) skewX(12deg);
-	}
+    position: relative;
+    white-space: nowrap;
+    &:before {
+        content: "\20";
+        position: absolute;
+        z-index: -1;
+        bottom: 4px;
+        left: 40%;
+        right: 40%;
+        height: 1em;
+        border-radius: 4px;
+        background-color: var(--color-8);
+        transition: inherit;
+        transform: rotate(-4deg);
+        opacity: 0;
+    }
+    &:hover:before {
+        opacity: 1;
+        left: -0.25em;
+        right: -0.25em;
+        transform: rotate(-12deg) skewX(12deg);
+    }
 }
 
 .home-components {
-	position: absolute;
-	inset: 0;
+    position: absolute;
+    inset: 0;
 }
 
 @media (max-width: 800px) {
-	.home-title {
-		font-size: 40px;
-	}
+    .home-title {
+        font-size: 40px;
+    }
 }

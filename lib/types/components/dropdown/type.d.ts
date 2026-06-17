@@ -8,7 +8,9 @@ interface IDropdown extends Omit<IPopup, "content"> {
 }
 interface IDropItem extends IListItem {
     more?: ReactNode;
-    moreProps?: IDropdown;
+    moreProps?: Omit<Partial<IPopup>, "content" | "children"> & {
+        width?: string | number;
+    };
 }
 
 export type { IDropItem, IDropdown };

@@ -30,6 +30,7 @@ import {
     LooksOneOutlined,
     MarginOutlined,
     MenuBookTwotone,
+    MinusSharp,
     MoveToInboxTwotone,
     MultipleStopRound,
     NoiseControlOffRound,
@@ -123,6 +124,12 @@ export default [
                 href: "/docs/description",
                 as: Link,
                 icon: <Icon icon={<ArtTrackSharp />} />,
+            },
+            {
+                title: "Divider",
+                href: "/docs/divider",
+                as: Link,
+                icon: <Icon icon={<MinusSharp />} />,
             },
             {
                 title: "Drawer",

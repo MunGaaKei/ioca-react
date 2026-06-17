@@ -4,6 +4,7 @@ export interface IList extends HTMLAttributes<HTMLUListElement> {
 	label?: ReactNode | ((i: number) => ReactNode);
 	type?: "option" | "default";
 	border?: boolean;
+	padding?: number | string;
 }
 
 export interface IListItem

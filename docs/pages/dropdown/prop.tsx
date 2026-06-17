@@ -1,84 +1,64 @@
-import { Button, Dropdown, Icon, Tag } from "@p";
-import {
-    KeyboardArrowDownRound,
-    KeyboardCommandKeyRound,
-    MoreHorizRound,
-} from "@ricons/material";
+import { Button, Divider, Dropdown, Icon, Tag } from "@p";
+import { KeyboardArrowDownRound, KeyboardCommandKeyRound, MoreHorizRound } from "@ricons/material";
 
 export const DBasic = {
     demo: () => {
         const Dropmenu = (close) => {
             return (
                 <>
-                    <Dropdown.Item type="option">
+                    <Dropdown.Item>
                         <span>复制</span>
                         <Tag size="small" className="bg-blue-0">
-                            <Icon
-                                icon={<KeyboardCommandKeyRound />}
-                                size="1.125em"
-                            />
+                            <Icon icon={<KeyboardCommandKeyRound />} size="1.125em" />
                             <span>C</span>
                         </Tag>
                     </Dropdown.Item>
-                    <Dropdown.Item type="option" disabled>
+                    <Dropdown.Item disabled>
                         <span>粘贴</span>
                         <Tag size="small" className="bg-blue-0">
-                            <Icon
-                                icon={<KeyboardCommandKeyRound />}
-                                size="1.125em"
-                            />
+                            <Icon icon={<KeyboardCommandKeyRound />} size="1.125em" />
                             <span>V</span>
                         </Tag>
                     </Dropdown.Item>
+
+                    <Divider />
+
                     <Dropdown.Item
-                        type="option"
                         more={
                             <>
-                                <Dropdown.Item type="option" onClick={close}>
+                                <Dropdown.Item onClick={close}>
                                     <span>剪切</span>
                                     <Tag size="small" className="bg-yellow-0">
-                                        <Icon
-                                            icon={<KeyboardCommandKeyRound />}
-                                            size="1.125em"
-                                        />
+                                        <Icon icon={<KeyboardCommandKeyRound />} size="1.125em" />
                                         <span>X</span>
                                     </Tag>
                                 </Dropdown.Item>
                                 <Dropdown.Item
-                                    type="option"
                                     more={
                                         <>
-                                            <Dropdown.Item type="option">
+                                            <Dropdown.Item>
                                                 <span>彻底删除</span>
                                             </Dropdown.Item>
-                                            <Dropdown.Item type="option">
+                                            <Dropdown.Item>
                                                 <span>移至回收站</span>
                                             </Dropdown.Item>
                                         </>
                                     }
-                                    moreProps={{ width: 120 }}
                                 >
                                     <span>删除</span>
                                     <Tag size="small" className="bg-red-0">
-                                        <Icon
-                                            icon={<KeyboardCommandKeyRound />}
-                                            size="1.125em"
-                                        />
+                                        <Icon icon={<KeyboardCommandKeyRound />} size="1.125em" />
                                         <span>D</span>
                                     </Tag>
                                 </Dropdown.Item>
                             </>
                         }
-                        moreProps={{ width: 120 }}
                     >
                         <span>更多</span>
                         <Icon icon={<MoreHorizRound />} />
                     </Dropdown.Item>
-                    <Button
-                        className="bg-grey mt-12"
-                        size="small"
-                        onClick={close}
-                    >
+
+                    <Button className="bg-grey mx-4 mt-4" size="small" onClick={close}>
                         取消
                     </Button>
                 </>
@@ -97,7 +77,7 @@ export const DBasic = {
     code: `const Dropmenu = (close) => {
     return (
         <>
-            <Dropdown.Item type="option">
+            <Dropdown.Item>
                 <span>复制</span>
                 <Tag size="small" className="bg-blue-0">
                     <Icon
@@ -107,7 +87,7 @@ export const DBasic = {
                     <span>C</span>
                 </Tag>
             </Dropdown.Item>
-            <Dropdown.Item type="option" disabled>
+            <Dropdown.Item disabled>
                 <span>粘贴</span>
                 <Tag size="small" className="bg-blue-0">
                     <Icon
@@ -118,10 +98,9 @@ export const DBasic = {
                 </Tag>
             </Dropdown.Item>
             <Dropdown.Item
-                type="option"
                 more={
                     <>
-                        <Dropdown.Item type="option" onClick={close}>
+                        <Dropdown.Item onClick={close}>
                             <span>剪切</span>
                             <Tag size="small" className="bg-yellow-0">
                                 <Icon
@@ -132,18 +111,16 @@ export const DBasic = {
                             </Tag>
                         </Dropdown.Item>
                         <Dropdown.Item
-                            type="option"
                             more={
                                 <>
-                                    <Dropdown.Item type="option">
+                                    <Dropdown.Item>
                                         <span>彻底删除</span>
                                     </Dropdown.Item>
-                                    <Dropdown.Item type="option">
+                                    <Dropdown.Item>
                                         <span>移至回收站</span>
                                     </Dropdown.Item>
                                 </>
                             }
-                            moreProps={{ width: 120 }}
                         >
                             <span>删除</span>
                             <Tag size="small" className="bg-red-0">
@@ -156,11 +133,11 @@ export const DBasic = {
                         </Dropdown.Item>
                     </>
                 }
-                moreProps={{ width: 120 }}
             >
                 <span>更多</span>
                 <Icon icon={<MoreHorizRound />} />
             </Dropdown.Item>
+            <Divider />
             <Button
                 className="bg-grey mt-12"
                 size="small"
@@ -204,12 +181,12 @@ export const PDropdownItem = [
     },
     {
         name: "moreProps",
-        desc: "次级 Dropdown 配置，支持 IDropdown 全部属性（position/offset 等）。未指定 position 时，子菜单会自动检测右侧空间并决定展开方向",
-        type: [<a className="blue">IDropdown</a>],
+        desc: "子菜单 Popup 配置，支持 position/offset/width 等属性",
+        type: ["object"],
     },
     {
-        name: "close（通过 Context）",
-        desc: "所有 Dropdown.Item 均可通过 Context 获取 close 函数，无需手动透传。点击无 more 的选项会自动关闭菜单",
+        name: "close（通过 DropdownContext）",
+        desc: "所有 Dropdown.Item 均可通过 DropdownContext 获取 close 函数，无需手动透传。点击无 more 的选项会自动关闭菜单",
         type: ["() => void"],
     },
 ];

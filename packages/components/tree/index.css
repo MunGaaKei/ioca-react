@@ -1,5 +1,6 @@
 .i-tree {
     --tree-gap: 2px;
+    --padding: 0.425em 0.825em;
     display: flex;
     flex-direction: column;
     gap: var(--tree-gap);

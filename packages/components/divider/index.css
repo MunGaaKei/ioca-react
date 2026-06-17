@@ -1,0 +1,21 @@
+.i-divider {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+    list-style: none;
+    user-select: none;
+    font-size: 0.81em;
+    line-height: 1;
+}
+.i-divider::before,
+.i-divider::after {
+    content: "";
+    flex: 1;
+    height: var(--divider-width, 1px);
+    background-color: var(--divider-color, var(--background-opacity-2));
+}
+
+.i-divider-content {
+    margin-inline: 0.5em;
+    color: var(--divider-color, var(--color-5));
+}

@@ -3,50 +3,23 @@ import { Button, Flex, Icon, Image, Text, useTheme } from "@p";
 import { LightModeTwotone, NightlightTwotone } from "@ricons/material";
 import { Link } from "react-router";
 import "./index.css";
-import logoReverse from "/logo-reverse.png";
 import logo from "/logo.png";
 
 export default function Home() {
     const { theme, setTheme } = useTheme({ listenStorageChange: true });
-    const themeDark =
-        theme === "theme-dark" ||
-        (window.matchMedia("(prefers-color-scheme: dark)") &&
-            theme === "theme-auto");
-    const gradient = [
-        "30deg",
-        "var(--color-1)",
-        "var(--color-2)",
-        "var(--color-6)",
-    ];
+    const themeDark = theme === "theme-dark" || (window.matchMedia("(prefers-color-scheme: dark)") && theme === "theme-auto");
+    const gradient = ["30deg", "var(--color-1)", "var(--color-2)", "var(--color-6)"];
 
     return (
         <Flex className="h-100vh justify-center">
-            <Button.Toggle
-                square
-                flat
-                className="absolute"
-                style={{ right: 12, top: 12 }}
-                after={<Icon icon={<NightlightTwotone />} />}
-                active={themeDark}
-                onToggle={(v) => setTheme(v ? "theme-dark" : "theme-none")}
-            >
+            <Button.Toggle square flat className="absolute" style={{ right: 12, top: 12 }} after={<Icon icon={<NightlightTwotone />} />} active={themeDark} onToggle={(v) => setTheme(v ? "theme-dark" : "theme-none")}>
                 <Icon icon={<LightModeTwotone />} />
             </Button.Toggle>
 
-            <Flex
-                direction="column"
-                justify="center"
-                align="center"
-                className="w-30"
-            >
-                <Image
-                    src={themeDark ? logoReverse : logo}
-                    size={80}
-                    className="mb-40"
-                />
+            <Flex direction="column" justify="center" align="center" className="w-30">
+                <Image src={logo} width={80} className="mb-40 g-logo" />
                 <h1 className="home-title">
-                    <Text gradient={gradient}>IOCA</Text>/
-                    <Text gradient={gradient}>REACT</Text>
+                    <Text gradient={gradient}>IOCA</Text>/<Text gradient={gradient}>REACT</Text>
                 </h1>
                 <p>
                     <span className="opacity-5">ver.</span>

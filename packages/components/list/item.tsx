@@ -16,6 +16,11 @@ const Item = (props: IListItem) => {
 		...restProps
 	} = props;
 
+	const handlers: any = {};
+	if (disabled) {
+		handlers.onClick = (e: any) => { e.preventDefault(); e.stopPropagation(); };
+	}
+
 	return (
 		<li
 			ref={ref}
@@ -26,7 +31,10 @@ const Item = (props: IListItem) => {
 				disabled,
 			})}
 			style={{ alignItems: align, ...style }}
+			aria-disabled={disabled || undefined}
+			tabIndex={disabled ? -1 : undefined}
 			{...restProps}
+			{...handlers}
 		>
 			{label !== undefined && (
 				<span className='i-list-item-label'>{label}</span>

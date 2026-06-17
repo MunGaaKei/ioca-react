@@ -1,57 +1,50 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import List from "../list";
 import Popup from "../popup";
 import "./index.css";
 import Item from "./item";
 import { IDropdown } from "./type";
 
-export const DropdownCloseCtx = createContext<(() => void) | null>(null);
+export const DropdownContext = createContext<(() => void) | null>(null);
 
 const Dropdown = (props: IDropdown) => {
-	const { visible, width, content, children, ...restProps } = props;
-	const [active, setActive] = useState(visible);
+    const { visible, width, content, children, ...restProps } = props;
+    const [active, setActive] = useState(visible);
 
-	if (!content) {
-		return children;
-	}
+    if (!content) {
+        return children;
+    }
 
-	const close = () => setActive(false);
+    const close = useCallback(() => setActive(false), []);
 
-	const handleVisibleChange = (v: boolean) => {
-		setActive(v);
-		if (props.onVisibleChange) {
-			props.onVisibleChange(v);
-		}
-	};
+    const handleVisibleChange = useCallback((v: boolean) => {
+        setActive(v);
+        props.onVisibleChange?.(v);
+    }, [props.onVisibleChange]);
 
-	useEffect(() => {
-		setActive(visible);
-	}, [visible]);
+    useEffect(() => {
+        setActive(visible);
+    }, [visible]);
 
-	return (
-		<Popup
-			trigger='click'
-			position='bottom'
-			content={
-				<DropdownCloseCtx.Provider value={close}>
-					<List
-						className='i-dropdown-content'
-						style={{ minWidth: width }}
-					>
-						{typeof content === "function"
-							? content(close)
-							: content}
-					</List>
-				</DropdownCloseCtx.Provider>
-			}
-			{...restProps}
-			touchable
-			visible={active}
-			onVisibleChange={handleVisibleChange}
-		>
-			{children}
-		</Popup>
-	);
+    return (
+        <Popup
+            trigger="click"
+            position="bottom"
+            content={
+                <DropdownContext.Provider value={close}>
+                    <List type="option" className="i-dropdown-content" style={{ minWidth: width }} role="menu">
+                        {typeof content === "function" ? content(close) : content}
+                    </List>
+                </DropdownContext.Provider>
+            }
+            {...restProps}
+            touchable
+            visible={active}
+            onVisibleChange={handleVisibleChange}
+        >
+            {children}
+        </Popup>
+    );
 };
 
 Dropdown.Item = Item;
