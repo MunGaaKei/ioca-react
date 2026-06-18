@@ -29,10 +29,10 @@
 }
 .i-tabs-pane {
     .i-tab-navs-container {
-        padding: 4px;
         background: var(--background-opacity-1);
     }
     .i-tab-navs {
+        padding: 4px;
         gap: 4px;
         .i-tab-nav {
             border-radius: var(--radius);
@@ -81,7 +81,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.4em 0.625em;
+    padding: 8px 12px;
     user-select: none;
     flex-shrink: 0;
     gap: 0.25em;
@@ -142,6 +142,7 @@
 .i-tab-contents {
     position: relative;
     flex: 1;
+    min-height: 0;
 }
 .i-tab-content {
     display: none;
@@ -155,7 +156,7 @@
         position: absolute;
         right: 4px;
         margin: 0;
-        font-size: 0.7em;
+        font-size: 0.8em;
         padding: 0;
         opacity: 0;
         background: var(--background);

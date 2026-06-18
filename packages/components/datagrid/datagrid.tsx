@@ -14,7 +14,7 @@ const Datagrid = (props: IDatagrid) => {
     const {
         data = [],
         columns = [],
-        border,
+        border = true,
         striped,
         header = true,
         resizable,
@@ -152,19 +152,13 @@ const Datagrid = (props: IDatagrid) => {
     useEffect(() => {
         if (!container.current) return;
 
-        const hasUnmeasured = columns.some(
-            (col, i) => col.width == null && typeof state.widths[i] !== "number",
-        );
+        const hasUnmeasured = columns.some((col, i) => col.width == null && typeof state.widths[i] !== "number");
         if (!hasUnmeasured) return;
 
         const div = container.current;
         const rafId = requestAnimationFrame(() => {
-            const headerRow = div.querySelector(
-                ".i-datagrid-header.i-datagrid-row",
-            ) as HTMLElement | null;
-            const bodyRow = div.querySelector(
-                ".i-datagrid-row:not(.i-datagrid-header)",
-            ) as HTMLElement | null;
+            const headerRow = div.querySelector(".i-datagrid-header.i-datagrid-row") as HTMLElement | null;
+            const bodyRow = div.querySelector(".i-datagrid-row:not(.i-datagrid-header)") as HTMLElement | null;
 
             const headerCells = headerRow ? Array.from(headerRow.children) : [];
             const bodyCells = bodyRow ? Array.from(bodyRow.children) : [];
@@ -223,6 +217,7 @@ const Datagrid = (props: IDatagrid) => {
             className={classNames("i-datagrid-container", className, {
                 "i-datagrid-bordered": border,
                 "i-datagrid-striped": striped,
+                "i-datagrid-normal": !virtual,
             })}
         >
             {useVirtual && virtual ? (

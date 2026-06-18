@@ -3,73 +3,54 @@ import { useCallback, useMemo } from "react";
 import { ICell, IColumn } from "./type";
 
 export function getCellStyle({
-	justify,
-	col,
-	row,
-	colSpan = 1,
-	rowSpan = 1,
+    justify,
+    col,
+    row,
+    colSpan = 1,
+    rowSpan = 1,
 }: Pick<IColumn, "justify" | "fixed"> & {
-	col: number;
-	row: number;
-	colSpan?: number;
-	rowSpan?: number;
-	isHeader?: boolean;
+    col: number;
+    row: number;
+    colSpan?: number;
+    rowSpan?: number;
+    isHeader?: boolean;
 }) {
-	const style = {
-		"--datagrid-justify": justify,
-		gridArea: `${row + 1} / ${col + 1} / ${row + 1 + rowSpan} / ${
-			col + 1 + colSpan
-		}`,
-		insetInline: `var(--datagrid-cell-inset-${col})`,
-	};
+    const style = {
+        "--datagrid-justify": justify,
+        gridArea: `${row + 1} / ${col + 1} / ${row + 1 + rowSpan} / ${col + 1 + colSpan}`,
+        insetInline: `var(--datagrid-cell-inset-${col})`,
+    };
 
-	return style;
+    return style;
 }
 
 export function Cell(props: ICell) {
-	const {
-		column,
-		row,
-		col,
-		data,
-		cellEllipsis,
-		onCellClick,
-		onCellDoubleClick,
-	} = props;
-	const { id, fixed, justify, rowSpan, render } = column;
-	const style = useMemo(
-		() => getCellStyle({ justify, fixed, col, row, rowSpan }),
-		[col, fixed, justify, row, rowSpan],
-	);
+    const { column, row, col, data, cellEllipsis, onCellClick, onCellDoubleClick } = props;
+    const { id, fixed, justify, rowSpan, render } = column;
+    const style = useMemo(() => getCellStyle({ justify, fixed, col, row, rowSpan }), [col, fixed, justify, row, rowSpan]);
 
-	const handleClick = useCallback(
-		(e: any) => onCellClick?.(data, column, row, col, e),
-		[col, column, data, onCellClick, row],
-	);
-	const handleDoubleClick = useCallback(
-		(e: any) => onCellDoubleClick?.(data, column, row, col, e),
-		[col, column, data, onCellDoubleClick, row],
-	);
+    const handleClick = useCallback((e: any) => onCellClick?.(data, column, row, col, e), [col, column, data, onCellClick, row]);
+    const handleDoubleClick = useCallback((e: any) => onCellDoubleClick?.(data, column, row, col, e), [col, column, data, onCellDoubleClick, row]);
 
-	return (
-		<div
-			className={classNames("i-datagrid-cell", {
-				[`i-datagrid-cell-fixed-${fixed}`]: fixed,
-			})}
-			data-col={id}
-			style={style}
-			onClick={handleClick}
-			onDoubleClick={handleDoubleClick}
-		>
-			{render?.(data[id], data, row, col) ?? (
-				<div
-					className={classNames("i-datagrid-cell-content", {
-						"i-datagrid-cell-content-ellipsis": cellEllipsis,
-					})}
-				>
-					{data[id]}
-				</div>
-			)}
-		</div>
-	);
+    return (
+        <div
+            className={classNames("i-datagrid-cell", {
+                [`i-datagrid-cell-fixed-${fixed}`]: fixed,
+            })}
+            data-col={id}
+            style={style}
+            onClick={handleClick}
+            onDoubleClick={handleDoubleClick}
+        >
+            {render?.(data[id], data, row, col) ?? (
+                <div
+                    className={classNames("i-datagrid-cell-content", {
+                        "i-datagrid-cell-content-ellipsis": cellEllipsis,
+                    })}
+                >
+                    {data[id]}
+                </div>
+            )}
+        </div>
+    );
 }

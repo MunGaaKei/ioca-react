@@ -1,197 +1,188 @@
 .i-datagrid-container {
-	border-radius: var(--radius);
-	overflow: auto;
+    --datagrid-cell-background: var(--background);
 
-	&:has(.i-datagrid-loading) {
-		position: relative;
-		overflow: hidden !important;
-	}
+    border-radius: var(--radius);
+    overflow: auto;
+
+    &:has(.i-datagrid-loading) {
+        position: relative;
+        overflow: hidden !important;
+    }
 }
 
 .i-datagrid-loading {
-	overflow: hidden !important;
-	user-select: none;
+    overflow: hidden !important;
+    user-select: none;
 
-	.i-datagrid {
-		max-height: 100%;
-		max-width: 100%;
-	}
+    .i-datagrid {
+        max-height: 100%;
+        max-width: 100%;
+    }
 
-	.i-loading-container {
-		position: absolute;
-		inset: 0;
-		z-index: 10;
-		background: var(--background-opacity);
-		backdrop-filter: blur(2px);
-	}
+    .i-loading-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        background: var(--background-opacity);
+        backdrop-filter: blur(2px);
+    }
 }
 
 .i-datagrid {
-	display: grid;
-	width: fit-content;
-	grid-template-columns: var(--grid-template-columns);
-	grid-template-rows: var(--grid-template-rows);
-	min-width: 100%;
+    display: grid;
+    width: fit-content;
+    grid-template-columns: var(--grid-template-columns);
+    grid-template-rows: var(--grid-template-rows);
+    min-width: 100%;
 
-	.i-empty {
-		margin: 1em auto;
-		grid-column: 1 / -1;
-	}
+    .i-empty {
+        margin: 1em auto;
+        grid-column: 1 / -1;
+    }
 }
 
 .i-datagrid-bordered {
-	--datagrid-border-color: var(--color-9);
-	outline: 1px solid var(--datagrid-border-color);
+    --datagrid-border-color: var(--background-opacity-2);
 
-	.i-datagrid-virtual-header {
-		padding-bottom: 1px;
-	}
+    outline: 1px solid var(--datagrid-border-color);
 
-	.i-datagrid-cell {
-		outline: 1px solid var(--datagrid-border-color);
-	}
-}
+    .i-datagrid-virtual-header {
+        padding-bottom: 1px;
+    }
 
-.i-datagrid-striped {
-	.i-datagrid-row {
-		--datagrid-border-color: var(--color-8);
-
-		&:nth-child(odd) {
-			--datagrid-cell-background: var(--background-1);
-		}
-	}
+    .i-datagrid-cell {
+        outline: 1px solid var(--datagrid-border-color);
+    }
 }
 
 .i-datagrid .i-datagrid-row {
-	--datagrid-cell-background: var(--background);
-	display: contents;
-
-	&:hover {
-		--datagrid-cell-background: var(--background);
-
-		.i-datagrid-cell {
-			z-index: 1;
-		}
-
-		[class*=" i-datagrid-cell-fixed"] {
-			z-index: 3;
-		}
-	}
+    display: contents;
 }
 
 .i-datagrid-cell {
-	position: sticky;
-	display: flex;
-	align-items: center;
-	justify-content: var(--datagrid-justify);
-	gap: 4px;
-	padding: var(--cell-padding);
-	background: var(--datagrid-cell-background);
-	transition: background-color 0.12s;
-	overflow: hidden;
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: var(--datagrid-justify);
+    gap: 4px;
+    padding: var(--cell-padding);
+    background: var(--datagrid-cell-background);
+    transition: background-color 0.12s;
+    overflow: hidden;
 }
 
-[class*=" i-datagrid-cell-fixed"] {
-	z-index: 2;
+[class*=" i-datagrid-cell-fixed"],
+[class^="i-datagrid-cell-fixed"] {
+    z-index: 2;
+}
+
+.i-datagrid-normal.i-datagrid-striped {
+    .i-datagrid-row {
+        &:nth-child(odd) {
+            --datagrid-cell-background: var(--background-1);
+        }
+    }
 }
 
 .i-datagrid-cell-fixed-right {
-	box-shadow: -2px 0 4px var(--color-9);
+    box-shadow: -2px 0 2px var(--color-9);
 }
 
 .i-datagrid-cell-fixed-left {
-	box-shadow: 2px 0 4px var(--color-9);
+    box-shadow: 2px 0 2px var(--color-9);
 }
 
 .i-datagrid-cell-content {
-	min-width: 0;
-	flex: 1 1 auto;
-	display: inherit;
-	gap: inherit;
-	justify-content: inherit;
-	white-space: nowrap;
-	overflow: hidden;
+    min-width: 0;
+    flex: 1 1 auto;
+    display: inherit;
+    gap: inherit;
+    justify-content: inherit;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .i-datagrid-cell-content-ellipsis {
-	display: block;
-	text-overflow: ellipsis;
-	text-align: var(--datagrid-justify);
+    display: block;
+    text-overflow: ellipsis;
+    text-align: var(--datagrid-justify);
 }
 
 .i-datagrid-header {
-	.i-datagrid-cell {
-		--datagrid-cell-background: var(--background);
-		z-index: 3;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		line-height: 1;
-		user-select: none;
-	}
+    --datagrid-cell-background: var(--background-1);
 
-	[class*=" i-datagrid-cell-fixed"] {
-		z-index: 4;
-	}
+    .i-datagrid-cell {
+        z-index: 3;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        line-height: 1;
+        user-select: none;
+    }
+
+    [class*=" i-datagrid-cell-fixed"],
+    [class^="i-datagrid-cell-fixed"] {
+        z-index: 4;
+    }
 }
 
 .i-datagrid-resizor {
-	position: absolute;
-	inset: 0 0 0 auto;
-	width: 4px;
-	transition: 0.12s;
-	cursor: ew-resize;
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 4px;
+    transition: 0.12s;
+    cursor: ew-resize;
 
-	&:hover {
-		background-color: var(--color-5);
-	}
+    &:hover {
+        background-color: var(--color-5);
+    }
 }
 
 .i-datagrid-has-sorter {
-	cursor: pointer;
+    cursor: pointer;
 
-	&:hover {
-		--datagrid-cell-background: var(--color-9);
-	}
+    &:hover {
+        --datagrid-cell-background: var(--color-9);
+    }
 }
 
 .i-datagrid-sorter {
-	display: flex;
-	flex-direction: column;
-	flex-shrink: 0;
-	width: 0.8em;
-	overflow: hidden;
-	color: var(--color-7);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 0.8em;
+    overflow: hidden;
+    color: var(--color-7);
 }
 
 .i-datagrid-sorter-caret {
-	&:first-child {
-		margin-bottom: -0.4em;
-		transform: rotate(-90deg);
-	}
+    &:first-child {
+        margin-bottom: -0.4em;
+        transform: rotate(-90deg);
+    }
 
-	&:last-child {
-		transform: rotate(90deg);
-	}
+    &:last-child {
+        transform: rotate(90deg);
+    }
 }
 
 .i-datagrid-sorter-asc {
-	.i-datagrid-sorter-caret:first-child {
-		color: var(--color-main);
-	}
+    .i-datagrid-sorter-caret:first-child {
+        color: var(--color-main);
+    }
 }
 
 .i-datagrid-sorter-desc {
-	.i-datagrid-sorter-caret:last-child {
-		color: var(--color-main);
-	}
+    .i-datagrid-sorter-caret:last-child {
+        color: var(--color-main);
+    }
 }
 
 .i-datagrid-virtual-header {
-	overflow-x: auto;
-	overflow-y: hidden;
-	scrollbar-width: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
 
-	&::-webkit-scrollbar {
-		display: none;
-	}
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }

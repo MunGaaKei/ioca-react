@@ -1,6 +1,4 @@
-/* =========== LIGHT THEME =========== */
 :root {
-    /* ---------- palette tokens ---------- */
     --white: white;
     --white-0: white;
     --white-1: #fafafa;
@@ -44,10 +42,9 @@
     --error-0: #ffdbdb;
     --error-1: #f13636;
     --success: #a3ff8c;
-    --success-0: #acf899;
+    --success-0: #e8ffe2;
     --success-1: #8dfa72;
 
-    /* ---------- neutral scale (0 = darkest, 10 = lightest) ---------- */
     --color-0: #000;
     --color-1: #1b1b1b;
     --color-2: #363636;
@@ -60,9 +57,8 @@
     --color-9: #f1f1f1;
     --color-10: #fff;
 
-    /* ---------- semantic tokens ---------- */
     --background: #fff;
-    --background-1: #fff;
+    --background-1: #f8f8f8;
     --background-hover: transparent;
     --background-opacity: rgba(255, 255, 255, 0.4);
     --background-opacity-1: rgba(233, 233, 233, 0.4);
@@ -74,14 +70,12 @@
     --color-main-reverse: var(--white);
     --shadow: 0 0 8px rgba(0, 0, 0, 0.15);
 
-    /* ---------- global bg selector ---------- */
     [class^="bg-"],
     [class*=" bg-"] {
         background-color: var(--background);
         color: var(--color);
     }
 
-    /* ---------- background color classes ---------- */
     .bg-white {
         --background: var(--white);
         --color: var(--black);
@@ -297,7 +291,6 @@
         --color: var(--color-0);
     }
 
-    /* ---------- text color classes (after bg classes to override --color) ---------- */
     .white {
         --color: var(--white);
         --color-hover: var(--white);
@@ -449,7 +442,6 @@
         color: var(--color);
     }
 
-    /* 条件性 background-hover（仅在无 bg-* 类时生效，供 outline/flat 按钮 hover 使用） */
     .green:not([class*=" bg-"]):not([class^="bg-"]) {
         --background-hover: var(--green-0);
     }
@@ -484,7 +476,6 @@
         --background-hover: var(--success-0);
     }
 
-    /* ---------- neutral text classes (after bg classes to override --color) ---------- */
     .color-0 {
         --color: var(--color-0);
         color: var(--color-0);
@@ -531,7 +522,6 @@
     }
 }
 
-/* =========== DARK THEME (class trigger) =========== */
 .theme-dark {
     --color-0: #fff;
     --color-1: #e6e6e6;
@@ -578,7 +568,6 @@
     background: var(--background);
 }
 
-/* =========== DARK THEME (system preference) =========== */
 @media (prefers-color-scheme: dark) {
     .theme-auto {
         --color-0: #fff;

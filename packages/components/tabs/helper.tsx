@@ -21,7 +21,7 @@ export const emptyBarStyle = {
 };
 
 export const defaultRenderMore = () => (
-    <Button flat square size="small">
+    <Button flat square size="small" className="mr-4">
         <Icon icon={<MoreHorizRound />} />
     </Button>
 );
@@ -31,26 +31,14 @@ export const isSameTabs = (prev: ITabItem[], next: ITabItem[]) =>
     prev.every((tab, index) => {
         const target = next[index];
 
-        return (
-            tab.key === target.key &&
-            tab.title === target.title &&
-            tab.keepDOM === target.keepDOM &&
-            tab.closable === target.closable &&
-            tab.intersecting === target.intersecting
-        );
+        return tab.key === target.key && tab.title === target.title && tab.keepDOM === target.keepDOM && tab.closable === target.closable && tab.intersecting === target.intersecting;
     });
 
-export const getParsedTabs = (
-    items: ITabs["tabs"],
-    children: ITabs["children"],
-): TParsedTabs => {
+export const getParsedTabs = (items: ITabs["tabs"], children: ITabs["children"]): TParsedTabs => {
     const contents = new Map<string, ReactNode>();
     type TTabChildNode = {
         key?: string;
-        props?: Pick<
-            ITabItem,
-            "title" | "content" | "keepDOM" | "closable" | "children"
-        >;
+        props?: Pick<ITabItem, "title" | "content" | "keepDOM" | "closable" | "children">;
     };
 
     if (!items) {
@@ -58,13 +46,7 @@ export const getParsedTabs = (
         const tabs =
             (Children.map(children, (node, i) => {
                 const { key, props: nodeProps } = node as TTabChildNode;
-                const {
-                    title,
-                    children: tabChildren,
-                    content,
-                    keepDOM,
-                    closable,
-                } = nodeProps;
+                const { title, children: tabChildren, content, keepDOM, closable } = nodeProps;
                 const tabKey = String(key ?? i);
 
                 if (typeof content === "function") {

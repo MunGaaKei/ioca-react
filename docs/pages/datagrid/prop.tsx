@@ -78,7 +78,7 @@ export const DBasic = {
             [],
         );
 
-        return <Datagrid data={list} columns={columns} resizable border cellEllipsis height={400} />;
+        return <Datagrid data={list} columns={columns} striped resizable cellEllipsis height={400} />;
     },
     code: `const columns = [...[], {
     id: "gender",
@@ -178,6 +178,7 @@ export const DVirtual = {
                 resizable
                 border
                 cellEllipsis
+                striped
                 height={400}
                 virtual={{
                     rowHeight: 40,
@@ -268,7 +269,7 @@ export const PDatagrid = [
         name: "border",
         desc: "表格边框",
         type: ["boolean"],
-        def: "false",
+        def: "true",
     },
     {
         name: "striped",
