@@ -4,12 +4,12 @@ export const DBasic = {
     demo: () => (
         <Flex direction="column">
             <div>颗粒度</div>
-            <Divider className="my-8" />
+            <Divider className="my-12">分割线</Divider>
             <div>闭环</div>
         </Flex>
     ),
     code: `<div>内容区域 A</div>
-<Divider className="my-8" />
+<Divider className="my-12">分割线</Divider>
 <div>内容区域 B</div>`,
     lang: "xml",
 };

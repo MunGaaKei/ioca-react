@@ -147,6 +147,12 @@ export const PPopup = [
         def: "true",
     },
     {
+        name: "border",
+        desc: "显示边框",
+        type: ["boolean"],
+        def: "false",
+    },
+    {
         name: "align",
         desc: "相对触发目标元素对齐位置",
         type: ["'start'", "'center'", "'end'"],

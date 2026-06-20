@@ -23,6 +23,7 @@ const Datagrid = (props: IDatagrid) => {
         empty = <Empty />,
         loading,
         height = "unset",
+        rowHeight,
         style,
         className,
         rowKey,
@@ -149,6 +150,8 @@ const Datagrid = (props: IDatagrid) => {
         return !!rowHeight && rowHeight > 0;
     }, [virtual]);
 
+    const rowAuto = !useVirtual && rowHeight != null ? rowHeight : undefined;
+
     useEffect(() => {
         if (!container.current) return;
 
@@ -250,6 +253,7 @@ const Datagrid = (props: IDatagrid) => {
                     className={classNames("i-datagrid", {
                         "i-datagrid-loading": loading,
                     })}
+                    style={rowAuto != null ? { gridAutoRows: rowAuto } as CSSProperties : undefined}
                     onWheel={onScroll}
                 >
                     {header && <Header columns={columns} resizable={resizable} sortType={state.sortType} sortBy={state.sortBy} cellEllipsis={cellEllipsis} onWidthChange={handleWidthChange} onHeaderClick={handleHeaderClick} />}

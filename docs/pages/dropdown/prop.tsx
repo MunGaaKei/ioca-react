@@ -173,6 +173,12 @@ export const PDropdown = [
         desc: "内容",
         type: ["ReactNode", "(close: () => void) => ReactNode"],
     },
+    {
+        name: "border",
+        desc: "显示边框，默认开启，子菜单自动继承",
+        type: ["boolean"],
+        def: "true",
+    },
 ];
 
 export const PDropdownItem = [

@@ -1,6 +1,4 @@
 .i-popup {
-    --background: var(--background-1);
-
     position: absolute;
     z-index: 100;
     opacity: 0;
@@ -8,19 +6,19 @@
     will-change: left, top, opacity, transform;
     border-radius: var(--radius);
     background: var(--background);
-    box-shadow: var(--shadow);
+    filter: drop-shadow(var(--shadow));
     transform: translate(0, 2px);
 }
 
 .i-popup-arrow {
     position: absolute;
-    width: 8px;
-    height: 24px;
+    width: 10px;
+    height: 10px;
     pointer-events: none;
-    color: unset;
     transition: all 0.12s;
+    background: var(--background);
+}
 
-    path {
-        fill: var(--background);
-    }
+.i-popup-bordered {
+    border: 1px solid var(--background-opacity-2);
 }

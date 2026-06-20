@@ -63,7 +63,7 @@ export const DBasic = {
         const { list } = useMemo(
             () =>
                 mock({
-                    "list|12": [
+                    "list|4": [
                         {
                             name: "@cname",
                             email: "@email",

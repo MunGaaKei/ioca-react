@@ -41,6 +41,7 @@ export default function Popup(props: IPopup) {
         hideDelay = 12,
         touchable,
         arrow = true,
+        border,
         align = "center",
         fitSize,
         disabled,
@@ -64,6 +65,7 @@ export default function Popup(props: IPopup) {
     const latestRef = useRef<Record<string, any>>({});
     latestRef.current = {
         disabled,
+        border,
         trigger,
         touchable,
         showDelay,
@@ -83,6 +85,8 @@ export default function Popup(props: IPopup) {
         left: number;
         top: number;
         transform: string;
+        borderRadius?: string;
+        hasBorder?: boolean;
     } | null>(null);
     const arrowElRef = useRef<HTMLElement | null>(null);
     const pointRef = useRef<{ pageX: number; pageY: number } | null>(null);
@@ -150,45 +154,69 @@ export default function Popup(props: IPopup) {
         arrowElRef.current = arrowEl;
         if (!arrowEl) return;
 
-        let left = arrowX ?? 0;
-        let top = arrowY ?? 0;
-        let transform = "";
+        const left = arrowX ?? 0;
+        const top = arrowY ?? 0;
+        const transform = "translate(-50%, -50%) rotate(45deg)";
+        const hasBorder = !!latestRef.current.border;
 
-        switch (arrowPos) {
-            case "left":
-                left += 2;
-                transform = `translate(-100%, -50%) rotate(180deg)`;
-                break;
-            case "right":
-                left -= 2;
-                transform = `translate(0, -50%)`;
-                break;
-            case "top":
-                top -= 2;
-                transform = `translate(-50%, -50%) rotate(-90deg)`;
-                break;
-            case "bottom":
-                top += 2;
-                transform = `translate(-50%, -50%) rotate(90deg)`;
-                break;
-            default:
-                break;
-        }
+        const borderRadiusMap: Record<string, string> = {
+            top: "border-top-left-radius",
+            bottom: "border-bottom-right-radius",
+            left: "border-bottom-left-radius",
+            right: "border-top-right-radius",
+        };
+        const borderRadius = `${borderRadiusMap[arrowPos] ?? ""}: 3px`;
 
         const prev = lastArrowRef.current;
         if (
             prev &&
             prev.left === left &&
             prev.top === top &&
-            prev.transform === transform
+            prev.transform === transform &&
+            prev.borderRadius === borderRadius &&
+            prev.hasBorder === hasBorder
         ) {
             return;
         }
 
-        lastArrowRef.current = { left, top, transform };
+        lastArrowRef.current = { left, top, transform, borderRadius, hasBorder };
         arrowEl.style.left = `${left}px`;
         arrowEl.style.top = `${top}px`;
         arrowEl.style.transform = transform;
+
+        // Reset all border-radii first, then apply the one for this position
+        arrowEl.style.borderRadius = "";
+        const radiusKey = borderRadiusMap[arrowPos];
+        if (radiusKey) {
+            (arrowEl.style as any)[radiusKey] = "3px";
+        }
+
+        // Show border on 2 adjacent sides matching the protruding tip
+        arrowEl.style.borderTop = "";
+        arrowEl.style.borderRight = "";
+        arrowEl.style.borderBottom = "";
+        arrowEl.style.borderLeft = "";
+        if (hasBorder) {
+            const b = "1px solid var(--background-opacity-2)";
+            switch (arrowPos) {
+                case "top":
+                    arrowEl.style.borderTop = b;
+                    arrowEl.style.borderLeft = b;
+                    break;
+                case "bottom":
+                    arrowEl.style.borderBottom = b;
+                    arrowEl.style.borderRight = b;
+                    break;
+                case "left":
+                    arrowEl.style.borderBottom = b;
+                    arrowEl.style.borderLeft = b;
+                    break;
+                case "right":
+                    arrowEl.style.borderTop = b;
+                    arrowEl.style.borderRight = b;
+                    break;
+            }
+        }
     };
 
     const applyLeftTop = (left: number, top: number) => {
@@ -586,7 +614,7 @@ export default function Popup(props: IPopup) {
                         ...style,
                         position: "fixed",
                     }}
-                    className={className}
+                    className={border ? `${className || ''} i-popup-bordered`.trim() : className}
                     {...contentTouch}
                     trigger={triggerRef.current as HTMLElement}
                 >

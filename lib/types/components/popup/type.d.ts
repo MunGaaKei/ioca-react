@@ -9,6 +9,7 @@ interface IPopup {
     offset?: number;
     position?: TPosition;
     arrow?: boolean;
+    border?: boolean;
     align?: "start" | "center" | "end";
     showDelay?: number;
     hideDelay?: number;

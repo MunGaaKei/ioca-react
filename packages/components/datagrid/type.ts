@@ -33,6 +33,7 @@ export interface IDatagrid {
     cellPadding?: string | number;
     cellEllipsis?: boolean;
     height?: number | string;
+    rowHeight?: number;
     style?: CSSProperties;
     className?: string;
     virtual?: {

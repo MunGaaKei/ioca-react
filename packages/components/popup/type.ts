@@ -8,6 +8,7 @@ export interface IPopup {
 	offset?: number;
 	position?: TPosition;
 	arrow?: boolean;
+	border?: boolean;
 	align?: "start" | "center" | "end";
 	showDelay?: number;
 	hideDelay?: number;
@@ -26,5 +27,4 @@ export interface IPopupContent extends Pick<
 	"arrow" | "className" | "style" | "children"
 > {
 	trigger?: HTMLElement;
-	arrowProps?: Record<string, any>;
 }

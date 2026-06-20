@@ -8,7 +8,7 @@ interface IColumn {
     justify?: string;
     rowSpan?: number;
     colSpan?: number;
-    width?: string;
+    width?: string | number;
     fixed?: "left" | "right";
     render?: (value?: any, data?: IData, row?: number, col?: number) => ReactNode;
     renderHeader?: (column?: IColumn, col?: number) => ReactNode;
@@ -26,6 +26,7 @@ interface IDatagrid {
     cellPadding?: string | number;
     cellEllipsis?: boolean;
     height?: number | string;
+    rowHeight?: number;
     style?: CSSProperties;
     className?: string;
     virtual?: {

@@ -52,7 +52,6 @@
     flex-direction: column;
     gap: 2px;
     border-radius: var(--radius);
-    border: 1px solid var(--background-opacity-2);
     padding: var(--option-gap) 0;
 }
 

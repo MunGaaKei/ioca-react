@@ -1,14 +1,14 @@
-import { useContext, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import List from "../list";
 import Popup from "../popup";
-import { DropdownContext } from "./dropdown";
+import { useDropdown } from "./dropdown";
 import { IDropItem } from "./type";
 
 const { Item: ListItem } = List;
 
 const Item = (props: IDropItem) => {
     const { more, moreProps, onClick, ref: itemRef, type = "option", children, ...restProps } = props;
-    const close = useContext(DropdownContext);
+    const { close, border = true } = useDropdown();
     const liRef = useRef<HTMLLIElement>(null);
     const [position, setPosition] = useState<"left" | "right">("right");
 
@@ -28,27 +28,31 @@ const Item = (props: IDropItem) => {
         moreOnVisibleChange?.(v);
     };
 
-    const Li = useMemo(() => (
-        <ListItem
-            ref={itemRef ?? liRef}
-            role="menuitem"
-            aria-haspopup={more ? "menu" : undefined}
-            onClick={(e) => {
-                e.stopPropagation();
-                if (!more) close?.();
-                onClick?.(e);
-            }}
-            type={type}
-            {...restProps}
-        >
-            {children}
-        </ListItem>
-    ), [itemRef, liRef, more, close, onClick, type, restProps, children]);
+    const Li = useMemo(
+        () => (
+            <ListItem
+                ref={itemRef ?? liRef}
+                role="menuitem"
+                aria-haspopup={more ? "menu" : undefined}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    if (!more) close?.();
+                    onClick?.(e);
+                }}
+                type={type}
+                {...restProps}
+            >
+                {children}
+            </ListItem>
+        ),
+        [itemRef, liRef, more, close, onClick, type, restProps, children],
+    );
 
     if (!more) return Li;
 
     return (
         <Popup
+            border={border}
             {...restMoreProps}
             position={effectivePosition}
             touchable
