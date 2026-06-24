@@ -211,10 +211,8 @@ const Datagrid = (props: IDatagrid) => {
 
     return (
         <div
-            ref={wrapRef}
             style={{
                 maxHeight: height,
-                ...(useVirtual ? { overflowX: "visible", overflowY: "hidden" } : null),
                 ...mergedStyle,
             }}
             className={classNames("i-datagrid-container", className, {
@@ -223,6 +221,11 @@ const Datagrid = (props: IDatagrid) => {
                 "i-datagrid-normal": !virtual,
             })}
         >
+            <div
+                ref={wrapRef}
+                className="i-datagrid-inner"
+                style={useVirtual ? { overflowX: "visible" as const, overflowY: "hidden" as const } as CSSProperties : undefined}
+            >
             {useVirtual && virtual ? (
                 <VirtualDatagrid
                     virtual={virtual}
@@ -250,9 +253,7 @@ const Datagrid = (props: IDatagrid) => {
             ) : (
                 <div
                     ref={container}
-                    className={classNames("i-datagrid", {
-                        "i-datagrid-loading": loading,
-                    })}
+                    className="i-datagrid"
                     style={rowAuto != null ? { gridAutoRows: rowAuto } as CSSProperties : undefined}
                     onWheel={onScroll}
                 >
@@ -265,6 +266,8 @@ const Datagrid = (props: IDatagrid) => {
                     {rows.length < 1 && empty}
                 </div>
             )}
+
+            </div>
 
             {loading && renderLoading()}
         </div>

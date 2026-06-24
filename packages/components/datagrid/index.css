@@ -1,31 +1,22 @@
 .i-datagrid-container {
-    --datagrid-cell-background: var(--background);
-
+    position: relative;
     border-radius: var(--radius);
-    overflow: auto;
-
-    &:has(.i-datagrid-loading) {
-        position: relative;
-        overflow: hidden !important;
-    }
-}
-
-.i-datagrid-loading {
-    overflow: hidden !important;
-    user-select: none;
-
-    .i-datagrid {
-        max-height: 100%;
-        max-width: 100%;
-    }
 
     .i-loading-container {
         position: absolute;
         inset: 0;
+        border-radius: var(--radius);
         z-index: 10;
         background: var(--background-opacity);
         backdrop-filter: blur(2px);
     }
+}
+
+.i-datagrid-inner {
+    --datagrid-cell-background: var(--background);
+    border-radius: var(--radius);
+    overflow: auto;
+    max-height: inherit;
 }
 
 .i-datagrid {

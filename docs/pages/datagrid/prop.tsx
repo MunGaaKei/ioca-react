@@ -31,13 +31,18 @@ const columns = [
         justify: "center",
         sorter: true,
         render: (value: number) => {
-            return value > 0 ? <Icon icon={<MaleRound />} className="blue" size="1.2em" /> : <Icon icon={<FemaleRound />} className="pink" size="1.2em" />;
+            return value > 0 ? (
+                <Icon icon={<MaleRound />} className="blue" size="1.2em" />
+            ) : (
+                <Icon icon={<FemaleRound />} className="pink" size="1.2em" />
+            );
         },
     },
     {
         id: "birth",
         title: "Birth",
-        sorter: (a, b) => new Date(b.birth).getTime() - new Date(a.birth).getTime(),
+        sorter: (a, b) =>
+            new Date(b.birth).getTime() - new Date(a.birth).getTime(),
     },
     {
         id: "address",
@@ -47,7 +52,11 @@ const columns = [
         id: "active",
         justify: "center",
         render: (value: boolean) => {
-            return value ? <Tag className="bg-blue">是</Tag> : <Tag className="bg-grey">否</Tag>;
+            return value ? (
+                <Tag className="bg-blue">是</Tag>
+            ) : (
+                <Tag className="bg-grey">否</Tag>
+            );
         },
     },
     {
@@ -63,7 +72,7 @@ export const DBasic = {
         const { list } = useMemo(
             () =>
                 mock({
-                    "list|4": [
+                    "list|40": [
                         {
                             name: "@cname",
                             email: "@email",
@@ -78,7 +87,16 @@ export const DBasic = {
             [],
         );
 
-        return <Datagrid data={list} columns={columns} striped resizable cellEllipsis height={400} />;
+        return (
+            <Datagrid
+                data={list}
+                columns={columns}
+                striped
+                resizable
+                cellEllipsis
+                height={400}
+            />
+        );
     },
     code: `const columns = [...[], {
     id: "gender",
@@ -436,7 +454,11 @@ export const PColumn = [
         name: "justify",
         desc: "表格内容对齐，参考CSS justify-content",
         type: [
-            <a className="blue" href="https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content" target="_blank">
+            <a
+                className="blue"
+                href="https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content"
+                target="_blank"
+            >
                 justify-content
             </a>,
         ],
@@ -466,7 +488,9 @@ export const PColumn = [
     {
         name: "render",
         desc: "表格内容自定义渲染",
-        type: ["(value?: any, data?: Record<string, any>, row?: number, col?: number) => ReactNode"],
+        type: [
+            "(value?: any, data?: Record<string, any>, row?: number, col?: number) => ReactNode",
+        ],
     },
     {
         name: "renderHeader",

@@ -338,13 +338,6 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
         triggerRef.current.rowCount = -1;
     }, [rows.length, virtual.hasMore]);
 
-    useEffect(() => {
-        if (!loading) return;
-        const listEl = listRef.current?.element as HTMLDivElement | null;
-        listEl?.scrollTo({ top: 0, left: 0 });
-        headerRef.current?.scrollTo({ top: 0, left: 0 });
-    }, [loading]);
-
     const listHeight = Math.max(0, (typeof height === "number" ? height : viewport.height || 360) - (header ? virtual.rowHeight : 0));
     const hasVerticalScrollbar = rows.length * virtual.rowHeight > listHeight + 1;
     const scrollbarSize = hasVerticalScrollbar ? getScrollbarSize() : 0;
@@ -412,9 +405,7 @@ export default function VirtualDatagrid(props: VirtualDatagridProps) {
     return (
         <div
             ref={containerRef}
-            className={classNames("i-datagrid", {
-                "i-datagrid-loading": loading,
-            })}
+            className="i-datagrid"
             style={{ display: "block", width: "100%", maxWidth: "100%" }}
         >
             {header && (
