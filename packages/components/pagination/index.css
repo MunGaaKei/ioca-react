@@ -29,12 +29,10 @@
         position: absolute;
         inset: 0;
         z-index: 1;
-        background: var(--background-opacity);
-        backdrop-filter: var(--blur);
-        contain: paint;
     }
     &:hover {
         --background: var(--background-opacity-2);
+        --color: var(--color-main);
     }
     &.i-page-active {
         --background: var(--color-main-0);
@@ -43,6 +41,7 @@
     }
     &.i-page-loading {
         --background: unset;
+        --color: var(--color-5);
         cursor: default;
     }
 }

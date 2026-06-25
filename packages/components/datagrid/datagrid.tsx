@@ -212,8 +212,8 @@ const Datagrid = (props: IDatagrid) => {
     return (
         <div
             style={{
-                maxHeight: height,
                 ...mergedStyle,
+                ...(height !== "unset" ? { maxHeight: height } : {}),
             }}
             className={classNames("i-datagrid-container", className, {
                 "i-datagrid-bordered": border,

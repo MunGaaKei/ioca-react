@@ -48,6 +48,7 @@ export const DDynamic = {
                 key,
                 title: `${draw(emoji)} ${key}`,
                 closable: true,
+                keepDOM: true,
             });
         };
 

@@ -1,4 +1,7 @@
 .i-datagrid-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
     position: relative;
     border-radius: var(--radius);
 
@@ -14,9 +17,10 @@
 
 .i-datagrid-inner {
     --datagrid-cell-background: var(--background);
-    border-radius: var(--radius);
+    flex: 1;
     overflow: auto;
-    max-height: inherit;
+    min-height: 0;
+    border-radius: var(--radius);
 }
 
 .i-datagrid {

@@ -249,13 +249,6 @@ const Tabs = ((props: ITabs) => {
 
             if (!nav) return;
 
-            if (tabs[index]?.keepDOM && activeKey) {
-                setCachedTabs((keys) => {
-                    if (keys.includes(activeKey)) return keys;
-                    return [activeKey, ...keys];
-                });
-            }
-
             const { offsetHeight, offsetLeft, offsetTop, offsetWidth } = nav;
 
             setBarStyle({
@@ -269,6 +262,18 @@ const Tabs = ((props: ITabs) => {
             window.clearTimeout(timer);
         };
     }, [activeKey, bar, size, tabs, type, vertical]);
+
+    useEffect(() => {
+        if (activeKey === undefined) return;
+
+        const index = tabs.findIndex((tab) => tab.key === activeKey);
+        if (tabs[index]?.keepDOM) {
+            setCachedTabs((keys) => {
+                if (keys.includes(activeKey)) return keys;
+                return [activeKey, ...keys];
+            });
+        }
+    }, [activeKey, tabs]);
 
     useEffect(() => {
         if (active === undefined || activeKey === active) return;
