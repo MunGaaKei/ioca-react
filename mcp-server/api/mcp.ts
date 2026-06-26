@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { buildIndex } from "../src/indexer/index.js";
+import { buildIndex } from "../dist/indexer/index.js";
 import { dispatch } from "./handler.js";
-import type { ComponentIndex } from "../src/types.js";
+import type { ComponentIndex } from "../dist/types.js";
 
 let indexCache: ComponentIndex | null = null;
 

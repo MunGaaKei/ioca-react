@@ -1,11 +1,11 @@
-import { ComponentIndex } from "../src/types.js";
-import { listResources, readResource } from "../src/resources/index.js";
+import { ComponentIndex } from "../dist/types.js";
+import { listResources, readResource } from "../dist/resources/index.js";
 import {
   searchComponents,
   getComponentInfo,
   getComponentDemos,
   listComponents,
-} from "../src/tools/index.js";
+} from "../dist/tools/index.js";
 
 type JSONRPCRequest = {
   jsonrpc: "2.0";
