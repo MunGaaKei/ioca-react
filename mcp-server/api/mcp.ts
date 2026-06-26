@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { buildIndex } from "../dist/indexer/index.js";
 import { dispatch } from "./handler.js";
 import type { JSONRPCRequest } from "./handler.js";
-import type { ComponentIndex } from "../dist/types.js";
+import type { ComponentIndex, ComponentInfo } from "../dist/types.js";
 import { generatedIndex as raw } from "./generated-index.js";
 
 let indexCache: ComponentIndex | null = null;
@@ -14,7 +14,7 @@ function getIndex(): ComponentIndex {
   indexCache = {
     version: raw.version,
     indexedAt: raw.indexedAt,
-    components: new Map(raw.components),
+    components: new Map(raw.components as [string, ComponentInfo][]),
     sharedTypes: raw.sharedTypes,
   };
 
