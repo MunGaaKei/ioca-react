@@ -4,11 +4,17 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const projectRoot = resolve(__dirname, "..", "..");
+
+// Walk up from script location to find the repo root (where packages/components lives)
+let projectRoot = resolve(__dirname, "..", "..");
+for (let i = 0; i < 3; i++) {
+  if (existsSync(resolve(projectRoot, "packages", "components"))) break;
+  projectRoot = resolve(projectRoot, "..");
+}
 
 if (!existsSync(resolve(projectRoot, "packages", "components"))) {
   console.error(
-    `[@ioca/react-mcp] ERROR: packages/components not found at ${projectRoot}. Cannot build index.`,
+    `[@ioca/react-mcp] ERROR: packages/components not found. Cannot build index.`,
   );
   process.exit(1);
 }
