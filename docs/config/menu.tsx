@@ -19,6 +19,7 @@ import {
     DiscountTwotone,
     DownhillSkiingRound,
     DriveFolderUploadOutlined,
+    ElectricalServicesRound,
     FormatListNumberedRound,
     Grid4X4Twotone,
     GridOnRound,
@@ -64,6 +65,12 @@ export default [
         as: Link,
         icon: <Icon icon={<MenuBookTwotone />} />,
         href: "/docs/skill",
+    },
+    {
+        title: "MCP",
+        as: Link,
+        icon: <Icon icon={<ElectricalServicesRound />} />,
+        href: "/docs/mcp",
     },
     {
         title: "Style & Colors",
