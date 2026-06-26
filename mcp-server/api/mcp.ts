@@ -1,41 +1,28 @@
-import { readFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { buildIndex } from "../dist/indexer/index.js";
 import { dispatch } from "./handler.js";
 import type { JSONRPCRequest } from "./handler.js";
 import type { ComponentIndex } from "../dist/types.js";
+import { generatedIndex as raw } from "./generated-index.js";
 
 let indexCache: ComponentIndex | null = null;
-
-function loadCachedIndex(): ComponentIndex | null {
-  try {
-    const p = join(process.cwd(), "data", "index.json");
-    if (!existsSync(p)) return null;
-    const raw = JSON.parse(readFileSync(p, "utf-8"));
-    return {
-      version: raw.version,
-      indexedAt: raw.indexedAt,
-      components: new Map(raw.components),
-      sharedTypes: raw.sharedTypes,
-    };
-  } catch {
-    return null;
-  }
-}
 
 function getIndex(): ComponentIndex {
   if (indexCache) return indexCache;
 
-  // Try pre-built index first (Vercel deployment)
-  const cached = loadCachedIndex();
-  if (cached) {
-    indexCache = cached;
-    return cached;
+  // Use pre-built index (embedded in api/generated-index.ts by build)
+  indexCache = {
+    version: raw.version,
+    indexedAt: raw.indexedAt,
+    components: new Map(raw.components),
+    sharedTypes: raw.sharedTypes,
+  };
+
+  // Fallback: build from source (local dev without build step)
+  if (!indexCache.components.size) {
+    indexCache = buildIndex(process.cwd());
   }
 
-  // Fallback: build from source (local dev)
-  indexCache = buildIndex(process.cwd());
   return indexCache;
 }
 
