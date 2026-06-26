@@ -7,7 +7,7 @@ import {
   listComponents,
 } from "../dist/tools/index.js";
 
-type JSONRPCRequest = {
+export type JSONRPCRequest = {
   jsonrpc: "2.0";
   id?: string | number;
   method: string;

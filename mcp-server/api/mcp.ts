@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { buildIndex } from "../dist/indexer/index.js";
 import { dispatch } from "./handler.js";
+import type { JSONRPCRequest } from "./handler.js";
 import type { ComponentIndex } from "../dist/types.js";
 
 let indexCache: ComponentIndex | null = null;
@@ -46,7 +47,7 @@ export default async function handler(
     }
 
     const body = await readBody(req);
-    const response = dispatch(body, indexCache);
+    const response = dispatch(body as JSONRPCRequest, indexCache);
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(response));
   } catch (err) {
