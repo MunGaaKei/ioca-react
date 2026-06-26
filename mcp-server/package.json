@@ -4,7 +4,7 @@
   "description": "MCP server for @ioca/react component library",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/generate-index.js",
     "serve": "node dist/index.js",
     "dev": "tsx src/index.ts"
   },
