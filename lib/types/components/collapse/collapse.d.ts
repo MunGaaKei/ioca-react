@@ -1,9 +1,9 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import Item from './item.js';
 import { ICollapse } from './type.js';
 
 declare const Collapse: {
-    (props: ICollapse): react_jsx_runtime.JSX.Element;
+    (props: ICollapse): react.JSX.Element;
     Item: typeof Item;
 };
 

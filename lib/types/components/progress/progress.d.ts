@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IProgress } from './type.js';
 
-declare const Progress: (props: IProgress) => react_jsx_runtime.JSX.Element;
+declare const Progress: (props: IProgress) => react.JSX.Element;
 
 export { Progress as default };

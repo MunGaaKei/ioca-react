@@ -1,4 +1,4 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { CSSProperties, MouseEventHandler } from 'react';
 
 interface IToTopProps {
@@ -6,6 +6,6 @@ interface IToTopProps {
     className?: string;
     onClick?: MouseEventHandler<HTMLElement>;
 }
-declare function ToTop(props: IToTopProps): react_jsx_runtime.JSX.Element;
+declare function ToTop(props: IToTopProps): react.JSX.Element;
 
 export { ToTop as default };

@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IBadge } from './type.js';
 
-declare const Badge: (props: IBadge) => react_jsx_runtime.JSX.Element;
+declare const Badge: (props: IBadge) => react.JSX.Element;
 
 export { Badge as default };

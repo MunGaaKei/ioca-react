@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { ITimePicker } from '../type.js';
 
-declare function TimePicker(props: ITimePicker): react_jsx_runtime.JSX.Element;
+declare function TimePicker(props: ITimePicker): react.JSX.Element;
 
 export { TimePicker as default };

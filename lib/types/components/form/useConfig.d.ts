@@ -1,10 +1,10 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IFormInstance } from './useForm.js';
 import { IFormItem, IForm } from './type.js';
 
 declare function useConfig(configs: IFormItem[], formProps?: IForm): {
     form: IFormInstance;
-    node: react_jsx_runtime.JSX.Element;
+    node: react.JSX.Element;
 };
 
 export { useConfig as default };

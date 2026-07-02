@@ -109,4 +109,20 @@ export default [
             }),
         ],
     },
+
+    {
+        input: "packages/css/colorpicker.css",
+        output: {
+            dir: "lib",
+        },
+        onwarn,
+        plugins: [
+            postcss({
+                extract: "css/colorpicker.css",
+                minimize: true,
+                extensions: [".css"],
+                plugins: [postcssImport()],
+            }),
+        ],
+    },
 ];

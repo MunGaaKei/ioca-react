@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { ISwiperItem } from './type.js';
 
-declare function Item(props: ISwiperItem): react_jsx_runtime.JSX.Element;
+declare function Item(props: ISwiperItem): react.JSX.Element;
 
 export { Item as default };

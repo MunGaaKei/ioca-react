@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IButtonGroup } from './type.js';
 
-declare function Group(props: IButtonGroup): react_jsx_runtime.JSX.Element;
+declare function Group(props: IButtonGroup): react.JSX.Element;
 
 export { Group as default };

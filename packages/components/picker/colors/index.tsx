@@ -6,7 +6,6 @@ import Popup from "../../popup";
 import { IColorPicker } from "../type";
 import Footer, { ColorMethods } from "./footer";
 import Handle from "./handle";
-import "./index.css";
 
 export default function ColorPicker(props: IColorPicker) {
     const {

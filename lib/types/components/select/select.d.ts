@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { ISelect } from './type.js';
 
-declare const Select: (props: ISelect) => react_jsx_runtime.JSX.Element;
+declare const Select: (props: ISelect) => react.JSX.Element;
 
 export { Select as default };

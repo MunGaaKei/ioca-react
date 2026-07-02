@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IInputNumber } from './type.js';
 
-declare const Number: (props: IInputNumber) => react_jsx_runtime.JSX.Element;
+declare const Number: (props: IInputNumber) => react.JSX.Element;
 
 export { Number as default };

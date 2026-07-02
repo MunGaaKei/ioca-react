@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IButtonToggle } from './type.js';
 
-declare function Toggle(props: IButtonToggle): react_jsx_runtime.JSX.Element;
+declare function Toggle(props: IButtonToggle): react.JSX.Element;
 
 export { Toggle as default };

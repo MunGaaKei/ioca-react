@@ -1,9 +1,9 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import Item from './item.js';
 import { IStep } from './type.js';
 
 declare const Step: {
-    (props: IStep): react_jsx_runtime.JSX.Element;
+    (props: IStep): react.JSX.Element;
     Item: typeof Item;
 };
 

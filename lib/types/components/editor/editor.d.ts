@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IEditor } from './type.js';
 
-declare const Editor: (props: IEditor) => react_jsx_runtime.JSX.Element;
+declare const Editor: (props: IEditor) => react.JSX.Element;
 
 export { Editor as default };

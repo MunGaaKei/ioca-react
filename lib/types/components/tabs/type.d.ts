@@ -8,7 +8,7 @@ interface ITabItem {
         default: ComponentType<any>;
     }>);
     closable?: boolean;
-    keepDOM?: boolean;
+    cached?: boolean;
     intersecting?: boolean;
     children?: ReactNode;
 }

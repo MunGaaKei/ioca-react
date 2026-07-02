@@ -145,10 +145,7 @@
     min-height: 0;
 }
 .i-tab-content {
-    display: none;
-    &.i-tab-active {
-        display: block;
-    }
+    outline: none;
 }
 
 .i-tabs {

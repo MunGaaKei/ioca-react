@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IListItem } from './type.js';
 
-declare const Item: (props: IListItem) => react_jsx_runtime.JSX.Element;
+declare const Item: (props: IListItem) => react.JSX.Element;
 
 export { Item as default };

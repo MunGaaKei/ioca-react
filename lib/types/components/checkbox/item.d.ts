@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { ICheckboxItem } from './type.js';
 
-declare function CheckboxItem(props: ICheckboxItem): react_jsx_runtime.JSX.Element;
+declare function CheckboxItem(props: ICheckboxItem): react.JSX.Element;
 
 export { CheckboxItem as default };

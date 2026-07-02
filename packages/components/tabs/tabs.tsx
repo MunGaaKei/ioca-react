@@ -38,7 +38,7 @@ const Tabs = ((props: ITabs) => {
     const [activeKey, setActiveKey] = useState<string | undefined>(active);
     const [prevActiveKey, setPrevActiveKey] = useState<string | undefined>(undefined);
     const [barStyle, setBarStyle] = useState<CSSProperties>({});
-    const [cachedTabs, setCachedTabs] = useState<string[]>([]);
+    const [activatedKeys, setActivatedKeys] = useState<Set<string>>(new Set());
     const [overflow, setOverflow] = useState(false);
     const [tabs, setTabs] = useState<ITabItem[]>([]);
     const { observe, unobserve } = useIntersectionObserver();
@@ -267,10 +267,12 @@ const Tabs = ((props: ITabs) => {
         if (activeKey === undefined) return;
 
         const index = tabs.findIndex((tab) => tab.key === activeKey);
-        if (tabs[index]?.keepDOM) {
-            setCachedTabs((keys) => {
-                if (keys.includes(activeKey)) return keys;
-                return [activeKey, ...keys];
+        if (tabs[index]?.cached) {
+            setActivatedKeys((prev) => {
+                if (prev.has(activeKey)) return prev;
+                const next = new Set(prev);
+                next.add(activeKey);
+                return next;
             });
         }
     }, [activeKey, tabs]);
@@ -313,7 +315,6 @@ const Tabs = ((props: ITabs) => {
         navs: navsRef,
     }));
 
-    const cachedTabKeySet = useMemo(() => new Set(cachedTabs), [cachedTabs]);
     const moreTabs = useMemo(() => (!hideMore && overflow ? tabs.filter((tab) => tab.intersecting === false) : []), [hideMore, overflow, tabs]);
 
     return (
@@ -348,7 +349,7 @@ const Tabs = ((props: ITabs) => {
                 {append}
             </div>
 
-            <TabsContents tabs={tabs} activeKey={activeKey} cachedTabKeySet={cachedTabKeySet} getContent={getContent} />
+            <TabsContents tabs={tabs} activeKey={activeKey} activatedKeys={activatedKeys} getContent={getContent} />
         </div>
     );
 }) as CompositionTabs;

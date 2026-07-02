@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IDateRange } from '../type.js';
 
-declare const DateRange: (props: IDateRange) => react_jsx_runtime.JSX.Element;
+declare const DateRange: (props: IDateRange) => react.JSX.Element;
 
 export { DateRange as default };

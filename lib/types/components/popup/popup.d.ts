@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IPopup } from './type.js';
 
-declare function Popup(props: IPopup): react_jsx_runtime.JSX.Element;
+declare function Popup(props: IPopup): react.JSX.Element;
 
 export { Popup as default };

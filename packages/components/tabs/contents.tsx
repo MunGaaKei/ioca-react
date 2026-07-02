@@ -1,16 +1,15 @@
-import classNames from "classnames";
-import { memo, ReactNode } from "react";
+import { Activity, memo, ReactNode } from "react";
 import { ITabItem } from "./type";
 
 interface ITabsContentsProps {
     tabs: ITabItem[];
     activeKey?: string;
-    cachedTabKeySet: Set<string>;
+    activatedKeys: Set<string>;
     getContent: (key: string) => ReactNode;
 }
 
 const TabsContents = (props: ITabsContentsProps) => {
-    const { tabs, activeKey, cachedTabKeySet, getContent } = props;
+    const { tabs, activeKey, activatedKeys, getContent } = props;
 
     return (
         <div className="i-tab-contents">
@@ -18,17 +17,27 @@ const TabsContents = (props: ITabsContentsProps) => {
                 const key = tab.key ?? `${i}`;
                 const content = getContent(key);
                 const isActive = activeKey === key;
-                const show = isActive || cachedTabKeySet.has(key);
+
+                if (tab.cached && activatedKeys.has(key)) {
+                    return (
+                        <Activity mode={isActive ? "visible" : "hidden"} key={key}>
+                            <div
+                                className="i-tab-content"
+                                role="tabpanel"
+                                aria-hidden={!isActive}
+                            >
+                                {content}
+                            </div>
+                        </Activity>
+                    );
+                }
 
                 return (
-                    show && (
+                    isActive && (
                         <div
                             key={key}
-                            className={classNames("i-tab-content", {
-                                "i-tab-active": isActive,
-                            })}
+                            className="i-tab-content i-tab-active"
                             role="tabpanel"
-                            aria-hidden={!isActive}
                         >
                             {content}
                         </div>

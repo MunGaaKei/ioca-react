@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { ITag } from './type.js';
 
-declare const Tag: (props: ITag) => react_jsx_runtime.JSX.Element;
+declare const Tag: (props: ITag) => react.JSX.Element;
 
 export { Tag as default };

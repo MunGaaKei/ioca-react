@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IVideo } from './type.js';
 
-declare const Video: (props: IVideo) => react_jsx_runtime.JSX.Element;
+declare const Video: (props: IVideo) => react.JSX.Element;
 
 export { Video as default };

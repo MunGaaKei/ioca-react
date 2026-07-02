@@ -12,7 +12,7 @@ export const DBasic = {
                         <div className="pd-8">{`content ${i + 1}`}</div>
                     </Tabs.Item>
                 ))}
-                <Tabs.Item title="keepDOM" keepDOM>
+                <Tabs.Item title="cached" cached>
                     <Image src="https://picsum.photos/200/200" initSize={40} />
                     <p className="mt-20">首次打开后将会保持DOM存在</p>
                 </Tabs.Item>
@@ -25,7 +25,7 @@ export const DBasic = {
             <div className='pd-8'>{\`content \${i + 1}\`}</div>
         </Tabs.Item>
     ))}
-    <Tabs.Item title='keepDOM' keepDOM>
+    <Tabs.Item title='cached' cached>
         <Image
 			src='https://via.placeholder.com/150'
 			initSize={40}
@@ -48,7 +48,7 @@ export const DDynamic = {
                 key,
                 title: `${draw(emoji)} ${key}`,
                 closable: true,
-                keepDOM: true,
+                cached: true,
             });
         };
 
@@ -253,8 +253,8 @@ export const PTabItem = [
         type: ["ReactNode", "() => Promise<{ default: ComponentType }>"],
     },
     {
-        name: "keepDOM",
-        desc: "隐藏后保持DOM存在",
+        name: "cached",
+        desc: "隐藏后保存内容组件状态",
         type: ["boolean"],
         def: "false",
     },

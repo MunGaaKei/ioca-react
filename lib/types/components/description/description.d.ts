@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IDescription } from './type.js';
 
-declare const Description: (props: IDescription) => react_jsx_runtime.JSX.Element;
+declare const Description: (props: IDescription) => react.JSX.Element;
 
 export { Description as default };

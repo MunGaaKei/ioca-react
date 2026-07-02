@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IUpload } from './type.js';
 
-declare const Upload: (props: IUpload) => react_jsx_runtime.JSX.Element;
+declare const Upload: (props: IUpload) => react.JSX.Element;
 
 export { Upload as default };

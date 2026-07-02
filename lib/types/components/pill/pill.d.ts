@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IPill } from './type.js';
 
-declare function Pill(props: IPill): react_jsx_runtime.JSX.Element;
+declare function Pill(props: IPill): react.JSX.Element;
 
 export { Pill as default };

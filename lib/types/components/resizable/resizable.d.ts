@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IResizable } from './type.js';
 
-declare const Resizable: (props: IResizable) => react_jsx_runtime.JSX.Element;
+declare const Resizable: (props: IResizable) => react.JSX.Element;
 
 export { Resizable as default };

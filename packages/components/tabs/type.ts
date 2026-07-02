@@ -15,7 +15,7 @@ export interface ITabItem {
     title?: ReactNode;
     content?: ReactNode | (() => Promise<{ default: ComponentType<any> }>);
     closable?: boolean;
-    keepDOM?: boolean;
+    cached?: boolean;
     intersecting?: boolean;
     children?: ReactNode;
 }

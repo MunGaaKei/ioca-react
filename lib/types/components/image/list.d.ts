@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { IImageList } from './type.js';
 
-declare function List(props: IImageList): react_jsx_runtime.JSX.Element | "";
+declare function List(props: IImageList): react.JSX.Element | "";
 
 export { List as default };

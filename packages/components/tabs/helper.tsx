@@ -31,14 +31,14 @@ export const isSameTabs = (prev: ITabItem[], next: ITabItem[]) =>
     prev.every((tab, index) => {
         const target = next[index];
 
-        return tab.key === target.key && tab.title === target.title && tab.keepDOM === target.keepDOM && tab.closable === target.closable && tab.intersecting === target.intersecting;
+        return tab.key === target.key && tab.title === target.title && tab.cached === target.cached && tab.closable === target.closable && tab.intersecting === target.intersecting;
     });
 
 export const getParsedTabs = (items: ITabs["tabs"], children: ITabs["children"]): TParsedTabs => {
     const contents = new Map<string, ReactNode>();
     type TTabChildNode = {
         key?: string;
-        props?: Pick<ITabItem, "title" | "content" | "keepDOM" | "closable" | "children">;
+        props?: Pick<ITabItem, "title" | "content" | "cached" | "closable" | "children">;
     };
 
     if (!items) {
@@ -46,7 +46,7 @@ export const getParsedTabs = (items: ITabs["tabs"], children: ITabs["children"])
         const tabs =
             (Children.map(children, (node, i) => {
                 const { key, props: nodeProps } = node as TTabChildNode;
-                const { title, children: tabChildren, content, keepDOM, closable } = nodeProps;
+                const { title, children: tabChildren, content, cached, closable } = nodeProps;
                 const tabKey = String(key ?? i);
 
                 if (typeof content === "function") {
@@ -58,7 +58,7 @@ export const getParsedTabs = (items: ITabs["tabs"], children: ITabs["children"])
                 return {
                     key: tabKey,
                     title,
-                    keepDOM,
+                    cached,
                     closable,
                 };
             }) as ITabItem[]) ?? [];

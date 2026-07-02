@@ -21,12 +21,12 @@
 			"@d/*": ["./docs/*"]
 		},
 		"resolveJsonModule": true,
-		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"allowImportingTsExtensions": true,
 		"allowArbitraryExtensions": true,
 
 		/* 调试与兼容 */
+		"strict": false,
 		"forceConsistentCasingInFileNames": true,
 		"customConditions": ["development"],
 		"types": ["node"],

@@ -1,6 +1,6 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { ITextHighLight } from './type.js';
 
-declare function HighLight(props: ITextHighLight): react_jsx_runtime.JSX.Element;
+declare function HighLight(props: ITextHighLight): react.JSX.Element;
 
 export { HighLight as default };
